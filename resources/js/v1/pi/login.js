@@ -149,7 +149,7 @@ function handleLogin() {
     }).fail(function (error) {
         setLoading(loginButton, false);
         // for dev
-        // switchTab('#auth-2');
+        switchTab('#auth-2');
         const message = error.responseJSON?.message || 'An unexpected error occurred';
         showAlert('error', message);
     });

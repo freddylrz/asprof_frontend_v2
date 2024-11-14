@@ -25,7 +25,7 @@ class MessageSent implements ShouldBroadcastNow
         \Log::info($this->data);
     }
 
-    public function broadcastWith() : array 
+    public function broadcastWith(): array
     {
         return [
             'data' => $this->data
@@ -35,7 +35,7 @@ class MessageSent implements ShouldBroadcastNow
     public function broadcastOn()
     {
         return [
-            new Channel('medikolegal-channel.'.$this->room_id),
+            new Channel('medikolegal-channel.' . $this->room_id),
         ];
     }
 

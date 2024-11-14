@@ -1,4 +1,4 @@
-@extends('v1.layouts..dashboard')
+@extends('v1.layouts.dashboard')
 @section('content')
       <!-- [ Main Content ] start -->
       <div class="row">
@@ -38,32 +38,12 @@
                     </ul>
                   </div>
                 </div>
-                <div class="scroll-block chat-message">
+                <div class="scroll-block chat-message" id="chat-container">
                   <div class="card-body">
-                    <div class="message-out">
-                      <div class="d-flex">
-                        <div class="flex-grow-1 mx-3">
-                          <div class="msg-content bg-primary">
-                            <p class="mb-0">Hi Good Morning!</p>
-                          </div>
-                          <p class="mb-0 text-muted text-sm">11:23 AM</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="message-in">
-                      <div class="d-flex">
-                        <div class="flex-grow-1 mx-3">
-                          <div class="msg-content">
-                            <p class="mb-0">Hey. Very Good morning. How are you?</p>
-                          </div>
-                          <p class="mb-0 text-muted text-sm">11:23 AM</p>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div class="card-footer py-2 px-3">
-                  <textarea class="form-control border-0 shadow-none px-0" placeholder="Type a Message"
+                  <textarea class="form-control border-0 shadow-none px-0" name="message" placeholder="Type a Message"
                     rows="2"></textarea>
                   <hr class="my-2">
                   <div class="d-sm-flex align-items-center">
@@ -81,7 +61,7 @@
                     </ul>
                     <ul class="list-inline ms-auto mb-0">
                       <li class="list-inline-item">
-                        <a href="#" class="avtar avtar-s btn-link-primary">
+                        <a href="#" id="sendMessage" class="avtar avtar-s btn-link-primary">
                           <i class="ti ti-send f-18"></i>
                         </a>
                       </li>
@@ -157,6 +137,14 @@
 @push('levelPluginsJs')
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-{{-- custom js --}}
-<script src="{{ asset('storage/v1/dashboard.js?v=3') }}"></script>
+
+<script>
+    // scroll-block
+    var tc = document.querySelectorAll('.scroll-block');
+    for (var t = 0; t < tc.length; t++) {
+      new SimpleBar(tc[t]);
+    }
+  </script>
+
+@vite(['resources/js/app.js','resources/js/v1/pi/chat.js'])
 @endpush

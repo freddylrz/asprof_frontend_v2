@@ -1,4 +1,4 @@
-@extends('v1.layouts..dashboard')
+@extends('v1.layouts.dashboard')
 @section('content')
 <div class="row">
    <div class="col-12">
@@ -379,5 +379,5 @@
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
 {{-- custom js --}}
-<script src="{{ asset('storage/v1/dashboard.js?v=3') }}"></script>
+@vite(['resources/js/v1/pi/dashboard.js'])
 @endpush

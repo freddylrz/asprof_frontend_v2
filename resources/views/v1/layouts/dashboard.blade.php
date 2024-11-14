@@ -138,7 +138,7 @@
               </div>
               <hr class="border-secondary border-opacity-50" />
               <div class="d-grid">
-                <button class="btn btn-danger" onclick="handleLogout()">
+                <button class="btn btn-danger" id="logout-button">
                   <svg class="pc-icon me-2">
                     <use xlink:href="#custom-logout-1-outline"></use></svg>Logout
                 </button>
@@ -186,28 +186,9 @@
       <!-- END PAGE LEVEL SCRIPTS -->
       <!-- [Page Specific JS] end -->
       <script>
-        function handleLogout() {
-            // Clear the authentication token by removing the cookie
-            document.cookie = "piat=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax";
-
-            // Show SweetAlert2 success message
-            Swal.fire({
-                icon: 'success',
-                title: 'Logout Berhasil',
-                text: 'Anda telah berhasil keluar.',
-                timer: 3000,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                willClose: () => {
-                    // Redirect the user to the login page after the alert
-                    window.location.replace('/login');
-                }
-            });
-        }
-
-        const apiUrl = 'https://pi-admin.tib.co.id';
-      //   const apiUrl = 'http://localhost:8080';
+        // const apiUrl = 'https://pi-admin.tib.co.id';
+        const apiUrl = 'https://asprof_backend_v2.local.test';
     </script>
+    @vite(['resources/js/v1/pi/logout.js'])
    </body>
 </html>

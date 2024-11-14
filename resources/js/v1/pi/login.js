@@ -149,7 +149,7 @@ function handleLogin() {
     }).fail(function (error) {
         setLoading(loginButton, false);
         // for dev
-        // switchTab('#auth-2');
+        switchTab('#auth-2');
         const message = error.responseJSON?.message || 'An unexpected error occurred';
         showAlert('error', message);
     });
@@ -198,8 +198,14 @@ function handleOtpVerification() {
     }).done(function (response) {
         setLoading(otpButton, false);
         if (response.status === 200) {
-            let timerInterval; // Define timerInterval here for proper scoping
+            let timerInterval;
+
+            // Save access_token to cookie
             document.cookie = `piat=${response.access_token}; expires=${expirationTime}; path=/; SameSite=Lax`;
+
+            // Save user_info to cookie as a JSON string
+            document.cookie = `user_info=${JSON.stringify(response.user_info)}; expires=${expirationTime}; path=/; SameSite=Lax`;
+
             // Successful OTP verification, show success alert and redirect to dashboard
             Swal.fire({
                 icon: 'success',
@@ -222,18 +228,19 @@ function handleOtpVerification() {
                 window.location.replace('/dashboard');
             });
         } else {
-            otpCalled = false; // Reset the flag after verification attempt
+            otpCalled = false;
             showAlert('warning', response.message);
         }
     }).fail(function (error) {
-        otpCalled = false; // Reset the flag after verification attempt
+        otpCalled = false;
         setLoading(otpButton, false);
         const message = error.responseJSON?.message || 'An unexpected error occurred';
         showAlert('error', message);
     }).always(function () {
-        otpCalled = false; // Reset the flag after verification attempt
+        otpCalled = false;
     });
 }
+
 
 // Function to switch tabs
 function switchTab(tabId) {

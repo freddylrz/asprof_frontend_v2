@@ -18,7 +18,23 @@ window.Echo = new Echo({
 window.onload = function() {
     const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
 
-    const userId = 240812144413731;
+    // Function to get a cookie by name
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    // Retrieve and parse user_info
+    const userInfoCookie = getCookie('user_info');
+    let userInfo = null;
+
+    if (userInfoCookie) {
+        userInfo = JSON.parse(userInfoCookie);
+    }
+
+    const userId = userInfo.user_id;
 
     // Fetch existing messages on page load
     $.ajax({

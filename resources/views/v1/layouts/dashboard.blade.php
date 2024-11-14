@@ -188,6 +188,23 @@
       <script>
         // const apiUrl = 'https://pi-admin.tib.co.id';
         const apiUrl = 'https://asprof_backend_v2.local.test';
+
+        // Function to get a cookie by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Retrieve and parse user_info
+        const userInfoCookie = getCookie('user_info');
+        let userInfo = null;
+
+        if (userInfoCookie) {
+            userInfo = JSON.parse(userInfoCookie);
+            $('.name').text(userInfo.user_name);
+        }
     </script>
     @vite(['resources/js/v1/pi/logout.js'])
    </body>

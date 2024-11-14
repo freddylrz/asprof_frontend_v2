@@ -63,6 +63,9 @@ Route::middleware([CheckPiat::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('v1.dashboard.index');
     });
+    Route::get('/chat', function () {
+        return view('v1.dashboard.chat');
+    });
 
     Route::group(['prefix' => 'klaim', 'as' => 'klaim.'], function () {
         Route::get('/input', function () {

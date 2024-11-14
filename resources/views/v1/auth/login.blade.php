@@ -77,5 +77,5 @@
 <!-- input mask -->
 <script src="{{ asset('assets/js/plugins/jquery.inputmask.bundle.min.js')}}"></script>
 {{-- custom js --}}
-<script src="{{ asset('storage/v1/login.js?v=6') }}"></script>
+@vite(['resources/js/v1/pi/login.js'])
 @endpush

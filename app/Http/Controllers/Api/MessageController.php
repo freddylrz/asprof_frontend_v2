@@ -15,7 +15,7 @@ class MessageController extends Controller
         {            
             $arrayData = [
                 'room_id'    => $r->room_id,
-                'user_id'    => 1,
+                'user_id'    => $r->user_id,
                 'message'    => $r->message,
                 'created_at' => now(),
             ];

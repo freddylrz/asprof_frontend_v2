@@ -64,12 +64,6 @@
                         <span class="pc-mtext">Data Kepesertaan</span>
                      </a>
                   </li>
-                  <li class="pc-item">
-                     <a href="/chat" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-messages"></i>
-                        <span class="pc-mtext">Chat</span>
-                     </a>
-                  </li>
                   <li class="pc-item pc-hasmenu">
                       <a href="#!" class="pc-link" style="font-size: 18px !important;">
                         <i class="ti ti-shield-check"></i>
@@ -85,6 +79,12 @@
                      <a href="/riwayat-polis" class="pc-link" style="font-size: 18px !important;">
                         <i class="ti ti-report-money"></i>
                         <span class="pc-mtext">Riwayat Polis</span>
+                     </a>
+                  </li>
+                  <li class="pc-item">
+                     <a href="/chat" class="pc-link" style="font-size: 18px !important;">
+                        <i class="ti ti-messages"></i>
+                        <span class="pc-mtext">Chat</span>
                      </a>
                   </li>
                </ul>

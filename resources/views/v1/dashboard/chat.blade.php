@@ -25,27 +25,13 @@
                       <li class="list-inline-item">
                         <div class="media align-items-center">
                           <div class="chat-avtar">
-                            <img class="rounded-circle img-fluid wid-40" src="{{ asset('assets/images/tib-logo.svg') }}" style="width: 50px;"
+                            <img class="img-fluid wid-80" src="{{ asset('assets/images/tib-logo.svg') }}" style="width: 50px;"
                               alt="User image">
-                            <i class="chat-badge bg-success"></i>
                           </div>
                           <div class="media-body mx-3">
                             <h5 class="mb-0">TuguBro</h5>
-                            <span class="text-sm text-muted">Active 2 hours ago</span>
                           </div>
                         </div>
-                      </li>
-                    </ul>
-                    <ul class="list-inline ms-auto mb-0">
-                      <li class="list-inline-item">
-                        <a href="#" class="d-md-none avtar avtar-s btn-link-secondary" data-bs-toggle="offcanvas"
-                          data-bs-target="#offcanvas_User_info">
-                          <i class="ti ti-info-circle f-18"></i>
-                        </a>
-                        <a href="#" class="d-none d-md-inline-flex avtar avtar-s btn-link-secondary"
-                          data-bs-toggle="collapse" data-bs-target="#chat-user_info">
-                          <i class="ti ti-info-circle f-18"></i>
-                        </a>
                       </li>
                     </ul>
                   </div>

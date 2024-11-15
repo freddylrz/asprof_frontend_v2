@@ -11,10 +11,12 @@ class MessageController extends Controller
 {
     public function index(Request $r)
     {
-        try {
+        try 
+        {
             $arrayData = [
-                'room_id'    => $r->room_id,
-                'user_id'    => $r->user_id,
+                'room_id'    => (int) $r->room_id,
+                'user_id'    => (int) $r->user_id,
+                'user_name'  => $r->user_name,
                 'message'    => $r->message,
                 'created_at' => now(),
             ];
@@ -24,7 +26,9 @@ class MessageController extends Controller
             return [
                 'status' => 200
             ];
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             return [
                 'status' => 500
             ];

@@ -42,16 +42,21 @@
                   <div class="card-body">
                   </div>
                 </div>
-                <div class="card-footer py-2 px-3 d-flex align-items-center">
-                    <textarea class="form-control border-0 shadow-none rounded-pill me-2"
-                              name="message"
-                              placeholder="Type a Message"
-                              rows="1"
-                              style="resize: none; height: 40px;"></textarea>
-                    <a href="#" id="sendMessage" class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center"
-                       style="width: 40px; height: 40px;">
-                      <i class="ti ti-send"></i>
-                    </a>
+                <div class="card-footer py-2 px-3 d-flex align-items-start">
+                    <textarea
+                      id="messageInput"
+                      class="form-control border-0 shadow-none rounded-sm me-2"
+                      name="message"
+                      placeholder="Type a Message"
+                      rows="1"
+                      style="resize: none; max-height: 150px; overflow-y: auto;"
+                    ></textarea>
+                    <button
+                        id="sendMessage"
+                        class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center disabled"
+                        style="width: 40px; height: 40px; margin-top: 0;">
+                        <i class="ti ti-send"></i>
+                    </button>
                   </div>
 
               </div>

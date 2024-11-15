@@ -14,6 +14,29 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const textarea = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendMessage');
+
+    // Disable send button initially
+    sendButton.classList.add('disabled');
+
+    // Monitor textarea input
+    textarea.addEventListener('input', function () {
+        // Reset height to auto to allow shrinking
+        textarea.style.height = 'auto';
+        // Dynamically adjust height based on scroll height
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`;
+
+        // Enable or disable the send button
+        if (textarea.value.trim() === '') {
+            sendButton.classList.add('disabled');
+        } else {
+            sendButton.classList.remove('disabled');
+        }
+    });
+});
+
 function autoToBottom(containerSelector, timedelay = 0) {
     var scrollId;
     var height = 0;
@@ -152,7 +175,13 @@ $(document).ready(function () {
 
     $('#sendMessage').on('click', function (e) {
         e.preventDefault();
-        let message = $('textarea[name="message"]').val();
+        const sendButton = $(this);
+        const message = $('textarea[name="message"]').val();
+
+        // Disable the button and show a loading spinner
+        sendButton.prop('disabled', true).html(`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        `);
 
         $.ajax({
             url: `${apiUrl}/api/client/message/insert-data`,
@@ -164,14 +193,20 @@ $(document).ready(function () {
                 message: message
             },
             success: function (response) {
-                // Clear input
+                // Clear the input
                 $('textarea[name="message"]').val('');
+
+                // Restore the button and re-enable it
+                sendButton.prop('disabled', false).html('<i class="ti ti-send"></i>');
 
                 // Scroll to the bottom after sending a message
                 scrollToBottom();
             },
             error: function (error) {
                 console.error('Error sending message:', error);
+
+                // Restore the button and re-enable it
+                sendButton.prop('disabled', false).html('<i class="ti ti-send"></i>');
             }
         });
     });

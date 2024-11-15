@@ -140,7 +140,7 @@
                      <div class="row justify-content-end">
                         <div class="col-sm-6">
                            <div class="d-grid">
-                              <button class="btn btn-lg btn-primary" onClick="change_tab('#auth-2')" type="button">Selanjutnya</button>
+                              <button class="btn btn-lg btn-primary change-tab-btn" data-tab="#auth-2" type="button">Selanjutnya</button>
                            </div>
                         </div>
                      </div>
@@ -383,7 +383,7 @@
                      <div class="row">
                         <div class="col-sm-6">
                            <div class="d-grid">
-                              <button class="btn btn-lg btn-outline-secondary mb-4" onClick="change_tab('#auth-1')" type="button">Sebelumnya</button>
+                              <button class="btn btn-lg btn-outline-secondary mb-4 change-tab-btn" data-tab="#auth-1" type="button">Sebelumnya</button>
                            </div>
                         </div>
                         <div class="col-sm-6">
@@ -452,5 +452,5 @@
    window.reqId = @json($reqId);
 </script>
 {{-- custom js --}}
-<script src="{{ asset('storage/v2/update.js?v=1') }}"></script>
+@vite(['resources/js/v1/pi/update.js'])
 @endpush

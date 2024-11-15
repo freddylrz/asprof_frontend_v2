@@ -95,7 +95,7 @@
       <!-- [Page Specific JS] end -->
       <script>
         //   const apiUrl = 'https://pi-admin.tib.co.id';
-          const apiUrl = `https://pi_project_admin11.local.test`;
+          const apiUrl = `https://asprof_backend_v2.local.test`;
       </script>
    </body>
    <!-- [Body] end -->

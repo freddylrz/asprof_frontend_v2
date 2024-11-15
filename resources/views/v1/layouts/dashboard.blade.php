@@ -138,7 +138,7 @@
               </div>
               <hr class="border-secondary border-opacity-50" />
               <div class="d-grid">
-                <button class="btn btn-danger" onclick="handleLogout()">
+                <button class="btn btn-danger" id="logout-button">
                   <svg class="pc-icon me-2">
                     <use xlink:href="#custom-logout-1-outline"></use></svg>Logout
                 </button>
@@ -186,28 +186,26 @@
       <!-- END PAGE LEVEL SCRIPTS -->
       <!-- [Page Specific JS] end -->
       <script>
-        function handleLogout() {
-            // Clear the authentication token by removing the cookie
-            document.cookie = "piat=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax";
+        // const apiUrl = 'https://pi-admin.tib.co.id';
+        const apiUrl = 'https://asprof_backend_v2.local.test';
 
-            // Show SweetAlert2 success message
-            Swal.fire({
-                icon: 'success',
-                title: 'Logout Berhasil',
-                text: 'Anda telah berhasil keluar.',
-                timer: 3000,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                willClose: () => {
-                    // Redirect the user to the login page after the alert
-                    window.location.replace('/login');
-                }
-            });
+        // Function to get a cookie by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
         }
 
-        const apiUrl = 'https://pi-admin.tib.co.id';
-      //   const apiUrl = 'http://localhost:8080';
+        // Retrieve and parse user_info
+        const userInfoCookie = getCookie('user_info');
+        let userInfo = null;
+
+        if (userInfoCookie) {
+            userInfo = JSON.parse(userInfoCookie);
+            $('.name').text(userInfo.user_name);
+        }
     </script>
+    @vite(['resources/js/v1/pi/logout.js'])
    </body>
 </html>

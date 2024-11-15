@@ -10,12 +10,11 @@ use Exception;
 class MessageController extends Controller
 {
     public function index(Request $r)
-    {   
-        try
-        {            
+    {
+        try {
             $arrayData = [
                 'room_id'    => $r->room_id,
-                'user_id'    => 1,
+                'user_id'    => $r->user_id,
                 'message'    => $r->message,
                 'created_at' => now(),
             ];
@@ -25,9 +24,7 @@ class MessageController extends Controller
             return [
                 'status' => 200
             ];
-        }        
-        catch (Exception $e) 
-        {
+        } catch (Exception $e) {
             return [
                 'status' => 500
             ];

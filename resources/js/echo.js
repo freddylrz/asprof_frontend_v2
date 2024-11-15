@@ -14,6 +14,32 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
+function autoToBottom(containerSelector, timedelay = 0) {
+    var scrollId;
+    var height = 0;
+    var minScrollHeight = 100;
+
+    // Select the container
+    var container = document.querySelector(containerSelector);
+
+    if (!container) {
+        console.error("Container not found for selector:", containerSelector);
+        return;
+    }
+
+    scrollId = setInterval(function () {
+        // Check if the height is within the scrollable area
+        if (height <= container.scrollHeight - container.clientHeight) {
+            container.scrollBy(0, minScrollHeight);
+        } else {
+            clearInterval(scrollId);
+        }
+        height += minScrollHeight;
+    }, timedelay);
+}
+
+// Example usage: Call the function for a specific container
+autoToBottom('.scroll-block', 50);
 
 window.onload = function() {
     const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
@@ -34,7 +60,11 @@ window.onload = function() {
         userInfo = JSON.parse(userInfoCookie);
     }
 
-    const userId = userInfo.user_id;
+    // Scroll to the bottom of the chat container
+    function scrollToBottom() {
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
 
     // Fetch existing messages on page load
     $.ajax({
@@ -53,11 +83,11 @@ window.onload = function() {
 
                     response.data.forEach(message => {
                         let messageElement = document.createElement('div');
-                        messageElement.classList.add(message.user_id === userId ? 'message-out' : 'message-in');
+                        messageElement.classList.add(message.user_id === userInfo.user_id ? 'message-out' : 'message-in');
                         messageElement.innerHTML = `
                             <div class="d-flex">
                                 <div class="flex-grow-1 mx-3">
-                                    <div class="msg-content bg-primary">
+                                    <div class="msg-content ${message.user_id === userInfo.user_id ? 'bg-primary' : 'bg-light'}">
                                         <p class="mb-0">${message.message || ''}</p>
                                     </div>
                                     <p class="mb-0 text-muted text-sm">
@@ -68,7 +98,7 @@ window.onload = function() {
                         `;
                         chatBody.appendChild(messageElement);
                     });
-                    chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+                    scrollToBottom(); // Scroll to bottom after loading messages
                 }
             }
         },
@@ -77,25 +107,25 @@ window.onload = function() {
         }
     });
 
-
     // Set up the channel with the user-specific ID
-    const channel = window.Echo.channel(`medikolegal-channel.${userId}`);
+    const channel = window.Echo.channel(`medikolegal-channel.${userInfo.user_id}`);
 
     channel.listen('.message.sent', function(data) {
+
         // Push new message to the chat container
         let chatContainer = document.getElementById('chat-container');
         if (chatContainer) {
             let newMessage = document.createElement('div');
-            newMessage.classList.add('message-out');  // Use 'message-out' class for outgoing messages
+            newMessage.classList.add(data.data.user_id === userInfo.user_id.toString() ? 'message-out' : 'message-in');
 
             newMessage.innerHTML = `
                 <div class="d-flex">
                     <div class="flex-grow-1 mx-3">
-                        <div class="msg-content bg-primary">
-                            <p class="mb-0">${data.message}</p>
+                        <div class="msg-content ${data.data.user_id === userInfo.user_id.toString() ? 'bg-primary' : 'bg-light'}">
+                            <p class="mb-0">${data.data.message}</p>
                         </div>
                         <p class="mb-0 text-muted text-sm">
-                            ${new Date(data.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                            ${new Date(data.data.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                         </p>
                     </div>
                 </div>
@@ -103,7 +133,46 @@ window.onload = function() {
 
             // Append new message to the chat container
             chatContainer.querySelector('.card-body').appendChild(newMessage);
-            chatContainer.scrollTop = chatContainer.scrollHeight;  // Scroll to the bottom
+            scrollToBottom();  // Scroll to the bottom when a new message is received
         }
     });
 };
+
+$(document).ready(function () {
+    // Get the token from the 'piat' cookie
+    const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
+
+    // Scroll to the bottom of the chat container
+    function scrollToBottom() {
+        const chatContainer = document.querySelector('#chat-container .card-body');
+        if (chatContainer) {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    }
+
+    $('#sendMessage').on('click', function (e) {
+        e.preventDefault();
+        let message = $('textarea[name="message"]').val();
+
+        $.ajax({
+            url: `${apiUrl}/api/client/message/insert-data`,
+            type: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            data: {
+                message: message
+            },
+            success: function (response) {
+                // Clear input
+                $('textarea[name="message"]').val('');
+
+                // Scroll to the bottom after sending a message
+                scrollToBottom();
+            },
+            error: function (error) {
+                console.error('Error sending message:', error);
+            }
+        });
+    });
+});

@@ -70,64 +70,6 @@
                 </div>
               </div>
             </div>
-            <div class="offcanvas-md offcanvas-end chat-offcanvas" tabindex="-1" id="offcanvas_User_info">
-              <div class="offcanvas-header">
-                <button  class="btn-close" data-bs-dismiss="offcanvas"
-                  data-bs-target="#offcanvas_User_info" aria-label="Close"></button>
-              </div>
-              <div class="offcanvas-body p-0">
-                <div id="chat-user_info" class="collapse collapse-horizontal">
-                  <div class="chat-user_info">
-                    <div class="card">
-                      <div class="text-center card-body position-relative pb-0">
-                        <div class="position-absolute end-0 top-0 p-3 d-none d-md-inline-flex">
-                          <a href="#" class="avtar avtar-xs btn-link-danger btn-pc-default" data-bs-toggle="collapse"
-                            data-bs-target="#chat-user_info">
-                            <i class="ti ti-x f-16"></i>
-                          </a>
-                        </div>
-                        <div class="chat-avtar d-inline-flex mx-auto">
-                          <img class="rounded-circle img-fluid wid-100" src="{{ asset('assets/images/tib-logo.svg') }}" style="width: 128px;"
-                            alt="User image">
-                        </div>
-                        <h5 class="mb-0">TuguBro</h5>
-                        <p class="text-muted text-sm">Sr. Customer Manager</p>
-                        <div class="d-flex align-items-center justify-content-center mb-4">
-                          <i class="chat-badge bg-success me-2"></i>
-                          <span class="badge bg-light-success">Available</span>
-                        </div>
-                      </div>
-                      <div class="scroll-block">
-                        <div class="card-body">
-                          <div class="form-check form-switch d-flex align-items-center justify-content-between p-0">
-                            <label class="form-check-label h5 mb-0" for="customSwitchemlnot1">Notification</label>
-                            <input class="form-check-input h5 mb-0 position-relative" type="checkbox"
-                              id="customSwitchemlnot1" checked="">
-                          </div>
-                          <hr class="my-3 border border-secondary-subtle">
-                          <a class="btn border-0 p-0 text-start w-100" data-bs-toggle="collapse"
-                            href="#filtercollapse1">
-                            <div class="float-end"><i class="ti ti-chevron-down"></i></div>
-                            <h5 class="mb-0">Information</h5>
-                          </a>
-                          <div class="collapse show" id="filtercollapse1">
-                              <div class="d-flex align-items-center justify-content-between mb-2">
-                                <p class="mb-0">Email</p>
-                                <p class="mb-0 text-muted">alene@company.com</p>
-                              </div>
-                              <div class="d-flex align-items-center justify-content-between mb-2">
-                                <p class="mb-0">Phone</p>
-                                <p class="mb-0 text-muted">380-293-0177</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <!-- [ sample-page ] end -->
@@ -137,14 +79,5 @@
 @push('levelPluginsJs')
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-
-<script>
-    // scroll-block
-    var tc = document.querySelectorAll('.scroll-block');
-    for (var t = 0; t < tc.length; t++) {
-      new SimpleBar(tc[t]);
-    }
-  </script>
-
-@vite(['resources/js/app.js','resources/js/v1/pi/chat.js'])
+@vite(['resources/js/app.js'])
 @endpush

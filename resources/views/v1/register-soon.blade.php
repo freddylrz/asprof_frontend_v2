@@ -17,17 +17,17 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Nama Lengkap" />
+                                                        <input type="text" class="form-control" id="nama" placeholder="Nama Lengkap" />
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <input type="email" class="form-control" placeholder="Alamat Email" />
+                                                        <input type="email" class="form-control" id="email" placeholder="Alamat Email" />
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Nomor Telepon" />
+                                                        <input type="text" class="form-control" id="no_hp" placeholder="Nomor Telepon" />
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
@@ -57,14 +57,5 @@
 @push('levelPluginsJs')
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-<script>
-    document.getElementById('contactButton').addEventListener('click', function () {
-        Swal.fire({
-            title: 'Terima Kasih!',
-            text: 'Kami akan segera menghubungi Anda untuk informasi lebih lanjut.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-    });
-</script>
+@vite(['/resources/js/v1/pi/register-soon.js'])
 @endpush

@@ -343,7 +343,7 @@ function getDataDetail(reqId) {
     });
 
     $.ajax({
-        "url": `${apiUrl}/api/client/request/v2/detail?reqId=${reqId}`,
+        "url": `${apiUrl}/api/client/request/detail?reqId=${reqId}`,
         "method": "GET",
         "timeout": 0,
     }).done(async function(responses) {
@@ -1060,7 +1060,7 @@ function handleDeletePayment(reqId) {
     $.ajax({
         async: true,
         crossDomain: true,
-        url: `${apiUrl}/api/client/request/v2/delete-payment`,
+        url: `${apiUrl}/api/client/request/delete-payment`,
         method: "POST",
         processData: false,
         contentType: false,
@@ -1104,7 +1104,7 @@ function handleRequestPayment(reqId, selectedPaymentId) {
     return $.ajax({
         async: true,
         crossDomain: true,
-        url: `${apiUrl}/api/client/request/v2/proses-payment`,
+        url: `${apiUrl}/api/client/request/proses-payment`,
         method: "POST",
         processData: false,
         contentType: "application/json",
@@ -1144,7 +1144,7 @@ function getPaymentMethod() {
     });
 
     $.ajax({
-        url: `${apiUrl}/api/client/request/v2/payment-method`,
+        url: `${apiUrl}/api/client/request/payment-method`,
         method: "GET",
         timeout: 0,
     }).done(async function(responses) {
@@ -1241,7 +1241,7 @@ function getPaymentMethod() {
 
 function getPaymentStatus(reqId) {
     $.ajax({
-        url: `${apiUrl}/api/client/request/v2/payment-status?reqId=${reqId}`,
+        url: `${apiUrl}/api/client/request/payment-status?reqId=${reqId}`,
         method: "GET",
         contentType: "application/json",
     }).done(async function(responses) {

@@ -1074,7 +1074,7 @@ async function handleInsertData() {
     $.ajax({
         async: true,
         crossDomain: true,
-        url: `${apiUrl}/api/client/request/v2/insert`,
+        url: `${apiUrl}/api/client/request/insert`,
         method: "POST",
         processData: false,
         contentType: false,

@@ -136,7 +136,7 @@ window.onload = function() {
                         messageElement.classList.add(message.user_id === userInfo.user_id ? 'message-out' : 'message-in');
                         messageElement.innerHTML = `
                             <div class="d-flex">
-                                <div class="flex-grow-1 mx-3">
+                                <div class="flex-grow-1">
                                     <div class="msg-content ${message.user_id === userInfo.user_id ? 'bg-primary' : 'bg-light'}">
                                         <p class="mb-0">${message.message || ''}</p>
                                     </div>
@@ -172,7 +172,7 @@ window.onload = function() {
 
             newMessage.innerHTML = `
                 <div class="d-flex">
-                    <div class="flex-grow-1 mx-3">
+                    <div class="flex-grow-1">
                         <div class="msg-content ${data.data.user_id === userInfo.user_id.toString() ? 'bg-primary' : 'bg-light'}">
                             <p class="mb-0">${data.data.message}</p>
                         </div>

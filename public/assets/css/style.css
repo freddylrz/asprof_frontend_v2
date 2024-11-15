@@ -25835,7 +25835,7 @@ select[data-multiselectsplitter-secondselect-selector].dataTable-input {
 }
 @media (max-width: 767.98px) {
     .chat-message .msg-content {
-        max-width: 90%;
+        max-width: 100%;
     }
 }
 .chat-message .message-out,
@@ -25854,7 +25854,7 @@ select[data-multiselectsplitter-secondselect-selector].dataTable-input {
     color: #fff;
 }
 .chat-message .message-out p:last-child {
-    text-align: right;
+    text-align: left;
 }
 .chat-message .message-in {
     justify-content: flex-start;

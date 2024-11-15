@@ -42,32 +42,18 @@
                   <div class="card-body">
                   </div>
                 </div>
-                <div class="card-footer py-2 px-3">
-                  <textarea class="form-control border-0 shadow-none px-0" name="message" placeholder="Type a Message"
-                    rows="2"></textarea>
-                  <hr class="my-2">
-                  <div class="d-sm-flex align-items-center">
-                    <ul class="list-inline me-auto mb-0">
-                      <li class="list-inline-item">
-                        <a href="#" class="avtar avtar-xs btn-link-secondary">
-                          <i class="ti ti-paperclip f-18"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a href="#" class="avtar avtar-xs btn-link-secondary">
-                          <i class="ti ti-photo f-18"></i>
-                        </a>
-                      </li>
-                    </ul>
-                    <ul class="list-inline ms-auto mb-0">
-                      <li class="list-inline-item">
-                        <a href="#" id="sendMessage" class="avtar avtar-s btn-link-primary">
-                          <i class="ti ti-send f-18"></i>
-                        </a>
-                      </li>
-                    </ul>
+                <div class="card-footer py-2 px-3 d-flex align-items-center">
+                    <textarea class="form-control border-0 shadow-none rounded-pill me-2"
+                              name="message"
+                              placeholder="Type a Message"
+                              rows="1"
+                              style="resize: none; height: 40px;"></textarea>
+                    <a href="#" id="sendMessage" class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center"
+                       style="width: 40px; height: 40px;">
+                      <i class="ti ti-send"></i>
+                    </a>
                   </div>
-                </div>
+
               </div>
             </div>
           </div>

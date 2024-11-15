@@ -1,5 +1,17 @@
 @extends('v1.layouts.dashboard')
 @section('content')
+<style>
+    .date-divider {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+    .date-divider span {
+        padding: 0.25rem 0.75rem;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        display: inline-block;
+    }
+</style>
       <!-- [ Main Content ] start -->
       <div class="row">
         <!-- [ sample-page ] start -->

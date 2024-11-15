@@ -137,10 +137,11 @@ window.onload = function() {
                         messageElement.innerHTML = `
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <div class="msg-content ${message.user_id === userInfo.user_id ? 'bg-primary' : 'bg-light'}">
+                                    <div class="msg-content ${message.user_id === userInfo.user_id ? 'bg-light-primary text-dark' : 'bg-light-warning text-dark'}">
+                                        <p class="mb-2 font-bold">${message.user_id === userInfo.user_id ? userInfo.user_name : message.user_name}</p>
                                         <p class="mb-0">${message.message || ''}</p>
                                     </div>
-                                    <p class="mb-0 text-muted text-sm">
+                                    <p class="mb-0 text-muted text-sm" style="text-align:${message.user_id === userInfo.user_id ? 'right' : 'left'}"">
                                         ${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                                     </p>
                                 </div>
@@ -163,7 +164,6 @@ window.onload = function() {
     const channel = window.Echo.channel(`medikolegal-channel.${userInfo.user_id}`);
 
     channel.listen('.message.sent', function(data) {
-
         // Push new message to the chat container
         let chatContainer = document.getElementById('chat-container');
         if (chatContainer) {
@@ -173,10 +173,11 @@ window.onload = function() {
             newMessage.innerHTML = `
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <div class="msg-content ${data.data.user_id === userInfo.user_id.toString() ? 'bg-primary' : 'bg-light'}">
+                        <div class="msg-content ${data.data.user_id === userInfo.user_id.toString() ? 'bg-light-primary text-dark' : 'bg-light-warning text-dark'}">
+                            <p class="mb-2 font-bold">${data.data.user_id === userInfo.user_id.toString() ? userInfo.user_name : data.data.user_name}</p>
                             <p class="mb-0">${data.data.message}</p>
                         </div>
-                        <p class="mb-0 text-muted text-sm">
+                        <p class="mb-0 text-muted text-sm" style="text-align:${data.data.user_id === userInfo.user_id.toString() ? 'right' : 'left'}"">
                             ${new Date(data.data.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                         </p>
                     </div>
@@ -209,7 +210,7 @@ $(document).ready(function () {
 
         // Disable the button and show a loading spinner
         sendButton.prop('disabled', true).html(`
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <i class="ti ti-loader fa-spin"></i>
         `);
 
         $.ajax({

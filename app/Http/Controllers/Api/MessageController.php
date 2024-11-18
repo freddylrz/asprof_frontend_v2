@@ -22,6 +22,7 @@ class MessageController extends Controller
             ];
 
             event(new MessageSent($r->room_id, $arrayData));
+            event(new MessageCount($r->unread));
 
             return [
                 'status' => 200

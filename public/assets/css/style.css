@@ -25850,9 +25850,6 @@ select[data-multiselectsplitter-secondselect-selector].dataTable-input {
 .chat-message .message-out {
     justify-content: flex-end;
 }
-.chat-message .message-out p {
-    color: #fff;
-}
 .chat-message .message-out p:last-child {
     text-align: left;
 }

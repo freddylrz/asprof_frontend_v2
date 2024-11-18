@@ -23,3 +23,4 @@ yarn-error.log
 *.example
 *.lock
 *.lock
+package-lock.json

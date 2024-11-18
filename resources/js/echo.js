@@ -10,7 +10,7 @@ window.Echo = new Echo({
     wsHost: import.meta.env.VITE_REVERB_HOST,
     wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
     wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
-    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
+    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') == 'https',
     enabledTransports: ['ws', 'wss'],
 });
 
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`;
 
         // Enable or disable the send button
-        if (textarea.value.trim() === '') {
+        if (textarea.value.trim() == '') {
             sendButton.classList.add('disabled');
         } else {
             sendButton.classList.remove('disabled');
@@ -71,7 +71,7 @@ window.onload = function() {
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
+        if (parts.length == 2) return parts.pop().split(';').shift();
         return null;
     }
 
@@ -97,7 +97,7 @@ window.onload = function() {
             'Authorization': `Bearer ${token}`
         },
         success: function(response) {
-            if (response.status === 200 && response.data) {
+            if (response.status == 200 && response.data) {
                 let chatContainer = document.getElementById('chat-container');
                 if (chatContainer) {
                     // Clear the chat container and load previous messages
@@ -125,7 +125,7 @@ window.onload = function() {
                             dateDivider.classList.add('date-divider', 'text-center', 'text-muted', 'my-2');
                             dateDivider.innerHTML = `
                                 <span class="px-3 py-1 bg-light rounded">
-                                ${messageDate === today ? 'Hari ini' : messageDateLocalized}
+                                ${messageDate == today ? 'Hari ini' : messageDateLocalized}
                                 </span>
                             `;
                             chatBody.appendChild(dateDivider);
@@ -133,15 +133,15 @@ window.onload = function() {
 
                         // Add the message
                         let messageElement = document.createElement('div');
-                        messageElement.classList.add(message.user_id === userInfo.user_id ? 'message-out' : 'message-in');
+                        messageElement.classList.add(message.user_id == userInfo.user_id ? 'message-out' : 'message-in');
                         messageElement.innerHTML = `
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <div class="msg-content ${message.user_id === userInfo.user_id ? 'bg-light-primary text-dark' : 'bg-light-warning text-dark'}">
-                                        <p class="mb-2 font-bold">${message.user_id === userInfo.user_id ? userInfo.user_name : message.user_name}</p>
+                                    <div class="msg-content ${message.user_id == userInfo.user_id ? 'bg-light-primary text-dark' : 'bg-light-warning text-dark'}">
+                                        <p class="mb-2 font-bold">${message.user_id == userInfo.user_id ? userInfo.user_name : message.user_name}</p>
                                         <p class="mb-0">${message.message || ''}</p>
                                     </div>
-                                    <p class="mb-0 text-muted text-sm" style="text-align:${message.user_id === userInfo.user_id ? 'right' : 'left'}"">
+                                    <p class="mb-0 text-muted text-sm" style="text-align:${message.user_id == userInfo.user_id ? 'right' : 'left'}"">
                                         ${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                                     </p>
                                 </div>
@@ -168,16 +168,16 @@ window.onload = function() {
         let chatContainer = document.getElementById('chat-container');
         if (chatContainer) {
             let newMessage = document.createElement('div');
-            newMessage.classList.add(data.data.user_id === userInfo.user_id.toString() ? 'message-out' : 'message-in');
+            newMessage.classList.add(data.data.user_id == userInfo.user_id.toString() ? 'message-out' : 'message-in');
 
             newMessage.innerHTML = `
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <div class="msg-content ${data.data.user_id === userInfo.user_id.toString() ? 'bg-light-primary text-dark' : 'bg-light-warning text-dark'}">
-                            <p class="mb-2 font-bold">${data.data.user_id === userInfo.user_id.toString() ? userInfo.user_name : data.data.user_name}</p>
+                        <div class="msg-content ${data.data.user_id == userInfo.user_id.toString() ? 'bg-light-primary text-dark' : 'bg-light-warning text-dark'}">
+                            <p class="mb-2 font-bold">${data.data.user_id == userInfo.user_id.toString() ? userInfo.user_name : data.data.user_name}</p>
                             <p class="mb-0">${data.data.message}</p>
                         </div>
-                        <p class="mb-0 text-muted text-sm" style="text-align:${data.data.user_id === userInfo.user_id.toString() ? 'right' : 'left'}"">
+                        <p class="mb-0 text-muted text-sm" style="text-align:${data.data.user_id == userInfo.user_id.toString() ? 'right' : 'left'}"">
                             ${new Date(data.data.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                         </p>
                     </div>

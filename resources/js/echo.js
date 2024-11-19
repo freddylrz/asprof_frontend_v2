@@ -37,6 +37,32 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const userInfoCookie = document.cookie.split('; ').find(row => row.startsWith('user_info=')).split('=')[1];
+    const userInfo = JSON.parse(decodeURIComponent(userInfoCookie));
+
+    // Set up Echo to listen for the message count event
+    const channel = window.Echo.channel(`medikolegalCount-channel.${userInfo.user_id}`);
+
+    channel.listen('.message.count', function (data) {
+        const messageCount = data.data.count;
+
+        // Find the badge element and update it
+        const badgeElement = $('.pc-item a .pc-badge');
+        if (badgeElement.length) {
+            if (messageCount > 0) {
+                badgeElement.text(messageCount); // Update the badge count
+                badgeElement.removeClass('d-none'); // Ensure the badge is visible
+            } else {
+                badgeElement.text('0'); // Optionally set to 0
+                badgeElement.addClass('d-none'); // Hide the badge if count is 0
+            }
+        } else {
+            console.warn('Badge element not found!');
+        }
+    });
+});
+
 function autoToBottom(containerSelector, timedelay = 0) {
     var scrollId;
     var height = 0;
@@ -109,7 +135,6 @@ window.onload = function() {
 
                     response.data.forEach(message => {
                         const messageDate = new Date(message.created_at).toDateString();
-
                         const messageDateLocalized = new Date(message.created_at).toLocaleDateString('id-ID', {
                             weekday: 'long',
                             year: 'numeric',
@@ -122,11 +147,9 @@ window.onload = function() {
                             lastDate = messageDate;
 
                             let dateDivider = document.createElement('div');
-                            dateDivider.classList.add('date-divider', 'text-center', 'text-muted', 'my-2');
+                            dateDivider.classList.add('date-divider');
                             dateDivider.innerHTML = `
-                                <span class="px-3 py-1 bg-light rounded">
                                 ${messageDate == today ? 'Hari ini' : messageDateLocalized}
-                                </span>
                             `;
                             chatBody.appendChild(dateDivider);
                         }
@@ -141,7 +164,7 @@ window.onload = function() {
                                         <p class="mb-2 font-bold">${message.user_id == userInfo.user_id ? userInfo.user_name : message.user_name}</p>
                                         <p class="mb-0">${message.message || ''}</p>
                                     </div>
-                                    <p class="mb-0 text-muted text-sm" style="text-align:${message.user_id == userInfo.user_id ? 'right' : 'left'}"">
+                                    <p class="mb-0 text-muted text-sm" style="text-align:${message.user_id == userInfo.user_id ? 'right' : 'left'}">
                                         ${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                                     </p>
                                 </div>

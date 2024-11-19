@@ -379,5 +379,5 @@
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
 {{-- custom js --}}
-@vite(['resources/js/v1/pi/dashboard.js'])
+@vite(['resources/js/v1/pi/dashboard.js', 'resources/js/echo.js'])
 @endpush

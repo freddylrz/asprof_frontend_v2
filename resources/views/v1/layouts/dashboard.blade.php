@@ -85,6 +85,7 @@
                      <a href="/chat" class="pc-link" style="font-size: 18px !important;">
                         <i class="ti ti-messages"></i>
                         <span class="pc-mtext">Chat</span>
+                        <span class="pc-badge bg-danger d-none">0</span>
                      </a>
                   </li>
                </ul>

@@ -28,10 +28,11 @@ class MessageController extends Controller
             return [
                 'status' => 200
             ];
-        } 
+        }
         catch (Exception $e) 
         {   
             \Log::error($e);
+          
             return [
                 'status' => 500
             ];

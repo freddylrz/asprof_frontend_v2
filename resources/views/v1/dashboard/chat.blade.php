@@ -4,6 +4,17 @@
     .date-divider {
         font-size: 0.85rem;
         color: #6c757d;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        text-align: center;
+        background-color: #f8f9fa; /* Ensure it blends with the chat background */
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        margin-bottom: 0.5rem;
+        max-width: 400px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+        margin: 0.5rem auto; /* Center the date divider horizontally */
     }
     .date-divider span {
         padding: 0.25rem 0.75rem;

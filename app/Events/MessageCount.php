@@ -14,11 +14,15 @@ class MessageCount implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
+    private $room_id;
     private $data;
 
-    public function __construct($data)
+    public function __construct($room_id, $data)
     {
-        $this->data = $data;
+        $this->room_id = $room_id;
+        $this->data    = $data;
+
+        \Log::info($this->data);
     }
 
     public function broadcastWith(): array

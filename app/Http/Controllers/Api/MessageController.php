@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\MessageCount;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Events\MessageSent;
@@ -13,7 +12,8 @@ class MessageController extends Controller
 {
     public function index(Request $r)
     {
-        try {
+        try 
+        {
             $arrayData = [
                 'room_id'    => (int) $r->room_id,
                 'user_id'    => (int) $r->user_id,
@@ -23,12 +23,16 @@ class MessageController extends Controller
             ];
 
             event(new MessageSent($r->room_id, $arrayData));
-            event(new MessageCount($r->unread));
+            event(new MessageCount($r->room_id, $r->unread));
 
             return [
                 'status' => 200
             ];
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) 
+        {   
+            \Log::error($e);
+          
             return [
                 'status' => 500
             ];

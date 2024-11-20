@@ -20,6 +20,7 @@ $(document).ready(function () {
     });
 
     setCookieIfExists('piat', expirationTime);
+    setCookieIfExists('user_info', expirationTime);
 
     // Automatically handle OTP verification when 6 digits are entered
     $('.otpInput').on('keyup', function() {

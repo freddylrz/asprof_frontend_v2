@@ -24,6 +24,14 @@ Route::get('/tentang-kami', function () {
     return view('v1.tentang-kami');
 });
 
+Route::get('/asuransi-profesi', function () {
+    return view('v1.asuransi-profesi');
+});
+
+Route::get('/pialang-asuransi', function () {
+    return view('v1.pialang-asuransi');
+});
+
 Route::get('/asuransi-pendukung', function () {
     return view('v1.asuransi-pendukung');
 });

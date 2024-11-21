@@ -439,13 +439,17 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 m-b-30 wow fadeInLeft" data-wow-delay="0.2s" style="margin-top: 140px">
-                        <h2 class="text-center text-uppercase">Perbedaan Pialang Asuransi dengan Agen Asuransi</h2>
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="text-center text-uppercase">Perbedaan Pialang Asuransi dengan Agen Asuransi</h2>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
-                        <h2 class="text-center text-uppercase">Pialang Asuransi</h2>
-                        <hr/>
                         <div class="card bg-light" style="border: 2px solid #ff0000">
                             <div class="card-body p-3">
+                                <h2 class="text-center text-uppercase">Pialang Asuransi</h2>
+                                <hr/>
                                 <ul class="pl-0" style="font-size: 1.3rem; font-weight:400; text-align: justify;">
                                     <li>
                                         Bertindak sebagai perantara independen antara klien dan perusahaan asuransi.
@@ -464,10 +468,10 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
-                        <h2 class="text-center text-uppercase">Agen Asuransi</h2>
-                        <hr/>
                         <div class="card bg-light" style="border: 2px solid #112284">
                             <div class="card-body p-3">
+                                <h2 class="text-center text-uppercase">Agen Asuransi</h2>
+                                <hr/>
                                 <ul class="pl-0" style="font-size: 1.3rem; font-weight:400; text-align: justify;">
                                     <li>
                                         Bertindak sebagai perwakilan resmi dari perusahaan asuransi tertentu.

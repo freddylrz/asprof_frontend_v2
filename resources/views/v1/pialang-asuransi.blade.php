@@ -111,7 +111,7 @@
             </style>
                         <div class="col-12 col-lg-6">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 4px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -123,7 +123,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -135,7 +135,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -147,7 +147,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 4px solid #000;border-top: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -163,7 +163,7 @@
                         </div>
                         <div class="col-12 col-lg-6">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 4px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -175,7 +175,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -187,7 +187,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -199,7 +199,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 4px solid #000;border-top: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">

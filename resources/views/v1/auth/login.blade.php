@@ -38,6 +38,9 @@
                                         <button type="submit" class="btn btn-lg btn-primary" id="loginButton">Masuk <i class="ti ti-login"></i></button>
                                     </div>
                                 </form>
+                                <div class="d-flex justify-content-start align-items-end mt-3">
+                                    <p class="mb-0">Jika anda belum memiliki asuransi profesi silahkan <a href="/pendaftaran" class="link-primary">Daftar Sekarang</a></p>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -44,6 +44,18 @@
          #main-content {
          display: none;
          }
+         /* Default styles for mobile (small screens) */
+        #closeSplashscreen {
+            font-size: inherit; /* Normal button font size */
+        }
+
+        /* For screens larger than 768px (tablet and above) */
+        @media (min-width: 768px) {
+            #closeSplashscreen {
+                font-size: 20px;
+            }
+        }
+
       </style>
       @endif
       @if (Request::is('asuransi-profesi'))
@@ -165,9 +177,9 @@
                     </div>
                 </div>
             </div>
-            <div class="arrow-down">
-                <button type="button" class="btn btn-light-primary" id="closeSplashscreen">
-                    Oke
+            <div class="arrow-down text-center">
+                <button type="button" class="btn btn-lg btn-primary" id="closeSplashscreen">
+                    Lihat Beranda
                 </button>
             </div>
         </div>
@@ -215,7 +227,6 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is('asuransi-profesi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/">Asuransi Profesi</a>
                                 </li>
-                                <li class="nav-item">
                                     <a class="nav-link {{ Request::is('pialang-asuransi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/tentang-kami">Pialang Asuransi</a>
                                 </li>
                                 <li class="nav-item">
@@ -228,7 +239,7 @@
                             <div class="row gap-3 mt-auto w-100">
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <a class="btn btn-lg btn-success" href="/login"><i class="ti ti-login"></i> Portal Peserta</a>
+                                        <a class="btn btn-lg btn-success" href="/login"><i class="ti ti-login"></i> Login</a>
                                     </div>
                                 </div>
                             </div>
@@ -294,7 +305,7 @@
                         </ul>
                         <ul class="navbar-nav flex-row ms-auto gap-1 align-items-center">
                             <li class="nav-item">
-                                <a class="btn btn-sm btn-success" href="/login"><i class="ti ti-login"></i> Portal Peserta</a>
+                                <a class="btn btn-sm btn-success" href="/login"><i class="ti ti-login"></i> Login</a>
                             </li>
                         </ul>
                     </div>

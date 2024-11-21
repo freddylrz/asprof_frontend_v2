@@ -52,31 +52,38 @@
                   </div>
                   <div class="col-auto my-1">
                      <a class="btn btn-icon btn-lg btn-light-dark" style="border: 2px solid #505050" href="/">
-                        <i class="ti ti-home" style="font-size: 28px"></i>
-                    </a>
+                     <i class="ti ti-home" style="font-size: 28px"></i>
+                     </a>
                   </div>
                </div>
                @yield('content')
-
                <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-12 my-1 wow fadeInUp text-center" data-wow-delay="0.4s">
+                  <div class="row align-items-center">
+                     <div class="col-12 my-1 wow fadeInUp text-center" data-wow-delay="0.4s">
                         <a class="link-primary" href="/syarat-ketentuan" style="font-size: 16px;">Syarat & Ketentuan</a>
                         <span class="separator"> • </span>
                         <a class="link-primary" href="/kebijakan-privasi" style="font-size: 16px;">Kebijakan Privasi</a>
-                    </div>
-                    <div class="col-12 my-1 wow fadeInUp text-center" data-wow-delay="0.4s">
+                     </div>
+                     <div class="col-12 my-1 wow fadeInUp text-center" data-wow-delay="0.4s">
                         <p>&copy; Copyrights 2024. All Rights Reserved.</p>
-                    </div>
-                </div>
+                     </div>
+                  </div>
+               </div>
             </div>
+            @if (Request::is('login'))
+            <div class="auth-sidecontent">
+               <div class="p-1 px-lg-5 text-center">
+                <h2 class="text-light">Jika anda belum memiliki asuransi profesi silahkan </h2>
+                <a href="/pendaftaran" class="btn btn-light my-2">Daftar Sekarang</a>
+               </div>
             </div>
+            @endif
          </div>
       </div>
       <!-- [ Main Content ] end -->
       <!-- Floating Action Button for WhatsApp -->
       <a href="#" class="btn btn-success btn-lg" target="_blank"style="position: fixed; bottom: 20px; right: 20px; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
-         <i class="fab fa-whatsapp" style="font-size: 28px;"></i>
+      <i class="fab fa-whatsapp" style="font-size: 28px;"></i>
       </a>
       <!-- [Page Specific JS] start -->
       <!-- Jquery -->
@@ -94,8 +101,8 @@
       <!-- END PAGE LEVEL SCRIPTS -->
       <!-- [Page Specific JS] end -->
       <script>
-        //   const apiUrl = 'https://pi-admin.tib.co.id';
-          const apiUrl = `http://asprof_backend_v2.local.test`;
+         //   const apiUrl = 'https://pi-admin.tib.co.id';
+           const apiUrl = `http://asprof_backend_v2.local.test`;
       </script>
    </body>
    <!-- [Body] end -->

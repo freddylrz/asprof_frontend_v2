@@ -111,7 +111,7 @@
             </style>
                         <div class="col-12 col-lg-6">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-light-primary">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -119,11 +119,11 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <p class="text-muted mb-1" style="font-size: 1.3rem; font-weight: 400;">HEMAT BIAYA PREMI.</p>
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">HEMAT BIAYA PREMI.</p>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -131,11 +131,11 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <p class="text-muted mb-1" style="font-size: 1.3rem; font-weight: 400;">ADANYA BANTUAN TEKNIS DAN CLAIM</p>
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">ADANYA BANTUAN TEKNIS DAN CLAIM</p>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -143,11 +143,11 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <p class="text-muted mb-1" style="font-size: 1.3rem; font-weight: 400;">TERTANGGUNG LEBIH FOCUS PADA CORE BISNISNYA</p>
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">TERTANGGUNG LEBIH FOCUS PADA CORE BISNISNYA</p>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -155,7 +155,7 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <p class="text-muted mb-1" style="font-size: 1.3rem; font-weight: 400;">ADANYA STANDARISASI MUTU PROGRAM ASURANSI</p>
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">ADANYA STANDARISASI MUTU PROGRAM ASURANSI</p>
                                         </div>
                                     </div>
                                 </li>
@@ -163,7 +163,7 @@
                         </div>
                         <div class="col-12 col-lg-6">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-light-primary">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -171,11 +171,11 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <p class="text-muted mb-1" style="font-size: 1.3rem; font-weight: 400;">KONTROL ADMINISTRASI SATU PINTU</p>
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">KONTROL ADMINISTRASI SATU PINTU</p>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -183,11 +183,11 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <p class="text-muted mb-1" style="font-size: 1.3rem; font-weight: 400;">FREE EDUKASI TRANSFER OF KNOWLEDGE</p>
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">FREE EDUKASI TRANSFER OF KNOWLEDGE</p>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -195,11 +195,11 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <p class="text-muted mb-1" style="font-size: 1.3rem; font-weight: 400;">LAYANAN FREE OF CHARGE <br> (KECUALI NILAI PREMI)</p>
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">LAYANAN FREE OF CHARGE <br> (KECUALI NILAI PREMI)</p>
                                         </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item bg-light-primary">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
@@ -207,7 +207,7 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <p class="text-muted mb-1" style="font-size: 1.3rem; font-weight: 400;">SYARAT & KONDISI POLIS OPTIMAL SESUAI RISIKO</p>
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">SYARAT & KONDISI POLIS OPTIMAL SESUAI RISIKO</p>
                                         </div>
                                     </div>
                                 </li>

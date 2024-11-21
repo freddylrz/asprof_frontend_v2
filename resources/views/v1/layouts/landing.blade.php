@@ -44,6 +44,10 @@
          #main-content {
          display: none;
          }
+      </style>
+      @endif
+      @if (Request::is('asuransi-profesi'))
+      <style>
          .arrow-down {
         position: absolute;
         bottom: 20px;
@@ -150,24 +154,24 @@
       </div>
       <!-- [ Pre-loader ] End -->
       @if (Request::is('/'))
-      <section class="bg-white overflow-hidden" id="splashscreen">
-         <div class="container">
+      <section class="bg-white overflow-hidden" id="splashscreen" style="display: none;">
+        <div class="container">
             <div class="row justify-content-center">
-               <div class="col-md-12 text-center">
-                  <div class="row justify-content-center">
-                     <div class="col-md-12">
-                        <img src="{{ asset('assets/images/splashscreen/splashscreen.svg') }}" alt="img" class="img-fluid rounded" />
-                     </div>
-                  </div>
-               </div>
+                <div class="col-md-12 text-center">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <img src="{{ asset('assets/images/splashscreen/splashscreen.svg') }}" alt="img" class="img-fluid rounded" />
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="arrow-down">
-               <button type="button" class="btn btn-link btn-lg text-primary">
-               <i class="fas fa-chevron-down bounce" style="font-size: 48px"></i>
-               </button>
+                <button type="button" class="btn btn-light-primary" id="closeSplashscreen">
+                    Oke
+                </button>
             </div>
-         </div>
-      </section>
+        </div>
+    </section>
       @endif
       <div id="main-content">
          <!-- [ Header ] start -->
@@ -206,13 +210,13 @@
                         <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
                             <ul class="navbar-nav my-auto gap-1 align-items-center text-center">
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/">Asuransi Profesi</a>
+                                    <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/">Beranda</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('tentang-kami') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/tentang-kami">Manfaat Pialang</a>
+                                    <a class="nav-link {{ Request::is('asuransi-profesi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/">Asuransi Profesi</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('tata-cara') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/tata-cara">Tata Cara</a>
+                                    <a class="nav-link {{ Request::is('pialang-asuransi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/tentang-kami">Pialang Asuransi</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is('asuransi-pendukung') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/asuransi-pendukung">Asuransi Pendukung</a>
@@ -224,12 +228,7 @@
                             <div class="row gap-3 mt-auto w-100">
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <a class="btn btn-lg btn-success" href="/login"><i class="ti ti-login"></i> Masuk</a>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-grid">
-                                        <a class="btn btn-lg btn-primary" href="/pendaftaran"><i class="ti ti-forms"></i> Daftar</a>
+                                        <a class="btn btn-lg btn-success" href="/login"><i class="ti ti-login"></i> Portal Peserta</a>
                                     </div>
                                 </div>
                             </div>
@@ -240,50 +239,94 @@
 
             <style>
                 /* Active class styling */
-                .navbar-nav .nav-item .btn.active {
+                .navbar-nav .nav-item .menu-btn.active {
                     background-color: #5b6b79; /* Customize active background color */
                     color: white;
                     font-weight: bold;
-                    border-color: #5b6b79;
                 }
-                .navbar-nav .nav-item .nav-link.active {
-                    color: #4680ff;
-                    font-weight: 900;
+
+                /* Make custom menu buttons parallelogram-shaped */
+                .navbar-nav .nav-item .menu-btn {
+                    position: relative;
+                    display: inline-block;
+                    text-decoration: none;
+                    background-color: #f0f0f0; /* Default background color */
+                    color: #333; /* Text color */
+                    font-weight: bold;
+                    padding: 10px 20px;
+                    transition: all 0.3s ease-in-out;
+                    border: 2px solid #000;
+                    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+                }
+
+                /* Add hover effects */
+                .navbar-nav .nav-item .menu-btn:hover {
+                    background-color: #5b6b79; /* Hover background color */
+                    color: white; /* Hover text color */
+                }
+
+                /* For the active button */
+                .navbar-nav .nav-item .menu-btn.active {
+                    background-color: #5b6b79;
+                    color: white;
                 }
             </style>
 
-               <!-- Horizontal menu for larger screens (visible on lg and above only) -->
-               <div class="menu-section d-none d-lg-block">
-                  <div class="container d-flex justify-content-between align-items-center">
-                     <ul class="navbar-nav flex-row me-auto mb-2 align-items-center">
-                        <li class="nav-item">
-                           <a class="btn btn-light-secondary p-1 {{ Request::is('/') ? 'active' : '' }}" href="/">Asuransi Profesi</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="btn btn-light-secondary p-1 {{ Request::is('tentang-kami') ? 'active' : '' }}" href="/tentang-kami">Manfaat Pialang</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="btn btn-light-secondary p-1 {{ Request::is('tata-cara') ? 'active' : '' }}" href="/tata-cara">Tata Cara</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="btn btn-light-secondary p-1 {{ Request::is('asuransi-pendukung') ? 'active' : '' }}" href="/asuransi-pendukung">Asuransi Pendukung</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="btn btn-light-secondary p-1 {{ Request::is('hubungi-kami') ? 'active' : '' }}" href="/hubungi-kami">Hubungi Kami</a>
-                        </li>
-                     </ul>
-                     <ul class="navbar-nav flex-row ms-auto gap-1 align-items-center">
-                        <li class="nav-item">
-                           <a class="btn btn-sm btn-success" href="/login"><i class="ti ti-login"></i> Masuk</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="btn btn-sm btn-primary" href="/pendaftaran"><i class="ti ti-forms"></i> Daftar</a>
-                        </li>
-                     </ul>
-                  </div>
-               </div>
+                <!-- Horizontal menu for larger screens (visible on lg and above only) -->
+                <div class="menu-section d-none d-lg-block">
+                    <div class="container d-flex justify-content-between align-items-center">
+                        <ul class="navbar-nav flex-row me-auto mb-2 align-items-center">
+                            <li class="nav-item">
+                                <a class="menu-btn py-1 px-4 {{ Request::is('/') ? 'active' : '' }}" href="/">Beranda</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="menu-btn py-1 px-4 {{ Request::is('asuransi-profesi') ? 'active' : '' }}" href="/asuransi-profesi">Asuransi Profesi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="menu-btn py-1 px-4 {{ Request::is('pialang-asuransi') ? 'active' : '' }}" href="/pialang-asuransi">Pialang Asuransi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="menu-btn py-1 px-4 {{ Request::is('asuransi-pendukung') ? 'active' : '' }}" href="/asuransi-pendukung">Asuransi Pendukung</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="menu-btn py-1 px-4 {{ Request::is('hubungi-kami') ? 'active' : '' }}" href="/hubungi-kami">Hubungi Kami</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav flex-row ms-auto gap-1 align-items-center">
+                            <li class="nav-item">
+                                <a class="btn btn-sm btn-success" href="/login"><i class="ti ti-login"></i> Portal Peserta</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </nav>
             @if (Request::is('/'))
+            <div class="container">
+                <div class="row justify-content-center align-items-center" style="margin-top: 80px; min-height: 60vh;">
+                   <!-- Left Column for Image -->
+                   <div class="col-12 col-md-5 d-none d-md-block text-center m-t-20">
+                      <img
+                         src="{{ asset('assets/images/landing/beranda.svg') }}"
+                         alt="img"
+                         class="img-fluid"
+                      />
+                   </div>
+                   <!-- Right Column for Text -->
+                   <div class="col-12 col-md-7 d-flex align-items-center m-t-20">
+                      <div>
+                         <h1 class="h1 my-4 fw-bold wow fadeInUp" data-wow-delay="0.2s">
+                            Apakah Anda sudah membaca dan paham isi
+                            <span class="text-primary"> polis asuransi</span> yang Anda beli?
+                         </h1>
+                         <h2 class="h2 my-4 wow fadeInUp" data-wow-delay="0.3s">
+                            Jika tidak, mungkin produk asuransi yang Anda beli
+                            <span class="text-danger fw-bold">tidak seperti yang Anda inginkan.</span>
+                         </h2>
+                      </div>
+                   </div>
+                </div>
+             </div>
+            @elseif (Request::is('asuransi-profesi'))
             <div class="container">
                <div class="row justify-content-center">
                   <div class="col-md-12 m-t-30 text-center">
@@ -311,33 +354,57 @@
                     document.getElementById("main-scroll").scrollIntoView({ behavior: "smooth" });
                 });
             </script>
-            @elseif (Request::is('tentang-kami'))
+            @elseif (Request::is('pialang-asuransi'))
             <div class="container">
-               <div class="row">
-                <div class="col-12 text-center m-b-30 wow fadeInLeft" data-wow-delay="0.2s" style="margin-top: 140px">
-                   <h2 class="text-center uppercase">Manfaat Pialang</h2>
-                </div>
-                  <div class="col-12">
-                     <div class="card bg-light">
-                        <div class="card-body p-3">
-                           <div class="row">
-                              <div class="col-12 col-md-6">
-                                 <iframe style="width: 100%; max-width: inherit; height: 540px; border-radius: 12px;" height="215" src="https://www.youtube.com/embed/ScFFzpX8esY?si=_IYM7kWek2ZrSMKN" title="TuguBro - Company Profile 2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                              </div>
-                              <div class="col-12 col-md-6">
-                                 <h4 class="m-b-30" style="text-align: justify; line-height:2rem; font-size: 1.3rem; font-weight:400;">PT. Tugu Insurance Brokers atau dikenal dengan Tugu-Bro, merupakan Perusahaan Pialang Asuransi yang didirikan sejak tahun 1976 dan menjadi salah satu pelopor berdirinya industri Pialang Asuransi di Indonesia.</h4>
-                                 <h4 class="m-b-30" style="text-align: justify; line-height:2rem; font-size: 1.3rem; font-weight:400;">Tugu-Bro terdaftar dan diawasi oleh Otoritas Jasa Keuangan. Dengan pengalaman lebih dari 48 tahun, Tugu-Bro selalu berinovasi menghadirkan program-program asuransi yang tepat dengan mengedepankan Profesionalitas, Intelektualitas dan Kepuasan Pelanggan yang didukung teknologi Informasi modern, serta tenaga profesional yang bersertifikasi.</h4>
-                                 <h4 class="m-b-30" style="text-align: justify; line-height:2rem; font-size: 1.3rem; font-weight:400;">Tugu-Bro menggunakan aplikasi digital yang memudahkan nasabah dalam melakukan proses berasuransi, dimana saja dan kapan saja.</h4>
-                              </div>
-                              <div class="col-12">
-                                 <h4 class="m-b-30" style="text-align: justify; line-height:2rem; font-size: 1.3rem; font-weight:400;">Tugu-Bro memiliki tim Medikolegal dan Mediator berpengalaman serta bersertifikasi, yang akan menjadi sahabat diskusi anda selama berasuransi, kapanpun, mulai dari pemilihan dan penutupan asuransi sampai pendampingan proses klaim, termasuk memberikan layanan Konsultasi, Negosiasi, Mediasi, Konsiliasi, sampai Penilaian atau pendapat para Ahli dibidangnya.</h4>
-                                 <h4 class="m-b-30" style="text-align: justify; line-height:2rem; font-size: 1.3rem; font-weight:400;">Kabar baiknya, semua layanan yang kami berikan Free of charge! Kecuali biaya Premi yang harus anda bayarkan.</h4>
-                              </div>
-                           </div>
+                <div class="row">
+                    <div class="col-12 m-b-30 wow fadeInLeft" data-wow-delay="0.2s" style="margin-top: 140px">
+                        <h2 class="text-center text-uppercase">Perbedaan Pialang Asuransi dengan Agen Asuransi</h2>
+                    </div>
+                    <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
+                        <h2 class="text-center text-uppercase">Pialang Asuransi</h2>
+                        <hr/>
+                        <div class="card bg-light">
+                            <div class="card-body p-3">
+                                <ul class="pl-0" style="font-size: 1.3rem; font-weight:400; text-align: justify;">
+                                    <li>
+                                        Bertindak sebagai perantara independen antara klien dan perusahaan asuransi.
+                                    </li>
+                                    <li>
+                                        Tidak terikat pada satu perusahaan asuransi, menawarkan produk dari berbagai perusahaan.
+                                    </li>
+                                    <li>
+                                        Fokus pada kepentingan klien dengan memberikan rekomendasi yang obyektif.
+                                    </li>
+                                    <li>
+                                        Membantu klien mulai dari memilih polis hingga proses klaim.
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                    </div>
+                    <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
+                        <h2 class="text-center text-uppercase">Agen Asuransi</h2>
+                        <hr/>
+                        <div class="card bg-light">
+                            <div class="card-body p-3">
+                                <ul class="pl-0" style="font-size: 1.3rem; font-weight:400; text-align: justify;">
+                                    <li>
+                                        Bertindak sebagai perwakilan resmi dari perusahaan asuransi tertentu.
+                                    </li>
+                                    <li>
+                                        Hanya menawarkan produk dari perusahaan asuransi yang diwakilinya.
+                                    </li>
+                                    <li>
+                                        Fokus pada memasarkan produk perusahaan dan mencapai target penjualan.
+                                    </li>
+                                    <li>
+                                        Membantu proses pembelian polis, tetapi keterlibatan dalam klaim biasanya terbatas.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             @elseif (Request::is('asuransi-pendukung'))
             <div class="container title mb-0">
@@ -654,17 +721,41 @@
          });
          wow.init();
 
-         $(document).ready(function() {
-             setTimeout(function() {
-                 $('#splashscreen').slideUp();
-                 $('#main-content').slideDown();
-             }, 1250); // 1.25 seconds
+        // Helper function to set cookies
+        function setCookie(name, value, hours) {
+            const date = new Date();
+            date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+            document.cookie = name + "=" + value + "; expires=" + date.toUTCString() + "; path=/";
+        }
 
-             $('.arrow-down').click(function() {
-                 $('#splashscreen').slideUp();
-                 $('#main-content').slideDown();
-             });
-         });
+        // Helper function to get cookies
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        $(document).ready(function() {
+            // Check if the splash screen cookie exists
+            if (!getCookie('splashscreen_seen')) {
+                $('#splashscreen').show();
+            } else {
+                $('#main-content').show();
+            }
+
+            $('#closeSplashscreen').click(function() {
+                $('#splashscreen').slideUp();
+                $('#main-content').slideDown();
+
+                // Set a cookie to remember that the splash screen was seen
+                setCookie('splashscreen_seen', 'true', 24); // 24 hours
+            });
+        });
       </script>
    </body>
 </html>

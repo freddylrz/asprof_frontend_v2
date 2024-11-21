@@ -5,7 +5,7 @@
         font-size: 0.85rem;
         color: #6c757d;
         position: sticky;
-        top: 0;
+        top: 10px;
         z-index: 10;
         text-align: center;
         background-color: #f8f9fa; /* Ensure it blends with the chat background */
@@ -79,5 +79,5 @@
 @push('levelPluginsJs')
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-@vite(['resources/js/app.js'])
+@vite(['resources/js/v1/pi/chat.js'])
 @endpush

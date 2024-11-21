@@ -25200,7 +25200,7 @@ select[data-multiselectsplitter-secondselect-selector].dataTable-input {
     background: #ffffff;
 }
 .auth-main .auth-wrapper.v3 .auth-sidecontent {
-    width: 580px;
+    width: 360px;
     align-self: stretch;
     background: var(--bs-primary);
     position: relative;
@@ -25238,7 +25238,7 @@ select[data-multiselectsplitter-secondselect-selector].dataTable-input {
     [data-bs-target]:not(.active) {
     width: 6px;
 }
-@media (max-width: 1199.98px) {
+@media (max-width: 575.98px) {
     .auth-main .auth-wrapper.v3 .auth-sidecontent {
         display: none;
     }

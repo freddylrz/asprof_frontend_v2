@@ -55,10 +55,59 @@
                 font-size: 20px;
             }
         }
+        /* Animation for the specific class on hover */
+        .animated-image {
+        transition: transform 0.3s ease-in-out; /* Smooth transition */
+        }
+
+        .animated-image:hover {
+        transform: scale(1.1); /* Slightly enlarges the image */
+        }
+
+        @media (max-width: 768px) { /* Adjust based on your breakpoint for mobile */
+            .animated-image {
+                width: 50%;
+            }
+        }
+
+        @media (min-width: 769px) { /* Above mobile width */
+            .animated-image {
+                width: 100%;
+            }
+        }
+
+        /* Define custom animation for highlighting */
+        .highlight-animate {
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .highlight-animate::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 0.2em;
+            bottom: 0;
+            left: 0;
+            background-color: currentColor;
+            z-index: -1;
+            transition: transform 0.3s ease;
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        .highlight-animate:hover::before {
+            transform: scaleX(1);
+        }
+
+        .highlight-animate:hover {
+            color: #ff5733; /* Change to your desired hover text color */
+        }
 
       </style>
       @endif
-      @if (Request::is('asuransi-profesi'))
+      @if (Request::is('asuransi-profesi') || Request::is('/'))
       <style>
          .arrow-down {
         position: absolute;
@@ -254,6 +303,8 @@
                     background-color: #5b6b79; /* Customize active background color */
                     color: white;
                     font-weight: bold;
+                    border-top: 2px solid #b2bec3;
+                    border-bottom: 2px solid #b2bec3;
                 }
 
                 /* Make custom menu buttons parallelogram-shaped */
@@ -266,18 +317,25 @@
                     font-weight: bold;
                     padding: 10px 20px;
                     transition: all 0.3s ease-in-out;
-                    border: 2px solid #000;
-                    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+                    border-top: 2px solid #b2bec3;
+                    border-bottom: 2px solid #b2bec3;
                 }
 
-                /* Add hover effects */
+                /* Add hover effects with animation */
                 .navbar-nav .nav-item .menu-btn:hover {
                     background-color: #5b6b79; /* Hover background color */
                     color: white; /* Hover text color */
+                    border-top: 2px solid #b2bec3;
+                    border-bottom: 2px solid #b2bec3;
+                    transform: scale(1.05); /* Slight scaling on hover */
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow for effect */
+                    transition: all 0.3s ease-in-out; /* Smooth animation */
                 }
 
                 /* For the active button */
                 .navbar-nav .nav-item .menu-btn.active {
+                    border-top: 2px solid #b2bec3;
+                    border-bottom: 2px solid #b2bec3;
                     background-color: #5b6b79;
                     color: white;
                 }
@@ -286,7 +344,7 @@
                 <!-- Horizontal menu for larger screens (visible on lg and above only) -->
                 <div class="menu-section d-none d-lg-block">
                     <div class="container d-flex justify-content-between align-items-center">
-                        <ul class="navbar-nav flex-row me-auto mb-2 align-items-center">
+                        <ul class="navbar-nav flex-row me-auto mb-2 align-items-center gap-3">
                             <li class="nav-item">
                                 <a class="menu-btn py-1 px-4 {{ Request::is('/') ? 'active' : '' }}" href="/">Beranda</a>
                             </li>
@@ -305,7 +363,7 @@
                         </ul>
                         <ul class="navbar-nav flex-row ms-auto gap-1 align-items-center">
                             <li class="nav-item">
-                                <a class="btn btn-sm btn-success" href="/login"><i class="ti ti-login"></i> Login</a>
+                                <a class="btn btn-success" style="font-weight: bold;" href="/login"><i class="ti ti-login"></i> Login</a>
                             </li>
                         </ul>
                     </div>
@@ -314,29 +372,41 @@
             @if (Request::is('/'))
             <div class="container">
                 <div class="row justify-content-center align-items-center" style="margin-top: 80px; min-height: 60vh;">
-                   <!-- Left Column for Image -->
-                   <div class="col-12 col-md-5 d-none d-md-block text-center m-t-20">
-                      <img
-                         src="{{ asset('assets/images/landing/beranda.svg') }}"
-                         alt="img"
-                         class="img-fluid"
-                      />
-                   </div>
-                   <!-- Right Column for Text -->
-                   <div class="col-12 col-md-7 d-flex align-items-center m-t-20">
-                      <div>
-                         <h1 class="h1 my-4 fw-bold wow fadeInUp" data-wow-delay="0.2s">
-                            Apakah Anda sudah membaca dan paham isi
-                            <span class="text-primary"> polis asuransi</span> yang Anda beli?
-                         </h1>
-                         <h2 class="h2 my-4 wow fadeInUp" data-wow-delay="0.3s">
-                            Jika tidak, mungkin produk asuransi yang Anda beli
-                            <span class="text-danger fw-bold">tidak seperti yang Anda inginkan.</span>
-                         </h2>
-                      </div>
-                   </div>
+                    <!-- Left Column for Image -->
+                    <div class="col-12 col-md-5 text-center m-t-20">
+                        <img
+                            src="{{ asset('assets/images/landing/beranda.png') }}"
+                            alt="img"
+                            class="img-fluid animated-image"
+                        />
+                    </div>
+                    <!-- Right Column for Text -->
+                    <div class="col-12 col-md-7 d-flex align-items-center m-t-20">
+                        <div>
+                            <h1 class="h1 my-4 fw-bold wow fadeInUp" data-wow-delay="0.2s">
+                                Apakah Anda sudah membaca dan paham isi
+                                <span class="text-primary highlight-animate">polis asuransi</span> yang Anda beli?
+                            </h1>
+                            <h2 class="h2 my-4 wow fadeInUp" data-wow-delay="0.3s">
+                                Jika tidak, mungkin produk asuransi yang Anda beli
+                                <span class="text-danger fw-bold highlight-animate">tidak seperti yang Anda inginkan.</span>
+                            </h2>
+                        </div>
+                    </div>
                 </div>
-             </div>
+            </div>
+             <div class="arrow-down">
+                 <button type="button" class="btn btn-link btn-lg text-primary" id="scroll-button">
+                    <span class="info-text">info lebih lanjut</span><br />
+                    <i class="fas fa-chevron-down bounce" style="font-size: 48px"></i>
+                 </button>
+              </div>
+              <div id="main-scroll"></div>
+             <script>
+                 document.getElementById("scroll-button").addEventListener("click", function () {
+                     document.getElementById("main-scroll").scrollIntoView({ behavior: "smooth" });
+                 });
+             </script>
             @elseif (Request::is('asuransi-profesi'))
             <div class="container">
                <div class="row justify-content-center">
@@ -369,13 +439,17 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 m-b-30 wow fadeInLeft" data-wow-delay="0.2s" style="margin-top: 140px">
-                        <h2 class="text-center text-uppercase">Perbedaan Pialang Asuransi dengan Agen Asuransi</h2>
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="text-center text-uppercase">Perbedaan Pialang Asuransi dengan Agen Asuransi</h2>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
-                        <h2 class="text-center text-uppercase">Pialang Asuransi</h2>
-                        <hr/>
-                        <div class="card bg-light">
+                        <div class="card bg-light" style="border: 2px solid #ff0000">
                             <div class="card-body p-3">
+                                <h2 class="text-center text-uppercase">Pialang Asuransi</h2>
+                                <hr/>
                                 <ul class="pl-0" style="font-size: 1.3rem; font-weight:400; text-align: justify;">
                                     <li>
                                         Bertindak sebagai perantara independen antara klien dan perusahaan asuransi.
@@ -394,10 +468,10 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
-                        <h2 class="text-center text-uppercase">Agen Asuransi</h2>
-                        <hr/>
-                        <div class="card bg-light">
+                        <div class="card bg-light" style="border: 2px solid #112284">
                             <div class="card-body p-3">
+                                <h2 class="text-center text-uppercase">Agen Asuransi</h2>
+                                <hr/>
                                 <ul class="pl-0" style="font-size: 1.3rem; font-weight:400; text-align: justify;">
                                     <li>
                                         Bertindak sebagai perwakilan resmi dari perusahaan asuransi tertentu.

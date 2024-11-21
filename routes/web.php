@@ -50,7 +50,7 @@ Route::get('/hubungi-kami', function () {
 
 
 Route::get('/pendaftaran', function () {
-    return view('v1.register');
+    return view('v1.register-soon');
 });
 
 Route::get('/detail/{reqId}', function ($reqId) {

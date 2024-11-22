@@ -89,6 +89,8 @@ window.onload = function() {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
+    let lastDate = null; // Track the last message date
+
     // Fetch existing messages on page load
     $.ajax({
         url: `${apiUrl}/api/client/message/get-message`,
@@ -104,7 +106,6 @@ window.onload = function() {
                     let chatBody = chatContainer.querySelector('.card-body');
                     chatBody.innerHTML = '';  // Clear existing content
 
-                    let lastDate = null; // Track the last message date
                     const today = new Date().toDateString(); // Get today's date in comparable format
 
                     response.data.forEach(message => {
@@ -181,6 +182,31 @@ window.onload = function() {
         // Push new message to the chat container
         let chatContainer = document.getElementById('chat-container');
         if (chatContainer) {
+
+            // Clear the chat container and load previous messages
+            let chatBody = chatContainer.querySelector('.card-body');
+            const today = new Date().toDateString(); // Get today's date in comparable format
+
+            const messageDate = new Date(data.data.created_at).toDateString();
+            const messageDateLocalized = new Date(data.data.created_at).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Add a date divider if the date changes
+            if (lastDate !== messageDate) {
+                lastDate = messageDate;
+
+                let dateDivider = document.createElement('div');
+                dateDivider.classList.add('date-divider');
+                dateDivider.innerHTML = `
+                    ${messageDate == today ? 'Hari ini' : messageDateLocalized}
+                `;
+                chatBody.appendChild(dateDivider);
+            }
+
             let newMessage = document.createElement('div');
             newMessage.classList.add(data.data.user_id == userInfo.user_id.toString() ? 'message-out' : 'message-in');
 

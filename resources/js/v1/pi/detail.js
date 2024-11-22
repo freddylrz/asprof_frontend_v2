@@ -140,9 +140,9 @@ $(document).ready(function() {
                     setLoading(bayarButton, false);
 
                     // Call getPaymentStatus every 5 seconds
-                    // paymentStatusInterval = setInterval(function() {
-                    //     getPaymentStatus(reqId);
-                    // }, 5000);
+                    paymentStatusInterval = setInterval(function() {
+                        getPaymentStatus(reqId);
+                    }, 5000);
                 });
             } else {
                 $('#footer-main').hide();
@@ -292,28 +292,73 @@ function copyToClipboard(element) {
 
 function makeCountdown(expiryTime, countdownElementId) {
     const countdownElement = document.getElementById(countdownElementId);
-    const expiryDate = new Date(expiryTime).getTime();
 
-    const updateCountdown = setInterval(() => {
-        const now = new Date().getTime();
-        const timeLeft = expiryDate - now;
-
-        if (timeLeft <= 0) {
-            clearInterval(updateCountdown);
-            countdownElement.textContent = "00:00:00";
-            // Optionally, handle the expired state (e.g., disable payment options, notify user)
-            alert("Waktu pembayaran telah habis. Silakan coba lagi.");
-            switchTab('#main');
-            return;
+    // Make the streaming request using Fetch API
+    fetch(`/api/timer?expire_date=${expiryTime}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
         }
+    })
+        .then(response => {
+            if (!response.body) {
+                throw new Error("ReadableStream not supported");
+            }
 
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let data = '';
 
-        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        countdownElement.textContent = formattedTime;
-    }, 1000);
+            // Function to process each chunk of the stream
+            function processChunk({ done, value }) {
+                if (done) {
+                    console.log("Streaming selesai.");
+                    return;
+                }
+
+                data += decoder.decode(value, { stream: true });
+                const chunks = data.split('\n'); // Split the stream by newline
+
+                // Process each chunk
+                data = chunks.pop(); // Retain the last incomplete chunk for the next iteration
+                chunks.forEach(chunk => {
+                    if (chunk.trim()) {
+                        try {
+                            const jsonData = JSON.parse(chunk);
+
+                            // Update the countdown
+                            countdownElement.textContent = jsonData.timer;
+
+                            // Check if the countdown has finished
+                            if (jsonData.is_finished) {
+                                console.log("Waktu pembayaran telah habis.");
+                                // Use SweetAlert2 to show the message
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Waktu Habis!',
+                                    text: 'Waktu pembayaran telah habis. Silakan coba lagi.',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    getPaymentMethod()
+                                    switchTab('#main'); // Switch tab after user acknowledges
+                                });
+
+                                reader.cancel(); // Stop reading further chunks
+                            }
+                        } catch (error) {
+                            console.error("Error parsing JSON chunk:", error);
+                        }
+                    }
+                });
+
+                // Continue reading the next chunk
+                return reader.read().then(processChunk);
+            }
+
+            // Start reading the stream
+            return reader.read().then(processChunk);
+        })
+        .catch(error => console.error('Error during streaming:', error));
 }
 
 // Function to hide all payment output elements
@@ -628,9 +673,9 @@ function getDataDetail(reqId) {
             getPaymentStatus(reqId);
 
             // Set up interval to call getPaymentStatus every 5 seconds
-            paymentStatusInterval = setInterval(function() {
-                getPaymentStatus(reqId);
-            }, 5000);
+            // paymentStatusInterval = setInterval(function() {
+            //     getPaymentStatus(reqId);
+            // }, 5000);
             $('#payment-footer').removeClass('d-none');
             $('#container-detail').css('margin-bottom', '10rem');
         }
@@ -1011,8 +1056,7 @@ function ajaxGetToken(reqId, callback) {
         processData: false,
         contentType: false,
         data: form
-    }).done(async function(responses) {
-        var response = await decryptData(responses.data)
+    }).done(async function(response) {
         if (response.status == 200) {
             snapToken = response.token.toString();
             console.log(snapToken);
@@ -1109,8 +1153,7 @@ function handleRequestPayment(reqId, selectedPaymentId) {
         processData: false,
         contentType: "application/json",
         data: JSON.stringify(payload)
-    }).done(async function(responses) {
-        var response = await decryptData(responses.data)
+    }).done(async function(response) {
         return response;
     }).fail(async function(error) {
         let data;
@@ -1147,8 +1190,7 @@ function getPaymentMethod() {
         url: `${apiUrl}/api/client/request/payment-method`,
         method: "GET",
         timeout: 0,
-    }).done(async function(responses) {
-        var response = await decryptData(responses.data)
+    }).done(async function(response) {
         // Clear the #payment-list element
         $('#payment-list').empty();
 
@@ -1244,8 +1286,7 @@ function getPaymentStatus(reqId) {
         url: `${apiUrl}/api/client/request/payment-status?reqId=${reqId}`,
         method: "GET",
         contentType: "application/json",
-    }).done(async function(responses) {
-        var response = await decryptData(responses.data)
+    }).done(async function(response) {
         if (response.status === 201) {
             if (!$('#paymentModal').hasClass('show')) {
                 $('#paymentModal').modal('show');

@@ -10,8 +10,8 @@ const inputFiles = [
     'resources/js/v1/pi/register-soon.js',
     'resources/js/v1/pi/login.js',
     'resources/js/v1/pi/logout.js',
-    'resources/js/vi/pi/dashboard.js',
-    'resources/js/vi/pi/chat.js',
+    'resources/js/v1/pi/dashboard.js',
+    'resources/js/v1/pi/chat.js',
 ];
 
 export default defineConfig({

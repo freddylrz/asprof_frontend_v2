@@ -15,54 +15,54 @@
         <div class="col-12 col-sm-12 col-md-12 wow fadeInUp" data-wow-delay="0.2s">
             <div class="row">
                 <div class="col-12 col-lg-6">
-                    <div class="card custom-card bg-light">
+                    <div class="card custom-card bg-light-primary" style="border: 2px solid #000">
                         <div class="card-body p-3">
-                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400">
+                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400; color: #000">
                                 Seiring berkembangnya usaha, risiko<br> menjadi semakin kompleks dan beragam.
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card custom-card bg-light">
+                    <div class="card custom-card bg-light-primary" style="border: 2px solid #000">
                         <div class="card-body p-3">
-                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400">
+                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400; color: #000">
                                 Diperlukannya keahlian khusus<br> (Ilmu Perasuransian)
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card custom-card bg-light">
+                    <div class="card custom-card bg-light-primary" style="border: 2px solid #000">
                         <div class="card-body p-3">
-                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400">
+                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400; color: #000">
                                 Tidak semua perusahaan memiliki<br> manajemen risiko
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card custom-card bg-light">
+                    <div class="card custom-card bg-light-primary" style="border: 2px solid #000">
                         <div class="card-body p-3">
-                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400">
+                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400; color: #000">
                                 Pialang asuransi khusus didirikan dan<br> memiliki keahlian tersebut
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card custom-card bg-light">
+                    <div class="card custom-card bg-light-primary" style="border: 2px solid #000">
                         <div class="card-body p-3">
-                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400">
+                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400; color: #000">
                                 Teman diskusi dan konsultasi<br> mengenai perasuransian
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card custom-card bg-light">
+                    <div class="card custom-card bg-light-primary" style="border: 2px solid #000">
                         <div class="card-body p-3">
-                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400">
+                            <p class="text-center m-b-0" style="font-size: 1.3rem; font-weight:400; color: #000">
                                 Gratis / free of charge, selain premi yang<br> harus dibayarkan
                             </p>
                         </div>
@@ -82,15 +82,143 @@
                 border-color: #007bff; /* Optional: changes border color on hover */
             }
         </style>
-        <div class="row justify-content-center wow fadeInUp" data-wow-delay="0.3s">
-            <div class="col-12 text-center m-b-30 wow fadeInLeft" data-wow-delay="0.2s">
-               <h2 class="text-center uppercase">Benefit</h2>
-            </div>
-            <div class="col-md-12 p-4">
-                <img src="{{ asset('assets/images/landing/benefit.svg') }}" alt="img" class="img-fluid rounded" />
-            </div>
+    </div>
+</section>
+
+<section class="bg-white overflow-hidden" style="background-image: url({{ asset('assets/images/landing/img-headerbg.jpg') }})">
+    <div class="container title mb-0">
+        <div class="row align-items-start">
+
+            <div class="col-12 m-b-30 wow fadeInLeft" data-wow-delay="0.2s">
+                <h2 class="text-center text-uppercase">Keuntungan menggunakan pialang asuransi</h2>
+              </div>
+              <style>
+                /* Custom animation CSS */
+                .list-group-item {
+                    position: relative;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+
+                .list-group-item:hover {
+                    transform: translateY(-10px);
+                    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+                    z-index: 10; /* Ensure the hovered item is above others */
+                }
+
+                .list-group-item:hover ~ .list-group-item {
+                    transform: translateY(20px);
+                }
+            </style>
+                        <div class="col-12 col-lg-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 4px solid #000">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="fa fa-check-circle f-42"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">HEMAT BIAYA PREMI.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 2px solid #000">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="fa fa-hands-helping f-42"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">ADANYA BANTUAN TEKNIS DAN CLAIM</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 2px solid #000">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="fa fa-bullseye f-42"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">TERTANGGUNG LEBIH FOCUS PADA CORE BISNISNYA</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 4px solid #000;border-top: 2px solid #000">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="fa fa-certificate f-42"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">ADANYA STANDARISASI MUTU PROGRAM ASURANSI</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 4px solid #000">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="fa fa-door-open f-42"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">KONTROL ADMINISTRASI SATU PINTU</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 2px solid #000">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="fa fa-retweet f-42"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">FREE EDUKASI TRANSFER OF KNOWLEDGE</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 2px solid #000;border-top: 2px solid #000">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="fa fa-hand-holding-heart f-42"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">LAYANAN FREE OF CHARGE <br> (KECUALI NILAI PREMI)</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item bg-light-primary" style="border-bottom: 4px solid #000;border-top: 2px solid #000">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="fa fa-user-shield f-42"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1" style="font-size: 1.3rem; font-weight: 400;color: #000">SYARAT & KONDISI POLIS OPTIMAL SESUAI RISIKO</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
         </div>
-        <div class="row align-items-center">
+    </div>
+</section>
+<section class="bg-white overflow-hidden" style="background-image: url({{ asset('assets/images/landing/img-headerbg.png') }})">
+    <div class="container title mb-0">
+        <div class="row align-items-start">
             <div class="col-12 text-center m-b-30 wow fadeInLeft" data-wow-delay="0.2s">
                <h2 class="text-center uppercase">TuguBro</h2>
             </div>

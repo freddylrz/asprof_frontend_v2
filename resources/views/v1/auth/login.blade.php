@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 @section('content')
 <div class="container">
-    <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-12">
+    <div class="col-12 col-xl-6 offset-xl-3 col-lg-8 offset-lg-2 col-md-12 col-sm-12">
         <div class="text-center mb-5">
             <h1 class="text-center">Login</h1>
         </div>
@@ -38,9 +38,6 @@
                                         <button type="submit" class="btn btn-lg btn-primary" id="loginButton">Masuk <i class="ti ti-login"></i></button>
                                     </div>
                                 </form>
-                                <div class="d-flex justify-content-start align-items-end mt-3">
-                                    <p class="mb-0">Jika anda belum memiliki asuransi profesi silahkan <a href="/pendaftaran" class="link-primary">Daftar Sekarang</a></p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,6 +65,13 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="container d-sm-none bg-primary">
+    <div class="p-3 px-lg-5 text-center">
+        <h2 class="text-light">Jika anda belum memiliki asuransi profesi silahkan </h2>
+        <a href="/pendaftaran" class="btn btn-light my-2">Daftar Sekarang</a>
+       </div>
 </div>
 @endsection
 @push('levelPluginsJs')

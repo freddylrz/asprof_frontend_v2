@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Events\MessageSent;
 use App\Events\MessageCount;
+use App\Events\paymentStatus;
 use Exception;
 use Carbon\Carbon;
 
@@ -103,8 +104,23 @@ class MessageController extends Controller
         }
     }
 
-    private function getTimer($expiry)
+    public function paymentStatus(Request $r)
     {
-        // code...
+        try
+        {   
+            event(new paymentStatus($r->room_id, $r->is_paid));
+
+            return [
+                'status' => 200
+            ];
+        }
+        catch (Exception $e) 
+        {   
+            \Log::error($e);
+          
+            return [
+                'status' => 500
+            ];
+        }
     }
 }

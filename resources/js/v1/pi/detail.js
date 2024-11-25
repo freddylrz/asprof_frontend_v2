@@ -1,4 +1,19 @@
 import { decryptData, encryptData } from "../encrypt.js";
+import Echo from 'laravel-echo';
+
+import Pusher from 'pusher-js';
+
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+    broadcaster: 'reverb',
+    key: import.meta.env.VITE_REVERB_APP_KEY,
+    wsHost: import.meta.env.VITE_REVERB_HOST,
+    wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
+    wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
+    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') == 'https',
+    enabledTransports: ['ws', 'wss'],
+});
 
 const tempatPraktikDetails = {}; // Initialize tempatPraktikDetails object
 var registerId;
@@ -139,10 +154,7 @@ $(document).ready(function() {
 
                     setLoading(bayarButton, false);
 
-                    // Call getPaymentStatus every 5 seconds
-                    paymentStatusInterval = setInterval(function() {
-                        getPaymentStatus(reqId);
-                    }, 5000);
+                    listenToPaymentStatus(reqId);
                 });
             } else {
                 $('#footer-main').hide();
@@ -258,12 +270,17 @@ function countdownSuccessPayment() {
     var countdownElement = $('#countdown-success-payment');
     var countdownValue = parseInt(countdownElement.text());
 
-    if (countdownValue > 0) {
-        countdownValue--;
-        countdownElement.text(countdownValue);
-    } else {
-        location.reload();
+    function updateCountdown() {
+        if (countdownValue > 0) {
+            countdownValue--;
+            countdownElement.text(countdownValue);
+            setTimeout(updateCountdown, 1000); // Call recursively
+        } else {
+            location.reload();
+        }
     }
+
+    updateCountdown();
 }
 
 // Function to toggle loading state on a button
@@ -340,7 +357,11 @@ function makeCountdown(expiryTime, countdownElementId) {
                                     confirmButtonText: 'OK'
                                 }).then(() => {
                                     getPaymentMethod()
-                                    switchTab('#main'); // Switch tab after user acknowledges
+                                    switchTab('#main');
+                                    hideAllPaymentOutputs();
+                                    $('#footer-payment').hide();
+                                    $('#footer-main').show();
+                                    clearCountdowns();
                                 });
 
                                 reader.cancel(); // Stop reading further chunks
@@ -359,6 +380,24 @@ function makeCountdown(expiryTime, countdownElementId) {
             return reader.read().then(processChunk);
         })
         .catch(error => console.error('Error during streaming:', error));
+}
+
+function listenToPaymentStatus(roomId) {
+    // Set up the channel for the specified room ID
+    const paymentStatusChannel = window.Echo.channel(`paymentStatus-channel.${roomId}`);
+
+    // Listen for the 'payment.status' event
+    paymentStatusChannel.listen('.payment.status', function (data) {
+        console.log(data.data);
+
+        // Check if `data` equals 1, and perform specific actions
+        if (data.data) {
+            // Call custom functions
+            switchTab('#payment-4');
+            $('#footer-payment').hide();
+            countdownSuccessPayment();
+        }
+    });
 }
 
 // Function to hide all payment output elements
@@ -672,10 +711,7 @@ function getDataDetail(reqId) {
             // Call getPaymentStatus immediately
             getPaymentStatus(reqId);
 
-            // Set up interval to call getPaymentStatus every 5 seconds
-            // paymentStatusInterval = setInterval(function() {
-            //     getPaymentStatus(reqId);
-            // }, 5000);
+            listenToPaymentStatus(reqId);
             $('#payment-footer').removeClass('d-none');
             $('#container-detail').css('margin-bottom', '10rem');
         }

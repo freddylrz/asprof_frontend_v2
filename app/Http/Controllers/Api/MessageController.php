@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Events\MessageSent;
 use App\Events\MessageCount;
 use App\Events\paymentStatus;
+use App\Events\RequestStatus;
 use Exception;
 use Carbon\Carbon;
 
@@ -108,7 +109,34 @@ class MessageController extends Controller
     {
         try
         {   
-            event(new paymentStatus($r->room_id, $r->is_paid));
+            $arrayData = [
+                'reqId'      => $r->reqId,
+                'statusId'   => $r->statusId,
+                'statusDesc' => $r->statusDesc,
+            ];
+
+            event(new paymentStatus($arrayData));
+
+            return [
+                'status' => 200
+            ];
+        }
+        catch (Exception $e) 
+        {   
+            \Log::error($e);
+          
+            return [
+                'status' => 500
+            ];
+        }
+    }
+
+    public function reuestStatus(Request $r)
+    {
+        try
+        {   
+
+            event(new RequestStatus($r->room_id, $r->is_paid));
 
             return [
                 'status' => 200

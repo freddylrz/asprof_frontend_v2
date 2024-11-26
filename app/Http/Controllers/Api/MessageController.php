@@ -109,13 +109,7 @@ class MessageController extends Controller
     {
         try
         {   
-            $arrayData = [
-                'reqId'      => $r->reqId,
-                'statusId'   => $r->statusId,
-                'statusDesc' => $r->statusDesc,
-            ];
-
-            event(new paymentStatus($arrayData));
+            event(new paymentStatus($r->room_id, $r->is_paid));
 
             return [
                 'status' => 200
@@ -135,8 +129,13 @@ class MessageController extends Controller
     {
         try
         {   
+            $arrayData = [
+                'reqId'      => $r->reqId,
+                'statusId'   => $r->statusId,
+                'statusDesc' => $r->statusDesc,
+            ];
 
-            event(new RequestStatus($r->room_id, $r->is_paid));
+            event(new RequestStatus($arrayData));
 
             return [
                 'status' => 200

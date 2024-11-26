@@ -37,6 +37,53 @@ $(document).ready(function() {
         keyboard: false
     });
 
+    // Set up the channel with the request-specific ID
+    const requestStatusChannel = window.Echo.channel(`requestStatus-channel.${reqId}`);
+    console.log(reqId);
+
+    // Listen for the 'request.status' event
+    requestStatusChannel.listen('.request.status', function(data) {
+        console.log("Request Status Event Data:", data);
+    });
+
+    // Function for "Revisi Data" button
+    $('#update-confirm').on('click', function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to revise the data?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, revise it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const id = reqId;
+                const statusId = 8; // Status for "Revisi Data"
+                sendStatusUpdate(id, statusId);
+            }
+        });
+    });
+
+    // Function for "Konfirmasi" button
+    $('#confirm-now').on('click', function () {
+        Swal.fire({
+            title: 'Confirm Data?',
+            text: "Are you sure you want to confirm?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, confirm it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const id = reqId;
+                const statusId = 2; // Status for "Konfirmasi"
+                sendStatusUpdate(id, statusId);
+            }
+        });
+    });
+
     // Add event listener for the close button
     $('#closePaymentModal').on('click', function() {
         Swal.fire({
@@ -597,6 +644,10 @@ function getDataDetail(reqId) {
                         {
                             id: '#poin-empat',
                             class: 'js-proses'
+                        },
+                        {
+                            id: '#poin-lima',
+                            class: 'js-active'
                         }
                     ];
                 case 6:
@@ -640,7 +691,50 @@ function getDataDetail(reqId) {
                         {
                             id: '#poin-empat',
                             class: 'js-active'
+                        },
+                        {
+                            id: '#poin-lima',
+                            class: 'js-active'
                         }
+                    ];
+                case 7:
+                    return [{
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#poin-satu',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-dua',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-lima',
+                            class: 'js-proses'
+                        },
                     ];
                 default:
                     return [{
@@ -665,8 +759,8 @@ function getDataDetail(reqId) {
                         },
                         {
                             id: '#status-poin-lima',
-                            class: 'bg-light-danger border border-danger',
-                            text: 'Belum Mulai'
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
                         },
                         {
                             id: '#poin-satu',
@@ -679,6 +773,10 @@ function getDataDetail(reqId) {
                         {
                             id: '#poin-tiga',
                             class: 'js-proses'
+                        },
+                        {
+                            id: '#poin-lima',
+                            class: 'js-active'
                         }
                     ];
             }
@@ -700,6 +798,7 @@ function getDataDetail(reqId) {
         }
 
         if (statusId === 3) {
+            $('#revision-alert').html(`Catatan: ${response.revision}`)
             $('#btn_edit').show();
             $('#div-revision-alert').show();
         } else {
@@ -716,7 +815,10 @@ function getDataDetail(reqId) {
             $('#container-detail').css('margin-bottom', '10rem');
         }
 
-        $('#revision-alert').html(`Catatan: ${response.revision}`)
+        if (statusId === 7) {
+            $('#confirm-footer').removeClass('d-none');
+            $('#container-detail').css('margin-bottom', '10rem');
+        }
 
         populateTempatPraktikDetails(response)
 
@@ -1448,4 +1550,41 @@ function getPaymentStatus(reqId) {
 function clearCountdowns() {
     $('#countdown-payment-bt').text('');
     $('#countdown-payment-ew').text('');
+}
+
+// Common function for AJAX call
+async function sendStatusUpdate(reqId, statusId) {
+    let payload = {
+        reqId: reqId,
+        statusId: statusId
+    };
+
+    const formDataString = JSON.stringify(payload);
+    const encryptedData = await encryptData(formDataString);
+
+    const form = new FormData();
+    form.append("data", encryptedData);
+
+    $.ajax({
+        url: `${apiUrl}/api/client/request/update-status`,
+        method: "POST",
+        processData: false,
+        contentType: false,
+        data: form,
+        success: function (response) {
+            Swal.fire(
+                'Success!',
+                'The request has been updated successfully.',
+                'success'
+            );
+        },
+        error: function (xhr, status, error) {
+            Swal.fire(
+                'Error!',
+                'Something went wrong. Please try again later.',
+                'error'
+            );
+            console.error('Error:', xhr, status, error); // Optional: Debugging
+        }
+    });
 }

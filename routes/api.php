@@ -10,4 +10,4 @@ Route::get('/user', function (Request $request) {
 Route::post('/receive-message', [\App\Http\Controllers\Api\MessageController::class, 'index']);
 Route::get('/timer', [\App\Http\Controllers\Api\MessageController::class, 'timer']);
 Route::get('/payment-status', [\App\Http\Controllers\Api\MessageController::class, 'paymentStatus']);
-Route::get('/request-status', [\App\Http\Controllers\Api\MessageController::class, 'reuestStatus']);
+Route::post('/request-status', [\App\Http\Controllers\Api\MessageController::class, 'reuestStatus']);

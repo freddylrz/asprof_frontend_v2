@@ -367,7 +367,7 @@
              <div class="col-md-4 d-flex align-items-center justify-content-center text-center gap-2">
                 <button type="button" id="update-confirm" class="btn btn-secondary btn-lg" style="font-size: 28px"> Revisi Data <i class="ti ti-edit" style="font-size: 28px"></i>
                 </button>
-                <button type="button" id="confirm-now" class="btn btn-warning btn-lg" style="font-size: 28px"> Konfirmasi <i class="ti ti-checkbox" style="font-size: 28px"></i>
+                <button type="button" id="confirm-now" class="btn btn-success btn-lg" style="font-size: 28px"> Konfirmasi <i class="ti ti-checkbox" style="font-size: 28px"></i>
                 </button>
              </div>
           </div>

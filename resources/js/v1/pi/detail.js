@@ -39,11 +39,22 @@ $(document).ready(function() {
 
     // Set up the channel with the request-specific ID
     const requestStatusChannel = window.Echo.channel(`requestStatus-channel.${reqId}`);
-    console.log(reqId);
 
     // Listen for the 'request.status' event
     requestStatusChannel.listen('.request.status', function(data) {
-        console.log("Request Status Event Data:", data);
+
+        // Parse statusId and reqId from the data object
+        const statusId = data.statusId;
+        const reqId = data.reqId;
+
+        // Add actions based on statusId
+        if (statusId === "2") {
+            // Reload the page for statusId 2
+            location.reload();
+        } else if (statusId === "8") {
+            // Navigate to /edit/{reqId} for statusId 8
+            window.location.href = `/edit/${reqId}`;
+        }
     });
 
     // Function for "Revisi Data" button
@@ -698,6 +709,7 @@ function getDataDetail(reqId) {
                         }
                     ];
                 case 7:
+                case 8:
                     return [{
                             id: '#status-poin-satu',
                             class: 'bg-light-success border border-success',
@@ -799,6 +811,10 @@ function getDataDetail(reqId) {
 
         if (statusId === 3) {
             $('#revision-alert').html(`Catatan: ${response.revision}`)
+            $('#btn_edit').show();
+            $('#div-revision-alert').show();
+        } else if (statusId === 8) {
+            $('#revision-alert').html(`Silahkan lanjutkan merevisi data Anda!`)
             $('#btn_edit').show();
             $('#div-revision-alert').show();
         } else {
@@ -1552,15 +1568,35 @@ function clearCountdowns() {
     $('#countdown-payment-ew').text('');
 }
 
-// Common function for AJAX call
 async function sendStatusUpdate(reqId, statusId) {
+    // Validate input
+    if (typeof reqId !== 'string' || !reqId.trim()) {
+        console.error('Invalid reqId:', reqId);
+        throw new Error('reqId must be a non-empty string.');
+    }
+    if (typeof statusId !== 'number' || ![2, 8].includes(statusId)) {
+        console.error('Invalid statusId:', statusId);
+        throw new Error('statusId must be a valid number (e.g., 2 or 8).');
+    }
+
     let payload = {
         reqId: reqId,
         statusId: statusId
     };
 
     const formDataString = JSON.stringify(payload);
-    const encryptedData = await encryptData(formDataString);
+    let encryptedData;
+    try {
+        encryptedData = await encryptData(formDataString);
+    } catch (encryptionError) {
+        console.error('Encryption failed:', encryptionError);
+        Swal.fire(
+            'Error!',
+            'Failed to encrypt data. Please try again.',
+            'error'
+        );
+        throw encryptionError;
+    }
 
     const form = new FormData();
     form.append("data", encryptedData);
@@ -1572,11 +1608,17 @@ async function sendStatusUpdate(reqId, statusId) {
         contentType: false,
         data: form,
         success: function (response) {
+            const successMessage = statusId === 2
+                ? 'Request completed and status updated successfully!'
+                : statusId === 8
+                ? 'Request marked for editing. Redirecting now.'
+                : 'The request has been updated successfully.';
+
             Swal.fire(
                 'Success!',
-                'The request has been updated successfully.',
+                successMessage,
                 'success'
-            );
+            ).then(() => handlePostSuccessActions(statusId, reqId));
         },
         error: function (xhr, status, error) {
             Swal.fire(
@@ -1584,7 +1626,21 @@ async function sendStatusUpdate(reqId, statusId) {
                 'Something went wrong. Please try again later.',
                 'error'
             );
-            console.error('Error:', xhr, status, error); // Optional: Debugging
+            console.error('Error Details:', {
+                status: xhr.status,
+                statusText: xhr.statusText,
+                responseText: xhr.responseText,
+                error: error
+            });
         }
     });
+}
+
+// Separate function to handle actions based on statusId
+function handlePostSuccessActions(statusId, reqId) {
+    if (statusId === 2) {
+        location.reload();
+    } else if (statusId === 8) {
+        window.location.href = `/edit/${reqId}`;
+    }
 }

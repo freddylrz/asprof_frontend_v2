@@ -771,6 +771,7 @@ function getDataDetail(reqId) {
                         }
                     ];
                 case 7:
+                case 8:
                     return [{
                             id: '#status-poin-satu',
                             class: 'bg-light-success border border-success',
@@ -863,8 +864,8 @@ function getDataDetail(reqId) {
 
           $('#revision-alert').html(`Catatan: ${response.revision}`)
 
-        if (statusId === 7) {
-            $('#revision-alert').html(`Jika ada data yang belum/tidak sesuai silahkan Anda perbaiki kembali`)
+        if (statusId === 8) {
+            $('#div-revision-alert').hide();
         }
 
         $.each(response['document'], function (j, item) {

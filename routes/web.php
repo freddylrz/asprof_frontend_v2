@@ -4,6 +4,27 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckPiat;
 use App\Http\Middleware\RedirectIfPiatExists;
 
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/login', function () {
+        return view('v1.admin.login');
+    });
+    Route::get('/dashboard', function () {
+        return view('v1.admin.list_data');
+    });
+    Route::get('/insert-batch', function () {
+        return view('v1.admin.insert');
+    });
+    Route::get('/list-data', function () {
+        return view('v1.admin.list_data');
+    });
+    Route::get('/list-detail', function () {
+        return view('v1.admin.list_detail');
+    });
+    Route::get('/detail', function () {
+        return view('v1.admin.detail');
+    });
+});
+
 Route::get('/', function () {
     return view('v1.index');
 });

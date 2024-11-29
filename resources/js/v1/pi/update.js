@@ -31,6 +31,11 @@ $(document).ready(function() {
     var tenagaKesehatanRadio = $("#option2");
     var kategoriProfesi = $('#kategori-profesi');
 
+    $(".nomorstr").inputmask({
+        mask: "AA99999999999999",
+        placeholder: ""
+    });
+
     $(".enambelas").inputmask({
         mask: "9999999999999999",
         placeholder: ""

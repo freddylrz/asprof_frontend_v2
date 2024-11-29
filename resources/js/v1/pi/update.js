@@ -559,7 +559,7 @@ function getDataDetail(reqId) {
         var statusId;
         $.each(response['data'], function(j, item) {
 
-            if (item.status_id != 3) {
+            if (item.status_id != 3 && item.status_id != 8) {
                 shouldRedirect = true;
                 return false; // Break the loop
             }
@@ -607,54 +607,251 @@ function getDataDetail(reqId) {
             switch (statusId) {
                 case 1:
                 case 3:
-                    return [
-                        { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-dua', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
-                        { id: '#status-poin-tiga', class: 'bg-light-secondary border border-secondary', text: 'Belum Mulai' },
-                        { id: '#status-poin-empat', class: 'bg-light-secondary border border-secondary', text: 'Belum Mulai' },
-                        { id: '#poin-satu', class: 'js-active'},
-                        { id: '#poin-dua', class: 'js-proses'},
+                    return [{
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#poin-satu',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-dua',
+                            class: 'js-proses'
+                        },
                     ];
                 case 4:
-                    return [
-                        { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-dua', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
-                        { id: '#status-poin-tiga', class: 'bg-light-secondary border border-secondary', text: 'Belum Mulai' },
-                        { id: '#status-poin-empat', class: 'bg-light-secondary border border-secondary', text: 'Belum Mulai' },
-                        { id: '#poin-satu', class: 'js-active'},
-                        { id: '#poin-dua', class: 'js-proses'},
+                    return [{
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#poin-satu',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-dua',
+                            class: 'js-proses'
+                        },
                     ];
                 case 5:
-                    return [
-                        { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-empat', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
-                        { id: '#poin-satu', class: 'js-active'},
-                        { id: '#poin-dua', class: 'js-active'},
-                        { id: '#poin-tiga', class: 'js-active'},
-                        { id: '#poin-empat', class: 'js-proses'}
+                    return [{
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#poin-satu',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-dua',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-tiga',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-empat',
+                            class: 'js-proses'
+                        },
+                        {
+                            id: '#poin-lima',
+                            class: 'js-active'
+                        }
                     ];
                 case 6:
-                    return [
-                        { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-empat', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#poin-satu', class: 'js-active'},
-                        { id: '#poin-dua', class: 'js-active'},
-                        { id: '#poin-tiga', class: 'js-active'},
-                        { id: '#poin-empat', class: 'js-active'}
+                    return [{
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#poin-satu',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-dua',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-tiga',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-empat',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-lima',
+                            class: 'js-active'
+                        }
+                    ];
+                case 7:
+                case 8:
+                    return [{
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#poin-satu',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-dua',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-lima',
+                            class: 'js-proses'
+                        },
                     ];
                 default:
-                    return [
-                        { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' },
-                        { id: '#status-poin-tiga', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
-                        { id: '#status-poin-empat', class: 'bg-light-secondary border border-secondary', text: 'Belum Mulai' },
-                        { id: '#poin-satu', class: 'js-active'},
-                        { id: '#poin-dua', class: 'js-active'},
-                        { id: '#poin-tiga', class: 'js-proses'}
+                    return [{
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#poin-satu',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-dua',
+                            class: 'js-active'
+                        },
+                        {
+                            id: '#poin-tiga',
+                            class: 'js-proses'
+                        },
+                        {
+                            id: '#poin-lima',
+                            class: 'js-active'
+                        }
                     ];
             }
         };
@@ -666,6 +863,10 @@ function getDataDetail(reqId) {
           });
 
           $('#revision-alert').html(`Catatan: ${response.revision}`)
+
+        if (statusId === 8) {
+            $('#div-revision-alert').hide();
+        }
 
         $.each(response['document'], function (j, item) {
             if (item.file_type == 1) {

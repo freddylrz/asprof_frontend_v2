@@ -21,19 +21,19 @@ class RequestStatus implements ShouldBroadcastNow
         $this->data = $data;
     }
 
-    public function broadcastWith() : array 
-    {   
+    public function broadcastWith(): array
+    {
         return [
             'reqId'      => $this->data['reqId'],
             'statusId'   => $this->data['statusId'],
-            'statusDesc' => $this->data['getStatus']
+            'statusDesc' => $this->data['statusDesc']
         ];
     }
 
     public function broadcastOn()
     {
         return [
-            new Channel('requestStatus-channel.'.$this->data['reqId']),
+            new Channel('requestStatus-channel.' . $this->data['reqId']),
         ];
     }
 

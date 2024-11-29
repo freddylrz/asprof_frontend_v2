@@ -202,7 +202,7 @@
                                           <div class="col-lg-6">
                                              <div class="form-group">
                                                 <label class="form-label required">Nomor STR</label>
-                                                <input type="text" class="form-control enambelas" name="str_no" id="nomor-str" placeholder="Masukan nomor STR">
+                                                <input type="text" class="form-control nomorstr" name="str_no" id="nomor-str" placeholder="Masukan nomor STR">
                                              </div>
                                           </div>
                                           <div class="col-lg-6 d-flex align-items-center">

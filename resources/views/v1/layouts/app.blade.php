@@ -82,9 +82,44 @@
       </div>
       <!-- [ Main Content ] end -->
       <!-- Floating Action Button for WhatsApp -->
-      <a href="#" class="btn btn-success btn-lg" target="_blank"style="position: fixed; bottom: 20px; right: 20px; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+
+        <!-- Chat Box -->
+        <div id="chat-box" style="position: fixed; bottom: 0px; right: 20px; z-index: 1000; width: 300px;">
+            <div class="card" style="margin-bottom: 0px;">
+                <!-- Chat Header -->
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" style="cursor: pointer;">
+                    <span id="chat-title">Chat</span>
+                    <button class="btn btn-sm btn-light" id="toggle-chat" style="line-height: 1; padding: 2px 6px;">
+                        <i class="ti ti-chevrons-up f-28"></i>
+                    </button>
+                </div>
+                <!-- Chat Body -->
+                <div class="card-body p-2" id="chat-body" style="display: none;">
+                    <div id="department-selection">
+                        <p class="text-muted">Please select a department:</p>
+                        <button class="btn btn-sm btn-light-dark w-100 mb-2" data-department="Marketing" role="button">
+                            <i class="ti ti-user"></i> Marketing
+                        </button>
+                        <button class="btn btn-sm btn-light-dark w-100 mb-2" data-department="Klaim" role="button">
+                            <i class="ti ti-user"></i> Klaim
+                        </button>
+                        <button class="btn btn-sm btn-light-dark w-100" data-department="Medikolegal" role="button">
+                            <i class="ti ti-user"></i> Medikolegal
+                        </button>
+                    </div>
+                    <div id="chat-messages" style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; display: none;">
+                        <p class="text-muted">No messages yet...</p>
+                    </div>
+                    <div class="mt-2" id="chat-input-section" style="display: none;">
+                        <textarea class="form-control" id="chat-input" rows="2" placeholder="Type your message here..."></textarea>
+                        <button class="btn btn-primary mt-2 w-100" id="send-message">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      {{-- <a href="#" class="btn btn-success btn-lg" target="_blank"style="position: fixed; bottom: 20px; right: 20px; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
       <i class="fab fa-whatsapp" style="font-size: 28px;"></i>
-      </a>
+      </a> --}}
       <!-- [Page Specific JS] start -->
       <!-- Jquery -->
       <script src="{{ asset('assets/js/plugins/jquery-3.7.1.min.js') }}"></script>
@@ -98,6 +133,38 @@
       <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
       <!-- BEGIN PAGE LEVEL SCRIPTS -->
       @stack('levelPluginsJs')
+
+      <script>
+          $(document).ready(function () {
+            // Toggle chat visibility
+            $('#toggle-chat').on('click', function () {
+                const chatBody = $('#chat-body');
+                chatBody.slideToggle();
+
+                  // Change the toggle button icon
+                  $(this).html(chatBody.is(':visible') ? ' <i class="ti ti-chevrons-down f-28"></i>' : ' <i class="ti ti-chevrons-up f-28"></i>');
+              });
+
+                // Handle department selection
+                $('#department-selection button').on('click', function () {
+                    const department = $(this).data('department');
+                    $('#chat-title').text(`Chat - ${department}`);
+                    $('#department-selection').hide();
+                    $('#chat-messages').show();
+                    $('#chat-input-section').show();
+                });
+
+                // Handle send message
+                $('#send-message').on('click', function () {
+                    const message = $('#chat-input').val().trim();
+                    if (message) {
+                        $('#chat-messages').append(`<div class="text-end"><span class="badge bg-primary">${message}</span></div>`);
+                        $('#chat-input').val('');
+                        $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+                    }
+                });
+            });
+      </script>
       <!-- END PAGE LEVEL SCRIPTS -->
       <!-- [Page Specific JS] end -->
       <script>

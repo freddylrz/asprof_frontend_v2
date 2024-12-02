@@ -188,8 +188,8 @@
       <!-- [Page Specific JS] end -->
       <script>
         // const apiUrl = 'https://pi-admin.tib.co.id';
-        // const apiUrl = 'http://asprof_backend_v2.local.test';
-        const apiUrl = `http://localhost:8000`;
+        const apiUrl = 'http://asprof_backend_v2.local.test';
+        // const apiUrl = `http://localhost:8000`;
 
         // Function to get a cookie by name
         function getCookie(name) {

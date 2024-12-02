@@ -12,6 +12,11 @@ const inputFiles = [
     'resources/js/v1/pi/logout.js',
     'resources/js/v1/pi/dashboard.js',
     'resources/js/v1/pi/chat.js',
+
+    'resources/js/v1/admin/login.js',
+    'resources/js/v1/admin/list.js',
+    'resources/js/v1/admin/list-detail.js',
+    'resources/js/v1/admin/detail.js',
 ];
 
 export default defineConfig({

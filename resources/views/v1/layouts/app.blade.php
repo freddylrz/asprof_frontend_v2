@@ -87,9 +87,9 @@
         <div id="chat-box" style="position: fixed; bottom: 0px; right: 20px; z-index: 1000; width: 300px;">
             <div class="card" style="margin-bottom: 0px;">
                 <!-- Chat Header -->
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" style="cursor: pointer;">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center"  id="toggle-chat" style="cursor: pointer;">
                     <span id="chat-title">Chat</span>
-                    <button class="btn btn-sm btn-light" id="toggle-chat" style="line-height: 1; padding: 2px 6px;">
+                    <button class="btn btn-sm btn-light"  id="toggle-icon" style="line-height: 1; padding: 2px 6px;">
                         <i class="ti ti-chevrons-up f-28"></i>
                     </button>
                 </div>
@@ -136,14 +136,13 @@
 
       <script>
           $(document).ready(function () {
-            // Toggle chat visibility
-            $('#toggle-chat').on('click', function () {
-                const chatBody = $('#chat-body');
-                chatBody.slideToggle();
-
-                  // Change the toggle button icon
-                  $(this).html(chatBody.is(':visible') ? ' <i class="ti ti-chevrons-down f-28"></i>' : ' <i class="ti ti-chevrons-up f-28"></i>');
-              });
+                // Toggle chat visibility
+                $('#toggle-chat').on('click', function () {
+                    const chatBody = $('#chat-body');
+                    const isVisible = chatBody.css('display') !== 'none';
+                    chatBody.slideToggle();
+                    $('#toggle-icon').html(isVisible ? '<i class="ti ti-chevrons-up f-28"></i>' : '<i class="ti ti-chevrons-down f-28"></i>');
+                });
 
                 // Handle department selection
                 $('#department-selection button').on('click', function () {

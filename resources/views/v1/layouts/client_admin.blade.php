@@ -26,8 +26,10 @@
       <!-- [Template CSS Files] -->
       <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
       <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
+      <link rel="stylesheet" href="{{ asset('assets/css/plugins/notifier.css') }}">
+
       <!-- BEGIN PAGE LEVEL SCRIPTS -->
-      @stack('levelPluginsJsh')
+      @stack('levelPluginsJsHeader')
       <!-- END PAGE LEVEL SCRIPTS -->
    </head>
    <body>
@@ -61,7 +63,13 @@
                   <li class="pc-item">
                      <a href="/dashboard" class="pc-link" style="font-size: 18px !important;">
                         <i class="ti ti-list"></i>
-                        <span class="pc-mtext">Data Kepesertaan</span>
+                        <span class="pc-mtext">Dashboard</span>
+                     </a>
+                  </li>
+                  <li class="pc-item">
+                     <a href="/admin/list-data" class="pc-link" style="font-size: 18px !important;">
+                        <i class="ti ti-list"></i>
+                        <span class="pc-mtext">Peserta</span>
                      </a>
                   </li>
                   <li class="pc-item pc-hasmenu">
@@ -189,7 +197,7 @@
       <script>
         // const apiUrl = 'https://pi-admin.tib.co.id';
         // const apiUrl = 'http://asprof_backend_v2.local.test';
-        const apiUrl = `http://localhost:8000`;
+        const base_url = `http://localhost:8000`;
 
         // Function to get a cookie by name
         function getCookie(name) {

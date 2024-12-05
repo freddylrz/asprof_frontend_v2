@@ -62,13 +62,13 @@
                   </li>
                   <li class="pc-item">
                      <a href="/dashboard" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-list"></i>
+                        <i class="ti ti-presentation-analytics"></i>
                         <span class="pc-mtext">Dashboard</span>
                      </a>
                   </li>
                   <li class="pc-item">
                      <a href="/admin/list-data" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-list"></i>
+                        <i class="ti ti-users"></i>
                         <span class="pc-mtext">Peserta</span>
                      </a>
                   </li>

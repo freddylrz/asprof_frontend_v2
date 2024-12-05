@@ -84,13 +84,14 @@
       <!-- Floating Action Button for WhatsApp -->
       <style>
         #chat-box {
-            position: fixed;
-            bottom: 0;
+            display: none; /* Initially hidden */
+            position: absolute;
+            bottom: 80px; /* Adjusted to appear above the toggle button */
             right: 20px;
             z-index: 1000;
             width: 100%;
             max-width: 480px;
-            transition: width 0.3s ease, right 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         #chat-body {
@@ -112,17 +113,62 @@
                 display: none;
             }
         }
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            background: #fff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input:focus {
+            border-color: #007bff;
+            box-shadow: inset 0 1px 3px rgba(0, 123, 255, 0.25);
+        }
+
+        .send-btn {
+            background-color: #007bff;
+            border: none;
+            margin-left: 10px;
+            border-radius: 50%;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 16px;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .send-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .send-btn:active {
+            background-color: #004085;
+            box-shadow: none;
+        }
     </style>
 
 <!-- Desktop Chat Box -->
 <div id="chat-box" class="d-none d-md-block">
-    <div class="card" style="margin-bottom: 0; box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.175) !important; border: 0;">
-        <!-- Chat Header -->
-        <div class="card-header bg-primary d-flex justify-content-between align-items-center p-3" id="toggle-chat" style="cursor: pointer;">
+    <div class="card" style="margin-bottom: 0; box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.175) !important; border: 0;" style="display: none;">
+        <div class="card-header bg-primary p-3" id="chat-header" style="display: none;">
             <h3 class="text-white" id="chat-title">Chat</h3>
-            <button class="btn btn-sm btn-light" id="toggle-icon" style="line-height: 1; padding: 2px 6px;">
-                <i class="fas fa-chevron-up"></i>
-            </button>
         </div>
         <!-- Chat Body -->
         <div class="card-body p-2" id="chat-body" style="display: none;">
@@ -139,16 +185,25 @@
                 <p class="text-muted">No messages yet...</p>
             </div>
             <div class="mt-2" id="chat-input-section" style="display: none;">
-                <textarea class="form-control" id="chat-input" rows="2" placeholder="Type your message here..."></textarea>
-                <button class="btn btn-primary mt-2 w-100" id="send-message">Send</button>
+                <div class="chat-input-container">
+                    <textarea class="form-control chat-input" id="chat-input" placeholder="Type your message here..."></textarea>
+                    <button class="btn btn-primary send-btn" id="send-message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Desktop Chat Button -->
+<button class="btn btn-primary d-non d-md-block" id="toggle-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <i class="ti ti-message-circle" id="toggle-chat-icon" style="font-size: 28px"></i>
+</button>
+
 <!-- Mobile Chat Button -->
 <button class="btn btn-primary d-block d-md-none" id="mobile-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-    Open Chat
+    <i class="ti ti-message-circle" style="font-size: 28px"></i>
 </button>
 
 <!-- Offcanvas for Mobile -->
@@ -171,8 +226,13 @@
             <p class="text-muted">No messages yet...</p>
         </div>
         <div class="mt-2" id="mobile-chat-input-section" style="display: none;">
-            <textarea class="form-control" id="mobile-chat-input" rows="2" placeholder="Type your message here..."></textarea>
-            <button class="btn btn-primary mt-2 w-100" id="mobile-send-message">Send</button>
+            <div class="chat-input-container">
+                <textarea class="form-control chat-input" id="chat-input" placeholder="Type your message here..."></textarea>
+                <button class="btn btn-primary send-btn" id="send-message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -221,11 +281,22 @@
             });
 
             // Toggle chat visibility (Desktop)
-            $('#toggle-chat').on('click', function () {
+            $('#toggle-chat-btn').on('click', function () {
                 const chatBody = $('#chat-body');
+                const chatHeader = $('#chat-header');
                 const isVisible = chatBody.css('display') !== 'none';
+
+                // Toggle visibility of chat elements
                 chatBody.slideToggle();
-                $('#toggle-icon').html(isVisible ? '<i class="fas fa-chevron-up"></i>' : '<i class="fas fa-chevron-down"></i>');
+                chatHeader.slideToggle();
+
+                // Change icon based on visibility
+                const icon = $('#toggle-chat-icon');
+                if (isVisible) {
+                    icon.removeClass('ti-x').addClass('ti-message-circle'); // Set to chat icon
+                } else {
+                    icon.removeClass('ti-message-circle').addClass('ti-x'); // Set to close icon
+                }
             });
 
             // Open mobile offcanvas
@@ -254,7 +325,7 @@
                 }
             });
         });
-      </script>
+    </script>
       <!-- END PAGE LEVEL SCRIPTS -->
       <!-- [Page Specific JS] end -->
       <script>

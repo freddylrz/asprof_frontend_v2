@@ -84,8 +84,7 @@
       <!-- Floating Action Button for WhatsApp -->
       <style>
         #chat-box {
-            display: none; /* Initially hidden */
-            position: absolute;
+            position: fixed;
             bottom: 80px; /* Adjusted to appear above the toggle button */
             right: 20px;
             z-index: 1000;

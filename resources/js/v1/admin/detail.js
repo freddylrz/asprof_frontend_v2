@@ -9,14 +9,14 @@ var id = searchParams.get('id')
 // $('#btnPolis').attr('href','/polisDev?reqId='+id)
 
 $('#invoice').attr('href', '/admin/pdf?reqId=' + id)
-var detail, ktp, str, sip = [],token
+var detail, ktp, str, sip = [], token
 
 $(document).ready(async function () {
     token = await getAccessTokenFromCookies()
     getDataDetail()
 })
 
-function getDataDetail(){
+function getDataDetail() {
     Swal.fire({
         icon: "info",
         text: "Loading...",
@@ -36,7 +36,6 @@ function getDataDetail(){
         },
     }).done(async function (responses) {
         var response = await decryptData(responses['data'])
-
         detail = response
         var statusId;
         $.each(response['data'], function (j, item) {
@@ -48,13 +47,13 @@ function getDataDetail(){
             $('#email').html(item.email)
             $('#jenis_kelamin').html(item.jenis_kelamin_desc)
             $('#no_hp').html(item.no_hp)
-            $('#npwp').html((item.npwp == null )? item.npwp : '-')
+            $('#npwp').html((item.npwp == null) ? item.npwp : '-')
             $('#alamat').html(item.alamat)
             if (item.kontak_darurat == null || item.nomor_darurat == null) {
                 $('#divKontak').hide()
             }
             $('#nama_kd').html(item.kontak_darurat)
-            $('#kd').html((item.nomor_darurat == null )? item.nomor_darurat : '-')
+            $('#kd').html((item.nomor_darurat == null) ? item.nomor_darurat : '-')
             $('#profesi').html(item.profesi_desc)
             $('#kat_profesi').html(item.profesi_kategori_desc)
             $('#str_no').html(item.str_no)
@@ -282,7 +281,7 @@ function getDataDetail(){
                     </div>
                 `);
             })
-        }else{
+        } else {
             $('#divSIP').html(`
                 <div class="d-flex justify-content-center align-items-center" style="height: 150px; border: 1px solid #ddd; border-radius: 10px;">
                     <p>Data tidak tersedia</p>
@@ -319,16 +318,16 @@ function getDataDetail(){
             if (item.file_type == 1) {
                 $('#f_ktp').attr('href', item.link)
                 $('#f_ktp').html('<i class="fas fa-download"></i> Download KTP')
-                ktp = item.link
+                ktp = base_url.concat(`/${item.file_path}`)
             } else if (item.file_type == 2) {
                 $('#f_str').attr('href', item.link)
                 $('#f_str').html('<i class="fas fa-eye"></i> Download STR')
-                str = item.link
+                str = base_url.concat(`/${item.file_path}`)
             } else {
                 $('#f_sip').attr('href', item.link)
                 $('#f_sip').html('<i class="fas fa-eye"></i> Download SIP')
                 sip.push({
-                    'file': item.link,
+                    'file': base_url.concat(`/${item.file_path}`),
                     'id_file': item.tempat_praktik_id
                 })
             }
@@ -367,22 +366,21 @@ function getDataDetail(){
         })
         swal.close()
     })
-    window.Echo.channel('requestStatus-channel.'+id).listen(".request.status", async function (data) {
-        notifier.show('<b>Data telah diperbarui!</b> <br> Halaman akan <u>direfresh!</u>', data.statusDesc, 'Pemberitahuan', '../logo/survey-48.png',5000);
+    window.Echo.channel('requestStatus-channel.' + id).listen(".request.status", async function (data) {
+        notifier.show('<b>Data telah diperbarui!</b> <br> Halaman akan <u>direfresh!</u>', data.statusDesc, 'Pemberitahuan', '../logo/survey-48.png', 5000);
         setInterval(function () {
             location.reload();
         }, 6000);
     })
 }
 
-
-$(document).on('click', '.btnSIP', function() {
+$(document).on('click', '.btnSIP', function () {
     const stat = $(this).data('stat'); // Mengambil nilai dari data-stat
     const id = $(this).data('id'); // Mengambil nilai dari data-id
-
+    openModal(stat, id)
 });
 
-function openModal(stat, id=0) {
+function openModal(stat, id = 0) {
 
     const setModalContent = (title, displayId, detailContent, imgSrc) => {
         $('#title-modal').html(title);
@@ -390,7 +388,7 @@ function openModal(stat, id=0) {
         $(displayId).css('display', 'inline-block');
         $('#divRow').html(detailContent);
         if (imgSrc) {
-            $('#col-8').html(`<img src="${imgSrc}" id="file_img" style="max-width: inherit; width: 100%; max-height: 500px; height: auto; border: 1px solid black; border-radius: 10px;" alt="">`);
+            $('#col-8').html(`<img src="${base_url}/${imgSrc}" id="file_img" style="max-width: inherit; width: 100%; max-height: 500px; height: auto; border: 1px solid black; border-radius: 10px;" alt="">`);
         }
     };
 
@@ -455,14 +453,16 @@ function openModal(stat, id=0) {
                 }
                 return '';
             }).join('');
-            const imgSrc = detail['document'].find(doc => doc.tempat_praktik_id == id)?.link || '';
+            const imgSrc = detail['document'].find(doc => doc.tempat_praktik_id == id)?.file_path || '';
+
             setModalContent('File SIP', '#f_sip', detailContent, imgSrc);
             break;
     }
 
     $('#modal-upd').modal('show');
 }
-function getStatusPayment(){
+
+function getStatusPayment() {
     $.ajax({
         "url": base_url.concat('/api/admin/payment/status'),
         "method": "GET",
@@ -523,187 +523,21 @@ function getStatusPayment(){
     })
 }
 
-$(document).on('click', '.btnVal', function() {
-    const stat = $(this).data('stat'); // Mengambil nilai dari data-stat
-
-    validasi(stat)
-});
-
-
-function validasi(stat) {
-    var conf = 0
-    if (stat == 3) {
-        Swal.fire({
-            title: "Deskripsi",
-            input: "textarea",
-            inputAttributes: {
-                autocapitalize: "off"
-            },
-            showCancelButton: true,
-            confirmButtonText: "Oke"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                sendValidation(stat, result.value)
-            }
-        });
-    } else {
-        Swal.fire({
-            title: "Apakah anda yakin?",
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonText:`<i class="fa fa-trash"></i> Delete`,
-            confirmButtonColor: '', // Kosongkan agar tidak konflik dengan customClass
-            customClass: {
-                confirmButton: 'btn btn-danger', // Tombol konfirmasi dengan warna merah
-                cancelButton: 'btn btn-secondary' // Tombol batal dengan warna abu-abu
-            },
-            buttonsStyling: false // Aktifkan gaya tombol Bootstrap
-        }).then((result) => {
-            if (result.isConfirmed) {
-                sendValidation(stat);
-            }
-        });
-
-    }
-
-}
-
-async function sendValidation(stat, desc = '') {
+$(document).on('click', '.btnVal', function () {
     Swal.fire({
-        icon: 'info',
-        text: "Loading!",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-    });
-
-    var desc = desc
-    if (desc == '')
-        desc = '-'
-
-    var data = await encryptData(JSON.stringify(
-        {
-            "reqId": id,
-            "statusId": stat,
-            "desc": desc
-        })
-    )
-    $.ajax({
-        "url": base_url.concat('/api/admin/request/verification'),
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer " + token
+        title: "Apakah anda yakin menghapus data ini?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: `<i class="fa fa-trash"></i> Delete`,
+        confirmButtonColor: '',
+        customClass: {
+            confirmButton: 'btn btn-danger',
+            cancelButton: 'btn btn-secondary'
         },
-        "data": {
-            data : data
-        },
-        success: function (response) {
-            Swal.fire({
-                icon: 'success',
-                text: "Berhasil!",
-                showConfirmButton: false,
-                timer: 1500
-            });
+        buttonsStyling: false
+    }).then((result) => {
+        if (result.isConfirmed) {
 
-            // setInterval(function () {
-            //     location.reload();
-            // }, 1000);
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-
-            Swal.fire({
-                icon: 'error',
-                title: err.message,
-                showConfirmButton: false,
-                timer: 2000
-            });
         }
-    })
-}
-
-function polis() {
-    Swal.fire({
-        icon: 'info',
-        text: "Loading!",
-        showConfirmButton: false,
-        allowOutsideClick: false,
     });
-
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + $('#token').val());
-    myHeaders.append("Content-Type", "application/json");
-
-    var url = base_url.concat('/api/generate/polis?reqId=' + id);
-
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow',
-    };
-    fetch(url, requestOptions)
-        .then(response => {
-            var filename = response.headers.get('Content-Disposition').split('filename=')[1];
-            filename = filename.replace(/["']/g, "");
-
-            response.blob().then(blob => {
-                var url = window.URL.createObjectURL(blob);
-                var a = document.createElement('a');
-                a.href = url;
-                a.setAttribute('download', filename);
-                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-                a.click();
-                a.remove();  //afterwards we remove the element again
-            });
-            Swal.fire({
-                icon: 'success',
-                text: "Download berhasil!",
-                showConfirmButton: true,
-            });
-
-        })
-        .catch();
-}
-
-function invoice() {
-    Swal.fire({
-        icon: 'info',
-        text: "Loading!",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-    });
-
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + $('#token').val());
-    myHeaders.append("Content-Type", "application/json");
-
-    var url = base_url.concat('/api/generate/invoice?reqId=' + id + '&type=0');
-
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow',
-    };
-    fetch(url, requestOptions)
-        .then(response => {
-            var filename = response.headers.get('Content-Disposition').split('filename=')[1];
-            filename = filename.replace(/["']/g, "");
-
-            response.blob().then(blob => {
-                var url = window.URL.createObjectURL(blob);
-                var a = document.createElement('a');
-                a.href = url;
-                a.setAttribute('download', filename);
-                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-                a.click();
-                a.remove();  //afterwards we remove the element again
-            });
-            Swal.fire({
-                icon: 'success',
-                text: "Download berhasil!",
-                showConfirmButton: true,
-            });
-
-        })
-        .catch();
-}
+});

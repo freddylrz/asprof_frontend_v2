@@ -69,6 +69,9 @@ export async function getAccessTokenFromCookies() {
         if (cookie.indexOf(name) === 0) {
             // var data = decryptAndParseToken(cookie.substring(name.length, cookie.length),window.APP_KEY,window.APP_KEY2);
             var data = await decryptData(cookie.substring(name.length, cookie.length))
+            if (data.fasyankes && data.fasyankes.name) {
+                $('.name').html(data.fasyankes.name);
+            }
             return data.access_token
         }
     }

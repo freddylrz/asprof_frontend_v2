@@ -765,10 +765,161 @@
          </footer>
          <!-- [ footer apps ] End -->>
       </div>
-      <!-- Floating Action Button for WhatsApp -->
-      <a href="#" style="z-index: 10;position: fixed; bottom: 5px; right: 20px; border-radius: 50%; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
-      <image src="{{ asset('assets/images/Customer-Service-0812-6869-1976-(1).png') }}" style="width: 100%"></image>
-      </a>
+      <style>
+        #chat-box {
+            display: none; /* Initially hidden */
+            position: absolute;
+            bottom: 80px; /* Adjusted to appear above the toggle button */
+            right: 20px;
+            z-index: 1000;
+            width: 100%;
+            max-width: 480px;
+            transition: all 0.3s ease;
+        }
+
+        #chat-body {
+            height: auto;
+        }
+
+        .offcanvas-fullscreen {
+            height: 100vh !important;
+        }
+
+        @media (max-width: 768px) {
+            #chat-box {
+                display: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            #mobile-chat-btn {
+                display: none;
+            }
+        }
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            background: #fff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input:focus {
+            border-color: #007bff;
+            box-shadow: inset 0 1px 3px rgba(0, 123, 255, 0.25);
+        }
+
+        .send-btn {
+            background-color: #007bff;
+            border: none;
+            margin-left: 10px;
+            border-radius: 50%;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 16px;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .send-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .send-btn:active {
+            background-color: #004085;
+            box-shadow: none;
+        }
+    </style>
+
+<!-- Desktop Chat Box -->
+<div id="chat-box" class="d-none d-md-block">
+    <div class="card" style="margin-bottom: 0; box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.175) !important; border: 0;" style="display: none;">
+        <div class="card-header bg-primary p-3" id="chat-header" style="display: none;">
+            <h3 class="text-white" id="chat-title">Chat</h3>
+        </div>
+        <!-- Chat Body -->
+        <div class="card-body p-2" id="chat-body" style="display: none;">
+            <div id="department-selection">
+                <p class="text-muted">Silakan pilih departemen:</p>
+                <button class="btn btn-sm btn-light-dark w-100 mb-2 department-btn" data-department="Marketing" role="button">
+                    <i class="fas fa-user me-1"></i> Marketing
+                </button>
+                <button class="btn btn-sm btn-light-dark w-100 department-btn" data-department="Medikolegal" role="button">
+                    <i class="fas fa-user-md me-1"></i> Medikolegal
+                </button>
+            </div>
+            <div id="chat-messages" style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; display: none;">
+                <p class="text-muted">No messages yet...</p>
+            </div>
+            <div class="mt-2" id="chat-input-section" style="display: none;">
+                <div class="chat-input-container">
+                    <textarea class="form-control chat-input" id="chat-input" placeholder="Type your message here..."></textarea>
+                    <button class="btn btn-primary send-btn" id="send-message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Desktop Chat Button -->
+<button class="btn btn-primary d-non d-md-block" id="toggle-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <i class="ti ti-message-circle" id="toggle-chat-icon" style="font-size: 28px"></i>
+</button>
+
+<!-- Mobile Chat Button -->
+<button class="btn btn-primary d-block d-md-none" id="mobile-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <i class="ti ti-message-circle" style="font-size: 28px"></i>
+</button>
+
+<!-- Offcanvas for Mobile -->
+<div class="offcanvas offcanvas-bottom offcanvas-fullscreen" id="mobileChat" tabindex="-1">
+    <div class="offcanvas-header bg-primary text-white">
+        <h5 class="text-white" id="mobileChatTitle">Chat</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="mobile-department-selection">
+            <p class="text-muted">Silakan pilih departemen:</p>
+            <button class="btn btn-sm btn-light-dark w-100 mb-2 department-btn" data-department="Marketing" role="button">
+                <i class="fas fa-user me-1"></i> Marketing
+            </button>
+            <button class="btn btn-sm btn-light-dark w-100 department-btn" data-department="Medikolegal" role="button">
+                <i class="fas fa-user-md me-1"></i> Medikolegal
+            </button>
+        </div>
+        <div id="mobile-chat-messages" style="height: 75%; overflow-y: auto; border: 1px solid #ddd; padding: 10px; display: none;">
+            <p class="text-muted">No messages yet...</p>
+        </div>
+        <div class="mt-2" id="mobile-chat-input-section" style="display: none;">
+            <div class="chat-input-container">
+                <textarea class="form-control chat-input" id="chat-input" placeholder="Type your message here..."></textarea>
+                <button class="btn btn-primary send-btn" id="send-message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
       <!-- [ Main Content ] end -->
       <!-- Jquery -->
       <script src="{{ asset('assets/js/plugins/jquery-3.7.1.min.js') }}"></script>
@@ -839,6 +990,74 @@
 
                 // Set a cookie to remember that the splash screen was seen
                 setCookie('splashscreen_seen', 'true', 24); // 24 hours
+            });
+            // Unified function to handle department selection
+            function selectDepartment(department) {
+                if (department === 'Marketing') {
+                    const loadingMessage = `<div class="text-center">
+                        <i class="fas fa-spinner fa-spin"></i> Mohon ditunggu, kami akan segera menghubungkan Anda dengan tim marketing kami...
+                    </div>`;
+                    $('#department-selection, #mobile-department-selection').hide();
+                    $('#chat-messages, #mobile-chat-messages').html(loadingMessage).show();
+                    setTimeout(() => {
+                        $('#chat-title, #mobileChatTitle').text(`Chat - ${department}`);
+                        $('#chat-messages, #mobile-chat-messages').html('');
+                        $('#chat-input-section, #mobile-chat-input-section').show();
+                    }, 3000); // Simulate loading for 3 seconds
+                } else if (department === 'Medikolegal') {
+                    window.location.href = '/chat';
+                }
+            }
+
+            // Attach event listener to department buttons
+            $('.department-btn').on('click', function () {
+                const department = $(this).data('department');
+                selectDepartment(department);
+            });
+
+            // Toggle chat visibility (Desktop)
+            $('#toggle-chat-btn').on('click', function () {
+                const chatBody = $('#chat-body');
+                const chatHeader = $('#chat-header');
+                const isVisible = chatBody.css('display') !== 'none';
+
+                // Toggle visibility of chat elements
+                chatBody.slideToggle();
+                chatHeader.slideToggle();
+
+                // Change icon based on visibility
+                const icon = $('#toggle-chat-icon');
+                if (isVisible) {
+                    icon.removeClass('ti-x').addClass('ti-message-circle'); // Set to chat icon
+                } else {
+                    icon.removeClass('ti-message-circle').addClass('ti-x'); // Set to close icon
+                }
+            });
+
+            // Open mobile offcanvas
+            $('#mobile-chat-btn').on('click', function () {
+                const offcanvasElement = new bootstrap.Offcanvas(document.getElementById('mobileChat'));
+                offcanvasElement.show();
+            });
+
+            // Handle sending messages (Desktop)
+            $('#send-message').on('click', function () {
+                const message = $('#chat-input').val().trim();
+                if (message) {
+                    $('#chat-messages').append(`<div class="text-end"><span class="badge bg-primary">${message}</span></div>`);
+                    $('#chat-input').val('');
+                    $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+                }
+            });
+
+            // Handle sending messages (Mobile)
+            $('#mobile-send-message').on('click', function () {
+                const message = $('#mobile-chat-input').val().trim();
+                if (message) {
+                    $('#mobile-chat-messages').append(`<div class="text-end"><span class="badge bg-primary">${message}</span></div>`);
+                    $('#mobile-chat-input').val('');
+                    $('#mobile-chat-messages').scrollTop($('#mobile-chat-messages')[0].scrollHeight);
+                }
             });
         });
       </script>

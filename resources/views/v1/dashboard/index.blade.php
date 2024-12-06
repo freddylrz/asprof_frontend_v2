@@ -6,16 +6,13 @@
          <p class="h1">Data Kepesertaan</p>
          <p class="h1" id="nomor-register"></p>
       </div>
-      <div class="card available-balance-card bg-danger my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;" id="div-polis-alert">
-         <div class="card-body p-2">
-            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-               <div>
-                  <h4 class="mb-0 text-white" id="polis-alert">
-                     <i class="ti ti-info-circle mx-2 my-auto" style="font-size: 1.5rem; font-weight: 400; flex-shrink: 0; color: #fff"></i>
-                     <span></span>
-                  </h4>
-               </div>
-            </div>
+      <div class="alert alert-danger" role="alert" style="display: flex; align-items: middle" id="div-polis-alert">
+         <i class="ti ti-info-circle mx-2 my-auto" style="font-size: 1.5rem; font-weight: 900; flex-shrink: 0; color: #050505"></i>
+         <span id="polis-alert" class="text-wrap h4 my-auto" style="flex: 1;"></span>
+         <div class="pull-right">
+            <a href="/renewal" class="btn btn-primary">
+            <i class="ti ti-edit"></i> <span class="d-none d-lg-inline-block my-1">Renewal</span>
+            </a>
          </div>
       </div>
       <div class="card my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">

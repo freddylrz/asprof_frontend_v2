@@ -199,6 +199,8 @@ function handleOtpVerification() {
     }).done(function (response) {
         setLoading(otpButton, false);
         if (response.status === 200) {
+            console.log(response);
+
             let timerInterval;
 
             // Save access_token to cookie

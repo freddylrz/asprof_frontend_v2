@@ -123,18 +123,22 @@ function getDataDetail() {
             // Determine the alert text and class based on the status and expire count
             if (item.request_status_id == 6) {
                 if (item.expireCount == 0) {
-                    $('#div-polis-alert').hide();
+                    $('#div-polis-alert').show();
+                       let alertClass = 'alert-warning';
+                       let alertText = "Polis anda akan segera berakhir";
+                    $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
+                    $('#polis-alert').text(alertText);
                 } else {
                     $('#div-polis-alert').show();
                     if (item.expireCount == 1) {
-                        alertClass = 'bg-warning';
+                        alertClass = 'alert-warning';
                         alertText = "Polis anda akan segera berakhir";
                     } else if (item.expireCount == 2) {
-                        alertClass = 'bg-danger';
+                        alertClass = 'alert-danger';
                         alertText = "Polis anda telah berakhir";
                     }
-                    $('#div-polis-alert').removeClass('bg-danger bg-warning').addClass(alertClass);
-                    $('#polis-alert span').text(alertText);
+                    $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
+                    $('#polis-alert').text(alertText);
                 }
             } else {
                 $('#div-polis-alert').hide();

@@ -357,6 +357,23 @@
       </div>
    </div>
 </footer>
+<footer class="footer fixed-bottom d-none" style="border-top: 2px solid #4680ff;" id="confirm-footer">
+    <div class="border-top border-bottom footer-center p-4" style="background-image: url({{ asset('assets/images/landing/img-headerbg.png') }})">
+       <div class="container">
+          <div class="row">
+             <div class="col-md-8 p-3">
+                <p class="h2">Silahkan periksa kembali data anda sebelum melanjutkan ke proses pembayaran</p>
+             </div>
+             <div class="col-md-4 d-flex align-items-center justify-content-center text-center gap-2">
+                <button type="button" id="update-confirm" class="btn btn-secondary btn-lg" style="font-size: 28px"> Revisi Data <i class="ti ti-edit" style="font-size: 28px"></i>
+                </button>
+                <button type="button" id="confirm-now" class="btn btn-success btn-lg" style="font-size: 28px"> Konfirmasi <i class="ti ti-checkbox" style="font-size: 28px"></i>
+                </button>
+             </div>
+          </div>
+       </div>
+    </div>
+ </footer>
 <div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true" role="dialog">
    <div class="modal-dialog modal-fullscreen-sm-down" role="document">
       <div class="modal-content">

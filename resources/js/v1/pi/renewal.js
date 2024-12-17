@@ -46,9 +46,6 @@ $(document).ready(function() {
         placeholder: ""
       });
 
-    // Get reqId from the global variable
-    var reqId = window.reqId;
-
     // Get today's date
     const today = new Date();
 
@@ -84,8 +81,8 @@ $(document).ready(function() {
         minDate: today
     });
 
-    // Call the function with the reqId
-    executeFunctions(reqId);
+    renderTable();  // Assuming renderTable doesn't need to be awaited
+    getDataDetail();
 
     tenagaMedisRadio.prop("checked", true);
 
@@ -533,16 +530,7 @@ function clearInputFields() {
     $('#saveChanges').removeData('id');
 }
 
-async function executeFunctions(reqId) {
-    if (reqId !== null && reqId !== undefined) {
-        renderTable();  // Assuming renderTable doesn't need to be awaited
-        await getDataDetail(reqId);
-    } else {
-        window.location.href = '/pendaftaran';
-    }
-}
-
-function getDataDetail(reqId) {
+function getDataDetail() {
     return new Promise((resolve, reject) => {
     Swal.fire({
         icon: "info",
@@ -551,24 +539,22 @@ function getDataDetail(reqId) {
         allowOutsideClick: false,
     });
 
+    // Get the token safely
+    const cookie = document.cookie.split('; ').find(row => row.startsWith('piat='));
+    const token = cookie ? cookie.split('=')[1] : null;
+
     $.ajax({
-        "url": `${apiUrl}/api/client/request/detail`,
+        "url": `${apiUrl}/api/client/renewal/get-data`,
         "method": "GET",
         "timeout": 0,
-        "data": {
-            "reqId": reqId
+        "headers": {
+            "Authorization": `Bearer ${token}`
         },
     }).done(async function(responses) {
         var response = await decryptData(responses.data)
         let shouldRedirect = false;
         var statusId;
         $.each(response['data'], function(j, item) {
-
-            if (item.status_id != 3 && item.status_id != 8) {
-                shouldRedirect = true;
-                return false; // Break the loop
-            }
-
             id = item.id
             profesiId = item.profesi_id
             kategoriProfesiId = item.profesi_kategori_id
@@ -903,11 +889,6 @@ function getDataDetail(reqId) {
         await getDataKota();
 
         $('#daerah-penerbit-sip').val(daerahPenerbitId).change();
-
-        if (shouldRedirect) {
-            window.location.href = `/detail/${reqId}`;
-            return;
-        }
 
         $('#list-log').html('')
         $.each(response['log'], function(j, item) {

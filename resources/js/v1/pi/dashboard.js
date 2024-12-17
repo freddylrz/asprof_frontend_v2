@@ -44,7 +44,7 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-function getDataDetail() {
+async function getDataDetail() {
     Swal.fire({
         icon: "info",
         text: "loading",
@@ -62,17 +62,22 @@ function getDataDetail() {
         headers: {
             "Authorization": `Bearer ${token}`
         },
-    }).done(function(response) {
+    }).done(async function(responses) {
+        var response = await decryptData(responses.data)
+
         var statusId;
-        $.each(response['data'], function(j, item) {
-            registerId = item.register_no;
+        $.each(response['policy'], function(j, item) {
+            $('#periode-polis').html(item.polis_start_date + ' - ' + item.polis_end_date);
             statusId = item.polis_exp; // Adjusted to match response structure
             $('#nomor-polis').html(item.polis_no + ` <span class="badge bg-light-${item.polis_exp == 1 ? 'success' : ( item.polis_exp == 2 ? 'danger' : 'primary' ) }">${item.polis_exp_desc}</span>`);
             $('#asuransi').html(item.ins_nama);
-            $('#periode-polis').html(item.polis_start_date + ' - ' + item.polis_end_date);
             $('#expire-count').html(`(${item.expireCount})`);
             $('#jaminan-pertanggungan').html(item.sum_insured);
             $('#nilai-premi').html(item.premi);
+        });
+
+        $.each(response['data'], function(j, item) {
+            registerId = item.register_no;
             $('#nomor-register').html(item.register_no);
             $('#nama').html(item.nama);
             $('#nik').html(item.nik);
@@ -107,14 +112,22 @@ function getDataDetail() {
             $('#jaminan-pertanggungan-pembayaran').html(item.sum_insured);
             $('#total-tagihan').html(item.premi);
             $('#div-e-sertifikat').html(`
-                <a href="${item.polis_file_path}" target="blank_" class="btn btn-primary" id="btn-download-polis">
+                <a href="/" target="blank_" class="btn btn-primary" id="btn-download-polis">
                     E-Sertifikat
                 </a>
             `);
-            $('#file_ktp').attr('href', item.ktp_file_path)
-            $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span> ')
-            $('#file_str').attr('href', item.str_file_path)
-            $('#file_str').html('<i class="ti ti-file"></i> <span class=""> STR</span> ')
+        });
+
+        $.each(response['document'], function(j, item) {
+            $.each(response['document'], function(j, item) {
+                if (item.file_type == 1) {
+                    $('#file_ktp').attr('href', item.link)
+                    $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span> ')
+                } else if (item.file_type == 2) {
+                    $('#file_str').attr('href', item.link)
+                    $('#file_str').html('<i class="ti ti-file"></i> <span class=""> STR</span> ')
+                }
+            })
         });
 
         populateTempatPraktikDetails(response)
@@ -123,18 +136,22 @@ function getDataDetail() {
             // Determine the alert text and class based on the status and expire count
             if (item.request_status_id == 6) {
                 if (item.expireCount == 0) {
-                    $('#div-polis-alert').hide();
+                    $('#div-polis-alert').show();
+                       let alertClass = 'alert-warning';
+                       let alertText = "Polis anda akan segera berakhir";
+                    $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
+                    $('#polis-alert').text(alertText);
                 } else {
                     $('#div-polis-alert').show();
                     if (item.expireCount == 1) {
-                        alertClass = 'bg-warning';
+                        alertClass = 'alert-warning';
                         alertText = "Polis anda akan segera berakhir";
                     } else if (item.expireCount == 2) {
-                        alertClass = 'bg-danger';
+                        alertClass = 'alert-danger';
                         alertText = "Polis anda telah berakhir";
                     }
-                    $('#div-polis-alert').removeClass('bg-danger bg-warning').addClass(alertClass);
-                    $('#polis-alert span').text(alertText);
+                    $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
+                    $('#polis-alert').text(alertText);
                 }
             } else {
                 $('#div-polis-alert').hide();

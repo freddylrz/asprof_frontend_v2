@@ -7,16 +7,35 @@
 
             <div class="card-body">
                 <form id="fileForm" enctype="multipart/form-data" method="POST">
-                    <div class="row p-2" style="">
-                        <label>Upload File</label>
-                        <div class="col-md-6 mb-2">
-                            <input type="file" class="form-control" id="inputFile" name="fileUp">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#e5ecfa;max-height: 40px; padding: 10px 0 10px 10px !important;">
+                            <h4>Insert Batch</h4>
                         </div>
-                        <div class="col-md-2">
-                            <label></label>
-                            <button class="btn btn-primary" type="submit" id="btnUpload"><i class="fas fa-upload"></i> Insert</button>
+                        <div class="card-body" style="padding: 10px 0 10px 10px !important;">
+                            <div class="row p-2" style="">
+                                <div class="col-md-3 mb-2">
+                                    <div class="form-group">
+                                        <label>Upload File</label>
+                                        <input type="file" class="form-control" id="inputFile" required name="fileUp" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Asuransi</label>
+                                        <select class="form-control mb-3" name="ins_id" required id="insId">
+                                            <option value="">-- Pilih Asuransi --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <button class="btn btn-primary " type="submit" id="btnUpload">
+                                        <i class="fas fa-upload"></i> Insert
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </form>
                     <table id="table" class="table table-striped table-bordered nowrap" style="max-width: 100%">
                         <thead>

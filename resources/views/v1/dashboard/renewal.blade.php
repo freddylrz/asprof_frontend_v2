@@ -1,31 +1,10 @@
-@extends('v1.layouts..app')
-@push('levelPluginsJsh')
-<style>
-   .required:after {
-   content:" *";
-   color: red;
-   }
-</style>
-@endpush
+@extends('v1.layouts.dashboard')
 @section('content')
-<div class="container">
-   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
+<div class="row">
+   <div class="col-12">
       <div class="text-center mb-5">
-         <h1 class="text-center">Revisi Data</h1>
+         <p class="h1">Renewal</p>
          <p class="h1" id="nomor-register"></p>
-      </div>
-      <div class="text-center mb-5">
-         <div class="multisteps-form__progress">
-            <div class="multisteps-form__progress-btn" id="poin-satu">Proses<br>Pendaftaran <span class="badge d-inline-block badge-bottom" id="status-poin-satu"></span></div>
-            <div class="multisteps-form__progress-btn" id="poin-dua">Proses<br>Persetujuan <span class="badge d-inline-block badge-bottom" id="status-poin-dua"></span></div>
-            <div class="multisteps-form__progress-btn" id="poin-lima">Proses<br>Konfirmasi <span class="badge d-inline-block badge-bottom" id="status-poin-lima"></span></div>
-            <div class="multisteps-form__progress-btn" id="poin-tiga">Proses<br>Pembayaran <span class="badge d-inline-block badge-bottom" id="status-poin-tiga"></span></div>
-            <div class="multisteps-form__progress-btn" id="poin-empat">Proses<br>Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
-         </div>
-      </div>
-      <div class="alert alert-warning h4" role="alert" style="display: flex; align-items: middle" id="div-revision-alert">
-         <i class="ti ti-info-circle mx-2" style="font-size: 1.5rem; font-weight: 900; flex-shrink: 0;"></i>
-         <span id="revision-alert" style="flex: 1;"></span>
       </div>
       <div class="card bg-light my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
          <div class="card-body">
@@ -406,39 +385,8 @@
          </div>
       </div>
    </div>
-   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
-      <div class="card bg-light my-5" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-         <div class="card-body d-flex justify-content-between">
-            <div>
-               <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-log" id="btn_log">
-               <i class="ti ti-eye me-1"></i> Log Status
-               </button>
-            </div>
-            <div class="modal fade" id="modal-log">
-               <div class="modal-dialog">
-                  <div class="modal-content">
-                     <div class="modal-header bg-success">
-                        <h4 class="modal-title" style=" color: #fff;">Log Status</h4>
-                     </div>
-                     <div class="modal-body task-card">
-                        <ul class="list-unstyled task-list" id="list-log">
-                        </ul>
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger pull-right" data-bs-dismiss="modal">Tutup</button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
 </div>
 @endsection
-@push('levelPluginsJsh')
-<!-- custom css for multistep -->
-<link rel="stylesheet" href="{{ asset('assets/css/multistep.css?v=2') }}" />
-@endpush
 @push('levelPluginsJs')
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
@@ -448,10 +396,6 @@
 <script src="{{ asset('assets/js/plugins/datepicker-full.min.js')}}"></script>
 <!-- input mask -->
 <script src="{{ asset('assets/js/plugins/jquery.inputmask.bundle.min.js')}}"></script>
-<script>
-   // Pass to JavaScript
-   window.reqId = @json($reqId);
-</script>
 {{-- custom js --}}
-@vite(['resources/js/v1/pi/update.js'])
+@vite(['resources/js/v1/pi/renewal.js', 'resources/js/v1/pi/count-message.js'])
 @endpush

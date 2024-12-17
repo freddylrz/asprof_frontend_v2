@@ -44,7 +44,7 @@
          <div class="navbar-wrapper">
             <div class="m-header">
                <a href="/dashboard" class="b-brand text-primary">
-                <img src="{{ asset('assets/images/tib-logo.svg') }}" alt="img" style="width: 100px;" />
+               <img src="{{ asset('assets/images/tib-logo.svg') }}" alt="img" style="width: 100px;" />
                </a>
             </div>
             <div class="navbar-content">
@@ -60,32 +60,32 @@
                   </li>
                   <li class="pc-item">
                      <a href="/dashboard" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-list"></i>
-                        <span class="pc-mtext">Data Kepesertaan</span>
+                     <i class="ti ti-list"></i>
+                     <span class="pc-mtext">Data Kepesertaan</span>
                      </a>
                   </li>
                   <li class="pc-item pc-hasmenu">
-                      <a href="#!" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-shield-check"></i>
-                          <span class="pc-mtext">Klaim</span>
-                          <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                      </a>
-                      <ul class="pc-submenu">
-                          <li class="pc-item"><a class="pc-link" href="/klaim/input" style="font-size: 16px">Input Klaim</a></li>
-                          <li class="pc-item"><a class="pc-link" href="/klaim/data" style="font-size: 16px">Data Klaim</a></li>
-                      </ul>
+                     <a href="#!" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-shield-check"></i>
+                     <span class="pc-mtext">Klaim</span>
+                     <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                     </a>
+                     <ul class="pc-submenu">
+                        <li class="pc-item"><a class="pc-link" href="/klaim/input" style="font-size: 16px">Input Klaim</a></li>
+                        <li class="pc-item"><a class="pc-link" href="/klaim/data" style="font-size: 16px">Data Klaim</a></li>
+                     </ul>
                   </li>
                   <li class="pc-item">
                      <a href="/riwayat-polis" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-report-money"></i>
-                        <span class="pc-mtext">Riwayat Polis</span>
+                     <i class="ti ti-report-money"></i>
+                     <span class="pc-mtext">Riwayat Polis</span>
                      </a>
                   </li>
                   <li class="pc-item">
                      <a href="/chat" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-messages"></i>
-                        <span class="pc-mtext">Chat</span>
-                        <span class="pc-badge bg-danger d-none">0</span>
+                     <i class="ti ti-messages"></i>
+                     <span class="pc-mtext">Chat</span>
+                     <span class="pc-badge bg-danger d-none">0</span>
                      </a>
                   </li>
                </ul>
@@ -93,66 +93,67 @@
          </div>
       </nav>
       <!-- [ Sidebar Menu ] end -->
-
-<!-- [ Sidebar Menu ] end -->
- <!-- [ Header Topbar ] start -->
-<header class="pc-header">
-    <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
-  <div class="me-auto pc-mob-drp">
-    <ul class="list-unstyled">
-      <!-- ======= Menu collapse Icon ===== -->
-      <li class="pc-h-item pc-sidebar-collapse">
-        <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
-          <i class="ti ti-menu-2"></i>
-        </a>
-      </li>
-      <li class="pc-h-item pc-sidebar-popup">
-        <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
-          <i class="ti ti-menu-2"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <!-- [Mobile Media Block end] -->
-  <div class="ms-auto">
-    <ul class="list-unstyled">
-      <li class="dropdown pc-h-item header-user-profile">
-        <a
-          class="dropdown-toggle arrow-none me-0 btn btn-icon btn-lg btn-light-dark"
-          style="border: 2px solid #505050"
-          data-bs-toggle="dropdown"
-          href="#"
-          role="button"
-          aria-haspopup="false"
-          data-bs-auto-close="outside"
-          aria-expanded="false"
-        >
-            <i class="ti ti-user" style="font-size: 28px"></i>
-        </a>
-        <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-          <div class="dropdown-body">
-            <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 225px)">
-              <div class="d-flex mb-1">
-                <div class="flex-grow-1">
-                  <h6 class="mb-1 name"></h6>
-                </div>
-              </div>
-              <hr class="border-secondary border-opacity-50" />
-              <div class="d-grid">
-                <button class="btn btn-danger" id="logout-button">
-                  <svg class="pc-icon me-2">
-                    <use xlink:href="#custom-logout-1-outline"></use></svg>Logout
-                </button>
-              </div>
+      <!-- [ Header Topbar ] start -->
+      <header class="pc-header">
+         <div class="header-wrapper">
+            <!-- [Mobile Media Block] start -->
+            <div class="me-auto pc-mob-drp">
+               <ul class="list-unstyled">
+                  <!-- ======= Menu collapse Icon ===== -->
+                  <li class="pc-h-item pc-sidebar-collapse">
+                     <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
+                     <i class="ti ti-menu-2"></i>
+                     </a>
+                  </li>
+                  <li class="pc-h-item pc-sidebar-popup">
+                     <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
+                     <i class="ti ti-menu-2"></i>
+                     </a>
+                  </li>
+               </ul>
             </div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-   </div>
-  </header>
-  <!-- [ Header ] end -->
+            <!-- [Mobile Media Block end] -->
+            <div class="ms-auto">
+               <ul class="list-unstyled">
+                  <li class="dropdown pc-h-item header-user-profile">
+                     <a
+                        class="dropdown-toggle arrow-none me-0 btn btn-icon btn-lg btn-light-dark"
+                        style="border: 2px solid #505050"
+                        data-bs-toggle="dropdown"
+                        href="#"
+                        role="button"
+                        aria-haspopup="false"
+                        data-bs-auto-close="outside"
+                        aria-expanded="false"
+                        >
+                     <i class="ti ti-user" style="font-size: 28px"></i>
+                     </a>
+                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
+                        <div class="dropdown-body">
+                           <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 225px)">
+                              <div class="d-flex mb-1">
+                                 <div class="flex-grow-1">
+                                    <h6 class="mb-1 name"></h6>
+                                 </div>
+                              </div>
+                              <hr class="border-secondary border-opacity-50" />
+                              <div class="d-grid">
+                                 <button class="btn btn-danger" id="logout-button">
+                                    <svg class="pc-icon me-2">
+                                       <use xlink:href="#custom-logout-1-outline"></use>
+                                    </svg>
+                                    Logout
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </header>
+      <!-- [ Header ] end -->
       <!-- [ Main Content ] start -->
       <div class="pc-container">
          <div class="pc-content">
@@ -187,27 +188,27 @@
       <!-- END PAGE LEVEL SCRIPTS -->
       <!-- [Page Specific JS] end -->
       <script>
-        // const apiUrl = 'https://pi-admin.tib.co.id';
-        const apiUrl = 'http://asprof_backend_v2.local.test';
-        // const apiUrl = `http://localhost:8000`;
+         // const apiUrl = 'https://pi-admin.tib.co.id';
+         const apiUrl = 'http://asprof_backend_v2.local.test';
+         // const apiUrl = `http://localhost:8000`;
 
-        // Function to get a cookie by name
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-        }
+         // Function to get a cookie by name
+         function getCookie(name) {
+             const value = `; ${document.cookie}`;
+             const parts = value.split(`; ${name}=`);
+             if (parts.length === 2) return parts.pop().split(';').shift();
+             return null;
+         }
 
-        // Retrieve and parse user_info
-        const userInfoCookie = getCookie('user_info');
-        let userInfo = null;
+         // Retrieve and parse user_info
+         const userInfoCookie = getCookie('user_info');
+         let userInfo = null;
 
-        if (userInfoCookie) {
-            userInfo = JSON.parse(userInfoCookie);
-            $('.name').text(userInfo.user_name);
-        }
-    </script>
-    @vite(['resources/js/v1/pi/logout.js'])
+         if (userInfoCookie) {
+             userInfo = JSON.parse(userInfoCookie);
+             $('.name').text(userInfo.user_name);
+         }
+      </script>
+      @vite(['resources/js/v1/pi/logout.js'])
    </body>
 </html>

@@ -8,6 +8,7 @@ var kategoriProfesiId;
 var profesiId;
 var daerahPenerbitId;
 var insuranceId;
+var requestId;
 
 function change_tab(tab_name) {
     var $someTabTriggerEl = $('a[href="' + tab_name + '"]');
@@ -46,9 +47,6 @@ $(document).ready(function() {
         placeholder: ""
       });
 
-    // Get reqId from the global variable
-    var reqId = window.reqId;
-
     // Get today's date
     const today = new Date();
 
@@ -84,8 +82,8 @@ $(document).ready(function() {
         minDate: today
     });
 
-    // Call the function with the reqId
-    executeFunctions(reqId);
+    renderTable();  // Assuming renderTable doesn't need to be awaited
+    getDataDetail();
 
     tenagaMedisRadio.prop("checked", true);
 
@@ -136,8 +134,7 @@ $(document).ready(function() {
     });
 
     $('.btntambahTempatPraktik').on('click', function() {
-        // for input
-        $('#tambahTempatPraktikTitle').text('Tambah Surat Izin Praktik')
+        $('#tambahTempatPraktikTitle').text('Tambah Surat Izin Praktik');
         clearInputFields();
         $('#saveChanges').removeData('id'); // Clear the data-id attribute
         $('#saveChanges').data('action', 'add');
@@ -145,7 +142,7 @@ $(document).ready(function() {
     });
 
     // Handle save changes button click
-    $('#saveChanges').on('click', function() {
+    $('#saveChanges').on('click', function () {
         const saveChanges = $(this);
         saveChanges.data('original-text', saveChanges.html());
         setLoading(saveChanges, true);
@@ -159,238 +156,93 @@ $(document).ready(function() {
         const daerahPenerbitSIP = $('#daerah-penerbit-sip option:selected').text();
         const tempat = $('#tempat-praktik').val();
         const namaPenerbitSIP = $('#nama-penerbit-sip').val();
-        const unggahSIP = $('#unggah-sip').prop('files')[0];
+        const unggahSIPFile = $('#unggah-sip').prop('files')[0];
 
         if (nomorSIP && periodeAwalSIP && periodeAkhirSIP && daerahPenerbitSIP_id && tempat) {
-            if (action === 'add') {
-                // Validate if nomorSIP is already in use
-                for (const key in tempatPraktikDetails) {
-                    if (tempatPraktikDetails.hasOwnProperty(key) && tempatPraktikDetails[key].nomorSIP === nomorSIP && key !== id) {
-                        setLoading(saveChanges, false);
-                        Swal.fire({
-                            icon: "error",
-                            text: "Nomor SIP sudah digunakan. Harap gunakan nomor SIP yang berbeda.",
-                            allowOutsideClick: false,
-                        });
-                        return;
-                    }
-                }
-
-                if (daerahPenerbitSIP_id === "0") {
-                    if (!namaPenerbitSIP) {
-                        setLoading(saveChanges, false);
-                        Swal.fire({
-                            icon: "error",
-                            text: "Harap isi Nama Penerbit SIP terlebih dahulu",
-                            allowOutsideClick: false,
-                        });
-                        return false;
-                    }
-                }
-
-                // Prepare FormData for the API call
-                const formData = new FormData();
-                formData.append('reqId', reqId);
-                formData.append('sip_no', nomorSIP);
-                formData.append('sip_date_start', periodeAwalSIP);
-                formData.append('sip_date_end', periodeAkhirSIP);
-                formData.append('tempat_praktik', tempat);
-                formData.append('sip_penerbit', daerahPenerbitSIP_id);
-                formData.append('fileInputSIP', unggahSIP);
-                formData.append('tempat_praktik_id', '0');
-
-                // API call using AJAX
-                $.ajax({
-                    async: true,
-                    crossDomain: true,
-                    url: `${apiUrl}/api/client/request/insertSip`,
-                    method: "POST",
-                    processData: false,
-                    contentType: false,
-                    mimeType: "multipart/form-data",
-                    data: formData
-                }).done(async function(response) {
-                    const data = JSON.parse(response);
-                    if (data.status == 200) {
-                        // Update tempatPraktikDetails with the API response
-                        const sipData = data.data.sip;
-                        const documentData = data.data.document;
-
-                        tempatPraktikDetails = {}; // Clear existing data
-
-                        sipData.forEach(item => {
-                            // Find the corresponding document for the SIP
-                            const sipDocument = documentData.find(doc => doc.tempat_praktik_id === item.id && doc.file_type === 3);
-
-                            // Populate tempatPraktikDetails
-                            tempatPraktikDetails[item.id] = {
-                                nomorSIP: item.sip_no,
-                                periodeAwalSIP: item.sip_date_start,
-                                periodeAkhirSIP: item.sip_date_end,
-                                daerahPenerbitSIP_id: item.kota_id,
-                                daerahPenerbitSIP: item.sip_penerbit,
-                                tempat: item.tempat_praktik,
-                                unggahSIP: sipDocument ? sipDocument.link : '', // Assign link if document exists, otherwise empty
-                            };
-                        });
-
-                        renderTable();
-                        $('#tambahTempatPraktik').modal('hide');
-                        clearInputFields();
-
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: data.message,
-                            showConfirmButton: false,
-                            allowOutsideClick: false,
-                        });
-                    }
-                    setLoading(saveChanges, false);
-                }).fail(function(error) {
-                    let data;
-                    try {
-                        // Attempt to parse the error response as JSON
-                        data = JSON.parse(error.responseText);
-                    } catch (e) {
-                        // If parsing fails, use a default error message
-                        data = { message: 'An unexpected error occurred' };
-                    }
-
-                    // Ensure data.message exists
-                    const message = data.message || 'An unexpected error occurred';
-
+            // Validate if nomorSIP is already in use
+            for (const key in tempatPraktikDetails) {
+                if (tempatPraktikDetails.hasOwnProperty(key) && tempatPraktikDetails[key].nomorSIP === nomorSIP && key !== id) {
                     Swal.fire({
-                        icon: 'error',
-                        text: message,
-                        showConfirmButton: true,
+                        icon: "error",
+                        text: "Nomor SIP sudah digunakan. Harap gunakan nomor SIP yang berbeda.",
                         allowOutsideClick: false,
                     });
-                    setLoading(saveChanges, false);
-                });
-
-            } else if (action === 'edit') {
-                // Validate if nomorSIP is already in use
-                for (const key in tempatPraktikDetails) {
-                    if (tempatPraktikDetails.hasOwnProperty(key) && tempatPraktikDetails[key].nomorSIP === nomorSIP && key !== id) {
-                        setLoading(saveChanges, false);
-                        Swal.fire({
-                            icon: "error",
-                            text: "Nomor SIP sudah digunakan. Harap gunakan nomor SIP yang berbeda.",
-                            allowOutsideClick: false,
-                        });
-                        return;
-                    }
+                    return;
                 }
-
-                if (daerahPenerbitSIP_id === "0") {
-                    if (!namaPenerbitSIP) {
-                        setLoading(saveChanges, false);
-                        Swal.fire({
-                            icon: "error",
-                            text: "Harap isi Nama Penerbit SIP terlebih dahulu",
-                            allowOutsideClick: false,
-                        });
-                        return false;
-                    }
-                }
-
-                // Prepare FormData for the update API call
-                const formData = new FormData();
-                formData.append('reqId', reqId);
-                formData.append('sip_no', nomorSIP);
-                formData.append('sip_date_start', periodeAwalSIP);
-                formData.append('sip_date_end', periodeAkhirSIP);
-                formData.append('tempat_praktik', tempat);
-                formData.append('sip_penerbit', daerahPenerbitSIP_id);
-                formData.append('fileInputSIP', unggahSIP);
-                formData.append('tempat_praktik_id', id);
-
-                // API call using AJAX for updating existing entry
-                $.ajax({
-                    async: true,
-                    crossDomain: true,
-                    url: `${apiUrl}/api/client/request/updateSip`,
-                    method: "POST",
-                    processData: false,
-                    contentType: false,
-                    mimeType: "multipart/form-data",
-                    data: formData
-                }).done(async function(response) {
-                    const data = JSON.parse(response);
-                    if (data.status == 200) {
-                        // Update tempatPraktikDetails with the API response
-                        const sipData = data.data.sip;
-                        const documentData = data.data.document;
-
-                        tempatPraktikDetails = {}; // Clear existing data
-
-                        sipData.forEach(item => {
-                            // Find the corresponding document for the SIP
-                            const sipDocument = documentData.find(doc => doc.tempat_praktik_id === item.id && doc.file_type === 3);
-
-                            // Populate tempatPraktikDetails
-                            tempatPraktikDetails[item.id] = {
-                                nomorSIP: item.sip_no,
-                                periodeAwalSIP: item.sip_date_start,
-                                periodeAkhirSIP: item.sip_date_end,
-                                daerahPenerbitSIP_id: item.kota_id,
-                                daerahPenerbitSIP: item.sip_penerbit,
-                                tempat: item.tempat_praktik,
-                                unggahSIP: sipDocument ? sipDocument.link : '', // Assign link if document exists, otherwise empty
-                            };
-                        });
-
-                        renderTable();
-                        $('#tambahTempatPraktik').modal('hide');
-                        clearInputFields();
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: data.message,
-                            showConfirmButton: false,
-                            allowOutsideClick: false,
-                        });
-                    }
-                    setLoading(saveChanges, false);
-                }).fail(function(error) {
-                    let data;
-                    try {
-                        // Attempt to parse the error response as JSON
-                        data = JSON.parse(error.responseText);
-                    } catch (e) {
-                        // If parsing fails, use a default error message
-                        data = { message: 'An unexpected error occurred' };
-                    }
-
-                    // Ensure data.message exists
-                    const message = data.message || 'An unexpected error occurred';
-
-                    Swal.fire({
-                        icon: 'error',
-                        text: message,
-                        showConfirmButton: true,
-                        allowOutsideClick: false,
-                    });
-                    setLoading(saveChanges, false);
-                });
             }
+
+            if (daerahPenerbitSIP_id === "0" && !namaPenerbitSIP) {
+                Swal.fire({
+                    icon: "error",
+                    text: "Harap isi Nama Penerbit SIP terlebih dahulu.",
+                    allowOutsideClick: false,
+                });
+                return;
+            }
+
+            // If action is "add" and a file is uploaded
+            if (action === 'add') {
+                if (unggahSIPFile) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const base64String = e.target.result; // Base64 string of the file
+
+                        // Generate a unique ID for the new entry
+                        const newId = Date.now().toString();
+
+                        // Add new entry to tempatPraktikDetails
+                        tempatPraktikDetails[newId] = {
+                            nomorSIP,
+                            periodeAwalSIP,
+                            periodeAkhirSIP,
+                            daerahPenerbitSIP_id,
+                            daerahPenerbitSIP,
+                            tempat,
+                            unggahSIP: base64String, // Assign the Base64 string here
+                        };
+
+                        renderTable();
+                        $('#tambahTempatPraktik').modal('hide');
+                        clearInputFields();
+                    };
+                    reader.readAsDataURL(unggahSIPFile); // Convert file to Base64
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        text: "Harap unggah file Surat Izin Praktik.",
+                        allowOutsideClick: false,
+                    });
+                }
+            } else if (action === 'edit' && id) {
+            tempatPraktikDetails[id] = {
+                nomorSIP,
+                periodeAwalSIP,
+                periodeAkhirSIP,
+                daerahPenerbitSIP_id,
+                daerahPenerbitSIP,
+                tempat,
+                unggahSIP: tempatPraktikDetails[id].unggahSIP || '', // Retain existing link
+            };
+        }
+
+        renderTable();
+        $('#tambahTempatPraktik').modal('hide');
+        clearInputFields();
+        setLoading(saveChanges, false);
         } else {
-            setLoading(saveChanges, false);
             Swal.fire({
                 icon: "error",
                 text: "Anda harus mengisi semua data!",
                 allowOutsideClick: false,
             });
-            return;
         }
     });
 
-    // Delegate click event to dynamically created delete buttons
+
+    // Handle delete row click
     $('#accordionFlushExample').on('click', '.delete-row', function() {
         const rowId = $(this).data('id');
 
-        // Show confirmation dialog before deletion
         Swal.fire({
             title: 'Apakah Anda yakin?',
             text: "Anda tidak akan dapat mengembalikan data ini!",
@@ -402,54 +254,25 @@ $(document).ready(function() {
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Call API to delete the entry
-                $.ajax({
-                    url: `${apiUrl}/api/client/request/delete-tempat-praktik?id=${rowId}`,
-                    method: "POST",
-                    contentType: "application/json",
-                    success: function(response) {
-                        if (response.status === 200) {
-                            // Delete from tempatPraktikDetails after successful API call
-                            delete tempatPraktikDetails[rowId];
-                            renderTable();
+                delete tempatPraktikDetails[rowId];
+                renderTable();
 
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: 'Data berhasil dihapus!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: response.message || 'Gagal menghapus data.',
-                                showConfirmButton: true,
-                                allowOutsideClick: false,
-                            });
-                        }
-                    },
-                    error: function(error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Terjadi Kesalahan',
-                            text: 'Gagal menghapus data. Silakan coba lagi.',
-                            showConfirmButton: true,
-                            allowOutsideClick: false,
-                        });
-                    }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Data berhasil dihapus!',
+                    showConfirmButton: false,
+                    timer: 1500
                 });
             }
         });
     });
 
-    // Delegate click event to dynamically created edit buttons
+    // Handle edit row click
     $('#accordionFlushExample').on('click', '.edit-detail', function() {
         const rowId = $(this).data('id');
         const detail = tempatPraktikDetails[rowId];
 
-        // Pre-fill the modal form with the existing details
         $('#nomor-sip').val(detail.nomorSIP);
         $('#periode-awal-sip').val(detail.periodeAwalSIP);
         $('#periode-akhir-sip').val(detail.periodeAkhirSIP);
@@ -457,19 +280,18 @@ $(document).ready(function() {
         $('#tempat-praktik').val(detail.tempat);
 
         if (detail.daerahPenerbitSIP_id === "0") {
-           $('#div-nama-penerbit').show();
-           $('#nama-penerbit-sip').val(detail.namaPenerbitSIP);
+            $('#div-nama-penerbit').show();
+            $('#nama-penerbit-sip').val(detail.namaPenerbitSIP);
         } else {
-           $('#div-nama-penerbit').hide();
-           $('#nama-penerbit-sip').val("");
+            $('#div-nama-penerbit').hide();
+            $('#nama-penerbit-sip').val("");
         }
-        // Note: File input cannot be pre-filled for security reasons
 
-        // Change modal title and set action to edit
         $('#tambahTempatPraktikTitle').text('Edit Surat Izin Praktik');
         $('#saveChanges').data('action', 'edit').data('id', rowId);
         $('#tambahTempatPraktik').modal('show');
     });
+
 
 
     $('input[type="file"]').change(function() {
@@ -499,7 +321,7 @@ $(document).ready(function() {
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    handleupdateData(reqId)
+                    handleupdateData()
                 } else if (result.isDenied) {
                     return Swal.fire({
                         icon: 'error',
@@ -533,16 +355,7 @@ function clearInputFields() {
     $('#saveChanges').removeData('id');
 }
 
-async function executeFunctions(reqId) {
-    if (reqId !== null && reqId !== undefined) {
-        renderTable();  // Assuming renderTable doesn't need to be awaited
-        await getDataDetail(reqId);
-    } else {
-        window.location.href = '/pendaftaran';
-    }
-}
-
-function getDataDetail(reqId) {
+function getDataDetail() {
     return new Promise((resolve, reject) => {
     Swal.fire({
         icon: "info",
@@ -551,24 +364,22 @@ function getDataDetail(reqId) {
         allowOutsideClick: false,
     });
 
+    // Get the token safely
+    const cookie = document.cookie.split('; ').find(row => row.startsWith('piat='));
+    const token = cookie ? cookie.split('=')[1] : null;
+
     $.ajax({
-        "url": `${apiUrl}/api/client/request/detail`,
+        "url": `${apiUrl}/api/client/renewal/get-data`,
         "method": "GET",
         "timeout": 0,
-        "data": {
-            "reqId": reqId
+        "headers": {
+            "Authorization": `Bearer ${token}`
         },
     }).done(async function(responses) {
         var response = await decryptData(responses.data)
-        let shouldRedirect = false;
+        console.log(response);
         var statusId;
         $.each(response['data'], function(j, item) {
-
-            if (item.status_id != 3 && item.status_id != 8) {
-                shouldRedirect = true;
-                return false; // Break the loop
-            }
-
             id = item.id
             profesiId = item.profesi_id
             kategoriProfesiId = item.profesi_kategori_id
@@ -576,6 +387,7 @@ function getDataDetail(reqId) {
             daerahPenerbitId = item.sip_penerbit
             statusId = item.status_id;
             insuranceId = item.ins_id;
+            requestId = item.id;
 
             $('#nomor-register').html(item.register_no)
             $('#nama').val(item.nama)
@@ -704,8 +516,8 @@ function getDataDetail(reqId) {
                         },
                         {
                             id: '#status-poin-lima',
-                            class: 'bg-light-success border border-success',
-                            text: 'Selesai'
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
                         },
                         {
                             id: '#poin-satu',
@@ -751,8 +563,8 @@ function getDataDetail(reqId) {
                         },
                         {
                             id: '#status-poin-lima',
-                            class: 'bg-light-success border border-success',
-                            text: 'Selesai'
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
                         },
                         {
                             id: '#poin-satu',
@@ -903,11 +715,6 @@ function getDataDetail(reqId) {
         await getDataKota();
 
         $('#daerah-penerbit-sip').val(daerahPenerbitId).change();
-
-        if (shouldRedirect) {
-            window.location.href = `/detail/${reqId}`;
-            return;
-        }
 
         $('#list-log').html('')
         $.each(response['log'], function(j, item) {
@@ -1193,7 +1000,7 @@ function getBiayaKepesertaan(ins_id) {
         $('#biaya-kepesertaan').empty();
 
         // Determine the column class based on the number of items
-        let colClass = response.data.length % 2 === 0 ? 'col-xl-3' : 'col-xl-4';
+        let colClass = response.data.length === 2 ? 'col-xl-6' : (response.data.length % 2 === 0 ? 'col-xl-3' : 'col-xl-4');
 
         // Populate planDetails object with response data
         $.each(response.data, function(i, item) {
@@ -1304,7 +1111,7 @@ function getDataKota() {
 }
 
 
-async function handleupdateData(reqId) {
+async function handleupdateData() {
     Swal.fire({
         icon: "info",
         text: "loading",
@@ -1363,7 +1170,6 @@ async function handleupdateData(reqId) {
     nomorDarurat = (nomorDarurat === '-' ? null : nomorDarurat);
 
     const formData = {
-        reqId: reqId,
         nama: $('#nama').val(),
         nik: $('#nik').val(),
         tempat_lahir: $('#tempat-lahir').val(),
@@ -1383,6 +1189,13 @@ async function handleupdateData(reqId) {
         str_date_end: $('#status-str').is(':checked') ? "" : $('#periode-akhir-str').val(),
         ins_id: $('input[name="asuransi"]:checked').val(),
         plan_id: $('input[name="plan"]:checked').val(),
+        sip_no: [],
+        sip_date_start: [],
+        sip_date_end: [],
+        sip_penerbit: [],
+        sip_penerbit_desc: [],
+        tempat_praktik: [],
+        fileInputSIP: [],
     };
 
     async function fileToBase64(file) {
@@ -1404,21 +1217,42 @@ async function handleupdateData(reqId) {
         formData[fileInput.formKey] = fileElement ? await fileToBase64(fileElement) : "";
     }));
 
+    console.log(tempatPraktikDetails);
+
+    await Promise.all(
+        Object.values(tempatPraktikDetails).map(async (detail, index) => {
+            formData.sip_no.push(detail.nomorSIP);
+            formData.sip_date_start.push(detail.periodeAwalSIP);
+            formData.sip_date_end.push(detail.periodeAkhirSIP);
+            formData.sip_penerbit.push(detail.daerahPenerbitSIP_id);
+            formData.sip_penerbit_desc.push(detail.daerahPenerbitSIP_id === "0" ? detail.namaPenerbitSIP : "0");
+            formData.tempat_praktik.push(detail.tempat);
+            formData.fileInputSIP.push(detail.unggahSIP ? detail.unggahSIP : null);
+        })
+    );
+
     const formDataString = JSON.stringify(formData);
+
+    console.log(formDataString);
     const encryptedData = await encryptData(formDataString);
 
     const form = new FormData();
     form.append("data", encryptedData);
+    // Get the token safely
+    const cookie = document.cookie.split('; ').find(row => row.startsWith('piat='));
+    const token = cookie ? cookie.split('=')[1] : null;
 
     $.ajax({
         async: true,
-        crossDomain: true,
-        url: `${apiUrl}/api/client/request/update`,
+        url: `${apiUrl}/api/client/renewal/insert`,
         method: "POST",
         processData: false,
         contentType: false,
         mimeType: "multipart/form-data",
-        data: form
+        data: form,
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
     })
     .done(async function (responses) {
         const response = JSON.parse(responses);

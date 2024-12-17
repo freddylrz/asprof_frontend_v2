@@ -69,9 +69,8 @@ Route::get('/hubungi-kami', function () {
     return view('v1.hubungi-kami');
 });
 
-
 Route::get('/pendaftaran', function () {
-    return view('v1.register-soon');
+    return view('v1.register');
 });
 
 Route::get('/detail/{reqId}', function ($reqId) {
@@ -94,6 +93,9 @@ Route::middleware([CheckPiat::class])->group(function () {
     });
     Route::get('/chat', function () {
         return view('v1.dashboard.chat');
+    });
+    Route::get('/renewal', function () {
+        return view('v1.dashboard.renewal');
     });
 
     Route::group(['prefix' => 'klaim', 'as' => 'klaim.'], function () {

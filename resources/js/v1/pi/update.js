@@ -704,8 +704,8 @@ function getDataDetail(reqId) {
                         },
                         {
                             id: '#status-poin-lima',
-                            class: 'bg-light-danger border border-danger',
-                            text: 'Belum Mulai'
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
                         },
                         {
                             id: '#poin-satu',
@@ -751,8 +751,8 @@ function getDataDetail(reqId) {
                         },
                         {
                             id: '#status-poin-lima',
-                            class: 'bg-light-danger border border-danger',
-                            text: 'Belum Mulai'
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
                         },
                         {
                             id: '#poin-satu',

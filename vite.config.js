@@ -13,6 +13,7 @@ const inputFiles = [
     'resources/js/v1/pi/dashboard.js',
     'resources/js/v1/pi/chat.js',
     'resources/js/v1/pi/renewal.js',
+    'resources/js/v1/pi/count-message.js',
 
     'resources/js/v1/admin/login.js',
     'resources/js/v1/admin/list.js',

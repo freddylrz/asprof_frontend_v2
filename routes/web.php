@@ -70,7 +70,7 @@ Route::get('/hubungi-kami', function () {
 });
 
 Route::get('/pendaftaran', function () {
-    return view('v1.register-soon');
+    return view('v1.register');
 });
 
 Route::get('/detail/{reqId}', function ($reqId) {

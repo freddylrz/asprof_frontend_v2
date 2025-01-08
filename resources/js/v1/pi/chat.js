@@ -177,7 +177,7 @@ window.onload = function() {
     const channel = window.Echo.channel(`medikolegal-channel.${userInfo.user_id}`);
 
     channel.listen('.message.sent', function(data) {
-        // console.log(data);
+        console.log(data);
 
         // Push new message to the chat container
         let chatContainer = document.getElementById('chat-container');

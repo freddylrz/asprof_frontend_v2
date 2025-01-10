@@ -9,13 +9,65 @@ let searchParams = new URLSearchParams(window.location.search)
 var batchId = searchParams.get('batchId')
 $(document).ready(async function () {
     token = await getAccessTokenFromCookies();
-
+    getDataInsurance();
     getData();
+
+    const data = {
+        dokter: [
+          "Dokter",
+          "Dokter Spesialis",
+          "Dokter Subspesialis",
+          "Dokter Gigi",
+          "Dokter Gigi Spesialis",
+          "Dokter Gigi Subspesialis"
+        ],
+        tenaga: [
+          "Tenaga Psikologi Klinis",
+          "Tenaga Keperawatan",
+          "Tenaga Kebidanan",
+          "Tenaga Kefarmasian",
+          "Tenaga Kesehatan Masyarakat",
+          "Tenaga Kesehatan Lingkungan",
+          "Tenaga Gizi",
+          "Tenaga Keterapian Fisik",
+          "Tenaga Keteknisian Medis",
+          "Tenaga Teknik Biomedika",
+          "Tenaga Kesehatan Tradisional",
+          "Tenaga Kesehatan Lain Yang Ditetapkan Oleh Menteri"
+        ]
+      };
+
 });
 
 $('#cari').on('click', function () {
     getData()
 })
+
+function getDataInsurance() {
+    Swal.fire({
+        icon: "info",
+        text: "loading",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
+
+    $.ajax({
+        url: `${base_url}/api/client-admin/request/asset`,
+        method: "GET",
+        "headers": {
+            "Authorization": "Bearer " + token
+        },
+    }).done(async function (responses) {
+        var response = await decryptData(responses['data'])
+        $.each(response['list'], function (j, item) {
+            $('#insId').append(
+                `<option value="${item.id}">${item.nama_perusahaan}</option>
+                `
+            )
+        });
+
+    })
+}
 
 function getData() {
     $.ajax({
@@ -30,13 +82,24 @@ function getData() {
         }
     }).done(async function (responses) {
         var response = await decryptData(responses['data'])
-        var status = response['batch'][0]['request_status_id']
+        var statusId = response['batch'][0]['request_status_id']
 
         console.log(response)
+        $('#batchId').html(response['batch'][0]['batchId'])
         if ($.fn.DataTable.isDataTable('#table')) {
             $('#table').DataTable().clear().destroy(); // Bersihkan dan hancurkan instance DataTable
         }
-        if (status == 7) {
+        if (statusId == 0 || statusId == 3){
+            $('#btnAdd').show()
+            $('#btnSub').show()
+            if(statusId == 3)
+                $('#btnDel').show();
+        }
+        if (statusId == 7) {
+            $('#btnSub').show()
+            $('#btnSub').attr('data-stat', 2);
+
+            $('#btnDel').show()
             $('#table').find('thead').remove();
             $('#table').html(`
             <thead>
@@ -51,7 +114,7 @@ function getData() {
                     <th>Sum Insured</th>
                     <th id="colCheckbox">
                         <div class="form-inline">
-                            <input style="vertical-align: super; margin-right: 10px" type="checkbox" checked id="check" class="">
+                            <input style="vertical-align: super; margin-right: 10px" type="checkbox" name="check" checked id="check" class="">
                             <label for="check">Select All /<br>Deselect All</label>
                         </div>
                     </th>
@@ -78,7 +141,7 @@ function getData() {
         ];
 
 // Tambahkan kolom checkbox hanya jika status == 7
-        if (status == 7) {
+        if (statusId == 7) {
             columns.push({
                 "data": "reqId",
                 className: "text-center",
@@ -125,27 +188,226 @@ function getData() {
             "columns": columns, // Gunakan kolom yang sudah didefinisikan secara dinamis
         });
 
-
         $('#table_log').empty()
-        $.each(response['batch'], function (j, item) {
+        $.each(response['log'], function (j, item) {
             $('#list-log').append(`
                                 <li>
                                 <i class="feather icon-check f-w-600 task-icon bg-success"></i>
                                 <p class="m-b-5">${item.created_at}</p>
                                 <h5 class="text-muted">
-                                    ${item.status_desc}</h5>
+                                    ${item.statusDesc}</h5>
                                 <h6 style="color: darkgrey">${item.description}</h6>
                                 </li>
                         `)
             $('#table_log').append(`
                             <tr>
                                 <td style="font-size: 18px">${j + 1}</td>
-                                <td style="font-size: 18px">${item.status_desc}</td>
+                                <td style="font-size: 18px">${item.statusDesc}</td>
                                 <td style="font-size: 18px">${item.description}</td>
                                 <td style="font-size: 18px">${item.created_at}</td>
                             </tr>
                         `)
         })
+
+        const getStatusesByStatusId = (statusId) => {
+            switch (statusId) {
+                case 1:
+                case 3:
+                    return [
+                        {
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Terbit'
+                        },
+                        {id: '#poin-satu', class: 'js-active'},
+                        {id: '#poin-dua', class: 'js-proses'},
+                    ];
+                case 4:
+                    return [
+                        {
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Terbit'
+                        },
+                        {id: '#poin-satu', class: 'js-active'},
+                        {id: '#poin-dua', class: 'js-proses'},
+                    ];
+                case 5:
+                    return [
+                        {
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-danger border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {id: '#poin-satu', class: 'js-active'},
+                        {id: '#poin-dua', class: 'js-active'},
+                        {id: '#poin-tiga', class: 'js-active'},
+                        {id: '#poin-empat', class: 'js-active'},
+                        {id: '#poin-lima', class: 'js-proses'},
+                    ];
+                case 6:
+                    return [
+                        {
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {id: '#poin-satu', class: 'js-active'},
+                        {id: '#poin-dua', class: 'js-active'},
+                        {id: '#poin-tiga', class: 'js-active'},
+                        {id: '#poin-empat', class: 'js-active'},
+                        {id: '#poin-lima', class: 'js-active'},
+                    ];
+                default:
+                    return [
+                        {
+                            id: '#status-poin-satu',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-dua',
+                            class: 'bg-light-success border border-success',
+                            text: 'Selesai'
+                        },
+                        {
+                            id: '#status-poin-tiga',
+                            class: 'bg-light-warning border border-warning',
+                            text: 'Dalam Proses'
+                        },
+                        {
+                            id: '#status-poin-empat',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Mulai'
+                        },
+                        {
+                            id: '#status-poin-lima',
+                            class: 'bg-light-danger border border-danger',
+                            text: 'Belum Terbit'
+                        },
+                        {id: '#poin-satu', class: 'js-active'},
+                        {id: '#poin-dua', class: 'js-active'},
+                        {id: '#poin-tiga', class: 'js-proses'},
+                    ];
+            }
+        };
+
+        const statuses = getStatusesByStatusId(statusId);
+
+        statuses.forEach(status => {
+            $(status.id).addClass(status.class).text(status.text);
+        });
+
+        $.each(response['profesi'], function (j, item) {
+            $('#tableProfesi').html(`
+                <tr>
+                    <th>${item.description}</th>
+                    <th>${item.total_participant}</th>
+                </tr>
+            `)
+        });
+        $('#tableSum').html(`
+            <tr>
+                <th>Total Participants</th>
+                <th>${response['summary'].total_participant}</th>
+            </tr>
+            <tr>
+                <th>Total Named</th>
+                <th>${response['summary'].total_named}</th>
+            </tr>
+            <tr>
+                <th>Total Nakes</th>
+                <th>${response['summary'].total_nakes}</th>
+            </tr>
+            <tr>
+                <th>Total Sum Insured</th>
+                <th>Rp. ${response['summary'].total_sum_insured}</th>
+            </tr>
+            <tr>
+                <th>Total Premi</th>
+                <th>Rp. ${response['summary'].total_premi}</th>
+            </tr>
+        `)
 
         Swal.close();
     })
@@ -222,68 +484,53 @@ function getDataDetail(reqId){
             $('#sip_date_start').html(item.sip_date_start)
             $('#sip_date_end').html(item.sip_date_end)
 
-            if (item.status_id == 1 || item.status_id == 4) {
-                $('#btn_rev').css('display', 'inline-block')
-                $('#btn_val').css('display', 'inline-block')
-            }
-            if (item.status_id >= 5) {
-                $('#btn_info').css('display', 'inline-block')
-                $('#invoice').css('display', 'inline-block')
-            }
-            if (item.status_id == 2) {
-                getStatusPayment()
-                $('#btn_stat_pembayaran').css('display', 'inline-block')
-                $('#invoice').css('display', 'inline-block')
-            }
-            if (item.status_id == 6) {
-                $('#btn_pol').css('display', 'inline-block')
-            }
+            if (response['praktik'] && response['praktik'].length > 0) {
+                $.each(response['praktik'], function (j, item) {
+                    $('#divSIP').append(`
+                        <div class="row mt-2" style="border: 1px solid #ddd; border-radius: 10px; padding-block: 10px; margin-inline: 7px">
+                            <div class="col-md-6 col-10 d-flex align-items-center">
+                                <p class="mb-0">${j + 1}. SIP NO. ${item.sip_no}</p>
+                            </div>
+                            <div class="col-md-6 col-2 d-flex justify-content-end align-items-center">
+                                <button class="btn btn-primary btn-sm btnSIP" type="button" id="file_sip${item.id}" data-stat="2" data-id="${item.id}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `);
+                })
+            } else {
 
-        if (response['praktik'] && response['praktik'].length > 0) {
-            $.each(response['praktik'], function (j, item) {
-                $('#divSIP').append(`
-                    <div class="row mt-2" style="border: 1px solid #ddd; border-radius: 10px; padding-block: 10px; margin-inline: 7px">
-                        <div class="col-md-6 col-10 d-flex align-items-center">
-                            <p class="mb-0">${j + 1}. SIP NO. ${item.sip_no}</p>
-                        </div>
-                        <div class="col-md-6 col-2 d-flex justify-content-end align-items-center">
-                            <button class="btn btn-primary btn-sm btnSIP" type="button" id="file_sip${item.id}" data-stat="2" data-id="${item.id}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
+                $('#divSIP').html(`
+                    <div class="d-flex justify-content-center align-items-center" style="height: 150px; border: 1px solid #ddd; border-radius: 10px;">
+                        <p>Data tidak tersedia</p>
                     </div>
                 `);
-            })
-        } else {
-            $('#divSIP').html(`
-                <div class="d-flex justify-content-center align-items-center" style="height: 150px; border: 1px solid #ddd; border-radius: 10px;">
-                    <p>Data tidak tersedia</p>
-                </div>
-            `);
-        }
-
-        $.each(response['polis'], function (j, item) {
-            $('#btn_pol').attr('href', item.file_path)
-        })
-
-        $.each(response['document'], function (j, item) {
-            if (item.file_type == 1) {
-                $('#f_ktp').attr('href', item.link)
-                $('#f_ktp').html('<i class="fas fa-download"></i> Download KTP')
-                ktp = base_url.concat(`/${item.file_path}`)
-            } else if (item.file_type == 2) {
-                $('#f_str').attr('href', item.link)
-                $('#f_str').html('<i class="fas fa-eye"></i> Download STR')
-                str = base_url.concat(`/${item.file_path}`)
-            } else {
-                $('#f_sip').attr('href', item.link)
-                $('#f_sip').html('<i class="fas fa-eye"></i> Download SIP')
-                sip.push({
-                    'file': base_url.concat(`/${item.file_path}`),
-                    'id_file': item.tempat_praktik_id
-                })
             }
-        })
+
+            $.each(response['polis'], function (j, item) {
+                $('#btn_pol').attr('href', item.file_path)
+            })
+
+            $.each(response['document'], function (j, item) {
+                if (item.file_type == 1) {
+                    ktp = base_url.concat(`/${item.file_path}`)
+                    $('#f_ktp').attr('href', ktp)
+                    $('#f_ktp').html('<i class="fas fa-download"></i> Download KTP')
+                } else if (item.file_type == 2) {
+                    str = base_url.concat(`/${item.file_path}`)
+
+                    $('#f_str').attr('href', str)
+                    $('#f_str').html('<i class="fas fa-eye"></i> Download STR')
+                } else {
+                    $('#f_sip').attr('href', item.file_path)
+                    $('#f_sip').html('<i class="fas fa-eye"></i> Download SIP')
+                    sip.push({
+                        'file': base_url.concat(`/${item.file_path}`),
+                        'id_file': item.tempat_praktik_id
+                    })
+                }
+            })
         })
 
         swal.close()
@@ -403,8 +650,19 @@ $('#check').click(function() {
     const table = $('#table').DataTable();
     const isChecked = this.checked;
 
-    // Menggunakan DataTables untuk memilih semua baris termasuk yang tersembunyi karena pagination
+    console.log('hahaha')
+    // Pilih semua baris di tabel, termasuk yang tidak terlihat di halaman saat ini
     table.rows().nodes().to$().find('input[name="reqId"]').prop('checked', isChecked);
+});
+
+// Event listener untuk checkbox individual agar sinkron dengan checkbox "check all"
+$('#table').on('change', 'input[name="reqId"]', function() {
+    const table = $('#table').DataTable();
+    const totalCheckbox = table.rows({ search: 'applied' }).nodes().to$().find('input[name="reqId"]').length;
+    const checkedCheckbox = table.rows({ search: 'applied' }).nodes().to$().find('input[name="reqId"]:checked').length;
+
+    // Toggle checkbox "check all" berdasarkan jumlah yang tercentang
+    $('#check').prop('checked', totalCheckbox === checkedCheckbox);
 });
 
 $('#fileForm').on('submit', function (event) {
@@ -431,18 +689,33 @@ $('#fileForm').on('submit', function (event) {
 $('.btnAction').click(function() {
     const stat = $(this).data('stat'); // Ambil nilai stat
     const isDelete = (stat == 0); // Tentukan apakah ini aksi hapus
+    const isClose = (stat == 2);  // Tentukan apakah ini aksi penutupan
 
-    // Konfigurasi Swal untuk aksi delete atau submit
+    // Konfigurasi Swal untuk aksi delete, submit, atau close
     const swalConfig = {
-        title: isDelete ? "Apakah anda yakin untuk menghapus data tersebut?" : "Apakah anda yakin?",
-        icon: isDelete ? 'warning' : 'info',
+        title: isDelete 
+            ? "Apakah anda yakin untuk menghapus data tersebut?" 
+            : isClose 
+                ? "Apakah anda yakin untuk mengkonfirmasi batch ini?" 
+                : "Apakah anda yakin?",
+        icon: isDelete 
+            ? 'warning' 
+            : isClose 
+                ? 'question' 
+                : 'info',
         showCancelButton: true,
-        confirmButtonText: isDelete
+        confirmButtonText: isDelete 
             ? `<i class="fa fa-trash"></i> Delete`
-            : `<i class="fa fa-check-circle"></i> Submit`,
+            : isClose 
+                ? `<i class="fa fa-check-circle"></i> Konfirmasi`
+                : `<i class="fa fa-check-circle"></i> Submit`,
         confirmButtonColor: '', // Kosongkan agar tidak konflik dengan customClass
         customClass: {
-            confirmButton: isDelete ? 'btn btn-danger' : 'btn btn-success', // Tombol sesuai aksi
+            confirmButton: isDelete 
+                ? 'btn btn-danger' 
+                : isClose 
+                    ? 'btn btn-warning' 
+                    : 'btn btn-success', // Tombol sesuai aksi
             cancelButton: 'btn btn-secondary' // Tombol batal
         },
         buttonsStyling: false // Gunakan gaya Bootstrap
@@ -451,13 +724,89 @@ $('.btnAction').click(function() {
     // Tampilkan modal Swal
     Swal.fire(swalConfig).then((result) => {
         if (result.isConfirmed) {
-            isDelete ? deleteData() : sendBatch();
+            if (isDelete) {
+                deleteData();
+            } else if (isClose) {
+                sendBatch(stat);
+            } else {
+                sendBatch(stat);
+            }
         }
     });
 });
 
-function deleteData(){
+async function sendBatch(stat) {
+    Swal.fire({
+        icon: 'info',
+        text: "Loading!",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
 
+    let reqId = [];
+    const table = $('#table').DataTable();
+    // table.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function() {
+    //     reqId.push($(this).val());
+    // });
+
+    // Ambil data dari semua baris pada kolom pertama
+    table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+        const data = this.data(); // Mendapatkan data baris
+        reqId.push(data['reqId']); // Kolom pertama (index 0)
+    });
+
+    if(reqId.length == 0){
+        Swal.fire({
+            icon: 'warning',
+            title: 'Harap pilih data!',
+            showConfirmButton: true,
+            allowOutsideClick: false,
+        });
+
+        return
+    }
+
+    var data = await encryptData(JSON.stringify(
+        {
+            "bacthId": batchId,
+            "statusId": stat,
+            "reqId": reqId,
+        })
+    )
+    $.ajax({
+        "url": base_url.concat('/api/client-admin/request/verification'),
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Authorization": "Bearer " + token
+        },
+        "data": {
+            data : data
+        },
+        success: async function (responses) {
+            // responses = JSON.parse(responses)
+            var response = await decryptData(responses['data'])
+            progressData(response)
+        },
+        error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+
+            Swal.fire({
+                icon: 'error',
+                title: err.message,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    })
+}
+
+function deleteData(){
+    var checkedValues = $('input[name="reqId"]:checked').map(function() {
+        return $(this).val(); // Ambil nilai checkbox
+      }).get(); // Ubah ke array biasa
+
+      console.log(checkedValues)
 }
 
 function insertBatch(elm){
@@ -572,71 +921,5 @@ function progressData(response){
                 icon: 'error'
             });
         });
-}
-
-async function sendBatch() {
-    Swal.fire({
-        icon: 'info',
-        text: "Loading!",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-    });
-
-    let reqId = [];
-    const table = $('#table').DataTable();
-    // table.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function() {
-    //     reqId.push($(this).val());
-    // });
-
-    // Ambil data dari semua baris pada kolom pertama
-    table.rows().every(function(rowIdx, tableLoop, rowLoop) {
-        const data = this.data(); // Mendapatkan data baris
-        reqId.push(data['reqId']); // Kolom pertama (index 0)
-    });
-
-    if(reqId.length == 0){
-        Swal.fire({
-            icon: 'warning',
-            title: 'Harap pilih data!',
-            showConfirmButton: true,
-            allowOutsideClick: false,
-        });
-
-        return
-    }
-
-    var data = await encryptData(JSON.stringify(
-        {
-            "bacthId": batchId,
-            "statusId": 1,
-            "reqId": reqId,
-        })
-    )
-    $.ajax({
-        "url": base_url.concat('/api/client-admin/request/verification'),
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer " + token
-        },
-        "data": {
-            data : data
-        },
-        success: async function (responses) {
-            // responses = JSON.parse(responses)
-            var response = await decryptData(responses['data'])
-            progressData(response)
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-
-            Swal.fire({
-                icon: 'error',
-                title: err.message,
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
-    })
 }
 

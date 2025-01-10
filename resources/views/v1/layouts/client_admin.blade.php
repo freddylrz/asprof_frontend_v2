@@ -66,7 +66,7 @@
                         <span class="pc-mtext">Dashboard</span>
                      </a>
                   </li>
-                  <li class="pc-item">
+                  <li class="pc-item {{{ Request::is('admin/list-detail') ? 'active' : '' }}}">
                      <a href="/admin/list-data" class="pc-link" style="font-size: 18px !important;">
                         <i class="ti ti-users"></i>
                         <span class="pc-mtext">Peserta</span>

@@ -23,4 +23,5 @@ yarn-error.log
 *.example
 *.lock
 *.lock
+*.history
 package-lock.json

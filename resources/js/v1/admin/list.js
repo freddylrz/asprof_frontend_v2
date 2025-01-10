@@ -9,8 +9,35 @@ let token;
 $(document).ready(async function () {
     token = await getAccessTokenFromCookies();
 
+    getDataInsurance();
     getData();
 });
+
+function getDataInsurance() {
+    Swal.fire({
+        icon: "info",
+        text: "loading",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
+
+    $.ajax({
+        url: `${base_url}/api/client-admin/request/asset`,
+        method: "GET",
+        "headers": {
+            "Authorization": "Bearer " + token
+        },
+    }).done(async function (responses) {
+        var response = await decryptData(responses['data'])
+        $.each(response['list'], function (j, item) {
+            $('#insId').append(
+                `<option value="${item.id}">${item.nama_perusahaan}</option>
+                `
+            )
+        });
+
+    })
+}
 
 function getData(stat = 0) {
     $.ajax({
@@ -22,8 +49,6 @@ function getData(stat = 0) {
         },
     }).done(async function (responses) {
         var response = await decryptData(responses['data'])
-
-        console.log(response)
 
         $('#table').DataTable({
             processing: false,
@@ -82,7 +107,7 @@ $('#fileForm').on('submit', function (event) {
 function insertBatch(elm){
     var formData = new FormData(elm);  // Membuat objek FormData dari form
 
-    formData.append("ins_id", "2");
+    formData.append("ins_id", $('#insId').val());
 
     var settings = {
         "url": base_url + "/api/client-admin/request/insert-data",

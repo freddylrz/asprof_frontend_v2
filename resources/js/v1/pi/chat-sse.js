@@ -118,10 +118,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     fetchMessages();
 
-    const eventSource = new EventSource(`${apiUrl}/api/client/message/stream?token=${token}`);
+    const eventSource = new EventSource(`${apiUrl}/api/stream/message/${userInfo.user_id}/${token}`);
 
     eventSource.onmessage = function (event) {
         const data = JSON.parse(event.data);
+        if (data == null) return;
 
         let chatContainer = document.getElementById('chat-container');
         if (chatContainer) {
@@ -180,7 +181,28 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function () {
                 $('textarea[name="message"]').val('');
                 sendButton.prop('disabled', false).html('<i class="ti ti-send"></i>');
-                scrollToBottom();
+
+                let chatContainer = document.getElementById('chat-container');
+                if (chatContainer) {
+                    let chatBody = chatContainer.querySelector('.card-body');
+                    let newMessage = document.createElement('div');
+                    newMessage.classList.add('message-out');
+                    newMessage.innerHTML = `
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <div class="msg-content bg-light-primary text-dark">
+                                    <p class="mb-2 font-bold">${userInfo.user_name}</p>
+                                    <p class="mb-0">${message}</p>
+                                </div>
+                                <p class="mb-0 text-muted text-sm" style="text-align:right">
+                                    ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    chatBody.appendChild(newMessage);
+                    scrollToBottom();
+                }
             },
             error: function (error) {
                 console.error('Error sending message:', error);

@@ -76,6 +76,18 @@
                      </ul>
                   </li>
                   <li class="pc-item">
+                     <a href="/cancellation" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-circle-x"></i>
+                     <span class="pc-mtext">Cancellation</span>
+                     </a>
+                  </li>
+                  <li class="pc-item">
+                     <a href="/endorsement" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-edit-circle"></i>
+                     <span class="pc-mtext">Endorsement</span>
+                     </a>
+                  </li>
+                  <li class="pc-item">
                      <a href="/riwayat-polis" class="pc-link" style="font-size: 18px !important;">
                      <i class="ti ti-report-money"></i>
                      <span class="pc-mtext">Riwayat Polis</span>

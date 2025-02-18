@@ -22,10 +22,7 @@ $(document).ready(function() {
         keyboard: false
     });
 
-    // Set up SSE to listen for request status updates
-    const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
-
-    const eventSource = new EventSource(`${apiUrl}/api/client/request-status-updates?req_id=${reqId}&token=${token}`);
+    const eventSource = new EventSource(`${apiUrl}/api/client/request-status-updates?req_id=${reqId}`);
 
     eventSource.onmessage = function(event) {
         const data = JSON.parse(event.data);

@@ -15,6 +15,7 @@ const inputFiles = [
     'resources/js/v1/pi/chat.js',
     'resources/js/v1/pi/chat-sse.js',
     'resources/js/v1/pi/renewal.js',
+    'resources/js/v1/pi/endorsement.js',
     'resources/js/v1/pi/count-message.js',
     'resources/js/v1/pi/count-messages-sse.js',
 

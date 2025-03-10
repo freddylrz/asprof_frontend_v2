@@ -76,6 +76,12 @@
                      </ul>
                   </li>
                   <li class="pc-item">
+                     <a href="/renewal" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-refresh-alert"></i>
+                     <span class="pc-mtext">Renewal</span>
+                     </a>
+                  </li>
+                  <li class="pc-item">
                      <a href="/cancellation" class="pc-link" style="font-size: 18px !important;">
                      <i class="ti ti-circle-x"></i>
                      <span class="pc-mtext">Cancellation</span>

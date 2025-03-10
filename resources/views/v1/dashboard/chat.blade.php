@@ -79,5 +79,5 @@
 @push('levelPluginsJs')
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-@vite(['resources/js/v1/pi/chat.js'])
+@vite(['resources/js/v1/pi/chat-sse.js'])
 @endpush

@@ -1,14 +1,137 @@
 @extends('v1.layouts.dashboard')
+
 @section('content')
-<div class="row" id="div-renewal">
+<div class="row" id="div-endorsement">
+    <div class="col-12">
+        <div class="text-center mb-5">
+            <p class="h1">Endorsement</p>
+        </div>
+        <div class="alert alert-info" role="alert" style="display: flex; align-items: center">
+            <i class="ti ti-info-circle me-3 my-auto" style="font-size: 2.5rem; font-weight: 900; color: #050505"></i>
+            <span class="text-wrap h4 my-auto" style="flex: 1;">
+                Anda dapat melakukan perubahan data polis sesuai kebutuhan. Pastikan data yang Anda ubah sudah benar untuk menghindari kendala di kemudian hari.
+            </span>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175); border: 2px solid #dddddd;">
+            <div class="card-body px-0">
+                <div class="text-center mb-5">
+                    <h3>Informasi Peserta</h3>
+                </div>
+                <div class="row">
+                    <!-- Nama -->
+                    <div class="col-12 col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s bg-light-secondary">
+                                        <i class="ti ti-user-check f-32"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="text-muted mb-1">Nama</p>
+                                    <h5 class="mb-0" id="nama-peserta">test daftar tio</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- NIK -->
+                    <div class="col-12 col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s bg-light-secondary">
+                                        <i class="ti ti-list-numbers f-32"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="text-muted mb-1">NIK</p>
+                                    <h5 class="mb-0" id="nik-peserta">3321110110030029</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Nomor STR -->
+                    <div class="col-12 col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s bg-light-secondary">
+                                        <i class="ti ti-id f-32"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="text-muted mb-1">Nomor STR</p>
+                                    <h5 class="mb-0" id="nomor-str">AS35535355335346</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- NPWP -->
+                    <div class="col-12 col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s bg-light-secondary">
+                                        <i class="ti ti-receipt f-32"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="text-muted mb-1">NPWP</p>
+                                    <h5 class="mb-0" id="npwp">4363666346545555</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Masa Berlaku Polis -->
+                    <div class="col-12 col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s bg-light-secondary">
+                                        <i class="ti ti-calendar f-32"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="text-muted mb-1">Masa Berlaku Polis</p>
+                                    <h5 class="mb-0" id="masa-berlaku">11 Januari 2025 - 11 Januari 2026</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Status Polis -->
+                    <div class="col-12 col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avtar avtar-s bg-light-secondary">
+                                        <i class="ti ti-shield-check f-32"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="text-muted mb-1">Status Polis</p>
+                                    <h5 class="mb-0" id="status-polis">Aktif</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <button type="button" id="ubah-data-diri" class="btn btn-primary me-2">
+                    <i class="ti ti-edit me-2"></i> Ubah Data Diri
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" id="div-endorsement-form" style="display: none">
    <div class="col-12">
       <div class="text-center mb-5">
-         <p class="h1">Renewal</p>
+         <p class="h1">Endorsement</p>
          <p class="h1" id="nomor-register"></p>
-      </div>
-      <div class="alert alert-danger" role="alert" style="display: flex; align-items: middle" id="div-polis-alert">
-         <i class="ti ti-info-circle me-3 my-auto" style="font-size: 2.5rem; font-weight: 900; flex-shrink: 0; color: #050505"></i>
-         <span id="polis-alert" class="text-wrap h4 my-auto" style="flex: 1;"></span>
       </div>
       <div class="card bg-light my-3" id="div-renewal-form" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
          <div class="card-body">
@@ -390,17 +513,17 @@
       </div>
    </div>
 </div>
-<div class="row" id="div-renewal-success" style="display: none">
+<div class="row" id="div-endorsement-success" style="display: none">
    <div class="col-12">
       <div class="text-center mb-5">
-         <p class="h1">Renewal</p>
+         <p class="h1">Endorsement</p>
          <p class="h1" id="nomor-register"></p>
       </div>
    </div>
    <div class="alert alert-success" role="alert" style="display: flex; align-items: middle" id="div-polis-alert">
     <i class="ti ti-info-circle me-3 my-auto" style="font-size: 2.5rem; font-weight: 900; flex-shrink: 0; color: #050505"></i>
     <span id="polis-alert" class="text-wrap h4 my-auto" style="flex: 1;">
-       Selamat! Perpanjangan polis Anda telah berhasil diproses. Pastikan untuk mengunduh E-Sertifikat dan Nota sebagai bukti perpanjangan. Terima kasih telah mempercayakan perlindungan Anda kepada kami.
+        Selamat! Perubahan data polis Anda telah berhasil diproses. Pastikan Anda memeriksa kembali informasi terbaru yang telah diperbarui.
     </span>
  </div>
    <div class="col-12">
@@ -496,6 +619,7 @@
     </div>
 </div>
 @endsection
+
 @push('levelPluginsJs')
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
@@ -505,6 +629,7 @@
 <script src="{{ asset('assets/js/plugins/datepicker-full.min.js')}}"></script>
 <!-- input mask -->
 <script src="{{ asset('assets/js/plugins/jquery.inputmask.bundle.min.js')}}"></script>
+<script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
 {{-- custom js --}}
-@vite(['resources/js/v1/pi/renewal.js', 'resources/js/v1/pi/count-message.js'])
+@vite(['resources/js/v1/pi/endorsement.js'])
 @endpush

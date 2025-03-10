@@ -4,7 +4,7 @@ import {
     getAccessTokenFromCookies
 } from "../encrypt.js";
 
-var base_url = 'http://localhost:8000';
+var base_url = `http://local.asprof-backend.com`;
 
 
 $("#formLogin").on('submit', (async function (e) {

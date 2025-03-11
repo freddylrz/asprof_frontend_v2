@@ -97,6 +97,12 @@ Route::middleware([CheckPiat::class])->group(function () {
     Route::get('/renewal', function () {
         return view('v1.dashboard.renewal');
     });
+    Route::get('/cancellation', function () {
+        return view('v1.dashboard.cancellation');
+    });
+    Route::get('/endorsement', function () {
+        return view('v1.dashboard.endorsement');
+    });
 
     Route::group(['prefix' => 'klaim', 'as' => 'klaim.'], function () {
         Route::get('/input', function () {

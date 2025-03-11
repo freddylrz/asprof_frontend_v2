@@ -83,7 +83,6 @@ $(document).ready(function() {
     });
 
     renderTable();  // Assuming renderTable doesn't need to be awaited
-    getDataDashboard();
     getDataDetail();
 
     tenagaMedisRadio.prop("checked", true);
@@ -132,6 +131,12 @@ $(document).ready(function() {
             $('#div-premi-tahunan').addClass('d-none');
             $('#div-jaminan-pertanggungan').addClass('d-none');
         }
+    });
+
+    $('#ubah-data-diri').on('click', function() {
+        $('#div-endorsement').hide();
+        $('#div-endorsement-form').show();
+        $('#div-endorsement-success').hide();
     });
 
     $('.btntambahTempatPraktik').on('click', function() {
@@ -323,8 +328,8 @@ $(document).ready(function() {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     // handleupdateData()
-                    $('#div-renewal').hide();
-                    $('#div-renewal-success').show();
+                    $('#div-endorsement-form').hide();
+                    $('#div-endorsement-success').show();
                 } else if (result.isDenied) {
                     return Swal.fire({
                         icon: 'error',
@@ -1310,77 +1315,4 @@ function generateRandomId(length = 10) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
-}
-
-async function getDataDashboard() {
-    Swal.fire({
-        icon: "info",
-        text: "loading",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-    });
-
-    // Get the token from the 'piat' cookie
-    const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
-
-    $.ajax({
-        url: `${apiUrl}/api/client/dashboard`,
-        method: "GET",
-        timeout: 0,
-        headers: {
-            "Authorization": `Bearer ${token}`
-        },
-    }).done(async function(responses) {
-        var response = await decryptData(responses.data)
-        console.log(response);
-
-        var statusId;
-        $.each(response['policy'], function(j, item) {
-            if (item.polis_exp == 1) {
-                $('#div-polis-alert').show();
-                    let alertClass = 'alert-success';
-                    let alertText = "Mohon diperhatikan bahwa perpanjangan polis belum dapat dilakukan saat ini karena polis Anda masih dalam masa aktif. Untuk memastikan kelancaran proses perpanjangan, pengajuan dapat dilakukan paling cepat H-7 sebelum tanggal kedaluwarsa polis.";
-                $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
-                $('#polis-alert').text(alertText);
-                $('#div-renewal-form').hide();
-                $('#nomor-register').hide();
-            } else {
-                $('#div-polis-alert').show();
-                    let alertClass = 'alert-warning';
-                    let alertText = "Mohon diperhatikan bahwa polis Anda telah berakhir. Anda dapat melakukan perpanjangan dengan segera untuk memastikan perlindungan tetap aktif. Silakan mengisi formulir di bawah ini untuk melanjutkan proses perpanjangan.";
-                $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
-                $('#polis-alert').text(alertText);
-            }
-        });
-
-        $.each(response['info'], function(j, item) {
-        });
-
-        Swal.close()
-    }).fail(function(response) {
-        if (response.status === 404) {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Request tidak ditemukan.',
-                icon: 'error',
-                confirmButtonText: 'Tutup'
-            });
-        } else if (response.status === 401) {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Sesi Anda telah habis. Silakan login kembali.',
-                icon: 'error',
-                confirmButtonText: 'Tutup'
-            }).then(function() {
-                window.location.href = loginUrl;
-            });
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Terjadi kesalahan. Silakan coba lagi.',
-                icon: 'error',
-                confirmButtonText: 'Tutup'
-            });
-        }
-    });
 }

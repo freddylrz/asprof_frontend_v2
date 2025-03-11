@@ -62,13 +62,13 @@
                   </li>
                   <li class="pc-item">
                      <a href="/dashboard" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-list"></i>
+                        <i class="ti ti-presentation-analytics"></i>
                         <span class="pc-mtext">Dashboard</span>
                      </a>
                   </li>
-                  <li class="pc-item">
+                  <li class="pc-item {{{ Request::is('admin/list-detail') ? 'active' : '' }}}">
                      <a href="/admin/list-data" class="pc-link" style="font-size: 18px !important;">
-                        <i class="ti ti-list"></i>
+                        <i class="ti ti-users"></i>
                         <span class="pc-mtext">Peserta</span>
                      </a>
                   </li>
@@ -197,7 +197,7 @@
       <script>
         // const apiUrl = 'https://pi-admin.tib.co.id';
         // const apiUrl = 'http://asprof_backend_v2.local.test';
-        const base_url = `http://localhost:8000`;
+        const base_url = `http://local.asprof-backend.com`;
 
         // Function to get a cookie by name
         function getCookie(name) {

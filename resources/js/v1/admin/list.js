@@ -9,96 +9,33 @@ let token;
 $(document).ready(async function () {
     token = await getAccessTokenFromCookies();
 
+    getDataInsurance();
     getData();
 });
 
-function getLastSegment(path) {
-    return path.substring(path.lastIndexOf('/') + 1);
-}
-
-function initializeDatepickers(selectors) {
-    selectors.forEach(selector => {
-        new Datepicker(document.querySelector(selector), {
-            buttonClass: 'btn',
-            format: 'dd-mm-yyyy',
-        });
+function getDataInsurance() {
+    Swal.fire({
+        icon: "info",
+        text: "loading",
+        showConfirmButton: false,
+        allowOutsideClick: false,
     });
-}
 
-$('#profesi').on('change', function () {
-    getProfesi()
-});
-
-$('#cari').on('click', function () {
-    getData()
-})
-
-function getStatus() {
     $.ajax({
-        "url": base_url.concat('/api/client-admin/request/list-data'),
-        "method": "GET",
-        "timeout": 0,
+        url: `${base_url}/api/client-admin/request/asset`,
+        method: "GET",
         "headers": {
             "Authorization": "Bearer " + token
         },
     }).done(async function (responses) {
         var response = await decryptData(responses['data'])
-        $('#status_id').html(``);
-        $('#status_id').append($('<option>', {
-            value: 0,
-            text: 'Semua Status'
-        }));
-        $.each(response, function (i, item) {
-            $('#status_id').append($('<option>', {
-                value: item.id,
-                text: item.description
-            }));
-        });
-    })
-}
-
-function getProfesi() {
-    $.ajax({
-        "url": base_url.concat('/api/client/request/get-data-profesi'),
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer " + $('#token').val()
-        },
-        "data": {
-            "type": 1,
-            // type 1 -> kategori profei; 2 -> plan
-            "profesi_id": $('#profesi').val()
-            // profesi_id 1 -> named; 2 -> nakes
-        }
-    }).done(async function (responses) {
-        var response = await decryptData(responses['data'])
-
-        $('#jenis_profesi').html('').append($('<option>', {
-            value: 0,
-            text: 'Semua Kategori Profesi'
-        }));
-
-        $.each(response.data, function (i, item) {
-            $('#jenis_profesi').append($('<option>', {
-                value: item.id,
-                text: item.description
-            }));
+        $.each(response['list'], function (j, item) {
+            $('#insId').append(
+                `<option value="${item.id}">${item.nama_perusahaan}</option>
+                `
+            )
         });
 
-        if ($('#ins_id').children('option').length == 0) {
-            $('#ins_id').html('').append($('<option>', {
-                value: 0,
-                text: 'Semua Asuransi'
-            }));
-
-            $.each(response.insurance, function (i, item) {
-                $('#ins_id').append($('<option>', {
-                    value: item.id,
-                    text: item.nama
-                }));
-            });
-        }
     })
 }
 
@@ -112,8 +49,6 @@ function getData(stat = 0) {
         },
     }).done(async function (responses) {
         var response = await decryptData(responses['data'])
-
-        console.log(response)
 
         $('#table').DataTable({
             processing: false,
@@ -150,10 +85,29 @@ function getData(stat = 0) {
 var jobId
 $('#fileForm').on('submit', function (event) {
     event.preventDefault();  // Menghindari pengiriman form default
+    const form = this;
+    Swal.fire({
+        title: "Apakah anda yakin?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: `<i class="fa fa-upload"></i> Insert`,
+        confirmButtonColor: '',
+        customClass: {
+            confirmButton: 'btn btn-danger',
+            cancelButton: 'btn btn-secondary'
+        },
+        buttonsStyling: false
+    }).then((result) => {
+        if (result.isConfirmed) {
+            insertBatch(form)
+        }
+    });
+});
 
-    var formData = new FormData(this);  // Membuat objek FormData dari form
+function insertBatch(elm){
+    var formData = new FormData(elm);  // Membuat objek FormData dari form
 
-    formData.append("ins_id", "2");
+    formData.append("ins_id", $('#insId').val());
 
     var settings = {
         "url": base_url + "/api/client-admin/request/insert-data",
@@ -256,5 +210,4 @@ $('#fileForm').on('submit', function (event) {
                 });
             });
     });
-
-});
+}

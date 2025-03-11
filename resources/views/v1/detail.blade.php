@@ -384,39 +384,51 @@
             </button>
          </div>
          <div class="modal-body overflow-payment">
-            <div class="row">
-               <div class="col-12">
-                  <ul class="list-group list-group-flush">
-                     <li class="list-group-item px-0 pb-2 pt-0">
-                        <h5 class="mb-0">Ringkasan Pembayaran</h5>
-                     </li>
-                     <li class="list-group-item px-0 py-1">
-                        <div class="float-end">
-                           <h5 class="mb-0" id="biaya-polis">-</h5>
-                        </div>
-                        <span class="text-muted">Biaya Polis</span>
-                     </li>
-                     <li class="list-group-item px-0 py-1">
-                        <div class="float-end">
-                           <h5 class="mb-0" id="biaya-materai">-</h5>
-                        </div>
-                        <span class="text-muted">Biaya Materai</span>
-                     </li>
-                     <li class="list-group-item px-0 py-1">
-                        <div class="float-end">
-                           <h5 class="mb-0" id="premi-tahunan-pembayaran">-</h5>
-                        </div>
-                        <span class="text-muted">Premi</span>
-                     </li>
-                     <li class="list-group-item px-0 py-1">
-                        <div class="float-end">
-                           <h4 class="mb-0 text-primary" id="total-tagihan">-</h4>
-                        </div>
-                        <span class="text-muted f-16">Total tagihan</span>
-                     </li>
-                  </ul>
-               </div>
-            </div>
+            <style>
+                .custom-list-group .custom-list-item {
+                   border-bottom: 1px dashed #dee2e6 !important; /* Garis putus-putus */
+                }
+                .custom-list-group .custom-list-item:last-child {
+                   border-bottom: none !important; /* Hilangkan garis bawah untuk item terakhir */
+                }
+                .custom-list-group .custom-list-item:nth-last-child(2) {
+                   border-bottom: 2px solid #000 !important; /* Garis tebal dan solid di atas Total Tagihan */
+                }
+             </style>
+
+             <div class="row">
+                <div class="col-12">
+                   <ul class="list-group list-group-flush custom-list-group">
+                      <li class="list-group-item px-0 pb-2 pt-0 custom-list-item">
+                         <h5 class="mb-0">Ringkasan Pembayaran</h5>
+                      </li>
+                      <li class="list-group-item px-0 py-1 custom-list-item">
+                         <div class="float-end">
+                            <h5 class="mb-0" id="premi-tahunan-pembayaran">-</h5>
+                         </div>
+                         <span class="text-muted">Premi</span>
+                      </li>
+                      <li class="list-group-item px-0 py-1 custom-list-item">
+                         <div class="float-end">
+                            <h5 class="mb-0" id="biaya-polis">-</h5>
+                         </div>
+                         <span class="text-muted">Biaya Polis</span>
+                      </li>
+                      <li class="list-group-item px-0 py-1 custom-list-item">
+                         <div class="float-end">
+                            <h5 class="mb-0" id="biaya-materai">-</h5>
+                         </div>
+                         <span class="text-muted">Biaya Materai</span>
+                      </li>
+                      <li class="list-group-item px-0 py-1 custom-list-item">
+                         <div class="float-end">
+                            <h4 class="mb-0 text-primary" id="total-tagihan">-</h4>
+                         </div>
+                         <span class="text-muted f-16">Total tagihan</span>
+                      </li>
+                   </ul>
+                </div>
+             </div>
             <hr style="border: 1px solid; margin: 15px 0"/>
             <ul class="nav nav-tabs d-none" id="paymentTab" role="tablist">
                <li class="nav-item">

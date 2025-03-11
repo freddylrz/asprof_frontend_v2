@@ -751,9 +751,6 @@ function getBiayaKepesertaan(ins_id) {
                     </label>
                     </div>
                 </div>
-                <p class=" text-center">
-                    <i class="text-muted f-12">Premi belum termasuk biaya polis dan materai</i>
-                </p>
             </div>
             `)
         });

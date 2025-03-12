@@ -327,11 +327,10 @@
     </script>
       <!-- END PAGE LEVEL SCRIPTS -->
       <!-- [Page Specific JS] end -->
-      <script>
-         //   const apiUrl = 'https://pi-admin.tib.co.id';
-         //   const apiUrl = `http://asprof_backend_v2.local.test`;
-           const apiUrl = `http://localhost:8000`;
-      </script>
+    <script>
+        const apiUrl = '{{ config('setup.base_url') }}';
+        const domain = '{{ config('setup.domain') }}';
+    </script>
    </body>
    <!-- [Body] end -->
 </html>

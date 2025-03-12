@@ -490,6 +490,8 @@ function getDataDetail(reqId) {
         "timeout": 0,
     }).done(async function(responses) {
         var response = await decryptData(responses.data)
+        console.log(response);
+
         var statusId;
         $.each(response['data'], function(j, item) {
             registerId = item.register_no;

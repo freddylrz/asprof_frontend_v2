@@ -64,17 +64,6 @@
                      <span class="pc-mtext">Data Kepesertaan</span>
                      </a>
                   </li>
-                  <li class="pc-item pc-hasmenu">
-                     <a href="#!" class="pc-link" style="font-size: 18px !important;">
-                     <i class="ti ti-shield-check"></i>
-                     <span class="pc-mtext">Klaim</span>
-                     <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                     </a>
-                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="/klaim/input" style="font-size: 16px">Input Klaim</a></li>
-                        <li class="pc-item"><a class="pc-link" href="/klaim/data" style="font-size: 16px">Data Klaim</a></li>
-                     </ul>
-                  </li>
                   <li class="pc-item">
                      <a href="/renewal" class="pc-link" style="font-size: 18px !important;">
                      <i class="ti ti-refresh-alert"></i>
@@ -105,6 +94,17 @@
                      <span class="pc-mtext">Chat</span>
                      <span class="pc-badge bg-danger d-none">0</span>
                      </a>
+                  </li>
+                  <li class="pc-item pc-hasmenu">
+                     <a href="#!" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-shield-check"></i>
+                     <span class="pc-mtext">Klaim</span>
+                     <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                     </a>
+                     <ul class="pc-submenu">
+                        <li class="pc-item"><a class="pc-link" href="/klaim/input" style="font-size: 16px">Laporan Klaim</a></li>
+                        <li class="pc-item"><a class="pc-link" href="/klaim/data" style="font-size: 16px">Daftar Klaim</a></li>
+                     </ul>
                   </li>
                </ul>
             </div>

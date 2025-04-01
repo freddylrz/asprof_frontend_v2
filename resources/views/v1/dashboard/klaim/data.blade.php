@@ -1,55 +1,49 @@
-@extends('v1.layouts..dashboard')
+@extends('v1.layouts.dashboard')
 
 @section('content')
     <div class="row">
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header">
-              <h3>Data Klaim</h3>
-              <small>Events assigned to the table can be exceptionally useful for user interaction, however you must be aware that DataTables
-                will add and remove rows from the DOM.</small>
+              <h3>Daftar Klaim</h3>
             </div>
             <div class="card-body">
               <div class="table-responsive dt-responsive">
                 <table id="dom-jqry" class="table table-striped table-bordered nowrap">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
+                      <th>No</th>
+                      <th>No Polis</th>
+                      <th>No Klaim</th>
+                      <th>Tanggal Lapor</th>
+                      <th>Tanggal Kejadian</th>
+                      <th>Nilai Klaim</th>
+                      <th>Status</th>
+                      <th>Detail</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Quinn Flynn</td>
-                      <td>System Architect</td>
-                      <td>Edinburgh</td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
-                      <td>$320,800</td>
+                      <td>1</td>
+                      <td>3321110110030029230</td>
+                      <td>PI/KLAIM/202503/00004</td>
+                      <td>17 March 2025</td>
+                      <td>15 March 2025</td>
+                      <td>324,453,485</td>
+                      <td>PROSES VERIFIKASI REVISI DOKUMEN DI ASURANSI</td>
+                      <td class="text-center"><button class="btn btn-primary btn-icon btn-sm"><i class="ti ti-eye"></i></button></td>
                     </tr>
                     <tr>
-                      <td>Garrett Winters</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>63</td>
-                      <td>2011/07/25</td>
-                      <td>$170,750</td>
+                      <td>2</td>
+                      <td>015920200820003400</td>
+                      <td>PI/KLAIM/202501/00002</td>
+                      <td>21 February 2025</td>
+                      <td>18 February 2025</td>
+                      <td>119,062,382</td>
+                      <td>KLAIM SUDAH DIBAYAR (CLOSED FILE)</td>
+                      <td class="text-center"><button class="btn btn-primary btn-icon btn-sm"><i class="ti ti-eye"></i></button></td>
                     </tr>
                   </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
-                    </tr>
-                  </tfoot>
                 </table>
               </div>
             </div>
@@ -73,4 +67,3 @@
   var table = $('#dom-jqry').DataTable();
 </script>
 @endpush
-

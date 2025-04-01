@@ -105,6 +105,9 @@ Route::middleware([CheckPiat::class])->group(function () {
     });
 
     Route::group(['prefix' => 'klaim', 'as' => 'klaim.'], function () {
+        Route::get('/detail', function () {
+            return view('v1.dashboard.klaim.detail');
+        });
         Route::get('/input', function () {
             return view('v1.dashboard.klaim.input');
         });

@@ -1,19 +1,4 @@
 import { decryptData, encryptData } from "../encrypt.js";
-import Echo from 'laravel-echo';
-
-import Pusher from 'pusher-js';
-
-window.Pusher = Pusher;
-
-window.Echo = new Echo({
-    broadcaster: 'reverb',
-    key: import.meta.env.VITE_REVERB_APP_KEY,
-    wsHost: import.meta.env.VITE_REVERB_HOST,
-    wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
-    wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
-    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') == 'https',
-    enabledTransports: ['ws', 'wss'],
-});
 
 const tempatPraktikDetails = {}; // Initialize tempatPraktikDetails object
 var registerId;
@@ -37,11 +22,10 @@ $(document).ready(function() {
         keyboard: false
     });
 
-    // Set up the channel with the request-specific ID
-    const requestStatusChannel = window.Echo.channel(`requestStatus-channel.${reqId}`);
+    const eventSource = new EventSource(`${apiUrl}/api/client/request-status-updates?req_id=${reqId}`);
 
-    // Listen for the 'request.status' event
-    requestStatusChannel.listen('.request.status', function(data) {
+    eventSource.onmessage = function(event) {
+        const data = JSON.parse(event.data);
 
         // Parse statusId and reqId from the data object
         const statusId = data.statusId;
@@ -55,7 +39,12 @@ $(document).ready(function() {
             // Navigate to /edit/{reqId} for statusId 8
             window.location.href = `/edit/${reqId}`;
         }
-    });
+    };
+
+    eventSource.onerror = function(error) {
+        console.error('Error with SSE connection:', error);
+        eventSource.close(); // Optionally close the connection on error
+    };
 
     // Function for "Revisi Data" button
     $('#update-confirm').on('click', function () {
@@ -490,8 +479,6 @@ function getDataDetail(reqId) {
         "timeout": 0,
     }).done(async function(responses) {
         var response = await decryptData(responses.data)
-        console.log(response);
-
         var statusId;
         $.each(response['data'], function(j, item) {
             registerId = item.register_no;

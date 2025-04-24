@@ -442,6 +442,9 @@
                            <label class="h5 required">Pilih Plan</label>
                            <div class="row my-2" id="biaya-kepesertaan">
                            </div>
+                           <p>
+                               <i class="text-muted f-12">Premi belum termasuk biaya polis dan materai</i>
+                           </p>
                         </div>
                      </div>
                      <hr>

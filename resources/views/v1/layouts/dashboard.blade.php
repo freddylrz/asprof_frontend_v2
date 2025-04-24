@@ -76,6 +76,24 @@
                      </ul>
                   </li>
                   <li class="pc-item">
+                     <a href="/renewal" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-refresh-alert"></i>
+                     <span class="pc-mtext">Renewal</span>
+                     </a>
+                  </li>
+                  <li class="pc-item">
+                     <a href="/cancellation" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-circle-x"></i>
+                     <span class="pc-mtext">Cancellation</span>
+                     </a>
+                  </li>
+                  <li class="pc-item">
+                     <a href="/endorsement" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-edit-circle"></i>
+                     <span class="pc-mtext">Endorsement</span>
+                     </a>
+                  </li>
+                  <li class="pc-item">
                      <a href="/riwayat-polis" class="pc-link" style="font-size: 18px !important;">
                      <i class="ti ti-report-money"></i>
                      <span class="pc-mtext">Riwayat Polis</span>
@@ -188,9 +206,8 @@
       <!-- END PAGE LEVEL SCRIPTS -->
       <!-- [Page Specific JS] end -->
       <script>
-         // const apiUrl = 'https://pi-admin.tib.co.id';
-         const apiUrl = 'http://asprof_backend_v2.local.test';
-         // const apiUrl = `http://localhost:8000`;
+        const apiUrl = '{{ config('setup.base_url') }}';
+        const domain = '{{ config('setup.domain') }}';
 
          // Function to get a cookie by name
          function getCookie(name) {

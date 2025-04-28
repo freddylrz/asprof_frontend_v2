@@ -3,7 +3,7 @@
 <div class="row">
    <div class="col-12">
       <div class="text-center mb-3">
-         <p class="h1">Laporan Klaim</p>
+         <p class="h1">Pengaduan Klaim</p>
       </div>
    </div>
    <div class="col-12">
@@ -46,115 +46,95 @@
             <hr>
             <div class="row">
                <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Tanggal Lapor</label>
-                     <h4>17 March 2025</h4>
+                  <h5 class="mt-4 mb-3">Pilih SIP <span class="text-danger">*</span></h5>
+                  <div class="offer-check border border-dark rounded p-3">
+                     <div class="form-check">
+                        <input type="radio" name="radio1" class="form-check-input input-primary" id="sip-radio1" />
+                        <label class="form-check-label d-block" for="sip-radio1">
+                           <div class="row">
+                              <div class="col-12 col-md-6 col-lg-12 m-b-10">
+                                 <span class="mb-2 d-block">Nomor SIP:</span>
+                                 <span class="h5 mb-1 d-block">sip/du/774490/2024</span>
+                                 <h6 class="text-muted offer-details">
+                                    <i><i class="ti ti-calendar-time"></i> 2020-05-06 s/d 2025-05-06</i>
+                                 </h6>
+                              </div>
+                              <div class="col-12 col-md-6 col-lg-12 m-b-10">
+                                 <span class="mb-2 d-block">Tempat Praktik:</span>
+                                 <span class="h5 mb-1 d-block">RS Pelita Jaya Harapan Bangsa Negara</span>
+                              </div>
+                           </div>
+                        </label>
+                     </div>
                   </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label required">Tanggal Kejadian <span class="text-danger">*</span></label>
-                     <div class="input-group date mb-3">
-                        <input type="text" class="form-control datepicker-bs5" placeholder="Tanggal kejadian" id="periode-awal-str">
-                        <span class="input-group-text">
-                        <i class="feather icon-calendar"></i>
-                        </span>
+                  <div class="offer-check border border-dark rounded p-3">
+                     <div class="form-check">
+                        <input type="radio" name="radio1" class="form-check-input input-primary" id="sip-radio2" />
+                        <label class="form-check-label d-block" for="sip-radio2">
+                           <div class="row">
+                              <div class="col-12 col-md-6 col-lg-12 m-b-10">
+                                 <span class="mb-2 d-block">Nomor SIP:</span>
+                                 <span class="h5 mb-1 d-block">sip/du/774490/2024</span>
+                                 <h6 class="text-muted offer-details">
+                                    <i><i class="ti ti-calendar-time"></i> 2020-05-06 s/d 2025-05-06</i>
+                                 </h6>
+                              </div>
+                              <div class="col-12 col-md-6 col-lg-12 m-b-10">
+                                 <span class="mb-2 d-block">Tempat Praktik:</span>
+                                 <span class="h5 mb-1 d-block">RS Pelita Jaya Harapan Bangsa Negara</span>
+                              </div>
+                           </div>
+                        </label>
                      </div>
                   </div>
                </div>
                <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label required">Pilih Surat Izin Praktik (SIP) <span class="text-danger">*</span></label>
-                     <select class="form-control" data-trigger name="sip" id="pilih-sip">
-                        <option value="1">12498057202543595 - Primaya Hospital Depok</option>
-                        <option value="2">80509252903345347 - Rumah Sakit Mitra Keluarga Depok</option>
-                     </select>
+                  <div class="row">
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                           <label class="form-label required">Tanggal Lapor<span class="text-danger">*</span></label>
+                           <div class="input-group date mb-3">
+                              <input type="text" class="form-control datepicker-bs5" placeholder="Tanggal Lapor" id="tanggal-lapor">
+                              <span class="input-group-text">
+                              <i class="feather icon-calendar"></i>
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                           <label class="form-label required">Tanggal Kejadian <span class="text-danger">*</span></label>
+                           <div class="input-group date mb-3">
+                              <input type="text" class="form-control datepicker-bs5" placeholder="Tanggal kejadian" id="tamggal-kejadian">
+                              <span class="input-group-text">
+                              <i class="feather icon-calendar"></i>
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                           <label class="form-label required">Nama PIC <span class="text-danger">*</span></label>
+                           <input type="text" class="form-control" placeholder="Nama PIC" id="nama-pic">
+                        </div>
+                     </div>
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                           <label class="form-label required">Nomor Telpon PIC <span class="text-danger">*</span></label>
+                           <input type="text" class="form-control" placeholder="Nomor Telpon PIC" id="nomor-telpon-pic">
+                        </div>
+                     </div>
+                     <div class="col-lg-12">
+                        <div class="form-group">
+                           <label class="form-label required">Keterangan <span class="text-danger">*</span></label>
+                           <textarea class="form-control" id="alamat" name="alamat" rows="4" placeholder="Keterangan"></textarea>
+                        </div>
+                     </div>
                   </div>
                </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label required">Estimasi Besarnya Klaim <span class="text-danger">*</span></label>
-                     <input type="text" class="form-control" placeholder="Estimasi Besarnya Klaim" id="nomor-sip">
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label required">Keterangan <span class="text-danger">*</span></label>
-                     <textarea class="form-control" id="alamat" name="alamat" rows="2" placeholder="Keterangan"></textarea>
-                  </div>
-               </div>
-            </div>
-            <hr>
-            <div class="row">
-               <div class="col-12">
-                  <h4 class="mb-3 required">Dokumen <span class="text-danger">*</span></h4>
-                  <div class="table-responsive">
-                     <table id="tab" class="table table-bordered table-striped table-hover nowrap display" style="width: 100%">
-                        <thead class="bg-gray-400">
-                           <tr>
-                              <th style="text-transform: uppercase; text-align: center;">No.</th>
-                              <th style="text-transform: uppercase; text-align: center;">Nama Dokumen</th>
-                              <th style="text-transform: uppercase; text-align: center;" id="tabHeadFile">Unggah</th>
-                           </tr>
-                        </thead>
-                        <tbody id="tabFileBody">
-                           <tr>
-                              <td class="text-center">1</td>
-                              <td>Copy Polis</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">2</td>
-                              <td>Formulir Klaim</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">3</td>
-                              <td>Copy KTP</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">4</td>
-                              <td>Copy Surat Izin Praktik (SIP) atau Copy tanda terima</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">5</td>
-                              <td>Pengurusan SIP</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">6</td>
-                              <td>Copy Surat Tanda Regisrasi (STR) atau Copy tanda terima pengurusan STR</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">7</td>
-                              <td>Copy resume medis atas penanganan pasien dari RS</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">8</td>
-                              <td>Copy identitas pihak ketiga (pasien/penuntut)</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">9</td>
-                              <td>Laporan kerugian atau tuntutan</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">10</td>
-                              <td>Kuitansi asli atas bukti penyelesaian tuntutan</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">11</td>
-                              <td>Foto, dokumen atau bukti pendukung lainnya</td>
-                              <td><input type="file" class="form-control form-control-sm" accept=".jpg, .jpeg, .png"></td>
-                           </tr>
-                        </tbody>
-                     </table>
+               <div class="col-lg-12">
+                  <div class="text-end">
+                     <h6 class="my-auto"><i>Kolom dengan tanda bintang merah (<span class="text-danger">*</span>) wajib diisi</i></h6>
                   </div>
                </div>
             </div>
@@ -163,9 +143,8 @@
    </div>
    <div class="col-12">
       <div class="card my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-         <div class="card-footer d-flex justify-content-between">
-            <h5 class="my-auto"><i>Kolom dengan tanda bintang merah (<span class="text-danger">*</span>) wajib diisi</i></h5>
-            <button type="submit" class="btn btn-primary me-2">Lapor Klaim</button>
+         <div class="card-footer d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary me-2"><i class="ti ti-mail-forward me-1"></i> Lapor Klaim</button>
          </div>
       </div>
    </div>
@@ -176,6 +155,6 @@
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
 {{-- custom js --}}
-<script src="{{ asset('storage/v1/dashboard.js?v=1') }}"></script>
+@vite(['resources/js/v1/pi/klaim.js'])
 @endpush
 @push('levelScriptsJs')

@@ -106,6 +106,12 @@
                         <li class="pc-item"><a class="pc-link" href="/klaim/data" style="font-size: 16px">Daftar Klaim</a></li>
                      </ul>
                   </li>
+                  <li class="pc-item">
+                     <a href="/faq" class="pc-link" style="font-size: 18px !important;">
+                     <i class="ti ti-info-circle"></i>
+                     <span class="pc-mtext">FAQ</span>
+                     </a>
+                  </li>
                </ul>
             </div>
          </div>

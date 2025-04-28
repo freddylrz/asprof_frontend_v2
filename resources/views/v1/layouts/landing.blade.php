@@ -492,7 +492,7 @@
                 </div>
             </div>
             @elseif (Request::is('asuransi-pendukung'))
-            <div class="container title mb-0">
+            <div class="container title mb-0" id="asuransi-pendukung-section">
                <div class="row align-items-center">
                   <div class="col-12 text-center m-b-30 wow fadeInLeft" data-wow-delay="0.2s" style="margin-top: 80px">
                      <h2 class="text-center uppercase m-b-20">asuransi pendukung</h2>
@@ -500,9 +500,9 @@
                   <!-- First Card -->
                   <div class="col-12 col-md-4">
                      <div class="card" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-                        <img class="img-fluid hei-150 d-block mx-auto" src="{{ asset('assets/images/landing/asuransi-askrida.png') }}" alt="Card image" style="object-fit: contain;">
+                        <img class="img-fluid hei-150 d-block mx-auto" src="{{ asset('assets/images/landing/asuransi-asei.png') }}" alt="Card image" style="object-fit: contain;">
                         <div class="card-body text-center d-grid p-0">
-                           <a href="https://askrida.com/" target="blank" class="btn btn-primary btn-lg" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-top-right-radius: 0px; border-top-left-radius: 0px;">
+                           <a href="https://www.asei.co.id/" target="blank" class="btn btn-primary btn-lg" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-top-right-radius: 0px; border-top-left-radius: 0px;">
                            Lihat lebih lengkap <i class="ti ti-chevron-right"></i>
                            </a>
                         </div>
@@ -887,6 +887,11 @@
 <button class="btn btn-primary d-block d-md-none" id="mobile-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
     <i class="ti ti-message-circle" style="font-size: 28px"></i>
 </button>
+
+<!-- Tombol FAQ -->
+<a href="/faq" class="btn btn-info" id="btn-faq" style="position: fixed; bottom: 20px; left: 20px; z-index: 1000;">
+    <i style="font-size: 20px">FAQ</i>
+</a>
 
 <!-- Offcanvas for Mobile -->
 <div class="offcanvas offcanvas-bottom offcanvas-fullscreen" id="mobileChat" tabindex="-1">

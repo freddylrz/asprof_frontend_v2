@@ -196,7 +196,11 @@ async function submitKlaim() {
         // Ambil data dari form
         const sipId = $('input[name="radio1"]:checked').data('sipid');
         if (!sipId) {
-            Swal.fire('Pilih SIP terlebih dahulu');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Pilih SIP terlebih dahulu'
+            });
             return;
         }
 
@@ -208,7 +212,11 @@ async function submitKlaim() {
 
         // Validasi sederhana
         if (!reportDate || !incidentDate || !incidentDescription || !picName || !picNo) {
-            Swal.fire('Semua kolom wajib diisi');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Semua kolom wajib diisi'
+            });
             return;
         }
 
@@ -253,14 +261,30 @@ async function submitKlaim() {
 
         const result = await response.json();
 
-        if (response.ok) {
-            Swal.fire('Berhasil', 'Klaim berhasil dikirim', 'success');
-            // Reset form atau tindakan lain jika perlu
+        if (response.ok && result.status === 200) {
+            const decryptedData = await decryptData(result.data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: result.message || 'Klaim berhasil dikirim',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Redirect ke detail klaim dengan data hasil decrypt
+                window.location.href = `/klaim/detail/${decryptedData.klaimId}`;
+            });
         } else {
-            Swal.fire('Gagal', result.message || 'Terjadi kesalahan saat mengirim klaim', 'error');
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: result.message || 'Terjadi kesalahan saat mengirim klaim',
+            });
         }
     } catch (error) {
-        Swal.fire('Error', error.message || 'Terjadi kesalahan', 'error');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'Terjadi kesalahan',
+        });
     }
 }
 

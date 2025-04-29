@@ -10,41 +10,6 @@
       <div class="card my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
          <div class="card-body">
             <div class="row">
-               <!-- Nama -->
-               <div class="col-12 col-lg-6">
-                  <ul class="list-group list-group-flush">
-                     <li class="list-group-item d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                           <div class="avtar avtar-s bg-light-secondary">
-                              <i class="ti ti-user-check f-32"></i>
-                           </div>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                           <p class="text-muted mb-1">Nama</p>
-                           <h5 class="mb-0" id="nama-peserta">test daftar tio</h5>
-                        </div>
-                     </li>
-                  </ul>
-               </div>
-               <!-- NIK -->
-               <div class="col-12 col-lg-6">
-                  <ul class="list-group list-group-flush">
-                     <li class="list-group-item d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                           <div class="avtar avtar-s bg-light-secondary">
-                              <i class="ti ti-list-numbers f-32"></i>
-                           </div>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                           <p class="text-muted mb-1">Nomor Polis</p>
-                           <h5 class="mb-0" id="nik-peserta">3321110110030029</h5>
-                        </div>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-            <hr>
-            <div class="row">
                 <div class="col-lg-6">
                    <h5 class="mt-4 mb-3">Pilih SIP <span class="text-danger">*</span></h5>
                    <div id="sip-container">
@@ -98,7 +63,12 @@
                            <textarea class="form-control" id="keterangan-kejadian" name="keterangan-kejadian" rows="4" placeholder="Keterangan"></textarea>
                         </div>
                      </div>
-                     <div class="col-lg-12 m-t-10 m-b-20" id="dokumen-container"></div>
+                     <div class="col-lg-12 m-b-40">
+                        <h5 class="mb-3">Dokumen<span class="text-danger">*</span></h5>
+                        <div id="dokumen-container">
+                            <p><i>Silahkan pilih SIP terlebih dahulu</i></p>
+                        </div>
+                     </div>
                   </div>
                </div>
                <div class="col-lg-12">

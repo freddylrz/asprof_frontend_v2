@@ -205,6 +205,11 @@
     <i class="ti ti-message-circle" style="font-size: 28px"></i>
 </button>
 
+<!-- Tombol FAQ -->
+<a href="/faq" class="btn btn-info" id="btn-faq" style="position: fixed; bottom: 20px; left: 20px; z-index: 1000;">
+    <i style="font-size: 20px">FAQ</i>
+</a>
+
 <!-- Offcanvas for Mobile -->
 <div class="offcanvas offcanvas-bottom offcanvas-fullscreen" id="mobileChat" tabindex="-1">
     <div class="offcanvas-header bg-primary text-white">

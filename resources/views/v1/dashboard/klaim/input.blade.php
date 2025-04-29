@@ -45,49 +45,17 @@
             </div>
             <hr>
             <div class="row">
-               <div class="col-lg-6">
-                  <h5 class="mt-4 mb-3">Pilih SIP <span class="text-danger">*</span></h5>
-                  <div class="offer-check border border-dark rounded p-3">
-                     <div class="form-check">
-                        <input type="radio" name="radio1" class="form-check-input input-primary" id="sip-radio1" />
-                        <label class="form-check-label d-block" for="sip-radio1">
-                           <div class="row">
-                              <div class="col-12 col-md-6 col-lg-12 m-b-10">
-                                 <span class="mb-2 d-block">Nomor SIP:</span>
-                                 <span class="h5 mb-1 d-block">sip/du/774490/2024</span>
-                                 <h6 class="text-muted offer-details">
-                                    <i><i class="ti ti-calendar-time"></i> 2020-05-06 s/d 2025-05-06</i>
-                                 </h6>
-                              </div>
-                              <div class="col-12 col-md-6 col-lg-12 m-b-10">
-                                 <span class="mb-2 d-block">Tempat Praktik:</span>
-                                 <span class="h5 mb-1 d-block">RS Pelita Jaya Harapan Bangsa Negara</span>
-                              </div>
-                           </div>
-                        </label>
-                     </div>
-                  </div>
-                  <div class="offer-check border border-dark rounded p-3">
-                     <div class="form-check">
-                        <input type="radio" name="radio1" class="form-check-input input-primary" id="sip-radio2" />
-                        <label class="form-check-label d-block" for="sip-radio2">
-                           <div class="row">
-                              <div class="col-12 col-md-6 col-lg-12 m-b-10">
-                                 <span class="mb-2 d-block">Nomor SIP:</span>
-                                 <span class="h5 mb-1 d-block">sip/du/774490/2024</span>
-                                 <h6 class="text-muted offer-details">
-                                    <i><i class="ti ti-calendar-time"></i> 2020-05-06 s/d 2025-05-06</i>
-                                 </h6>
-                              </div>
-                              <div class="col-12 col-md-6 col-lg-12 m-b-10">
-                                 <span class="mb-2 d-block">Tempat Praktik:</span>
-                                 <span class="h5 mb-1 d-block">RS Pelita Jaya Harapan Bangsa Negara</span>
-                              </div>
-                           </div>
-                        </label>
-                     </div>
-                  </div>
-               </div>
+                <div class="col-lg-6">
+                   <h5 class="mt-4 mb-3">Pilih SIP <span class="text-danger">*</span></h5>
+                   <div id="sip-container">
+                      <div class="text-center py-3">
+                         <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                         </div>
+                         <div>Memuat data SIP...</div>
+                      </div>
+                   </div>
+                </div>
                <div class="col-lg-6">
                   <div class="row">
                      <div class="col-lg-6">
@@ -105,7 +73,7 @@
                         <div class="form-group">
                            <label class="form-label required">Tanggal Kejadian <span class="text-danger">*</span></label>
                            <div class="input-group date mb-3">
-                              <input type="text" class="form-control datepicker-bs5" placeholder="Tanggal kejadian" id="tamggal-kejadian">
+                              <input type="text" class="form-control datepicker-bs5" placeholder="Tanggal kejadian" id="tanggal-kejadian">
                               <span class="input-group-text">
                               <i class="feather icon-calendar"></i>
                               </span>
@@ -130,6 +98,7 @@
                            <textarea class="form-control" id="alamat" name="alamat" rows="4" placeholder="Keterangan"></textarea>
                         </div>
                      </div>
+                     <div class="col-lg-12" id="dokumen-container" style="margin-top: 1rem;"></div>
                   </div>
                </div>
                <div class="col-lg-12">

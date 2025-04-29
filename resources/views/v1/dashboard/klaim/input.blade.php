@@ -89,13 +89,13 @@
                      <div class="col-lg-6">
                         <div class="form-group">
                            <label class="form-label required">Nomor Telpon PIC <span class="text-danger">*</span></label>
-                           <input type="text" class="form-control" placeholder="Nomor Telpon PIC" id="nomor-telpon-pic">
+                           <input type="text" class="form-control mobilenumber" placeholder="Nomor Telpon PIC" id="nomor-telpon-pic">
                         </div>
                      </div>
                      <div class="col-lg-12">
                         <div class="form-group">
-                           <label class="form-label required">Keterangan <span class="text-danger">*</span></label>
-                           <textarea class="form-control" id="alamat" name="alamat" rows="4" placeholder="Keterangan"></textarea>
+                           <label class="form-label required">Keterangan Kejadian <span class="text-danger">*</span></label>
+                           <textarea class="form-control" id="keterangan-kejadian" name="keterangan-kejadian" rows="4" placeholder="Keterangan"></textarea>
                         </div>
                      </div>
                      <div class="col-lg-12 m-t-10 m-b-20" id="dokumen-container"></div>
@@ -120,7 +120,8 @@
 </div>
 @endsection
 @push('levelPluginsJs')
-<script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
+<!-- input mask -->
+<script src="{{ asset('assets/js/plugins/jquery.inputmask.bundle.min.js')}}"></script>
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
 <!-- bootstrap-datepicker -->

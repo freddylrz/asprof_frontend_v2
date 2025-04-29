@@ -20,6 +20,16 @@ $(document).ready(async function() {
         maxDate: today
     });
 
+    $(".mobilenumber").inputmask({
+        mask: "9999-9999-999999",
+        placeholder: ""
+    });
+
+    $('button[type="submit"]').on('click', function(e) {
+        e.preventDefault();
+        submitKlaim();
+    });
+
     try {
         const sipDatas = await fetchSIPData();
         populateSIP(sipDatas);
@@ -179,4 +189,87 @@ async function fetchAndDisplayDocuments(sipId) {
     });
 
     $dokumenContainer.append($row);
+}
+
+async function submitKlaim() {
+    try {
+        // Ambil data dari form
+        const sipId = $('input[name="radio1"]:checked').data('sipid');
+        if (!sipId) {
+            Swal.fire('Pilih SIP terlebih dahulu');
+            return;
+        }
+
+        const reportDate = $('#tanggal-lapor').val();
+        const incidentDate = $('#tanggal-kejadian').val();
+        const incidentDescription = $('#keterangan-kejadian').val();
+        const picName = $('#nama-pic').val();
+        const picNo = $('#nomor-telpon-pic').val();
+
+        // Validasi sederhana
+        if (!reportDate || !incidentDate || !incidentDescription || !picName || !picNo) {
+            Swal.fire('Semua kolom wajib diisi');
+            return;
+        }
+
+        // Ambil file upload untuk tiap file_type (1-4)
+        // Asumsikan input file upload punya name="dokumen_upload_1", "dokumen_upload_2", dst
+        const uploads = [];
+        for (let fileType = 1; fileType <= 4; fileType++) {
+            const inputFile = $(`input[name="dokumen_upload_${fileType}"]`)[0];
+            if (inputFile && inputFile.files.length > 0) {
+                for (const file of inputFile.files) {
+                    const base64 = await fileToBase64(file);
+                    uploads.push({
+                        file_type: fileType,
+                        file_name: file.name,
+                        file_path: '', // kosongkan atau isi sesuai kebutuhan
+                        file_base64: base64.split(',')[1] // hilangkan prefix data:...base64,
+                    });
+                }
+            }
+        }
+
+        // Siapkan payload
+        const payload = {
+            sipId: sipId.toString(),
+            report_date: reportDate,
+            incident_date: incidentDate,
+            incident_description: incidentDescription,
+            pic_name: picName,
+            pic_no: picNo,
+            upload: uploads
+        };
+
+        // Kirim POST request
+        const response = await fetch(`${apiUrl}/api/client/klaim/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            Swal.fire('Berhasil', 'Klaim berhasil dikirim', 'success');
+            // Reset form atau tindakan lain jika perlu
+        } else {
+            Swal.fire('Gagal', result.message || 'Terjadi kesalahan saat mengirim klaim', 'error');
+        }
+    } catch (error) {
+        Swal.fire('Error', error.message || 'Terjadi kesalahan', 'error');
+    }
+}
+
+// Fungsi helper untuk konversi file ke base64
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+    });
 }

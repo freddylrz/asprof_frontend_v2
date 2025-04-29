@@ -763,7 +763,7 @@
                </div>
             </div>
          </footer>
-         <!-- [ footer apps ] End -->>
+         <!-- [ footer apps ] End -->
       </div>
       <style>
         #chat-box {

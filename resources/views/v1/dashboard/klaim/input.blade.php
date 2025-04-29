@@ -154,6 +154,8 @@
 <script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
+<!-- bootstrap-datepicker -->
+<script src="{{ asset('assets/js/plugins/datepicker-full.min.js')}}"></script>
 {{-- custom js --}}
 @vite(['resources/js/v1/pi/klaim.js'])
 @endpush

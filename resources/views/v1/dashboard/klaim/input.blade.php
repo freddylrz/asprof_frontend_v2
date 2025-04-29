@@ -98,7 +98,7 @@
                            <textarea class="form-control" id="alamat" name="alamat" rows="4" placeholder="Keterangan"></textarea>
                         </div>
                      </div>
-                     <div class="col-lg-12" id="dokumen-container" style="margin-top: 1rem;"></div>
+                     <div class="col-lg-12 m-t-10 m-b-20" id="dokumen-container"></div>
                   </div>
                </div>
                <div class="col-lg-12">

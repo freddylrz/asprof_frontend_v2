@@ -1,4 +1,4 @@
-import { decryptData, encryptData } from "../encrypt.js";
+import { decryptData, encryptData } from "../../encrypt.js";
 
 // Ambil token dari cookie dengan aman
 const cookie = document.cookie.split('; ').find(row => row.startsWith('piat='));
@@ -7,18 +7,82 @@ const token = cookie ? cookie.split('=')[1] : null;
 $(document).ready(async function() {
     const today = new Date();
 
-    // Inisialisasi datepicker
-    new Datepicker(document.querySelector('#tanggal-lapor'), {
+    // Format tanggal ke dd-mm-yyyy
+    function formatDate(date) {
+        const d = date.getDate().toString().padStart(2, '0');
+        const m = (date.getMonth() + 1).toString().padStart(2, '0');
+        const y = date.getFullYear();
+        return `${d}-${m}-${y}`;
+    }
+
+    // Set default tanggal-lapor ke hari ini
+    $('#tanggal-lapor').val(formatDate(today));
+
+    // Inisialisasi datepicker dengan maxDate dan minDate dinamis
+    const tanggalLaporPicker = new Datepicker(document.querySelector('#tanggal-lapor'), {
         buttonClass: 'btn',
         format: 'dd-mm-yyyy',
-        maxDate: today
+        maxDate: today,
+        autohide: true
     });
 
-    new Datepicker(document.querySelector('#tanggal-kejadian'), {
+    const tanggalKejadianPicker = new Datepicker(document.querySelector('#tanggal-kejadian'), {
         buttonClass: 'btn',
         format: 'dd-mm-yyyy',
-        maxDate: today
+        maxDate: today,
+        autohide: true
     });
+
+    // Fungsi untuk parse tanggal dari format dd-mm-yyyy ke Date object
+    function parseDate(str) {
+        const [d, m, y] = str.split('-').map(Number);
+        return new Date(y, m - 1, d);
+    }
+
+    // Update batas min/max tanggal berdasarkan input lawan
+    function updateDateConstraints() {
+        const tanggalLaporVal = $('#tanggal-lapor').val();
+        const tanggalKejadianVal = $('#tanggal-kejadian').val();
+
+        if (tanggalLaporVal) {
+            const tanggalLaporDate = parseDate(tanggalLaporVal);
+            // tanggal-kejadian maxDate tidak boleh lebih dari tanggal-lapor
+            tanggalKejadianPicker.setOptions({ maxDate: tanggalLaporDate < today ? tanggalLaporDate : today });
+            // Jika tanggal-kejadian lebih dari tanggal-lapor, reset tanggal-kejadian
+            if (tanggalKejadianVal) {
+                const tanggalKejadianDate = parseDate(tanggalKejadianVal);
+                if (tanggalKejadianDate > tanggalLaporDate) {
+                    $('#tanggal-kejadian').val('');
+                }
+            }
+        } else {
+            // Jika tanggal-lapor kosong, tanggal-kejadian maxDate default ke today
+            tanggalKejadianPicker.setOptions({ maxDate: today });
+        }
+
+        if (tanggalKejadianVal) {
+            const tanggalKejadianDate = parseDate(tanggalKejadianVal);
+            // tanggal-lapor minDate tidak boleh kurang dari tanggal-kejadian
+            tanggalLaporPicker.setOptions({ minDate: tanggalKejadianDate });
+            // Jika tanggal-lapor kurang dari tanggal-kejadian, reset tanggal-lapor ke tanggal-kejadian
+            if (tanggalLaporVal) {
+                const tanggalLaporDate = parseDate(tanggalLaporVal);
+                if (tanggalLaporDate < tanggalKejadianDate) {
+                    $('#tanggal-lapor').val(formatDate(tanggalKejadianDate));
+                }
+            }
+        } else {
+            // Jika tanggal-kejadian kosong, tanggal-lapor minDate default ke null (no min)
+            tanggalLaporPicker.setOptions({ minDate: null });
+        }
+    }
+
+    // Pasang event listener untuk update constraints saat tanggal berubah
+    $('#tanggal-lapor').on('change', updateDateConstraints);
+    $('#tanggal-kejadian').on('change', updateDateConstraints);
+
+    // Jalankan sekali saat load untuk set constraints awal
+    updateDateConstraints();
 
     $(".mobilenumber").inputmask({
         mask: "9999-9999-999999",
@@ -216,6 +280,30 @@ async function submitKlaim() {
                 icon: 'warning',
                 title: 'Peringatan',
                 text: 'Semua kolom wajib diisi'
+            });
+            return;
+        }
+
+        // Validasi tanggal: tanggal-lapor >= tanggal-kejadian
+        function parseDate(str) {
+            const [d, m, y] = str.split('-').map(Number);
+            return new Date(y, m - 1, d);
+        }
+        const reportDateObj = parseDate(reportDate);
+        const incidentDateObj = parseDate(incidentDate);
+        if (reportDateObj < incidentDateObj) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Tanggal Lapor tidak boleh kurang dari Tanggal Kejadian'
+            });
+            return;
+        }
+        if (incidentDateObj > reportDateObj) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Tanggal Kejadian tidak boleh lebih dari Tanggal Lapor'
             });
             return;
         }

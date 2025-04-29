@@ -97,6 +97,6 @@
 <!-- bootstrap-datepicker -->
 <script src="{{ asset('assets/js/plugins/datepicker-full.min.js')}}"></script>
 {{-- custom js --}}
-@vite(['resources/js/v1/pi/klaim.js'])
+@vite(['resources/js/v1/pi/klaim/input.js'])
 @endpush
 @push('levelScriptsJs')

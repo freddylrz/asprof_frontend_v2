@@ -87,6 +87,10 @@ function initializeDataTable(klaimList) {
 
 function formatDateIndo(dateStr) {
     if (!dateStr) return '-';
+
+    // Cek apakah dateStr mengandung jam dan menit (format "YYYY-MM-DD HH:mm:ss" atau "YYYY-MM-DDTHH:mm:ss")
+    const hasTime = /\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?/.test(dateStr);
+
     const date = new Date(dateStr);
     if (isNaN(date)) return '-';
 
@@ -101,7 +105,7 @@ function formatDateIndo(dateStr) {
     const hh = date.getHours();
     const mm = date.getMinutes();
 
-    if (hh === 0 && mm === 0) {
+    if (!hasTime || (hh === 0 && mm === 0)) {
         return `${d} ${m} ${y}`;
     } else {
         const hhStr = String(hh).padStart(2, '0');

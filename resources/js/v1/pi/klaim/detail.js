@@ -87,7 +87,7 @@ $(document).ready(function () {
                     const logItem = `
                         <li>
                             <i class="ti ${iconClass} f-w-600 task-icon"></i>
-                            <p class="m-b-5">${log.created_at}</p>
+                            <p class="m-b-5">${formatDateIndo(log.created_at)}</p>
                             <h5 class="text-muted">${log.status_description}</h5>
                         </li>
                     `;
@@ -113,6 +113,10 @@ $(document).ready(function () {
 
 function formatDateIndo(dateStr) {
     if (!dateStr) return '-';
+
+    // Cek apakah dateStr mengandung jam dan menit (format "YYYY-MM-DD HH:mm:ss" atau "YYYY-MM-DDTHH:mm:ss")
+    const hasTime = /\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?/.test(dateStr);
+
     const date = new Date(dateStr);
     if (isNaN(date)) return '-';
 
@@ -127,7 +131,7 @@ function formatDateIndo(dateStr) {
     const hh = date.getHours();
     const mm = date.getMinutes();
 
-    if (hh === 0 && mm === 0) {
+    if (!hasTime || (hh === 0 && mm === 0)) {
         return `${d} ${m} ${y}`;
     } else {
         const hhStr = String(hh).padStart(2, '0');

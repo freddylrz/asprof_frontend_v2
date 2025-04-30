@@ -36,8 +36,8 @@ $(document).ready(function () {
           const documents = decrypted.document || [];
           const logs = decrypted.log || [];
 
-          // Fill klaim details
-          $.each(klaim, function(index, item) {
+        // Fill klaim details
+        $.each(klaim, function(index, item) {
             $('#nomor-klaim').text(item.klaim_no || '-');
             $('#nama-peserta').text(item.nama || '-');
             $('#nomor-polis-peserta').text(item.polis_no || '-');
@@ -45,13 +45,26 @@ $(document).ready(function () {
             $('#tanggal-kejadian').text(formatDateIndo(item.incident_date) || '-');
             $('#keterangan-kejadian').text(item.incident_description || '-');
             $('#klaim-status-desc').text(item.klaim_status_desc || '-');
+
+            const $status = $('#klaim-status-desc');
+            // Reset kelas bootstrap warna background dan teks
+            $status.removeClass('bg-primary bg-warning bg-success text-white text-dark rounded px-2 py-1');
+
+            if ([1, 2, 7].includes(item.klaim_status_id)) {
+            $status.addClass('bg-primary text-white rounded px-2 py-1');
+            } else if ([3, 4, 5, 8, 9, 11, 12].includes(item.klaim_status_id)) {
+            $status.addClass('bg-warning text-dark rounded px-2 py-1');
+            } else if ([6, 10, 13].includes(item.klaim_status_id)) {
+            $status.addClass('bg-success text-white rounded px-2 py-1');
+            }
+
             $('#nama-pic').text(item.pic_name || '-');
             $('#nomor-telpon-pic').text(item.pic_no || '-');
             $('#nomor-sip').text(item.sip_no || '-');
             $('#tempat-praktik').text(item.tempat_praktik || '-');
             $('#tanggal-awal-sip').text(formatDateIndo(item.sip_date_start) || '-');
             $('#tanggal-akhir-sip').text(formatDateIndo(item.sip_date_end) || '-');
-          });
+        });
 
           // Fill documents table
           const $tbody = $('#tabFileBody');
@@ -89,6 +102,7 @@ $(document).ready(function () {
                             <i class="ti ${iconClass} f-w-600 task-icon"></i>
                             <p class="m-b-5">${formatDateIndo(log.created_at)}</p>
                             <h5 class="text-muted">${log.status_description}</h5>
+                            <i class=" m-b-5">${log.description || ''}</i>
                         </li>
                     `;
                     $logList.append(logItem);

@@ -12,7 +12,6 @@
                 <table id="table-klaim" class="table table-striped table-bordered nowrap">
                     <thead>
                       <tr>
-                        <th>No</th>
                         <th>No Klaim</th>
                         <th>Nama Asuransi</th>
                         <th>Tempat Praktik</th>

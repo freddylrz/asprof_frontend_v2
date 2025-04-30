@@ -46,14 +46,8 @@ function initializeDataTable(klaimList) {
         data: klaimList,
         responsive: true,
         ordering: true,
-        order: [[3, 'desc']], // urutkan berdasarkan Tanggal Lapor desc
+        order: [[4, 'desc']], // urutkan berdasarkan Tanggal Lapor desc
         columns: [
-            {
-                data: null,
-                render: (data, type, row, meta) => meta.row + 1,
-                className: 'text-center',
-                orderable: false
-            },
             { data: 'klaim_no', defaultContent: '-' },
             { data: 'ins_name', defaultContent: '-', className: 'text-wrap' },
             { data: 'tempat_praktik', defaultContent: '-' },
@@ -103,5 +97,10 @@ function formatDateIndo(dateStr) {
     const d = date.getDate();
     const m = months[date.getMonth()];
     const y = date.getFullYear();
-    return `${d} ${m} ${y}`;
+
+    // Tambahkan jam dan menit dengan format 2 digit
+    const hh = String(date.getHours()).padStart(2, '0');
+    const mm = String(date.getMinutes()).padStart(2, '0');
+
+    return `${d} ${m} ${y} ${hh}:${mm}`;
 }

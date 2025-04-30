@@ -58,7 +58,7 @@ $(document).ready(function () {
           $tbody.empty();
           if (documents.length > 0) {
             documents.forEach((doc, index) => {
-              const fileUrl = `${apiUrl}/storage/${doc.file_path}`;
+              const fileUrl = `${apiUrl}/${doc.file_path}`;
               const row = `
                 <tr>
                   <td class="text-center">${index + 1}</td>

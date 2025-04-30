@@ -46,14 +46,8 @@ function initializeDataTable(klaimList) {
         data: klaimList,
         responsive: true,
         ordering: true,
-        order: [[3, 'desc']], // urutkan berdasarkan Tanggal Lapor desc
+        order: [[4, 'desc']], // urutkan berdasarkan Tanggal Lapor desc
         columns: [
-            {
-                data: null,
-                render: (data, type, row, meta) => meta.row + 1,
-                className: 'text-center',
-                orderable: false
-            },
             { data: 'klaim_no', defaultContent: '-' },
             { data: 'ins_name', defaultContent: '-', className: 'text-wrap' },
             { data: 'tempat_praktik', defaultContent: '-' },
@@ -93,6 +87,10 @@ function initializeDataTable(klaimList) {
 
 function formatDateIndo(dateStr) {
     if (!dateStr) return '-';
+
+    // Cek apakah dateStr mengandung jam dan menit (format "YYYY-MM-DD HH:mm:ss" atau "YYYY-MM-DDTHH:mm:ss")
+    const hasTime = /\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?/.test(dateStr);
+
     const date = new Date(dateStr);
     if (isNaN(date)) return '-';
 
@@ -103,5 +101,15 @@ function formatDateIndo(dateStr) {
     const d = date.getDate();
     const m = months[date.getMonth()];
     const y = date.getFullYear();
-    return `${d} ${m} ${y}`;
+
+    const hh = date.getHours();
+    const mm = date.getMinutes();
+
+    if (!hasTime || (hh === 0 && mm === 0)) {
+        return `${d} ${m} ${y}`;
+    } else {
+        const hhStr = String(hh).padStart(2, '0');
+        const mmStr = String(mm).padStart(2, '0');
+        return `${d} ${m} ${y} ${hhStr}:${mmStr}`;
+    }
 }

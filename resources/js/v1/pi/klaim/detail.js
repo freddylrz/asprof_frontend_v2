@@ -41,16 +41,16 @@ $(document).ready(function () {
             $('#nomor-klaim').text(item.klaim_no || '-');
             $('#nama-peserta').text(item.nama || '-');
             $('#nomor-polis-peserta').text(item.polis_no || '-');
-            $('#tanggal-lapor').text(item.report_date || '-');
-            $('#tanggal-kejadian').text(item.incident_date || '-');
+            $('#tanggal-lapor').text(formatDateIndo(item.report_date) || '-');
+            $('#tanggal-kejadian').text(formatDateIndo(item.incident_date) || '-');
             $('#keterangan-kejadian').text(item.incident_description || '-');
             $('#klaim-status-desc').text(item.klaim_status_desc || '-');
             $('#nama-pic').text(item.pic_name || '-');
             $('#nomor-telpon-pic').text(item.pic_no || '-');
             $('#nomor-sip').text(item.sip_no || '-');
             $('#tempat-praktik').text(item.tempat_praktik || '-');
-            $('#tanggal-awal-sip').text(item.sip_date_start || '-');
-            $('#tanggal-akhir-sip').text(item.sip_date_end || '-');
+            $('#tanggal-awal-sip').text(formatDateIndo(item.sip_date_start) || '-');
+            $('#tanggal-akhir-sip').text(formatDateIndo(item.sip_date_end) || '-');
           });
 
           // Fill documents table
@@ -103,3 +103,28 @@ $(document).ready(function () {
     },
   });
 });
+
+function formatDateIndo(dateStr) {
+    if (!dateStr) return '-';
+    const date = new Date(dateStr);
+    if (isNaN(date)) return '-';
+
+    const months = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    const d = date.getDate();
+    const m = months[date.getMonth()];
+    const y = date.getFullYear();
+
+    const hh = date.getHours();
+    const mm = date.getMinutes();
+
+    if (hh === 0 && mm === 0) {
+        return `${d} ${m} ${y}`;
+    } else {
+        const hhStr = String(hh).padStart(2, '0');
+        const mmStr = String(mm).padStart(2, '0');
+        return `${d} ${m} ${y} ${hhStr}:${mmStr}`;
+    }
+}

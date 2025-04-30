@@ -98,9 +98,14 @@ function formatDateIndo(dateStr) {
     const m = months[date.getMonth()];
     const y = date.getFullYear();
 
-    // Tambahkan jam dan menit dengan format 2 digit
-    const hh = String(date.getHours()).padStart(2, '0');
-    const mm = String(date.getMinutes()).padStart(2, '0');
+    const hh = date.getHours();
+    const mm = date.getMinutes();
 
-    return `${d} ${m} ${y} ${hh}:${mm}`;
+    if (hh === 0 && mm === 0) {
+        return `${d} ${m} ${y}`;
+    } else {
+        const hhStr = String(hh).padStart(2, '0');
+        const mmStr = String(mm).padStart(2, '0');
+        return `${d} ${m} ${y} ${hhStr}:${mmStr}`;
+    }
 }

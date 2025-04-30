@@ -89,6 +89,7 @@ $(document).ready(function () {
                             <i class="ti ${iconClass} f-w-600 task-icon"></i>
                             <p class="m-b-5">${formatDateIndo(log.created_at)}</p>
                             <h5 class="text-muted">${log.status_description}</h5>
+                            <i class="text-muted m-b-5">${log.description || ''}</i>
                         </li>
                     `;
                     $logList.append(logItem);

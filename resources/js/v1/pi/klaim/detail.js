@@ -72,24 +72,31 @@ $(document).ready(function () {
             $tbody.append('<tr><td colspan="3" class="text-center">No documents found</td></tr>');
           }
 
-          // Fill log modal
-          const $logList = $('.task-list');
-          $logList.empty();
-          if (logs.length > 0) {
-            logs.forEach(log => {
-              const iconClass = log.status_description.toLowerCase().includes('pengajuan') ? 'bg-success ti-check' : 'bg-primary ti-clock';
-              const logItem = `
-                <li>
-                  <i class="ti ${iconClass} f-w-600 task-icon"></i>
-                  <p class="m-b-5">${log.created_at}</p>
-                  <h5 class="text-muted">${log.status_description}</h5>
-                </li>
-              `;
-              $logList.append(logItem);
-            });
-          } else {
-            $logList.append('<li>No log data available</li>');
-          }
+            // Fill log modal
+            const $logList = $('.task-list');
+            $logList.empty();
+
+            if (logs.length > 0) {
+                const latestLog = logs.reduce((prev, current) => {
+                    return new Date(prev.created_at) > new Date(current.created_at) ? prev : current;
+                });
+
+                logs.forEach(log => {
+                    const iconClass = (log.created_at === latestLog.created_at) ? 'bg-primary ti-clock' : 'bg-success ti-check';
+
+                    const logItem = `
+                        <li>
+                            <i class="ti ${iconClass} f-w-600 task-icon"></i>
+                            <p class="m-b-5">${log.created_at}</p>
+                            <h5 class="text-muted">${log.status_description}</h5>
+                        </li>
+                    `;
+                    $logList.append(logItem);
+                });
+            } else {
+                $logList.append('<li>No log data available</li>');
+            }
+
         } else {
           alert(decrypted.message || 'Failed to get klaim data');
         }

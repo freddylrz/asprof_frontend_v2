@@ -192,6 +192,8 @@ async function fetchAndDisplayDocuments(sipId) {
 
     const decrypted = await decryptData(result.data);
     documentsList = decrypted.datas || [];
+    console.log(documentsList);
+
 
     $dokumenContainer.empty();
 
@@ -210,7 +212,7 @@ async function fetchAndDisplayDocuments(sipId) {
         const $col = $('<div class="col-12 col-md-6"></div>');
 
         if (doc) {
-            const fileUrl = `${apiUrl}/${doc.file_path}`;
+            const fileUrl = `${apiUrl}/${doc.get_file}`;
             const $card = $(`
                 <div class="border rounded p-3 h-100 d-flex flex-column justify-content-center">
                     <strong class="mb-2">${label}</strong>

@@ -1,5 +1,7 @@
 import { decryptData, encryptData } from "../../encrypt.js";
 
+let documentsList = []; // Array global untuk menyimpan data dokumen
+
 // Ambil token dari cookie dengan aman
 const cookie = document.cookie.split('; ').find(row => row.startsWith('piat='));
 const token = cookie ? cookie.split('=')[1] : null;
@@ -7,7 +9,6 @@ const token = cookie ? cookie.split('=')[1] : null;
 $(document).ready(async function() {
     const today = new Date();
 
-    // Format tanggal ke dd-mm-yyyy
     function formatDate(date) {
         const d = date.getDate().toString().padStart(2, '0');
         const m = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -15,10 +16,8 @@ $(document).ready(async function() {
         return `${d}-${m}-${y}`;
     }
 
-    // Set default tanggal-lapor ke hari ini
     $('#tanggal-lapor').val(formatDate(today));
 
-    // Inisialisasi datepicker dengan maxDate dan minDate dinamis
     const tanggalLaporPicker = new Datepicker(document.querySelector('#tanggal-lapor'), {
         buttonClass: 'btn',
         format: 'dd-mm-yyyy',
@@ -33,22 +32,18 @@ $(document).ready(async function() {
         autohide: true
     });
 
-    // Fungsi untuk parse tanggal dari format dd-mm-yyyy ke Date object
     function parseDate(str) {
         const [d, m, y] = str.split('-').map(Number);
         return new Date(y, m - 1, d);
     }
 
-    // Update batas min/max tanggal berdasarkan input lawan
     function updateDateConstraints() {
         const tanggalLaporVal = $('#tanggal-lapor').val();
         const tanggalKejadianVal = $('#tanggal-kejadian').val();
 
         if (tanggalLaporVal) {
             const tanggalLaporDate = parseDate(tanggalLaporVal);
-            // tanggal-kejadian maxDate tidak boleh lebih dari tanggal-lapor
             tanggalKejadianPicker.setOptions({ maxDate: tanggalLaporDate < today ? tanggalLaporDate : today });
-            // Jika tanggal-kejadian lebih dari tanggal-lapor, reset tanggal-kejadian
             if (tanggalKejadianVal) {
                 const tanggalKejadianDate = parseDate(tanggalKejadianVal);
                 if (tanggalKejadianDate > tanggalLaporDate) {
@@ -56,15 +51,12 @@ $(document).ready(async function() {
                 }
             }
         } else {
-            // Jika tanggal-lapor kosong, tanggal-kejadian maxDate default ke today
             tanggalKejadianPicker.setOptions({ maxDate: today });
         }
 
         if (tanggalKejadianVal) {
             const tanggalKejadianDate = parseDate(tanggalKejadianVal);
-            // tanggal-lapor minDate tidak boleh kurang dari tanggal-kejadian
             tanggalLaporPicker.setOptions({ minDate: tanggalKejadianDate });
-            // Jika tanggal-lapor kurang dari tanggal-kejadian, reset tanggal-lapor ke tanggal-kejadian
             if (tanggalLaporVal) {
                 const tanggalLaporDate = parseDate(tanggalLaporVal);
                 if (tanggalLaporDate < tanggalKejadianDate) {
@@ -72,16 +64,13 @@ $(document).ready(async function() {
                 }
             }
         } else {
-            // Jika tanggal-kejadian kosong, tanggal-lapor minDate default ke null (no min)
             tanggalLaporPicker.setOptions({ minDate: null });
         }
     }
 
-    // Pasang event listener untuk update constraints saat tanggal berubah
     $('#tanggal-lapor').on('change', updateDateConstraints);
     $('#tanggal-kejadian').on('change', updateDateConstraints);
 
-    // Jalankan sekali saat load untuk set constraints awal
     updateDateConstraints();
 
     $(".mobilenumber").inputmask({
@@ -97,7 +86,7 @@ $(document).ready(async function() {
     try {
         const sipDatas = await fetchSIPData();
         populateSIP(sipDatas);
-        attachSIPClickHandler(); // Pasang event handler setelah populate
+        attachSIPClickHandler();
     } catch (error) {
         $('#sip-container').empty();
         Swal.fire({
@@ -108,7 +97,6 @@ $(document).ready(async function() {
     }
 });
 
-// Fungsi untuk memanggil API dan mengembalikan data yang sudah didecrypt
 async function fetchSIPData() {
     const response = await fetch(`${apiUrl}/api/client/klaim/register-asset?type=2`, {
         method: 'GET',
@@ -125,7 +113,6 @@ async function fetchSIPData() {
     }
 }
 
-// Fungsi untuk populate data SIP ke radio button
 function populateSIP(sipDatas) {
     const $container = $('#sip-container');
     $container.empty();
@@ -162,7 +149,6 @@ function populateSIP(sipDatas) {
     });
 }
 
-// Pasang event handler klik/checked pada radio SIP
 function attachSIPClickHandler() {
     $('#sip-container').on('change', 'input[name="radio1"]', async function() {
         const selectedSIPId = $(this).data('sipid');
@@ -180,7 +166,6 @@ function attachSIPClickHandler() {
     });
 }
 
-// Fungsi untuk fetch dokumen berdasarkan SIP ID dan tampilkan di bawah keterangan
 async function fetchAndDisplayDocuments(sipId) {
     const $dokumenContainer = $('#dokumen-container');
     $dokumenContainer.html(`
@@ -206,11 +191,10 @@ async function fetchAndDisplayDocuments(sipId) {
     }
 
     const decrypted = await decryptData(result.data);
-    const documents = decrypted.datas || [];
+    documentsList = decrypted.datas || [];
 
     $dokumenContainer.empty();
 
-    // Daftar file_type yang harus dicek
     const requiredFileTypes = [
         { type: 1, label: 'Dokumen Polis' },
         { type: 2, label: 'KTP' },
@@ -218,12 +202,10 @@ async function fetchAndDisplayDocuments(sipId) {
         { type: 4, label: 'Dokumen SIP' }
     ];
 
-    // Buat container row bootstrap
     const $row = $('<div class="row g-3"></div>');
 
     requiredFileTypes.forEach(({ type, label }) => {
-        // Cari dokumen dengan file_type ini
-        const doc = documents.find(d => d.file_type === type);
+        const doc = documentsList.find(d => d.file_type === type);
 
         const $col = $('<div class="col-12 col-md-6"></div>');
 
@@ -239,7 +221,6 @@ async function fetchAndDisplayDocuments(sipId) {
             `);
             $col.append($card);
         } else {
-            // Jika dokumen tidak ada, tampilkan input file upload
             const $uploadGroup = $(`
                 <div class="border rounded p-3 h-100 d-flex flex-column">
                     <label class="form-label mb-2">${label} <span class="text-danger">*</span></label>
@@ -257,7 +238,6 @@ async function fetchAndDisplayDocuments(sipId) {
 
 async function submitKlaim() {
     try {
-        // Ambil data dari form
         const sipId = $('input[name="radio1"]:checked').data('sipid');
         if (!sipId) {
             Swal.fire({
@@ -274,7 +254,6 @@ async function submitKlaim() {
         const picName = $('#nama-pic').val();
         const picNo = $('#nomor-telpon-pic').val();
 
-        // Validasi sederhana
         if (!reportDate || !incidentDate || !incidentDescription || !picName || !picNo) {
             Swal.fire({
                 icon: 'warning',
@@ -284,7 +263,6 @@ async function submitKlaim() {
             return;
         }
 
-        // Validasi tanggal: tanggal-lapor >= tanggal-kejadian
         function parseDate(str) {
             const [d, m, y] = str.split('-').map(Number);
             return new Date(y, m - 1, d);
@@ -308,25 +286,31 @@ async function submitKlaim() {
             return;
         }
 
-        // Ambil file upload untuk tiap file_type (1-4)
-        // Asumsikan input file upload punya name="dokumen_upload_1", "dokumen_upload_2", dst
-        const uploads = [];
-        for (let fileType = 1; fileType <= 4; fileType++) {
+        // Proses upload dokumen: cek input file upload untuk tiap file_type,
+        // jika ada file baru, konversi ke base64 dan kirim, jika tidak ada gunakan file_base64 lama atau kosongkan
+        const upload = await Promise.all(documentsList.map(async (doc) => {
+            const fileType = doc.file_type;
             const inputFile = $(`input[name="dokumen_upload_${fileType}"]`)[0];
             if (inputFile && inputFile.files.length > 0) {
-                for (const file of inputFile.files) {
-                    const base64 = await fileToBase64(file);
-                    uploads.push({
-                        file_type: fileType,
-                        file_name: file.name,
-                        file_path: '', // kosongkan atau isi sesuai kebutuhan
-                        file_base64: base64.split(',')[1] // hilangkan prefix data:...base64,
-                    });
-                }
+                // Ada file baru diupload, konversi ke base64
+                const base64 = await fileToBase64(inputFile.files[0]);
+                return {
+                    file_type: fileType,
+                    file_name: '',
+                    file_path: '',
+                    file_base64: base64.split(',')[1] // tanpa prefix data:...base64,
+                };
+            } else {
+                // Tidak ada file baru, kirim file_base64 lama jika ada, atau kosongkan
+                return {
+                    file_type: fileType,
+                    file_name: doc.file_name,
+                    file_path: doc.file_path,
+                    file_base64: ''
+                };
             }
-        }
+        }));
 
-        // Siapkan payload
         const payload = {
             sipId: sipId.toString(),
             report_date: reportDate,
@@ -334,10 +318,9 @@ async function submitKlaim() {
             incident_description: incidentDescription,
             pic_name: picName,
             pic_no: picNo,
-            upload: uploads
+            upload
         };
 
-        // Kirim POST request
         const response = await fetch(`${apiUrl}/api/client/klaim/register`, {
             method: 'POST',
             headers: {
@@ -357,7 +340,6 @@ async function submitKlaim() {
                 text: result.message || 'Klaim berhasil dikirim',
                 confirmButtonText: 'OK'
             }).then(() => {
-                // Redirect ke detail klaim dengan data hasil decrypt
                 window.location.href = `/klaim/detail/${decryptedData.klaimId}`;
             });
         } else {
@@ -376,7 +358,6 @@ async function submitKlaim() {
     }
 }
 
-// Fungsi helper untuk konversi file ke base64
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();

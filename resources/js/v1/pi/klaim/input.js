@@ -319,7 +319,7 @@ async function submitKlaim() {
                     file_type: type,
                     file_name: '',
                     file_path: '',
-                    file_base64: base64.split(',')[1]
+                    file_base64: base64
                 };
             } else {
                 const doc = documentsList.find(d => d.file_type === type);

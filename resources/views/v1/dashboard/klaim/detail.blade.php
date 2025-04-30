@@ -44,6 +44,30 @@
             </div>
             <hr>
             <div class="row">
+                <div class="col-lg-6">
+                   <div class="form-group">
+                      <label class="form-label">Nomor SIP</label>
+                      <h5 id="nomor-sip"></h5>
+                   </div>
+                </div>
+                <div class="col-lg-6">
+                   <div class="form-group">
+                      <label class="form-label">Tempat Praktik</label>
+                      <h5 id="tempat-praktik"></h5>
+                   </div>
+                </div>
+                <div class="col-lg-6">
+                   <div class="form-group">
+                      <label class="form-label">Tanggal Awal SIP</label>
+                      <h5 id="tanggal-awal-sip"></h5>
+                   </div>
+                </div>
+                <div class="col-lg-6">
+                   <div class="form-group">
+                      <label class="form-label">Tanggal Akhir SIP</label>
+                      <h5 id="tanggal-akhir-sip"></h5>
+                   </div>
+                </div>
                <div class="col-lg-6">
                   <div class="form-group">
                      <label class="form-label">Tanggal Lapor</label>
@@ -54,18 +78,6 @@
                   <div class="form-group">
                      <label class="form-label">Tanggal Kejadian</label>
                      <h5 id="tanggal-kejadian"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Keterangan Kejadian</label>
-                     <h5 id="keterangan-kejadian"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Status</label>
-                     <h5 id="klaim-status-desc"></h5>
                   </div>
                </div>
                <div class="col-lg-6">
@@ -82,26 +94,14 @@
                </div>
                <div class="col-lg-6">
                   <div class="form-group">
-                     <label class="form-label">Nomor SIP</label>
-                     <h5 id="nomor-sip"></h5>
+                     <label class="form-label">Keterangan Kejadian</label>
+                     <h5 id="keterangan-kejadian"></h5>
                   </div>
                </div>
                <div class="col-lg-6">
                   <div class="form-group">
-                     <label class="form-label">Tempat Praktik</label>
-                     <h5 id="tempat-praktik"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Tanggal Awal SIP</label>
-                     <h5 id="tanggal-awal-sip"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Tanggal Akhir SIP</label>
-                     <h5 id="tanggal-akhir-sip"></h5>
+                     <label class="form-label">Status</label>
+                     <h5 id="klaim-status-desc"></h5>
                   </div>
                </div>
             </div>

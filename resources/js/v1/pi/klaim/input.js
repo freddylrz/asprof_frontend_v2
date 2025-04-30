@@ -286,26 +286,45 @@ async function submitKlaim() {
             return;
         }
 
-        // Proses upload dokumen: cek input file upload untuk tiap file_type,
-        // jika ada file baru, konversi ke base64 dan kirim, jika tidak ada gunakan file_base64 lama atau kosongkan
-        const upload = await Promise.all(documentsList.map(async (doc) => {
-            const fileType = doc.file_type;
-            const inputFile = $(`input[name="dokumen_upload_${fileType}"]`)[0];
+        const requiredFileTypes = [
+            { type: 1, label: 'Dokumen Polis' },
+            { type: 2, label: 'KTP' },
+            { type: 3, label: 'Dokumen STR' },
+            { type: 4, label: 'Dokumen SIP' }
+        ];
+
+        // Validasi file upload wajib berdasarkan keberadaan file_type di documentsList
+        for (const { type, label } of requiredFileTypes) {
+            const docExists = documentsList.some(doc => doc.file_type === type);
+            if (!docExists) {
+                const inputFile = $(`input[name="dokumen_upload_${type}"]`)[0];
+                if (!inputFile || inputFile.files.length === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Peringatan',
+                        text: `File upload untuk "${label}" wajib diisi.`
+                    });
+                    return;
+                }
+            }
+        }
+
+        const upload = await Promise.all(requiredFileTypes.map(async ({ type }) => {
+            const inputFile = $(`input[name="dokumen_upload_${type}"]`)[0];
             if (inputFile && inputFile.files.length > 0) {
-                // Ada file baru diupload, konversi ke base64
                 const base64 = await fileToBase64(inputFile.files[0]);
                 return {
-                    file_type: fileType,
+                    file_type: type,
                     file_name: '',
                     file_path: '',
-                    file_base64: base64.split(',')[1] // tanpa prefix data:...base64,
+                    file_base64: base64.split(',')[1]
                 };
             } else {
-                // Tidak ada file baru, kirim file_base64 lama jika ada, atau kosongkan
+                const doc = documentsList.find(d => d.file_type === type);
                 return {
-                    file_type: fileType,
-                    file_name: doc.file_name,
-                    file_path: doc.file_path,
+                    file_type: type,
+                    file_name: doc ? doc.file_name : '',
+                    file_path: doc ? doc.file_path : '',
                     file_base64: ''
                 };
             }

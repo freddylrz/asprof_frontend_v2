@@ -506,5 +506,5 @@
 <!-- input mask -->
 <script src="{{ asset('assets/js/plugins/jquery.inputmask.bundle.min.js')}}"></script>
 {{-- custom js --}}
-@vite(['resources/js/v1/pi/renewal.js', 'resources/js/v1/pi/count-message.js'])
+@vite(['resources/js/v1/pi/renewal.js'])
 @endpush

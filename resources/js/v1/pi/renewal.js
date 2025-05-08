@@ -9,6 +9,8 @@ var profesiId;
 var daerahPenerbitId;
 var insuranceId;
 var requestId;
+let oldKtpFilePath = '';
+let oldStrFilePath = '';
 
 function change_tab(tab_name) {
     var $someTabTriggerEl = $('a[href="' + tab_name + '"]');
@@ -239,7 +241,6 @@ $(document).ready(function() {
         }
     });
 
-
     // Handle delete row click
     $('#accordionFlushExample').on('click', '.delete-row', function() {
         const rowId = $(this).data('id');
@@ -293,8 +294,6 @@ $(document).ready(function() {
         $('#tambahTempatPraktik').modal('show');
     });
 
-
-
     $('input[type="file"]').change(function() {
         let fileInput = $(this);
         let filePath = fileInput.val();
@@ -322,9 +321,7 @@ $(document).ready(function() {
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    // handleupdateData()
-                    $('#div-renewal').hide();
-                    $('#div-renewal-success').show();
+                    handleupdateData()
                 } else if (result.isDenied) {
                     return Swal.fire({
                         icon: 'error',
@@ -689,16 +686,18 @@ function getDataDetail() {
 
         $.each(response['document'], function (j, item) {
             if (item.file_type == 1) {
-                $('#file_ktp').attr('href', item.link)
-                $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span> ')
+                oldKtpFilePath = `${apiUrl}/${item.file_path}`;
+                $('#file_ktp').attr('href', oldKtpFilePath);
+                $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span> ');
             } else if (item.file_type == 2) {
-                $('#file_str').attr('href', item.link)
-                $('#file_str').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> STR</span> ')
+                oldStrFilePath = `${apiUrl}/${item.file_path}`;
+                $('#file_str').attr('href', oldStrFilePath);
+                $('#file_str').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> STR</span> ');
             } else {
-                $('#file_sip').attr('href', item.link)
-                $('#file_sip').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> SIP</span> ')
+                $('#file_sip').attr('href', `${apiUrl}/${item.file_path}`);
+                $('#file_sip').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> SIP</span> ');
             }
-        })
+        });
 
         if (profesiId == 1) {
             $('#option1').prop('checked', true);
@@ -762,13 +761,23 @@ function getDataDetail() {
 }
 
 // Function to dynamically populate tempatPraktikDetails from response
-function populateTempatPraktikDetails(response) {
-    response.praktik.forEach((item) => {
-        const id = item.id; // Use the item id as the key
+async function populateTempatPraktikDetails(response) {
+    for (const item of response.praktik) {
+        const id = item.id;
         const sipDocument = response.document.find(doc => doc.tempat_praktik_id === id && doc.file_type === 3);
-        const sipURL = sipDocument ? sipDocument.link : '';
+        const sipURL = sipDocument ? sipDocument.file_path : '';
+
+        let unggahSIPBase64 = '';
+        if (sipURL) {
+            try {
+                unggahSIPBase64 = await urlToBase64(sipURL);
+            } catch (error) {
+                console.error('Gagal mengonversi file SIP ke Base64:', error);
+            }
+        }
 
         tempatPraktikDetails[id] = {
+            sipId: item.id,
             nomorSIP: item.sip_no,
             periodeAwalSIP: item.sip_date_start,
             periodeAkhirSIP: item.sip_date_end,
@@ -776,10 +785,21 @@ function populateTempatPraktikDetails(response) {
             daerahPenerbitSIP: item.sip_penerbit,
             namaPenerbitSIP: item.sip_penerbit_desc,
             tempat: item.tempat_praktik,
-            unggahSIP: sipURL
+            unggahSIP: unggahSIPBase64
         };
-    });
+    }
     renderTable();
+}
+
+async function urlToBase64(url) {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
 }
 
 function renderTable() {
@@ -1112,7 +1132,6 @@ function getDataKota() {
     });
 }
 
-
 async function handleupdateData() {
     Swal.fire({
         icon: "info",
@@ -1191,6 +1210,7 @@ async function handleupdateData() {
         str_date_end: $('#status-str').is(':checked') ? "" : $('#periode-akhir-str').val(),
         ins_id: $('input[name="asuransi"]:checked').val(),
         plan_id: $('input[name="plan"]:checked').val(),
+        tempat_praktik_id: [],
         sip_no: [],
         sip_date_start: [],
         sip_date_end: [],
@@ -1198,31 +1218,17 @@ async function handleupdateData() {
         sip_penerbit_desc: [],
         tempat_praktik: [],
         fileInputSIP: [],
+        fileInputKTP: '',
+        fileInputSTR: '',
     };
 
-    async function fileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    }
-
-    const fileInputs = [
-        { id: '#unggah-ktp', formKey: 'fileInputKTP', text: 'KTP' },
-        { id: '#unggah-str', formKey: 'fileInputSTR', text: 'STR' },
-    ];
-
-    await Promise.all(fileInputs.map(async (fileInput) => {
-        const fileElement = $(fileInput.id)[0].files[0];
-        formData[fileInput.formKey] = fileElement ? await fileToBase64(fileElement) : "";
-    }));
-
-    console.log(tempatPraktikDetails);
+    // Ambil file KTP dan STR, fallback ke file lama jika tidak ada upload baru
+    formData.fileInputKTP = await getBase64FileOrOld('#unggah-ktp', oldKtpFilePath);
+    formData.fileInputSTR = await getBase64FileOrOld('#unggah-str', oldStrFilePath);
 
     await Promise.all(
-        Object.values(tempatPraktikDetails).map(async (detail, index) => {
+        Object.values(tempatPraktikDetails).map(async (detail) => {
+            formData.tempat_praktik_id.push(detail.sipId);
             formData.sip_no.push(detail.nomorSIP);
             formData.sip_date_start.push(detail.periodeAwalSIP);
             formData.sip_date_end.push(detail.periodeAkhirSIP);
@@ -1240,7 +1246,8 @@ async function handleupdateData() {
 
     const form = new FormData();
     form.append("data", encryptedData);
-    // Get the token safely
+
+    // Ambil token dari cookie
     const cookie = document.cookie.split('; ').find(row => row.startsWith('piat='));
     const token = cookie ? cookie.split('=')[1] : null;
 
@@ -1276,18 +1283,19 @@ async function handleupdateData() {
                     }, 100);
                 }
             }).then(() => {
-                window.location.replace(`/detail/${data.id}`);
+                $('#div-renewal').hide();
+                $('#div-renewal-success').show();
             });
         } else {
             Swal.fire({
                 icon: 'warning',
-                title: data.message,
+                title: response.message || 'Terjadi kesalahan',
                 showConfirmButton: false,
                 allowOutsideClick: false,
             });
         }
     }).fail(function(error) {
-        let message = 'An unexpected error occurred';
+        let message = 'Terjadi kesalahan saat mengirim data. Silakan coba lagi nanti.';
         try {
             const data = JSON.parse(error.responseText);
             message = data.message || message;
@@ -1302,6 +1310,25 @@ async function handleupdateData() {
     });
 }
 
+async function getBase64FileOrOld(fileInputSelector, oldFilePath) {
+    const fileElement = $(fileInputSelector)[0].files[0];
+    if (fileElement) {
+        return await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(fileElement);
+        });
+    } else if (oldFilePath) {
+        try {
+            return await urlToBase64(oldFilePath);
+        } catch (error) {
+            console.error('Gagal konversi file lama ke Base64:', error);
+            return '';
+        }
+    }
+    return '';
+}
 
 function generateRandomId(length = 10) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

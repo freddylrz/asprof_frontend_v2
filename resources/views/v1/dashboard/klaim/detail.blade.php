@@ -116,6 +116,7 @@
                               <th style="text-transform: uppercase; text-align: center;">No.</th>
                               <th style="text-transform: uppercase; text-align: center;">Nama Dokumen</th>
                               <th style="text-transform: uppercase; text-align: center;" id="tabHeadFile">File</th>
+                              <!-- Kolom Upload File akan ditambahkan secara dinamis via JS jika klaim_status_id == 3 -->
                            </tr>
                         </thead>
                         <tbody id="tabFileBody">
@@ -129,8 +130,13 @@
    </div>
    <div class="col-12">
       <div class="card my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-         <div class="card-footer">
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalLong"><i class="ti ti-list-check me-2"></i>Log Status </button>
+         <div class="card-footer d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+               <i class="ti ti-list-check me-2"></i>Log Status
+            </button>
+            <button type="button" id="btn-submit-doc" class="btn btn-primary d-none">
+               <i class="ti ti-upload me-2"></i>Submit Dokumen
+            </button>
          </div>
       </div>
    </div>

@@ -18,6 +18,8 @@ const inputFiles = [
     'resources/js/v1/pi/endorsement.js',
     'resources/js/v1/pi/count-message.js',
     'resources/js/v1/pi/count-messages-sse.js',
+    'resources/js/v1/pi/klaim/detail.js',
+    'resources/js/v1/pi/klaim/input.js',
 
     'resources/js/v1/admin/login.js',
     'resources/js/v1/admin/list.js',

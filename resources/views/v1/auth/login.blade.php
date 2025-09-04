@@ -14,6 +14,9 @@
                     <li class="nav-item">
                         <a class="nav-link" id="auth-tab-2" data-bs-toggle="tab" href="#auth-2" role="tab" data-slide-index="2" aria-controls="auth-2" aria-selected="true"></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="auth-tab-3" data-bs-toggle="tab" href="#auth-3" role="tab" data-slide-index="3" aria-controls="auth-3" aria-selected="true"></a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <!-- Tab for login with email and STR -->
@@ -41,11 +44,46 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Tab for OTP input -->
+
+                    <!-- Tab for choosing OTP method -->
                     <div class="tab-pane" id="auth-2" role="tabpanel" aria-labelledby="auth-tab-2">
                         <div class="text-center mb-4">
+                            <h3 class="h3">Pilih Metode OTP</h3>
+                            <p class="text-muted mb-4">Pilih bagaimana Anda ingin menerima kode OTP</p>
+                        </div>
+
+                        <!-- Pilihan metode OTP -->
+                        <div class="row my-4 text-center">
+                            <div class="col-12 col-sm-6 mb-3">
+                                <div class="auth-option">
+                                    <input type="radio" class="btn-check" name="otp_method" id="method_email" value="email" checked />
+                                    <label class="auth-megaoption btn btn-outline-primary w-100 py-3" for="method_email">
+                                        <i class="fas fa-envelope mb-2" style="font-size: 3rem;"></i>
+                                        <span class="h5">Email</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 mb-3">
+                                <div class="auth-option">
+                                    <input type="radio" class="btn-check" name="otp_method" id="method_sms" value="sms" />
+                                    <label class="auth-megaoption btn btn-outline-success w-100 py-3" for="method_sms">
+                                        <i class="fas fa-sms mb-2" style="font-size: 3rem;"></i>
+                                        <span class="h5">SMS</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="button" class="btn btn-lg btn-primary" id="chooseMethodButton">Kirim Kode OTP <i class="ti ti-send"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Tab for OTP input -->
+                    <div class="tab-pane" id="auth-3" role="tabpanel" aria-labelledby="auth-tab-3">
+                        <div class="text-center mb-4">
                             <h3 class="h3">Masukan kode OTP</h3>
-                            <p class="text-muted mb-4">Kami telah mengirim kode OTP ke email anda.</p>
+                            <p class="text-muted mb-4" id="otpMethodText">Kami telah mengirim kode OTP ke email anda.</p>
                         </div>
                         <!-- OTP form -->
                         <form id="otpForm" role="form" method="POST" enctype="multipart/form-data">

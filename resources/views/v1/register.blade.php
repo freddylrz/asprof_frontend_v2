@@ -11,7 +11,7 @@
            <div class="multisteps-form__progress-btn" id="poin-dua">Proses<br>Persetujuan <span class="badge d-inline-block badge-bottom" id="status-poin-dua"></span></div>
            <div class="multisteps-form__progress-btn" id="poin-lima">Proses<br>Konfirmasi <span class="badge d-inline-block badge-bottom" id="status-poin-lima"></span></div>
            <div class="multisteps-form__progress-btn" id="poin-tiga">Proses<br>Pembayaran <span class="badge d-inline-block badge-bottom" id="status-poin-tiga"></span></div>
-           <div class="multisteps-form__progress-btn" id="poin-empat">Proses<br>Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
+           <div class="multisteps-form__progress-btn" id="poin-empat">Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
         </div>
      </div>
     </div>
@@ -466,8 +466,8 @@
                            <p class="h4 text-center m-b-25" style="line-height: 2rem">Sebelum mengirim data Anda, pastikan semua informasi yang Anda berikan sudah benar untuk menghindari kendala jika terjadi klaim.</p>
                            <div class="alert alert-danger" role="alert">
                               <div class="form-group form-check text-justify my-auto" style="text-align: justify">
-                                 <input type="checkbox" class="form-check-input" name="stuju" id="setuju" style="transform: scale(1.5);">
-                                 <label for="status-str" class="form-check-label ms-2" style="cursor: unset; color:#000">Ya, saya menyatakan bahwa data yang saya berikan adalah benar dan akurat.</label>
+                                 <input type="checkbox" class="form-check-input" name="setuju" id="setuju" style="transform: scale(1.5);">
+                                 <label for="setuju" class="form-check-label ms-2" style="cursor: unset; color:#000">Ya, saya menyatakan bahwa data yang saya berikan adalah benar dan akurat.</label>
                               </div>
                            </div>
                         </div>

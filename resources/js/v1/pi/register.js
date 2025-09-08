@@ -169,12 +169,15 @@ $(document).ready(function() {
     });
 
     $('#btn-next-profesi').on('click', function() {
+        const kategoriProfesi = $('#kategori-profesi');
+
         if (kategoriProfesi.prop('disabled')) {
             Swal.fire({
                 icon: 'error',
                 text: 'Silahkan pilih profesi terlebih dahulu',
                 allowOutsideClick: false,
             });
+            return;
         }
 
         const fields = [
@@ -206,24 +209,37 @@ $(document).ready(function() {
         }
 
         if (kategoriProfesi.val() == '') {
-            // If no profession category is selected, show an alert
             Swal.fire({
                 icon: 'warning',
                 title: 'Pilih Profesi',
                 text: 'Silakan pilih profesi sebelum melanjutkan.',
             });
-            return false; // Prevent moving to the next tab
+            return false;
         }
 
         // Validate each field
         for (const field of fields) {
-            if ($(field.id).val() == '' || $(field.id).val() == null) {
+            const value = $(field.id).val();
+            if (!value || value.trim() === '') {
                 Swal.fire({
                     icon: "error",
                     text: field.message,
                     allowOutsideClick: false,
                 });
                 return;
+            }
+
+            // Khusus untuk nomor STR, tambahkan validasi 16 digit
+            if (field.id === '#nomor-str') {
+                const cleanedValue = value.replace(/\D/g, ''); // Hapus karakter non-digit
+                if (cleanedValue.length !== 16) {
+                    Swal.fire({
+                        icon: "error",
+                        text: 'Nomor STR harus terdiri dari 16 digit.',
+                        allowOutsideClick: false,
+                    });
+                    return;
+                }
             }
         }
 

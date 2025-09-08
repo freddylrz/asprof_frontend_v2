@@ -3,7 +3,7 @@
 <div class="container" id="container-detail">
    <div class="col-12">
       <div class="text-center mb-5">
-         <p class="h1">Detail Pendaftaran</p>
+         <p class="h1">NO REGISTRASI</p>
          <p class="h1" id="nomor-register"></p>
       </div>
       <div class="text-center mb-5">
@@ -12,7 +12,7 @@
             <div class="multisteps-form__progress-btn" id="poin-dua">Proses<br>Persetujuan <span class="badge d-inline-block badge-bottom" id="status-poin-dua"></span></div>
             <div class="multisteps-form__progress-btn" id="poin-lima">Proses<br>Konfirmasi <span class="badge d-inline-block badge-bottom" id="status-poin-lima"></span></div>
             <div class="multisteps-form__progress-btn" id="poin-tiga">Proses<br>Pembayaran <span class="badge d-inline-block badge-bottom" id="status-poin-tiga"></span></div>
-            <div class="multisteps-form__progress-btn" id="poin-empat">Proses<br>Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
+            <div class="multisteps-form__progress-btn" id="poin-empat">Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
          </div>
       </div>
    </div>

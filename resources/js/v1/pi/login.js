@@ -6,6 +6,9 @@ let otpCalled = false;
 const expiresIn = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const expirationTime = new Date(Date.now() + expiresIn).toUTCString();
 
+// Variable to store selected method
+let selectedMethod = 'email';
+
 $(document).ready(function () {
     // Input mask for 16 digits STR number
     $(".enambelas").inputmask({
@@ -34,6 +37,13 @@ $(document).ready(function () {
     $('#loginForm').on('submit', function (e) {
         e.preventDefault();
         handleLogin();
+    });
+
+    // Handle choose OTP method
+    $('#chooseMethodButton').on('click', function (e) {
+        e.preventDefault();
+        selectedMethod = $('input[name="otp_method"]:checked').val();
+        sendOtpCode();
     });
 
     // Handle OTP form submission
@@ -121,15 +131,52 @@ function handleLogin() {
     }).done(function (response) {
         setLoading(loginButton, false);
         if (response.status === 200) {
-            let timerInterval; // Define timerInterval here for proper scoping
-            // Successful login, show success alert and switch to OTP tab
+            // Successful login, switch to OTP method selection tab
+            switchTab('#auth-2');
+        } else {
+            showAlert('warning', response.message);
+        }
+    }).fail(function (error) {
+        setLoading(loginButton, false);
+        const message = error.responseJSON?.message || 'An unexpected error occurred';
+        showAlert('error', message);
+    });
+}
+
+// Function to send OTP code based on selected method
+function sendOtpCode() {
+    const email = $('#email').val().trim();
+    const strNo = $('#strNo').val().trim();
+
+    const chooseMethodButton = $('#chooseMethodButton');
+    chooseMethodButton.data('original-text', chooseMethodButton.html());
+    setLoading(chooseMethodButton, true);
+
+    // Prepare form data for sending OTP
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("str", strNo);
+    formData.append("method", selectedMethod);
+
+    // Send AJAX request for sending OTP
+    $.ajax({
+        url: `${apiUrl}/api/client/auth/send-otp`,
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+    }).done(function (response) {
+        setLoading(chooseMethodButton, false);
+        if (response.status === 200) {
+            let timerInterval;
+            // Successful OTP sending, show success alert and switch to OTP input tab
             Swal.fire({
                 icon: 'success',
                 title: response.message,
                 html: "<small>Anda akan dialihkan ke halaman berikutnya dalam <b></b> detik</small>",
-                timer: 10000,
+                timer: 3000,
                 timerProgressBar: true,
-                showConfirmButton: true,
+                showConfirmButton: false,
                 allowOutsideClick: false,
                 didOpen: () => {
                     const timer = Swal.getPopup().querySelector('b');
@@ -141,18 +188,18 @@ function handleLogin() {
                     clearInterval(timerInterval);
                 }
             }).then(() => {
-                switchTab('#auth-2');
+                switchTab('#auth-3');
                 startResendCooldown();
             });
         } else {
             showAlert('warning', response.message);
+                switchTab('#auth-3');
         }
     }).fail(function (error) {
-        setLoading(loginButton, false);
-        // for dev
-        switchTab('#auth-2');
+        setLoading(chooseMethodButton, false);
         const message = error.responseJSON?.message || 'An unexpected error occurred';
         showAlert('error', message);
+                switchTab('#auth-3');
     });
 }
 
@@ -188,6 +235,7 @@ function handleOtpVerification() {
     formData.append("email", email);
     formData.append("str", strNo);
     formData.append("otp", otp);
+    formData.append("method", selectedMethod);
 
     // Send AJAX request for OTP verification
     $.ajax({
@@ -244,13 +292,18 @@ function handleOtpVerification() {
     });
 }
 
-
 // Function to switch tabs
 function switchTab(tabId) {
     const tabTrigger = $(`a[href="${tabId}"]`);
     $('#auth-active-slide').html(tabTrigger.data('slide-index'));
     const tab = new bootstrap.Tab(tabTrigger[0]);
     tab.show();
+
+    // Update OTP method text when switching to auth-3 tab
+    if (tabId === '#auth-3') {
+        const methodText = selectedMethod === 'email' ? 'email' : 'SMS';
+        $('#otpMethodText').text(`Kami telah mengirim kode OTP ke ${methodText} anda.`);
+    }
 }
 
 // Function to resend OTP code
@@ -268,32 +321,36 @@ function resendOtpCode() {
         return;
     }
 
-    const loginButton = $('#loginButton');
-    loginButton.data('original-text', loginButton.html());
-    setLoading(loginButton, true);
+    const resendButton = $('#resendCode');
+    const originalText = resendButton.text();
+    resendButton.text('Mengirim...');
+    resendButton.addClass('disabled');
 
     // Prepare form data for resend OTP request
     const formData = new FormData();
     formData.append("email", email);
     formData.append("str", strNo);
+    formData.append("method", selectedMethod);
 
     // Send AJAX request for resending OTP
     $.ajax({
-        url: `${apiUrl}/api/client/auth/login`,
+        url: `${apiUrl}/api/client/auth/send-otp`, // Sesuaikan dengan endpoint resend
         method: 'POST',
         data: formData,
         processData: false,
         contentType: false,
     }).done(function (response) {
-        setLoading(loginButton, false);
+        resendButton.removeClass('disabled');
+        resendButton.text(originalText);
         if (response.status === 200) {
-            showAlert('info', 'Kode OTP telah dikirim ulang.');
+            showAlert('info', `Kode OTP telah dikirim ulang via ${selectedMethod}.`);
             startResendCooldown();
         } else {
             showAlert('warning', response.message);
         }
     }).fail(function (error) {
-        setLoading(loginButton, false);
+        resendButton.removeClass('disabled');
+        resendButton.text(originalText);
         const message = error.responseJSON?.message || 'An unexpected error occurred';
         showAlert('error', message);
     });

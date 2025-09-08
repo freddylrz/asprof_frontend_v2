@@ -67,7 +67,7 @@ async function getDataDetail() {
 
         var statusId;
         $.each(response['policy'], function(j, item) {
-            $('#periode-polis').html(item.polis_start_date + ' - ' + item.polis_end_date);
+            $('#periode-polis').html(item.polis_start_date + ' s.d. ' + item.polis_end_date);
             statusId = item.polis_exp; // Adjusted to match response structure
             $('#nomor-polis').html(item.polis_no + ` <span class="badge bg-light-${item.polis_exp == 1 ? 'success' : ( item.polis_exp == 2 ? 'danger' : 'primary' ) }">${item.polis_exp_desc}</span>`);
             $('#asuransi').html(item.ins_nama);

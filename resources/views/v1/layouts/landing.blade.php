@@ -549,8 +549,8 @@
                                  </div>
                               </div>
                               <div class="flex-grow-1 ms-3">
-                                 <h5 class="mb-0">Graha Pratama 3rd Floor<br>
-                                    JL. M. T. Haryono Kav 15 Jakarta 12810 Indonesia.
+                                 <h5 class="mb-0">
+                                    Gedung Graha Pratama Lt. 3<br> Jl. Letjen M.T. Haryono No.KAV 15 , Tebet Bar., Kec. Tebet, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12770
                                  </h5>
                               </div>
                            </div>
@@ -581,8 +581,8 @@
                                  </div>
                               </div>
                               <div class="flex-grow-1 ms-3">
-                                 <h5 class="mb-0">Cluster Delta Pelangi 2 No.73, Perumahan Deltasari Baru,<br>
-                                    Ngingas, Waru, Sidoarjo, Jawa Timur 61256
+                                 <h5 class="mb-0">
+                                    Gedung Graha Pena Lt. 5 unit 518<br> Jl. A. Yani No.88, Ketintang, Kec. Gayungan, Surabaya, Jawa Timur 60231
                                  </h5>
                               </div>
                            </div>
@@ -597,7 +597,7 @@
                               </div>
                            </div>
                            <div class="d-flex align-items-center justify-content-between mt-4">
-                              <a href="https://maps.app.goo.gl/eHiPSZurnbaNnvPM6" class="btn btn-primary" target="blank">
+                              <a href="https://maps.app.goo.gl/9F7QDk5r3S5Kz6zP8" class="btn btn-primary" target="blank">
                               <i class="ti ti-location f-20 me-1"></i> view on map
                               </a>
                            </div>

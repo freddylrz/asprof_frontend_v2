@@ -56,7 +56,7 @@
                         <div class="row my-4 text-center">
                             <div class="col-12 col-sm-6 mb-3">
                                 <div class="auth-option">
-                                    <input type="radio" class="btn-check" name="otp_method" id="method_email" value="email" checked />
+                                    <input type="radio" class="btn-check" name="otp_method" id="method_email" value="1" checked />
                                     <label class="auth-megaoption btn btn-outline-primary w-100 py-3" for="method_email">
                                         <i class="fas fa-envelope mb-2" style="font-size: 3rem;"></i>
                                         <span class="h5">Email</span>
@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-12 col-sm-6 mb-3">
                                 <div class="auth-option">
-                                    <input type="radio" class="btn-check" name="otp_method" id="method_sms" value="sms" />
+                                    <input type="radio" class="btn-check" name="otp_method" id="method_sms" value="2" />
                                     <label class="auth-megaoption btn btn-outline-success w-100 py-3" for="method_sms">
                                         <i class="fas fa-sms mb-2" style="font-size: 3rem;"></i>
                                         <span class="h5">SMS</span>
@@ -95,9 +95,9 @@
                                 <button type="submit" class="btn btn-lg btn-primary mb-4" id="otpButton">Lanjutkan <i class="ti ti-login"></i></button>
                             </div>
                         </form>
-                        <div class="d-flex justify-content-start align-items-end mt-3">
+                        {{-- <div class="d-flex justify-content-start align-items-end mt-3">
                             <p class="mb-0">Tidak menerima email?<a href="#" class="link-primary d-block" id="resendCode">Kirim kembali kode otp</a></p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

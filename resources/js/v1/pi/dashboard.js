@@ -67,7 +67,7 @@ async function getDataDetail() {
 
         var statusId;
         $.each(response['policy'], function(j, item) {
-            $('#periode-polis').html(item.polis_start_date + ' - ' + item.polis_end_date);
+            $('#periode-polis').html(item.polis_start_date + ' s.d. ' + item.polis_end_date);
             statusId = item.polis_exp; // Adjusted to match response structure
             $('#nomor-polis').html(item.polis_no + ` <span class="badge bg-light-${item.polis_exp == 1 ? 'success' : ( item.polis_exp == 2 ? 'danger' : 'primary' ) }">${item.polis_exp_desc}</span>`);
             $('#asuransi').html(item.ins_nama);
@@ -136,13 +136,15 @@ async function getDataDetail() {
             // Determine the alert text and class based on the status and expire count
             if (item.request_status_id == 6) {
                 if (item.expireCount == 0) {
-                    $('#div-polis-alert').show();
-                       let alertClass = 'alert-warning';
-                       let alertText = "Polis anda akan segera berakhir";
-                    $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
-                    $('#polis-alert').text(alertText);
+                    // Hide the alert when expireCount is 0
+                    $('#div-polis-alert').hide();
                 } else {
+                    // Show alert when expireCount is 1 or 2
                     $('#div-polis-alert').show();
+
+                    let alertClass = '';
+                    let alertText = '';
+
                     if (item.expireCount == 1) {
                         alertClass = 'alert-warning';
                         alertText = "Polis anda akan segera berakhir";
@@ -150,6 +152,7 @@ async function getDataDetail() {
                         alertClass = 'alert-danger';
                         alertText = "Polis anda telah berakhir";
                     }
+
                     $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
                     $('#polis-alert').text(alertText);
                 }

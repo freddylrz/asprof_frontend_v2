@@ -803,7 +803,7 @@ function getDataDetail(reqId) {
         });
 
         // Initial button settings based on status_id
-        if (statusId === 5 || statusId === 6) {
+        if (statusId === 5) {
             $('#btn_info').show();
             $('#btn_nota').show();
         } else {
@@ -897,8 +897,25 @@ function getDataDetail(reqId) {
             )
         })
 
-        Swal.close()
+        Swal.close();
 
+        if (statusId === 6) {
+            Swal.fire({
+                title: 'Pendaftaran Berhasil!',
+                html: 'Proses pendaftaran telah berhasil. Anda dapat melanjutkan untuk login dan mengunduh e-sertifikat Anda.',
+                icon: 'success',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                showConfirmButton: true,
+                confirmButtonText: 'Login Sekarang',
+                confirmButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/login';
+                }
+            });
+        }
         return statusId;
     }).fail(function(error) {
         let data;

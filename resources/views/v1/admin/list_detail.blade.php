@@ -191,7 +191,9 @@
             transform: translateX(-50%);
             font-size: 16px;
         }
-    
+        .modal-open {
+            padding-right: 0 !important;
+        }
     </style>
     <div class="mb-5">
         <a class="btn btn-secondary btn-sm fa-pull-left" href="/admin/list-data"><i class="fa fa-arrow-alt-circle-left"></i>
@@ -219,50 +221,6 @@
                 <h4> Data Summary</h4>
             </div>
             <div class="card-body">
-                {{-- <table class="table table-striped table-bordered display wrap" style="width: 100% !important">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center">Profesi</td>
-                            <th colspan="3" style="text-align: center">Kategori Profesi</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tenaga Medis</td>
-                            <td colspan="2">Dokter</td>
-                            <td colspan="2">Dokter Spesialis</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td colspan="2">4</td>
-                            <td colspan="2">0</td>
-                        </tr>
-                        <tr>
-                            <td class="text-wrap">Tenaga kesehatan</td>
-                            <td class="text-wrap">Tenaga Keperawatan</td>
-                            <td class="text-wrap">Tenaga Kebidanan</td>
-                            <td class="text-wrap">Tenaga Psikologi Klinis</td>
-                            <td class="text-wrap">Tenaga Kefarmasian</td>
-                            <td class="text-wrap">Tenaga Kesehatan Masyarakat</td>
-                            <td class="text-wrap">Tenaga Kesehatan Lingkungan</td>
-                            <td class="text-wrap">Tenaga Gizi</td>
-                            <td class="text-wrap">Tenaga Keterapian Fisik</td>
-                            <td class="text-wrap">Tenaga Keteknisian Medis</td>
-                        </tr>
-                        <tr>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-                    </tbody>
-                </table> --}}
                 <div class="row" id="sum-container">
                     <div class="col-md-6">
                         <table class="table table-striped table-bordered">
@@ -357,7 +315,7 @@
             z-index: 999999;
         }
     </style>
-    <div class="modal fade" id="modal-detail">
+    <div class="modal fade" id="modal-detail" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -587,7 +545,7 @@
         <!-- /.modal-dialog -->
     </div>
 
-    <div class="modal fade" id="modal-upd" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
+    <div class="modal fade" id="modal-upd" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modal1Label" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

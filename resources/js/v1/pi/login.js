@@ -7,7 +7,7 @@ const expiresIn = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const expirationTime = new Date(Date.now() + expiresIn).toUTCString();
 
 // Variable to store selected method
-let selectedMethod = 'email';
+let selectedMethod = '1';
 
 $(document).ready(function () {
     // Input mask for 16 digits STR number
@@ -131,7 +131,8 @@ function handleLogin() {
     }).done(function (response) {
         setLoading(loginButton, false);
         if (response.status === 200) {
-            // Successful login, switch to OTP method selection tab
+            // Simpan user_id dari response
+            window.userId = response.data.user_id;
             switchTab('#auth-2');
         } else {
             showAlert('warning', response.message);
@@ -145,22 +146,16 @@ function handleLogin() {
 
 // Function to send OTP code based on selected method
 function sendOtpCode() {
-    const email = $('#email').val().trim();
-    const strNo = $('#strNo').val().trim();
-
     const chooseMethodButton = $('#chooseMethodButton');
     chooseMethodButton.data('original-text', chooseMethodButton.html());
     setLoading(chooseMethodButton, true);
 
-    // Prepare form data for sending OTP
     const formData = new FormData();
-    formData.append("email", email);
-    formData.append("str", strNo);
-    formData.append("method", selectedMethod);
+    formData.append("user_id", window.userId);
+    formData.append("type", selectedMethod);
 
-    // Send AJAX request for sending OTP
     $.ajax({
-        url: `${apiUrl}/api/client/auth/send-otp`,
+        url: `${apiUrl}/api/client/auth/otp`,
         method: 'POST',
         data: formData,
         processData: false,
@@ -169,7 +164,6 @@ function sendOtpCode() {
         setLoading(chooseMethodButton, false);
         if (response.status === 200) {
             let timerInterval;
-            // Successful OTP sending, show success alert and switch to OTP input tab
             Swal.fire({
                 icon: 'success',
                 title: response.message,
@@ -193,33 +187,19 @@ function sendOtpCode() {
             });
         } else {
             showAlert('warning', response.message);
-                switchTab('#auth-3');
         }
     }).fail(function (error) {
         setLoading(chooseMethodButton, false);
         const message = error.responseJSON?.message || 'An unexpected error occurred';
         showAlert('error', message);
-                switchTab('#auth-3');
     });
 }
 
 // Function to handle OTP verification process
 function handleOtpVerification() {
-    const email = $('#email').val().trim();
-    const strNo = $('#strNo').val().trim();
     const otp = $('.otpInput').map((_, el) => el.value).get().join('');
 
-    // Validate email, STR number, and OTP input
-    if (!email) {
-        showAlert('error', 'Mohon masukan alamat email anda terlebih dahulu!');
-        otpCalled = false;
-        return;
-    }
-    if (!strNo) {
-        showAlert('error', 'Mohon masukan nomor STR anda terlebih dahulu!');
-        otpCalled = false;
-        return;
-    }
+    // Validasi OTP input
     if (otp.length < 6) {
         showAlert('error', 'Mohon masukan kode OTP dengan lengkap!');
         otpCalled = false;
@@ -230,14 +210,11 @@ function handleOtpVerification() {
     otpButton.data('original-text', otpButton.html());
     setLoading(otpButton, true);
 
-    // Prepare form data for OTP verification request
+    // Siapkan form data untuk verifikasi OTP
     const formData = new FormData();
-    formData.append("email", email);
-    formData.append("str", strNo);
+    formData.append("user_id", window.userId); // dari response login
     formData.append("otp", otp);
-    formData.append("method", selectedMethod);
 
-    // Send AJAX request for OTP verification
     $.ajax({
         url: `${apiUrl}/api/client/auth/verify`,
         method: 'POST',
@@ -251,13 +228,13 @@ function handleOtpVerification() {
 
             let timerInterval;
 
-            // Save access_token to cookie
+            // Simpan access_token ke cookie
             document.cookie = `piat=${response.access_token}; expires=${expirationTime}; path=/; SameSite=Lax`;
 
-            // Save user_info to cookie as a JSON string
+            // Simpan user_info ke cookie sebagai string JSON
             document.cookie = `user_info=${JSON.stringify(response.user_info)}; expires=${expirationTime}; path=/; SameSite=Lax`;
 
-            // Successful OTP verification, show success alert and redirect to dashboard
+            // Tampilkan sukses dan redirect ke dashboard
             Swal.fire({
                 icon: 'success',
                 title: response.message,
@@ -308,33 +285,17 @@ function switchTab(tabId) {
 
 // Function to resend OTP code
 function resendOtpCode() {
-    const email = $('#email').val().trim();
-    const strNo = $('#strNo').val().trim();
-
-    // Validate email and STR number input
-    if (!email) {
-        showAlert('error', 'Mohon masukan alamat email anda terlebih dahulu!');
-        return;
-    }
-    if (!strNo) {
-        showAlert('error', 'Mohon masukan nomor STR anda terlebih dahulu!');
-        return;
-    }
-
     const resendButton = $('#resendCode');
     const originalText = resendButton.text();
     resendButton.text('Mengirim...');
     resendButton.addClass('disabled');
 
-    // Prepare form data for resend OTP request
     const formData = new FormData();
-    formData.append("email", email);
-    formData.append("str", strNo);
-    formData.append("method", selectedMethod);
+    formData.append("user_id", window.userId);
+    formData.append("type", selectedMethod);
 
-    // Send AJAX request for resending OTP
     $.ajax({
-        url: `${apiUrl}/api/client/auth/send-otp`, // Sesuaikan dengan endpoint resend
+        url: `${apiUrl}/api/client/auth/send-otp`,
         method: 'POST',
         data: formData,
         processData: false,
@@ -343,7 +304,7 @@ function resendOtpCode() {
         resendButton.removeClass('disabled');
         resendButton.text(originalText);
         if (response.status === 200) {
-            showAlert('info', `Kode OTP telah dikirim ulang via ${selectedMethod}.`);
+            showAlert('info', `Kode OTP telah dikirim ulang via ${selectedMethod === '1' ? 'email' : 'SMS'}.`);
             startResendCooldown();
         } else {
             showAlert('warning', response.message);

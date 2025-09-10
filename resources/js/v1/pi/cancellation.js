@@ -25,6 +25,22 @@ $(document).ready(function() {
         return dateString;
     }
 
+    // Fungsi untuk memformat tanggal dari format YYYY-MM-DD HH:mm:ss ke DD-MM-YYYY HH:mm:ss
+    function formatDateTime(dateTimeString) {
+        if (!dateTimeString || dateTimeString === '0000-00-00 00:00:00') return '-';
+        const date = new Date(dateTimeString);
+        if (isNaN(date.getTime())) return '-';
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+    }
+
     // Function to get status text based on cancellation_status_id
     function getCancellationStatusText(statusId, eventName) {
         switch(statusId) {
@@ -37,6 +53,76 @@ $(document).ready(function() {
             default:
                 return eventName || 'Status tidak diketahui';
         }
+    }
+
+    // Fungsi untuk menampilkan log
+    function showLogModal(logData) {
+        const logTableBody = $('#log-table-body');
+        const noLogMessage = $('#no-log-message');
+
+        logTableBody.empty();
+
+        if (logData && Array.isArray(logData) && logData.length > 0) {
+            logTableBody.show();
+            noLogMessage.hide();
+
+            logData.forEach(log => {
+                const row = `
+                    <tr>
+                        <td>${formatDateTime(log.created_at)}</td>
+                        <td>${log.event_name || '-'}</td>
+                        <td>${log.description || '-'}</td>
+                    </tr>
+                `;
+                logTableBody.append(row);
+            });
+        } else {
+            logTableBody.hide();
+            noLogMessage.show();
+        }
+
+        $('#logModal').modal('show');
+    }
+
+    // Event listener untuk tombol log di view utama
+    $('#log-button').click(function() {
+        loadAndShowLog();
+    });
+
+    // Event listener untuk tombol log di success view
+    $('#log-button-success').click(function() {
+        loadAndShowLog();
+    });
+
+    // Fungsi untuk memuat dan menampilkan log
+    function loadAndShowLog() {
+        // Get the token from the 'piat' cookie
+        const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
+
+        $.ajax({
+            url: `${apiUrl}/api/client/cancellation/get-data`,
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            success: async function(responses) {
+                var response = await decryptData(responses.data);
+
+                if (response && response.log && Array.isArray(response.log)) {
+                    showLogModal(response.log);
+                } else {
+                    showLogModal([]); // Tampilkan pesan tidak ada log
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading log ', xhr, status, error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Gagal memuat data log. Silakan coba lagi.'
+                });
+            }
+        });
     }
 
     // Load cancellation data
@@ -52,6 +138,8 @@ $(document).ready(function() {
             },
             beforeSend: function() {
                 $('#submit-button').hide();
+                $('#log-card').hide();
+                $('#log-card-success').hide();
             },
             success: async function(responses) {
                 var response = await decryptData(responses.data);
@@ -85,10 +173,14 @@ $(document).ready(function() {
                         const cancelData = response.cancel_data[0];
                         const statusId = cancelData.cancellation_status_id;
 
+                        // Tampilkan card log jika ada cancel_data
+                        $('#log-card').show();
+                        $('#log-card-success').show();
+
                         // Tampilkan data pembatalan di success view
                         $('#cancellation-date').text(formatCancelDate(cancelData.cancellation_date) || '-');
                         $('#cancellation-reason').text(cancelData.reason || '-');
-                        $('#cancellation-status').text(getCancellationStatusText(statusId, cancelData.event_name));
+                        $('#cancellation-status-badge').text(getCancellationStatusText(statusId, cancelData.event_name));
 
                         // Logika berdasarkan status
                         if (statusId == 1) {
@@ -246,9 +338,13 @@ $(document).ready(function() {
                         const cancelData = response.cancel_data[0];
                         const statusId = cancelData.cancellation_status_id;
 
+                        // Tampilkan card log
+                        $('#log-card').show();
+                        $('#log-card-success').show();
+
                         $('#cancellation-date').text(formatCancelDate(cancelData.cancellation_date) || '-');
                         $('#cancellation-reason').text(cancelData.reason || '-');
-                        $('#cancellation-status').text(getCancellationStatusText(statusId, cancelData.event_name));
+                        $('#cancellation-status-badge').text(getCancellationStatusText(statusId, cancelData.event_name));
 
                         // Logika berdasarkan status
                         if (statusId == 1) {

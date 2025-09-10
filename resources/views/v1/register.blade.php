@@ -301,7 +301,7 @@
                      <div class="row my-2">
                         <div class="col-lg-6">
                            <div class="form-group">
-                              <label class="form-label required">Nama</label>
+                              <label class="form-label required">Nama Sesuai KTP</label>
                               <input type="text" class="form-control" name="nama" id="nama" placeholder="Masukan nama">
                            </div>
                         </div>

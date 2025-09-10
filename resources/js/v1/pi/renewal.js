@@ -377,6 +377,8 @@ function getDataDetail() {
         },
     }).done(async function(responses) {
         var response = await decryptData(responses.data)
+        console.log(response);
+
         var statusId;
         $.each(response['data'], function(j, item) {
             id = item.id
@@ -1360,18 +1362,16 @@ async function getDataDashboard() {
     }).done(async function(responses) {
         var response = await decryptData(responses.data)
         console.log(response);
-
-        var statusId;
         $.each(response['policy'], function(j, item) {
-            if (item.polis_exp == 1) {
+            if (item.polis_exp == 1 || item.polis_exp == null) {
                 $('#div-polis-alert').show();
                     let alertClass = 'alert-success';
-                    let alertText = "Mohon diperhatikan bahwa perpanjangan polis belum dapat dilakukan saat ini karena polis Anda masih dalam masa aktif. Untuk memastikan kelancaran proses perpanjangan, pengajuan dapat dilakukan paling cepat H-7 sebelum tanggal kedaluwarsa polis.";
+                    let alertText = "Perpanjangan polis belum dapat dilakukan saat ini karena polis Anda masih dalam masa aktif. Untuk memastikan kelancaran proses perpanjangan, pengajuan dapat dilakukan paling cepat H-7 sebelum tanggal kedaluwarsa polis.";
                 $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
                 $('#polis-alert').text(alertText);
                 $('#div-renewal-form').hide();
                 $('#nomor-register').hide();
-            } else {
+            } else if (item.polis_exp == 2) {
                 $('#div-polis-alert').show();
                     let alertClass = 'alert-warning';
                     let alertText = "Mohon diperhatikan bahwa polis Anda telah berakhir. Anda dapat melakukan perpanjangan dengan segera untuk memastikan perlindungan tetap aktif. Silakan mengisi formulir di bawah ini untuk melanjutkan proses perpanjangan.";

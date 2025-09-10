@@ -493,6 +493,15 @@ function getDataDetail(reqId) {
         console.log(response);
 
         var statusId;
+        var sipDocuments = {}; // Untuk menyimpan dokumen SIP berdasarkan tempat_praktik_id
+
+        // Map dokumen SIP berdasarkan tempat_praktik_id
+        $.each(response['document'], function(j, doc) {
+            if (doc.file_type == 3) { // SIP document
+                sipDocuments[doc.tempat_praktik_id] = doc.link;
+            }
+        });
+
         $.each(response['data'], function(j, item) {
             registerId = item.register_no;
             statusId = item.status_id;
@@ -505,27 +514,19 @@ function getDataDetail(reqId) {
             $('#nomor-handphone').html(item.no_hp)
             $('#npwp').html(item.npwp)
             $('#alamat').html(item.alamat)
-            if(item.kontak_darurat == null) {
+            if(item.kontak_darurat == null || item.kontak_darurat == "-") {
                 $('#div-kontak-darurat').hide()
-            }
-            $('#kontak-darurat').html(item.kontak_darurat ? item.kontak_darurat : '-')
-            $('#nomor-darurat').html(item.nomor_darurat ? item.nomor_darurat : '-')
-            if (item.profesi_id == 1) {
-                $('#div-tenaga-medis').removeClass('d-none')
             } else {
-                $('#div-tenaga-kesehatan').removeClass('d-none')
+                $('#div-kontak-darurat').show()
+                $('#kontak-darurat').html(item.kontak_darurat ? item.kontak_darurat : '-')
+                $('#nomor-darurat').html(item.nomor_darurat ? item.nomor_darurat : '-')
             }
+
+            // Profesi
             $('#ketegori-profesi').html(item.profesi_kategori_desc)
-            $('#nomor-str').html(item.str_no)
-            if (item.str_stat == "1") {
-                $('#status-str').html('Seumur Hidup')
-                $('#label-str').html('Periode Awal STR')
-                $('#periode-str').html(item.str_date_start)
-            } else {
-                $('#status-str').html('Belum Seumur Hidup')
-                $('#label-str').html('Masa Berakhir STR')
-                $('#periode-str').html(item.str_date_end)
-            }
+            $('#profesi').html(item.profesi_desc)
+
+            // Plan
             $('#plan').html(item.plan_desc)
             $('#premi-tahunan').html(item.premi)
             $('#jaminan-pertanggungan').html(item.sum_insured)
@@ -541,6 +542,33 @@ function getDataDetail(reqId) {
                     <p class="h5 text-center">Asuransi ${item.ins_nama}</p>
                 </div>
             `)
+
+            $('#list-sip-container').empty(); // Clear existing content
+
+            if (response.praktik && response.praktik.length > 0) {
+                $.each(response.praktik, function(index, sipItem) {
+                    $('#list-sip-container').append(`
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <p class="mb-0 h5">No. SIP : ${sipItem.sip_no || '-'}</p>
+                            <button type="button" class="btn btn-sm btn-primary view-sip-btn" data-sip-index="${index}">
+                                Lihat SIP
+                            </button>
+                        </div>
+                    `);
+                });
+
+                // Store SIP data globally for modal access
+                window.currentSIPData = response.praktik;
+                window.sipDocuments = sipDocuments; // Store document mapping
+            } else {
+                $('#list-sip-container').append(`
+                    <div class="row g-2 align-items-center">
+                        <div class="col-12">
+                            <p class="mb-1">Tidak ada data SIP</p>
+                        </div>
+                    </div>
+                `);
+            }
         })
 
         const getStatusesByStatusId = (statusId) => {
@@ -852,18 +880,91 @@ function getDataDetail(reqId) {
                     `)
         })
 
+        // Handle documents
         $.each(response['document'], function(j, item) {
             if (item.file_type == 1) {
                 $('#file_ktp').attr('href', item.link)
                 $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span> ')
             } else if (item.file_type == 2) {
+                // STR Document
                 $('#file_str').attr('href', item.link)
-                $('#file_str').html('<i class="ti ti-file"></i> <span class=""> STR</span> ')
-            } else {
-                $('#file_sip').attr('href', item.link)
-                $('#file_sip').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> SIP</span> ')
+                $('#downloadSTR').attr('href', item.link)
+                // Set image source for STR modal
+                $('#strImage').attr('src', item.link)
             }
+            // SIP documents handled dynamically in the SIP section
         })
+
+        if (response.data && response.data.length > 0) {
+            const dataStr = response.data[0];
+
+            // Isi nomor STR
+            $('#nomor-str').empty().append(` No. STR : ${dataStr.str_no || '-'}`);
+
+            // Isi status STR dengan badge yang sesuai
+            const statusText = dataStr.str_stat == "1" ? 'Seumur Hidup' : 'Belum Seumur Hidup';
+            $('#status-str').empty().append(`Status: ${statusText}`);
+
+            // Isi periode STR berdasarkan kondisi
+            let periodeText = '';
+            if (dataStr.str_stat == "1") {
+                periodeText = `Periode Awal: ${dataStr.str_date_start || '-'}`;
+            } else {
+                periodeText = `Periode Akhir: ${dataStr.str_date_end || '-'}`;
+            }
+            $('#periode-str').empty().append(periodeText);
+
+            // Populate modal data for STR
+            $('#modalNomorSTR').empty().append(dataStr.str_no || '-')
+            $('#modalStatusSTR').empty().append(statusText)
+            $('#modalPenerbitSTR').empty().append(dataStr.str_penerbit || '-')
+
+            // Kondisi: jika str_stat == 1 maka tampilkan str_date_start, selain itu str_date_end
+            if (dataStr.str_stat == "1") {
+                $('#modalPeriodeAwalSTR').empty().append(dataStr.str_date_start || '-')
+                // Sembunyikan periode akhir untuk status seumur hidup
+                $('#modalPeriodeAkhirSTR').closest('.mb-3').hide();
+            } else {
+                $('#modalPeriodeAwalSTR').empty().append(dataStr.str_date_start || '-')
+                $('#modalPeriodeAkhirSTR').empty().append(dataStr.str_date_end || '-')
+                // Tampilkan periode akhir untuk status tidak seumur hidup
+                $('#modalPeriodeAkhirSTR').closest('.mb-3').show();
+            }
+        }
+
+        // Event listener untuk tombol Lihat SIP (diletakkan di luar loop untuk menghindari multiple binding)
+        $(document).off('click', '.view-sip-btn').on('click', '.view-sip-btn', function() {
+            const sipIndex = $(this).data('sip-index');
+            const sipData = window.currentSIPData[sipIndex];
+
+            // Populate modal SIP dengan data yang sesuai
+            populateSIPModal(sipData, sipIndex);
+        });
+
+        // Function untuk populate data ke modal SIP
+        function populateSIPModal(sipData, sipIndex) {
+            $('#detailNomorSIP').empty().append(sipData.sip_no || '-');
+            $('#detailPeriodeAwalSIP').empty().append(sipData.sip_date_start || '-');
+            $('#detailPeriodeAkhirSIP').empty().append(sipData.sip_date_end || '-');
+            $('#detailDaerahPenerbitSIP').empty().append(sipData.sip_penerbit || '-');
+            $('#detailTempatPraktik').empty().append(sipData.tempat_praktik || '-');
+
+            // Set image for SIP
+            const sipDocumentLink = window.sipDocuments[sipData.id];
+            if (sipDocumentLink) {
+                $('#sipImage').attr('src', sipDocumentLink);
+                $('#downloadSIP').attr('href', sipDocumentLink);
+            } else {
+                $('#sipImage').attr('src', '');
+                $('#downloadSIP').attr('href', '#');
+            }
+
+            // Hide nama penerbit section since it's not in the API response
+            $('#div-nama-penerbit').hide();
+
+            // Show modal
+            $('#sipModal').modal('show');
+        }
 
         $.each(response['paid'], function(j, item) {
             $('#divPay').html(

@@ -145,7 +145,7 @@
 <div class="row" id="div-cancellation-success" style="display: none">
     <div class="col-12">
         <div class="text-center mb-5">
-            <p class="h1">Status Pembatalan</p>
+            <p class="h1">Data Pembatalan</p>
             <p class="h1" id="nomor-register-sukses"></p>
         </div>
 
@@ -161,12 +161,6 @@
         <div class="card shadow-sm border rounded-4 my-3">
             <div class="card-body px-0">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="text-center mb-4">
-                            <h3 class="fw-bold">Detail Status Pembatalan</h3>
-                        </div>
-                    </div>
-
                     <!-- Kolom Kiri -->
                     <div class="col-12 col-lg-6">
                         <ul class="list-group list-group-flush">
@@ -266,8 +260,7 @@
                                         <div class="flex-grow-1 ms-3">
                                             <p class="text-muted mb-1">Status</p>
                                             <h5 class="mb-0">
-                                                <span class="badge bg-warning" id="cancellation-status-badge">Proses Verifikasi</span>
-                                                <span id="cancellation-status" class="ms-2"></span>
+                                                <span class="badge bg-warning" id="cancellation-status-badge"></span>
                                             </h5>
                                         </div>
                                     </div>
@@ -326,6 +319,19 @@
     </div>
 </div>
 
+<!-- Card Tombol Log untuk Success View -->
+<div class="col-12" id="log-card-success" style="display: none;">
+    <div class="card shadow-sm border rounded-4 my-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-end">
+                <button type="button" id="log-button-success" class="btn btn-success">
+                    <i class="ti ti-history me-2"></i>Lihat Log
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Alasan Pembatalan -->
 <div class="modal fade" id="reasonModal" tabindex="-1" aria-labelledby="reasonModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -343,6 +349,40 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <button type="button" class="btn btn-primary" id="confirm-submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Log -->
+<div class="modal fade" id="logModal" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logModalLabel">Aktivitas Log Pembatalan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tanggal & Waktu</th>
+                                <th>Status</th>
+                                <th>Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="log-table-body">
+                            <!-- Log akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="no-log-message" class="text-center text-muted" style="display: none;">
+                    Tidak ada aktivitas log
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>

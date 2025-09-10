@@ -180,7 +180,7 @@
       <!-- [ Header ] end -->
       <!-- [ Main Content ] start -->
       <div class="pc-container">
-         <div class="pc-content">
+         <div class="pc-content" style="background-color: #f1f1f1;">
             @yield('content')
          </div>
       </div>

@@ -1,6 +1,9 @@
 import { decryptData, encryptData } from "../encrypt.js";
 
 $(document).ready(function() {
+    // Global variable to store refund amount
+    let refundAmount = '';
+
     // Function to format date
     function formatDate(dateString) {
         if (!dateString || dateString === '0000-00-00') return '-';
@@ -12,55 +15,28 @@ $(document).ready(function() {
         return dateString;
     }
 
-    // Function to calculate period text
-    function getPeriodText(startDate, endDate) {
-        if (!startDate || !endDate || startDate === '0000-00-00' || endDate === '0000-00-00') return '-';
-
-        try {
-            // Parse dates (assuming DD-MM-YYYY format)
-            const startParts = startDate.split('-');
-            const endParts = endDate.split('-');
-
-            if (startParts.length !== 3 || endParts.length !== 3) return '-';
-
-            const start = new Date(startParts[2], startParts[1] - 1, startParts[0]);
-            const end = new Date(endParts[2], endParts[1] - 1, endParts[0]);
-
-            if (isNaN(start.getTime()) || isNaN(end.getTime())) return '-';
-
-            const diffTime = Math.abs(end - start);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            const years = Math.floor(diffDays / 365);
-            const months = Math.floor((diffDays % 365) / 30);
-            const days = diffDays % 30;
-
-            let periodText = '';
-            if (years > 0) periodText += `${years} tahun `;
-            if (months > 0) periodText += `${months} bulan `;
-            if (days > 0) periodText += `${days} hari`;
-
-            return periodText.trim() || `${diffDays} hari`;
-        } catch (error) {
-            console.error('Error calculating period:', error);
-            return '-';
+    // Function to format date from YYYY-MM-DD to DD-MM-YYYY
+    function formatCancelDate(dateString) {
+        if (!dateString || dateString === '0000-00-00') return '-';
+        const parts = dateString.split('-');
+        if (parts.length === 3) {
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
         }
+        return dateString;
     }
 
-    // Function to calculate remaining period text
-    function getRemainingPeriodText(sisaHari) {
-        if (sisaHari === undefined || sisaHari === null || sisaHari < 0) return '-';
-
-        const years = Math.floor(sisaHari / 365);
-        const months = Math.floor((sisaHari % 365) / 30);
-        const days = sisaHari % 30;
-
-        let periodText = '';
-        if (years > 0) periodText += `${years} tahun `;
-        if (months > 0) periodText += `${months} bulan `;
-        if (days > 0) periodText += `${days} hari`;
-
-        return periodText.trim() || `${sisaHari} hari`;
+    // Function to get status text based on cancellation_status_id
+    function getCancellationStatusText(statusId, eventName) {
+        switch(statusId) {
+            case 1:
+                return 'Proses Verifikasi TIB';
+            case 2:
+                return 'Ditolak - ' + (eventName || 'Pembatalan ditolak');
+            case 3:
+                return 'Diterima - ' + (eventName || 'Pembatalan diterima');
+            default:
+                return eventName || 'Status tidak diketahui';
+        }
     }
 
     // Load cancellation data
@@ -85,6 +61,9 @@ $(document).ready(function() {
                 if (response && response.detail && Array.isArray(response.detail) && response.detail.length > 0) {
                     const data = response.detail[0];
 
+                    // Store refund amount for later use
+                    refundAmount = data.nilai_refund || '';
+
                     // Update cancellation form data
                     $('#nomor-register').text(data.reqId || '-');
                     $('#nama-pemilik').text(data.debitur || '-');
@@ -103,15 +82,35 @@ $(document).ready(function() {
 
                     // Cek apakah sudah ada data pembatalan
                     if (response.cancel_data && Array.isArray(response.cancel_data) && response.cancel_data.length > 0) {
-                        // Jika sudah ada data pembatalan, sembunyikan tombol submit
-                        $('#submit-button').hide();
+                        const cancelData = response.cancel_data[0];
+                        const statusId = cancelData.cancellation_status_id;
 
-                        // Tampilkan pesan bahwa pembatalan sudah dilakukan
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Pembatalan Sudah Dilakukan',
-                            text: 'Polis ini sudah pernah dibatalkan sebelumnya.'
-                        });
+                        // Tampilkan data pembatalan di success view
+                        $('#cancellation-date').text(formatCancelDate(cancelData.cancellation_date) || '-');
+                        $('#cancellation-reason').text(cancelData.reason || '-');
+                        $('#cancellation-status').text(getCancellationStatusText(statusId, cancelData.event_name));
+
+                        // Logika berdasarkan status
+                        if (statusId == 1) {
+                            // Masih dalam proses request pembatalan
+                            $('#cancellation-status-badge').removeClass('bg-success bg-danger').addClass('bg-warning');
+                            $('#div-polis-alert-success').removeClass('alert-success').addClass('alert-warning');
+                            $('#polis-alert-success').text('Permintaan pembatalan polis Anda sedang dalam proses verifikasi. Silakan tunggu konfirmasi lebih lanjut.');
+                        } else if (statusId == 2) {
+                            // Pembatalan ditolak
+                            $('#cancellation-status-badge').removeClass('bg-success bg-warning').addClass('bg-danger');
+                            $('#div-polis-alert-success').removeClass('alert-success').addClass('alert-danger');
+                            $('#polis-alert-success').text('Maaf, permintaan pembatalan polis Anda telah ditolak.');
+                        } else if (statusId == 3) {
+                            // Pembatalan diterima
+                            $('#cancellation-status-badge').removeClass('bg-warning bg-danger').addClass('bg-success');
+                            $('#div-polis-alert-success').removeClass('alert-warning alert-danger').addClass('alert-success');
+                            $('#polis-alert-success').text('Polis Anda telah berhasil dibatalkan. Silakan unduh e-sertifikat dan nota Anda di bawah ini.');
+                        }
+
+                        // Tampilkan success view
+                        $('#div-cancellation').hide();
+                        $('#div-cancellation-success').show();
                     } else {
                         // Jika belum ada data pembatalan, tampilkan tombol submit
                         $('#submit-button').show();
@@ -125,7 +124,7 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Error loading cancellation data:', xhr, status, error);
+                console.error('Error loading cancellation ', xhr, status, error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -169,17 +168,20 @@ $(document).ready(function() {
                 // Get the token from the 'piat' cookie
                 const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
 
+                // Prepare data for submission
+                const submitData = {
+                    reason: reason,
+                    refund_amt: refundAmount
+                };
+
                 $.ajax({
-                    url: `${apiUrl}/api/cancellation/submit`,
+                    url: `${apiUrl}/api/client/cancellation/request`,
                     method: 'POST',
                     headers: {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json"
                     },
-                    data: JSON.stringify({
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        reason: reason
-                    }),
+                    data: JSON.stringify(submitData),
                     beforeSend: function() {
                         $('#submit-button').prop('disabled', true).text('Memproses...');
                     },
@@ -187,33 +189,15 @@ $(document).ready(function() {
                         Swal.fire({
                             icon: 'success',
                             title: 'Berhasil',
-                            text: 'Polis berhasil dibatalkan!'
+                            text: 'Permintaan pembatalan polis berhasil diajukan!'
                         });
 
-                        // Show success view and hide form
-                        $('#div-cancellation').hide();
-                        $('#div-cancellation-success').show();
-
-                        // Update additional success data if available
-                        if (response.data) {
-                            const data = response.data;
-                            $('#nik-renewal').text(data.nik || '-');
-                            $('#npwp-renewal').text(data.npwp || '-');
-                        }
-
-                        // Update download links if provided in response
-                        if (response.download_links) {
-                            if (response.download_links.certificate) {
-                                $('#btn-download-sertifikat').attr('href', response.download_links.certificate).attr('target', '_blank');
-                            }
-                            if (response.download_links.nota) {
-                                $('#btn-download-nota').attr('href', response.download_links.nota).attr('target', '_blank');
-                            }
-                        }
+                        // Load updated data and show success view
+                        loadCancellationDataAfterSubmit();
                     },
                     error: function(xhr, status, error) {
                         console.error('Error submitting cancellation:', xhr, status, error);
-                        let errorMessage = 'Gagal membatalkan polis. Silakan coba lagi.';
+                        let errorMessage = 'Gagal mengajukan pembatalan polis. Silakan coba lagi.';
 
                         if (xhr.responseJSON && xhr.responseJSON.message) {
                             errorMessage = xhr.responseJSON.message;
@@ -230,6 +214,74 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Load cancellation data after submit to get updated cancel_data
+    function loadCancellationDataAfterSubmit() {
+        // Get the token from the 'piat' cookie
+        const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
+
+        $.ajax({
+            url: `${apiUrl}/api/client/cancellation/get-data`,
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            success: async function(responses) {
+                var response = await decryptData(responses.data);
+
+                console.log('Updated data after submit:', response);
+
+                if (response && response.detail && Array.isArray(response.detail) && response.detail.length > 0) {
+                    const data = response.detail[0];
+
+                    // Update success view data
+                    $('#nomor-register-sukses').text(data.reqId || '-');
+                    $('#nama-renewal').text(data.debitur || '-');
+                    $('#nomor-polis-renewal').text(data.polis_no || '-');
+                    $('#periode-polis-renewal').text(`${formatDate(data.polis_start_date)} - ${formatDate(data.polis_end_date)}`);
+                    $('#premi-renewal').text(data.premi || '-');
+
+                    // Update cancel_data information if available
+                    if (response.cancel_data && Array.isArray(response.cancel_data) && response.cancel_data.length > 0) {
+                        const cancelData = response.cancel_data[0];
+                        const statusId = cancelData.cancellation_status_id;
+
+                        $('#cancellation-date').text(formatCancelDate(cancelData.cancellation_date) || '-');
+                        $('#cancellation-reason').text(cancelData.reason || '-');
+                        $('#cancellation-status').text(getCancellationStatusText(statusId, cancelData.event_name));
+
+                        // Logika berdasarkan status
+                        if (statusId == 1) {
+                            // Masih dalam proses request pembatalan
+                            $('#cancellation-status-badge').removeClass('bg-success bg-danger').addClass('bg-warning');
+                            $('#div-polis-alert-success').removeClass('alert-success').addClass('alert-warning');
+                            $('#polis-alert-success').text('Permintaan pembatalan polis Anda sedang dalam proses verifikasi. Silakan tunggu konfirmasi lebih lanjut.');
+                        } else if (statusId == 2) {
+                            // Pembatalan ditolak
+                            $('#cancellation-status-badge').removeClass('bg-success bg-warning').addClass('bg-danger');
+                            $('#div-polis-alert-success').removeClass('alert-success').addClass('alert-danger');
+                            $('#polis-alert-success').text('Maaf, permintaan pembatalan polis Anda telah ditolak.');
+                        } else if (statusId == 3) {
+                            // Pembatalan diterima
+                            $('#cancellation-status-badge').removeClass('bg-warning bg-danger').addClass('bg-success');
+                            $('#div-polis-alert-success').removeClass('alert-warning alert-danger').addClass('alert-success');
+                            $('#polis-alert-success').text('Polis Anda telah berhasil dibatalkan. Silakan unduh e-sertifikat dan nota Anda di bawah ini.');
+                        }
+                    }
+
+                    // Show success view and hide form
+                    $('#div-cancellation').hide();
+                    $('#div-cancellation-success').show();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading updated cancellation ', xhr, status, error);
+                // Still show success view even if we can't load updated data
+                $('#div-cancellation').hide();
+                $('#div-cancellation-success').show();
+            }
+        });
+    }
 
     // Load data when page loads
     loadCancellationData();

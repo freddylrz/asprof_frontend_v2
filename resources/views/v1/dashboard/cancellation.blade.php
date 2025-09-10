@@ -145,66 +145,162 @@
 <div class="row" id="div-cancellation-success" style="display: none">
     <div class="col-12">
         <div class="text-center mb-5">
-            <p class="h1">Pembatalan Berhasil</p>
+            <p class="h1">Status Pembatalan</p>
             <p class="h1" id="nomor-register-sukses"></p>
         </div>
 
-        <div class="alert alert-success d-flex align-items-center" role="alert" id="div-polis-alert-success">
+        <div class="alert alert-warning d-flex align-items-center" role="alert" id="div-polis-alert-success">
             <i class="ti ti-info-circle me-3 my-auto" style="font-size: 2.5rem; font-weight: 900; flex-shrink: 0; color: #050505"></i>
             <span id="polis-alert-success" class="text-wrap h4 my-auto" style="flex: 1;">
-                Polis Anda telah berhasil dibatalkan. Silakan unduh e-sertifikat dan nota Anda di bawah ini.
+                Permintaan pembatalan polis Anda sedang dalam proses verifikasi. Silakan tunggu konfirmasi lebih lanjut.
             </span>
         </div>
     </div>
 
     <div class="col-12">
         <div class="card shadow-sm border rounded-4 my-3">
-            <div class="card-body">
-                <div class="p-3 rounded-3 mb-4" style="background-color: #E6EDFB">
-                    <div class="row">
-                        <div class="col-12 col-xl-6">
-                            <div class="form-group">
-                                <label class="form-label text-muted">Nama</label>
-                                <p class="h5 mb-0" id="nama-renewal">-</p>
-                            </div>
-                        </div>
-                        <div class="col-12 col-xl-6">
-                            <div class="form-group">
-                                <label class="form-label text-muted">NIK</label>
-                                <p class="h5 mb-0" id="nik-renewal">-</p>
-                            </div>
+            <div class="card-body px-0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold">Detail Status Pembatalan</h3>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-12 col-xl-6">
-                            <div class="form-group">
-                                <label class="form-label text-muted">Nomor Polis</label>
-                                <p class="h5 mb-0" id="nomor-polis-renewal">-</p>
-                            </div>
-                        </div>
-                        <div class="col-12 col-xl-6">
-                            <div class="form-group">
-                                <label class="form-label text-muted">NPWP</label>
-                                <p class="h5 mb-0" id="npwp-renewal">-</p>
-                            </div>
-                        </div>
+
+                    <!-- Kolom Kiri -->
+                    <div class="col-12 col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="p-3 rounded-3" style="background-color: #E6EDFB">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="ti ti-user-check f-32"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="text-muted mb-1">Nama</p>
+                                            <h5 class="mb-0" id="nama-renewal">-</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="p-3 rounded-3" style="background-color: #E6EDFB">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="ti ti-calendar-time f-32"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="text-muted mb-1">Periode Polis</p>
+                                            <h5 class="mb-0" id="periode-polis-renewal">-</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="p-3 rounded-3" style="background-color: #E6EDFB">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="ti ti-clock f-32"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="text-muted mb-1">Tanggal Pengajuan</p>
+                                            <h5 class="mb-0" id="cancellation-date">-</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-12 col-xl-6">
-                            <div class="form-group">
-                                <label class="form-label text-muted">Periode Polis</label>
-                                <p class="h5 mb-0" id="periode-polis-renewal">-</p>
-                            </div>
-                        </div>
-                        <div class="col-12 col-xl-6">
-                            <div class="form-group">
-                                <label class="form-label text-muted">Premi</label>
-                                <p class="h5 mb-0" id="premi-renewal">-</p>
-                            </div>
-                        </div>
+
+                    <!-- Kolom Kanan -->
+                    <div class="col-12 col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="p-3 rounded-3" style="background-color: #E6EDFB">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="ti ti-list-numbers f-32"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="text-muted mb-1">Nomor Polis</p>
+                                            <h5 class="mb-0" id="nomor-polis-renewal">-</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="p-3 rounded-3" style="background-color: #E6EDFB">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="ti ti-currency-dollar f-32"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="text-muted mb-1">Premi</p>
+                                            <h5 class="mb-0" id="premi-renewal">-</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="p-3 rounded-3" style="background-color: #E6EDFB">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="ti ti-info-circle f-32"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="text-muted mb-1">Status</p>
+                                            <h5 class="mb-0">
+                                                <span class="badge bg-warning" id="cancellation-status-badge">Proses Verifikasi</span>
+                                                <span id="cancellation-status" class="ms-2"></span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Alasan Pembatalan - Full Width -->
+                    <div class="col-12">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="p-3 rounded-3" style="background-color: #E6EDFB">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="avtar avtar-s bg-light-secondary">
+                                                <i class="ti ti-forms f-32"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="text-muted mb-1">Alasan Pembatalan</p>
+                                            <h5 class="mb-0" id="cancellation-reason">-</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+            </div>
 
+            <!-- Download Section -->
+            <div class="card-footer" id="download-section" style="display: none;">
                 <div class="row g-3">
                     <div class="col-12 col-md-6">
                         <div class="card h-100 shadow-sm border rounded-3">

@@ -26,89 +26,84 @@
             </a>
          </div>
       </div>
-      <div class="card bg-light my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-         <div class="card-body">
-            <div class="text-center mb-5">
-               <p class="h3">Informasi Data Pribadi</p>
+      <!-- Informasi Data Pribadi -->
+      <div class="card shadow-sm border rounded-4 mb-4">
+         <div class="card-body p-4">
+            <div class="text-center mb-4">
+               <h3 class="mb-0 fw-bold">Informasi Data Pribadi</h3>
             </div>
-            <div class="p-3" style="background: #fff; box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #505050;border-radius:8px">
-               <div class="row">
-                  <div class="col-lg-6">
-                     <div class="form-group">
-                        <label class="form-label">Nama</label>
-                        <p class="h5" id="nama"></p>
-                     </div>
+            <div class="row g-3">
+               <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                     <p class="text-muted">Nama</p>
+                     <p class="mb-0 fw-semibold h5" id="nama"></p>
                   </div>
-                  <div class="col-lg-6">
-                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="form-group">
-                           <label class="form-label">NIK</label>
-                           <p class="h5" id="nik"></p>
-                        </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3 h-100">
+                     <div class="d-flex justify-content-between align-items-start h-100">
                         <div>
-                           <a id="file_ktp" class="btn btn-primary" target="_blank"></a>
+                           <p class="text-muted">NIK</p>
+                           <p class="mb-0 fw-semibold h5" id="nik"></p>
                         </div>
+                        <a href="#" class="btn btn-sm btn-outline-primary align-self-end" id="file_ktp" target="_blank">Lihat KTP</a>
                      </div>
                   </div>
                </div>
-               <div class="row">
-                  <div class="col-lg-6">
-                     <div class="form-group">
-                        <label class="form-label">Tempat Tanggal Lahir</label>
-                        <p class="h5" id="ttl"></p>
-                        </select>
-                     </div>
-                  </div>
-                  <div class="col-lg-6">
-                     <div class="form-group">
-                        <label class="form-label">Jenis Kelamin</label>
-                        <p class="h5" id="jenis-kelamin"></p>
-                     </div>
+               <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                     <p class="text-muted">Tempat, Tanggal Lahir</p>
+                     <p class="mb-0 fw-semibold h5" id="ttl"></p>
                   </div>
                </div>
-               <div class="row">
-                  <div class="col-lg-6">
-                     <div class="form-group">
-                        <label class="form-label">Nomor Handphone</label>
-                        <p class="h5" id="nomor-handphone"></p>
-                     </div>
-                  </div>
-                  <div class="col-lg-6">
-                     <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <p class="h5" id="email"></p>
-                     </div>
-                  </div>
-                  <div class="col-lg-6">
-                     <div class="form-group">
-                        <label class="form-label">NPWP</label>
-                        <p class="h5" id="npwp"></p>
-                     </div>
-                  </div>
-                  <div class="col-lg-6">
-                     <div class="form-group">
-                        <label class="form-label">Alamat</label>
-                        <p class="h5" id="alamat"></p>
-                     </div>
+               <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                     <p class="text-muted">Jenis Kelamin</p>
+                     <p class="mb-0 fw-semibold h5" id="jenis-kelamin"></p>
                   </div>
                </div>
-               <div id="div-kontak-darurat">
-                  <hr>
-                  <div class="text-center mb-5">
-                     <h3 class="text-center">Kontak Darurat</h3>
+               <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                     <p class="text-muted">No. HP</p>
+                     <p class="mb-0 fw-semibold h5" id="nomor-handphone"></p>
                   </div>
-                  <div class="row my-2">
-                     <div class="col-lg-6">
-                        <div class="form-group">
-                           <label class="form-label">Nama</label>
-                           <p class="h5" id="kontak-darurat"></p>
-                        </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                     <p class="text-muted">Email</p>
+                     <p class="mb-0 fw-semibold h5" id="email"></p>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                     <p class="text-muted">NPWP</p>
+                     <p class="mb-0 fw-semibold h5" id="npwp"></p>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="bg-light p-3 rounded-3">
+                     <p class="text-muted">Alamat</p>
+                     <p class="mb-0 fw-semibold h5" id="alamat"></p>
+                  </div>
+               </div>
+            </div>
+            <!-- Kontak Darurat -->
+            <div id="div-kontak-darurat">
+               <hr class="my-4">
+               <div class="text-center mb-3">
+                  <h3 class="fw-bold">Kontak Darurat</h3>
+               </div>
+               <div class="row g-3">
+                  <div class="col-md-6">
+                     <div class="bg-light p-3 rounded-3">
+                        <p class="text-muted">Nama</p>
+                        <p class="mb-0 fw-semibold h5" id="kontak-darurat"></p>
                      </div>
-                     <div class="col-lg-6">
-                        <div class="form-group">
-                           <label class="form-label">Nomor Handphone</label>
-                           <p class="h5" id="nomor-darurat"></p>
-                        </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="bg-light p-3 rounded-3">
+                        <p class="text-muted">No. HP</p>
+                        <p class="mb-0 fw-semibold h5" id="nomor-darurat"></p>
                      </div>
                   </div>
                </div>
@@ -117,142 +112,209 @@
       </div>
    </div>
    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
-      <div class="card bg-light my-5" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-         <div class="card-body">
-            <div class="text-center mb-5">
-               <p class="h3">Informasi Data Profesi</p>
+      <!-- Informasi Data Profesi -->
+      <div class="card shadow-sm border rounded-4 mb-4">
+         <div class="card-body p-4">
+            <div class="text-center mb-4">
+               <h3 class="mb-0 fw-bold">Informasi Data Profesi</h3>
             </div>
-            <div class="row my-4">
-               <div class="col-sm-12 col-md-12 col-lg-12">
-                  <div class="p-3 mb-4" style="background: #fff; box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #505050;border-radius:8px">
+            <!-- Profesi & Kategori -->
+            <div class="row my-3">
+               <div class="col-12">
+                  <div class="bg-light p-3 rounded-3 mb-3">
                      <div class="row">
                         <div class="col-lg-6">
                            <div class="form-group">
                               <label class="form-label">Profesi</label>
                               <div class="col-sm-12 col-md-12 d-none" id="div-tenaga-medis">
-                                 <i class="fas fa-user-md mx-2" style="font-size: 1.5rem;"></i>
-                                 <span class="h4">Tenaga Medis</span>
+                                 <i class="fas fa-user-md mx-2" style="font-size: 1.2rem;"></i> <!-- Ukuran ikon dikurangi -->
+                                 <span class="h5">Tenaga Medis</span> <!-- Ukuran font dikurangi -->
                               </div>
                               <div class="col-sm-12 col-md-12 d-none" id="div-tenaga-kesehatan">
-                                 <i class="fas fa-user-nurse mx-2" style="font-size: 1.5rem;"></i>
-                                 <span class="h4">Tenaga Kesehatan</span>
+                                 <i class="fas fa-user-nurse mx-2" style="font-size: 1.2rem;"></i> <!-- Ukuran ikon dikurangi -->
+                                 <span class="h5">Tenaga Kesehatan</span> <!-- Ukuran font dikurangi -->
                               </div>
                            </div>
                         </div>
                         <div class="col-lg-6">
                            <div class="form-group">
                               <label class="form-label">Kategori Profesi</label>
-                              <p class="h4" id="ketegori-profesi"></p>
+                              <p class="mb-0 fw-semibold h5" id="ketegori-profesi"></p>
+                              <!-- Tambahkan h3 dan fw-semibold -->
                            </div>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
-            <div class="row my-4">
-               <div class="col-12 col-md-6">
-                  <div class="text-center mb-3">
-                     <p class="h4">Surat Tanda Registrasi</p>
+            <div class="row my-3 g-3">
+               <!-- Gunakan g-3 untuk jarak antar kolom/card -->
+               <!-- STR -->
+               <div class="col-md-6">
+                  <div class="text-center mb-2">
+                     <!-- Kurangi margin bottom -->
+                     <p class="h3 mb-0">Surat Tanda Registrasi</p>
+                     <!-- Kurangi ukuran font judul -->
                   </div>
-                  <div class="p-3 mb-4" style="background: #fff; box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #505050;border-radius:8px">
-                     <div class="row">
+                  <div class="bg-light p-3 rounded-3 h-100">
+                     <!-- Tambahkan h-100 untuk tinggi penuh -->
+                     <div class="row g-2">
+                        <!-- Gunakan g-2 untuk jarak dalam card STR -->
                         <div class="col-12 col-xl-6">
                            <div class="form-group">
                               <label class="form-label">Nomor STR</label>
-                              <p class="h5" id="nomor-str"></p>
+                              <p class="mb-0 fw-semibold" id="nomor-str"></p>
+                              <!-- Tambahkan fw-semibold -->
                            </div>
                         </div>
                         <div class="col-12 col-xl-6">
                            <div class="form-group">
                               <label class="form-label">Status STR</label>
-                              <p class="h5" id="status-str"></p>
+                              <p class="mb-0 fw-semibold" id="status-str"></p>
+                              <!-- Tambahkan fw-semibold -->
                            </div>
                         </div>
-                     </div>
-                     <div class="row">
                         <div class="col-12 col-xl-6">
                            <div class="form-group">
                               <label class="form-label">File STR</label>
-                              <p>
-                                 <a id="file_str" class="btn btn-primary" target="_blank"></a>
+                              <p class="mb-0">
+                                 <!-- Tombol STR -->
+                                 <a href="#" class="btn btn-sm btn-outline-primary" id="file_str" target="_blank"></a> <!-- Tambahkan btn-sm dan btn-outline-primary -->
                               </p>
                            </div>
                         </div>
                         <div class="col-12 col-xl-6" id="periode-akhir-str-container">
                            <div class="form-group">
                               <label class="form-label" id="label-str"></label>
-                              <p class="h5" id="periode-str"></p>
+                              <p class="mb-0 fw-semibold" id="periode-str"></p>
+                              <!-- Tambahkan fw-semibold -->
                            </div>
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="col-12 col-md-6">
-                  <div class="text-center mb-3">
-                     <p class="h4">Surat Izin Praktik</p>
+               <!-- SIP -->
+               <div class="col-md-6">
+                  <div class="text-center mb-2">
+                     <!-- Kurangi margin bottom -->
+                     <p class="h3 mb-0">Surat Izin Praktik</p>
+                     <!-- Kurangi ukuran font judul -->
                   </div>
-                  <div class="row">
-                     <div class="col-sm-12 col-md-12 col-lg-12">
-                        <div style="background: #fff; box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #505050;border-radius:8px">
-                           <div class="">
-                              <ul class="list-group" id="list-sip">
-                              </ul>
-                           </div>
-                           <div id="viewDetailModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewDetailModalTitle" aria-hidden="true">
-                              <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                       <h5 class="modal-title" id="viewDetailModalTitle">Detail Surat Izin Praktik</h5>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                       <div class="row my-2">
-                                          <div class="col-lg-12">
-                                             <div class="form-group">
-                                                <label class="form-label">Nomor SIP</label>
-                                                <p class="h5" id="detailNomorSIP"></p>
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-6">
-                                             <div class="form-group">
-                                                <label class="form-label">Periode Awal SIP</label>
-                                                <p class="h5" id="detailPeriodeAwalSIP"></p>
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-6">
-                                             <div class="form-group">
-                                                <label class="form-label">Periode Akhir SIP</label>
-                                                <p class="h5" id="detailPeriodeAkhirSIP"></p>
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-6">
-                                             <div class="form-group">
-                                                <label class="form-label">Penerbit SIP</label>
-                                                <p class="h5" id="detailDaerahPenerbitSIP"></p>
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-6">
-                                             <div class="form-group">
-                                                <label class="form-label">Tempat Praktik</label>
-                                                <p class="h5" id="detailTempatPraktik"></p>
-                                             </div>
-                                          </div>
-                                          <div class="col-lg-6" id="div-nama-penerbit" style="display: none">
-                                             <div class="form-group">
-                                                <label class="form-label">Nama Penerbit SIP</label>
-                                                <p class="h5" id="namaPenerbitSIP"></p>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <div class="modal-footer justify-content-between">
-                                       <a id="file_sip" class="btn btn-primary" target="_blank"><i class="ti ti-file"></i> <span class="d-none d-md-inline">SIP</span></a>
-                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
+                  <div class="bg-light p-3 rounded-3 h-100">
+                     <!-- Tambahkan h-100 untuk tinggi penuh -->
+                     <!-- List SIP -->
+                     <ul class="list-group list-group-flush" id="list-sip">
+                        <!-- Dinamis dari JS -->
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Modal SIP Detail (ditempatkan di luar card untuk struktur HTML yang benar) -->
+      <div id="viewDetailModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewDetailModalTitle" aria-hidden="true">
+         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="viewDetailModalTitle">Detail Surat Izin Praktik</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <div class="row my-2 g-3">
+                     <div class="col-lg-12">
+                        <div class="form-group">
+                           <label class="form-label">Nomor SIP</label>
+                           <p class="h5" id="detailNomorSIP"></p>
                         </div>
+                     </div>
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                           <label class="form-label">Periode Awal SIP</label>
+                           <p class="h5" id="detailPeriodeAwalSIP"></p>
+                        </div>
+                     </div>
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                           <label class="form-label">Periode Akhir SIP</label>
+                           <p class="h5" id="detailPeriodeAkhirSIP"></p>
+                        </div>
+                     </div>
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                           <label class="form-label">Penerbit SIP</label>
+                           <p class="h5" id="detailDaerahPenerbitSIP"></p>
+                        </div>
+                     </div>
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                           <label class="form-label">Tempat Praktik</label>
+                           <p class="h5" id="detailTempatPraktik"></p>
+                        </div>
+                     </div>
+                     <div class="col-lg-6" id="div-nama-penerbit" style="display: none">
+                        <div class="form-group">
+                           <label class="form-label">Nama Penerbit SIP</label>
+                           <p class="h5" id="namaPenerbitSIP"></p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="modal-footer justify-content-between">
+                  <a href="#" id="file_sip" class="btn btn-primary" target="_blank"><i class="ti ti-file"></i> <span class="d-none d-md-inline">SIP</span></a>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
+      <!-- Informasi Plan -->
+      <div class="card shadow-sm border rounded-4 mb-4">
+         <div class="card-body p-4">
+            <div class="text-center mb-4">
+               <h3 class="mb-0 fw-bold">Informasi Plan</h3>
+            </div>
+            <div class="bg-light p-3 rounded-3">
+               <!-- Asuransi (dari div-asuransi) -->
+               <div class="row mb-2" id="div-asuransi">
+                  <!-- Dinamis dari JS -->
+               </div>
+               <!-- List Plan (horizontal) -->
+               <div class="row g-2">
+                  <div class="col-md-12">
+                     <div class="row align-items-center mb-1">
+                        <div class="col-md-6 text-muted">Plan</div>
+                        <div class="col-md-6 text-end" id="plan"></div>
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <div class="row align-items-center mb-1">
+                        <div class="col-md-6 text-muted">Premi Tahunan</div>
+                        <div class="col-md-6 text-end" id="premi-tahunan"></div>
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <div class="row align-items-center mb-1">
+                        <div class="col-md-6 text-muted">Biaya Polis</div>
+                        <div class="col-md-6 text-end" id="biaya-polis"></div>
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <div class="row align-items-center mb-1">
+                        <div class="col-md-6 text-muted">Biaya Materai</div>
+                        <div class="col-md-6 text-end" id="biaya-materai"></div>
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <div class="row align-items-center mb-1">
+                        <div class="col-md-6 text-muted">Total Premi</div>
+                        <div class="col-md-6 text-end" id="total-tagihan"></div>
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <div class="row align-items-center mb-1">
+                        <div class="col-md-6 text-muted">Jaminan Pertanggungan</div>
+                        <div class="col-md-6 text-end" id="jaminan-pertanggungan"></div>
                      </div>
                   </div>
                </div>
@@ -261,36 +323,7 @@
       </div>
    </div>
    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
-      <div class="card bg-light my-5" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-         <div class="card-body">
-            <div class="text-center mb-5">
-               <p class="h3">Informasi Plan</p>
-            </div>
-            <div class="p-3" style="background: #fff; box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #505050;border-radius:8px">
-               <div class="row">
-                  <div class="col-12 col-md-7" id="div-asuransi">
-                  </div>
-                  <div class="col-12 col-md-5">
-                     <div class="form-group">
-                        <label class="form-label">Plan:</label>
-                        <p class="h5" id="plan"></p>
-                     </div>
-                     <div class="form-group">
-                        <label class="form-label">Premi Tahunan:</label>
-                        <p class="h4" id="premi-tahunan"></p>
-                     </div>
-                     <div class="form-group">
-                        <label class="form-label">Jaminan Pertanggungan:</label>
-                        <p class="h4" id="jaminan-pertanggungan"></p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
-      <div class="card bg-light my-5" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
+      <div class="card shadow-sm border rounded-4 mb-4">
          <div class="card-body d-flex justify-content-between">
             <div>
                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-log" id="btn_log">
@@ -358,22 +391,22 @@
    </div>
 </footer>
 <footer class="footer fixed-bottom d-none" style="border-top: 2px solid #4680ff;" id="confirm-footer">
-    <div class="border-top border-bottom footer-center p-4" style="background-image: url({{ asset('assets/images/landing/img-headerbg.png') }})">
-       <div class="container">
-          <div class="row">
-             <div class="col-md-8 p-3">
-                <p class="h2">Silahkan periksa kembali data anda sebelum melanjutkan ke proses pembayaran</p>
-             </div>
-             <div class="col-md-4 d-flex align-items-center justify-content-center text-center gap-2">
-                <button type="button" id="update-confirm" class="btn btn-secondary btn-lg" style="font-size: 28px"> Revisi Data <i class="ti ti-edit" style="font-size: 28px"></i>
-                </button>
-                <button type="button" id="confirm-now" class="btn btn-success btn-lg" style="font-size: 28px"> Konfirmasi <i class="ti ti-checkbox" style="font-size: 28px"></i>
-                </button>
-             </div>
-          </div>
-       </div>
-    </div>
- </footer>
+   <div class="border-top border-bottom footer-center p-4" style="background-image: url({{ asset('assets/images/landing/img-headerbg.png') }})">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-8 p-3">
+               <p class="h2">Silahkan periksa kembali data anda sebelum melanjutkan ke proses pembayaran</p>
+            </div>
+            <div class="col-md-4 d-flex align-items-center justify-content-center text-center gap-2">
+               <button type="button" id="update-confirm" class="btn btn-secondary btn-lg" style="font-size: 28px"> Revisi Data <i class="ti ti-edit" style="font-size: 28px"></i>
+               </button>
+               <button type="button" id="confirm-now" class="btn btn-success btn-lg" style="font-size: 28px"> Konfirmasi <i class="ti ti-checkbox" style="font-size: 28px"></i>
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+</footer>
 <div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true" role="dialog">
    <div class="modal-dialog modal-fullscreen-sm-down" role="document">
       <div class="modal-content">
@@ -385,50 +418,49 @@
          </div>
          <div class="modal-body overflow-payment">
             <style>
-                .custom-list-group .custom-list-item {
-                   border-bottom: 1px dashed #dee2e6 !important; /* Garis putus-putus */
-                }
-                .custom-list-group .custom-list-item:last-child {
-                   border-bottom: none !important; /* Hilangkan garis bawah untuk item terakhir */
-                }
-                .custom-list-group .custom-list-item:nth-last-child(2) {
-                   border-bottom: 2px solid #000 !important; /* Garis tebal dan solid di atas Total Tagihan */
-                }
-             </style>
-
-             <div class="row">
-                <div class="col-12">
-                   <ul class="list-group list-group-flush custom-list-group">
-                      <li class="list-group-item px-0 pb-2 pt-0 custom-list-item">
-                         <h5 class="mb-0">Ringkasan Pembayaran</h5>
-                      </li>
-                      <li class="list-group-item px-0 py-1 custom-list-item">
-                         <div class="float-end">
-                            <h5 class="mb-0" id="premi-tahunan-pembayaran">-</h5>
-                         </div>
-                         <span class="text-muted">Premi</span>
-                      </li>
-                      <li class="list-group-item px-0 py-1 custom-list-item">
-                         <div class="float-end">
-                            <h5 class="mb-0" id="biaya-polis">-</h5>
-                         </div>
-                         <span class="text-muted">Biaya Polis</span>
-                      </li>
-                      <li class="list-group-item px-0 py-1 custom-list-item">
-                         <div class="float-end">
-                            <h5 class="mb-0" id="biaya-materai">-</h5>
-                         </div>
-                         <span class="text-muted">Biaya Materai</span>
-                      </li>
-                      <li class="list-group-item px-0 py-1 custom-list-item">
-                         <div class="float-end">
-                            <h4 class="mb-0 text-primary" id="total-tagihan">-</h4>
-                         </div>
-                         <span class="text-muted f-16">Total tagihan</span>
-                      </li>
-                   </ul>
-                </div>
-             </div>
+               .custom-list-group .custom-list-item {
+               border-bottom: 1px dashed #dee2e6 !important; /* Garis putus-putus */
+               }
+               .custom-list-group .custom-list-item:last-child {
+               border-bottom: none !important; /* Hilangkan garis bawah untuk item terakhir */
+               }
+               .custom-list-group .custom-list-item:nth-last-child(2) {
+               border-bottom: 2px solid #000 !important; /* Garis tebal dan solid di atas Total Tagihan */
+               }
+            </style>
+            <div class="row">
+               <div class="col-12">
+                  <ul class="list-group list-group-flush custom-list-group">
+                     <li class="list-group-item px-0 pb-2 pt-0 custom-list-item">
+                        <h5 class="mb-0">Ringkasan Pembayaran</h5>
+                     </li>
+                     <li class="list-group-item px-0 py-1 custom-list-item">
+                        <div class="float-end">
+                           <h5 class="mb-0" id="premi-tahunan-pembayaran">-</h5>
+                        </div>
+                        <span class="text-muted">Premi</span>
+                     </li>
+                     <li class="list-group-item px-0 py-1 custom-list-item">
+                        <div class="float-end">
+                           <h5 class="mb-0" id="biaya-polis">-</h5>
+                        </div>
+                        <span class="text-muted">Biaya Polis</span>
+                     </li>
+                     <li class="list-group-item px-0 py-1 custom-list-item">
+                        <div class="float-end">
+                           <h5 class="mb-0" id="biaya-materai">-</h5>
+                        </div>
+                        <span class="text-muted">Biaya Materai</span>
+                     </li>
+                     <li class="list-group-item px-0 py-1 custom-list-item">
+                        <div class="float-end">
+                           <h4 class="mb-0 text-primary" id="total-tagihan">-</h4>
+                        </div>
+                        <span class="text-muted f-16">Total tagihan</span>
+                     </li>
+                  </ul>
+               </div>
+            </div>
             <hr style="border: 1px solid; margin: 15px 0"/>
             <ul class="nav nav-tabs d-none" id="paymentTab" role="tablist">
                <li class="nav-item">

@@ -30,21 +30,21 @@
       <div class="card shadow-sm border rounded-4 mb-4">
          <div class="card-body p-4">
             <div class="text-center mb-4">
-               <h6 class="mb-0 fw-bold">Informasi Data Pribadi</h6>
+               <h3 class="mb-0 fw-bold">Informasi Data Pribadi</h3>
             </div>
             <div class="row g-3">
                <div class="col-md-6">
                   <div class="bg-light p-3 rounded-3">
-                     <small class="text-muted">Nama</small>
-                     <p class="mb-0 h5" id="nama"></p>
+                     <p class="text-muted">Nama</p>
+                     <p class="mb-0 fw-semibold h5" id="nama"></p>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="bg-light p-3 rounded-3 h-100">
                      <div class="d-flex justify-content-between align-items-start h-100">
                         <div>
-                           <small class="text-muted">NIK</small>
-                           <p class="mb-0 h5" id="nik"></p>
+                           <p class="text-muted">NIK</p>
+                           <p class="mb-0 fw-semibold h5" id="nik"></p>
                         </div>
                         <a href="#" class="btn btn-sm btn-outline-primary align-self-end" id="file_ktp" target="_blank">Lihat KTP</a>
                      </div>
@@ -52,38 +52,38 @@
                </div>
                <div class="col-md-6">
                   <div class="bg-light p-3 rounded-3">
-                     <small class="text-muted">Tempat, Tanggal Lahir</small>
-                     <p class="mb-0 h5" id="ttl"></p>
+                     <p class="text-muted">Tempat, Tanggal Lahir</p>
+                     <p class="mb-0 fw-semibold h5" id="ttl"></p>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="bg-light p-3 rounded-3">
-                     <small class="text-muted">Jenis Kelamin</small>
-                     <p class="mb-0 h5" id="jenis-kelamin"></p>
+                     <p class="text-muted">Jenis Kelamin</p>
+                     <p class="mb-0 fw-semibold h5" id="jenis-kelamin"></p>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="bg-light p-3 rounded-3">
-                     <small class="text-muted">No. HP</small>
-                     <p class="mb-0 h5" id="nomor-handphone"></p>
+                     <p class="text-muted">No. HP</p>
+                     <p class="mb-0 fw-semibold h5" id="nomor-handphone"></p>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="bg-light p-3 rounded-3">
-                     <small class="text-muted">Email</small>
-                     <p class="mb-0 h5" id="email"></p>
+                     <p class="text-muted">Email</p>
+                     <p class="mb-0 fw-semibold h5" id="email"></p>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="bg-light p-3 rounded-3">
-                     <small class="text-muted">NPWP</small>
-                     <p class="mb-0 h5" id="npwp"></p>
+                     <p class="text-muted">NPWP</p>
+                     <p class="mb-0 fw-semibold h5" id="npwp"></p>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="bg-light p-3 rounded-3">
-                     <small class="text-muted">Alamat</small>
-                     <p class="mb-0 h5" id="alamat"></p>
+                     <p class="text-muted">Alamat</p>
+                     <p class="mb-0 fw-semibold h5" id="alamat"></p>
                   </div>
                </div>
             </div>
@@ -91,19 +91,19 @@
             <div id="div-kontak-darurat">
                <hr class="my-4">
                <div class="text-center mb-3">
-                  <h6 class="fw-bold">Kontak Darurat</h6>
+                  <h3 class="fw-bold">Kontak Darurat</h3>
                </div>
                <div class="row g-3">
                   <div class="col-md-6">
                      <div class="bg-light p-3 rounded-3">
-                        <small class="text-muted">Nama</small>
-                        <p class="mb-0 h5" id="kontak-darurat"></p>
+                        <p class="text-muted">Nama</p>
+                        <p class="mb-0 fw-semibold h5" id="kontak-darurat"></p>
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="bg-light p-3 rounded-3">
-                        <small class="text-muted">No. HP</small>
-                        <p class="mb-0 h5" id="nomor-darurat"></p>
+                        <p class="text-muted">No. HP</p>
+                        <p class="mb-0 fw-semibold h5" id="nomor-darurat"></p>
                      </div>
                   </div>
                </div>
@@ -116,7 +116,7 @@
       <div class="card shadow-sm border rounded-4 mb-4">
          <div class="card-body p-4">
             <div class="text-center mb-4">
-               <h6 class="mb-0 fw-bold">Informasi Data Profesi</h6>
+               <h3 class="mb-0 fw-bold">Informasi Data Profesi</h3>
             </div>
             <!-- Profesi & Kategori -->
             <div class="row my-3">
@@ -128,19 +128,19 @@
                               <label class="form-label">Profesi</label>
                               <div class="col-sm-12 col-md-12 d-none" id="div-tenaga-medis">
                                  <i class="fas fa-user-md mx-2" style="font-size: 1.2rem;"></i> <!-- Ukuran ikon dikurangi -->
-                                 <span class="h6">Tenaga Medis</span> <!-- Ukuran font dikurangi -->
+                                 <span class="h5">Tenaga Medis</span> <!-- Ukuran font dikurangi -->
                               </div>
                               <div class="col-sm-12 col-md-12 d-none" id="div-tenaga-kesehatan">
                                  <i class="fas fa-user-nurse mx-2" style="font-size: 1.2rem;"></i> <!-- Ukuran ikon dikurangi -->
-                                 <span class="h6">Tenaga Kesehatan</span> <!-- Ukuran font dikurangi -->
+                                 <span class="h5">Tenaga Kesehatan</span> <!-- Ukuran font dikurangi -->
                               </div>
                            </div>
                         </div>
                         <div class="col-lg-6">
                            <div class="form-group">
                               <label class="form-label">Kategori Profesi</label>
-                              <p class="mb-0 fw-semibold h6" id="ketegori-profesi"></p>
-                              <!-- Tambahkan h6 dan fw-semibold -->
+                              <p class="mb-0 fw-semibold h5" id="ketegori-profesi"></p>
+                              <!-- Tambahkan h3 dan fw-semibold -->
                            </div>
                         </div>
                      </div>
@@ -153,7 +153,7 @@
                <div class="col-md-6">
                   <div class="text-center mb-2">
                      <!-- Kurangi margin bottom -->
-                     <p class="h6 mb-0">Surat Tanda Registrasi</p>
+                     <p class="h3 mb-0">Surat Tanda Registrasi</p>
                      <!-- Kurangi ukuran font judul -->
                   </div>
                   <div class="bg-light p-3 rounded-3 h-100">
@@ -197,7 +197,7 @@
                <div class="col-md-6">
                   <div class="text-center mb-2">
                      <!-- Kurangi margin bottom -->
-                     <p class="h6 mb-0">Surat Izin Praktik</p>
+                     <p class="h3 mb-0">Surat Izin Praktik</p>
                      <!-- Kurangi ukuran font judul -->
                   </div>
                   <div class="bg-light p-3 rounded-3 h-100">
@@ -272,7 +272,7 @@
       <div class="card shadow-sm border rounded-4 mb-4">
          <div class="card-body p-4">
             <div class="text-center mb-4">
-               <h6 class="mb-0 fw-bold">Informasi Plan</h6>
+               <h3 class="mb-0 fw-bold">Informasi Plan</h3>
             </div>
             <div class="bg-light p-3 rounded-3">
                <!-- Asuransi (dari div-asuransi) -->

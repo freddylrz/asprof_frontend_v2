@@ -41,6 +41,7 @@ $(document).ready(function () {
 
     // Handle choose OTP method
     $('#chooseMethodButton').on('click', function (e) {
+        console.log('Choose OTP method button clicked');
         e.preventDefault();
         selectedMethod = $('input[name="otp_method"]:checked').val();
         sendOtpCode();

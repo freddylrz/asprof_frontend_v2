@@ -11,32 +11,6 @@ $(document).ready(async function () {
     token = await getAccessTokenFromCookies();
     getDataInsurance();
     getData();
-
-    const data = {
-        dokter: [
-          "Dokter",
-          "Dokter Spesialis",
-          "Dokter Subspesialis",
-          "Dokter Gigi",
-          "Dokter Gigi Spesialis",
-          "Dokter Gigi Subspesialis"
-        ],
-        tenaga: [
-          "Tenaga Psikologi Klinis",
-          "Tenaga Keperawatan",
-          "Tenaga Kebidanan",
-          "Tenaga Kefarmasian",
-          "Tenaga Kesehatan Masyarakat",
-          "Tenaga Kesehatan Lingkungan",
-          "Tenaga Gizi",
-          "Tenaga Keterapian Fisik",
-          "Tenaga Keteknisian Medis",
-          "Tenaga Teknik Biomedika",
-          "Tenaga Kesehatan Tradisional",
-          "Tenaga Kesehatan Lain Yang Ditetapkan Oleh Menteri"
-        ]
-      };
-
 });
 
 $('#cari').on('click', function () {

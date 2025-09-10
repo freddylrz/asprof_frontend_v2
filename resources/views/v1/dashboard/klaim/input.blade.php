@@ -27,7 +27,7 @@
                         <div class="form-group">
                            <label class="form-label required">Tanggal Lapor<span class="text-danger">*</span></label>
                            <div class="input-group date mb-3">
-                              <input type="text" class="form-control datepicker-bs5" placeholder="Tanggal Lapor" id="tanggal-lapor">
+                              <input type="text" class="form-control datepicker-bs5" placeholder="Tanggal Lapor" id="tanggal-lapor" disabled>
                               <span class="input-group-text">
                               <i class="feather icon-calendar"></i>
                               </span>

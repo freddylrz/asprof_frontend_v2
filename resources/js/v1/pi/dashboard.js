@@ -68,11 +68,19 @@ async function getDataDetail() {
         console.log(response);
 
         var statusId;
+        var sipDocuments = {}; // Untuk menyimpan dokumen SIP berdasarkan tempat_praktik_id
+
+        // Map dokumen SIP berdasarkan tempat_praktik_id
+        $.each(response['document'], function(j, doc) {
+            if (doc.file_type == 3) { // SIP document
+                sipDocuments[doc.tempat_praktik_id] = doc.link;
+            }
+        });
+
         $.each(response['policy'], function(j, item) {
             $('#periode-polis').html(item.polis_start_date + ' s.d. ' + item.polis_end_date);
             statusId = item.polis_exp; // Adjusted to match response structure
             $('#nomor-polis').html(item.polis_no);
-            //  + ` <span class="badge bg-light-${item.polis_exp == 1 ? 'success' : ( item.polis_exp == 2 ? 'danger' : 'primary' ) }">${item.polis_exp_desc}</span>`;
             $('#asuransi').html(item.ins_nama);
             $('#expire-count').html(`(${item.expireCount})`);
             $('#jaminan-pertanggungan').html(item.sum_insured);
@@ -92,46 +100,138 @@ async function getDataDetail() {
             $('#alamat').html(item.alamat);
             if(item.kontak_darurat === null || item.kontak_darurat === '-') {
                 $('#div-kontak-darurat').hide();
+            } else {
+                $('#div-kontak-darurat').show();
+                $('#kontak-darurat').html(item.kontak_darurat ? item.kontak_darurat : '-');
+                $('#nomor-darurat').html(item.nomor_darurat ? item.nomor_darurat : '-');
             }
-            $('#kontak-darurat').html(item.kontak_darurat ? item.kontak_darurat : '-');
-            $('#nomor-darurat').html(item.nomor_darurat ? item.nomor_darurat : '-');
             if (item.profesi_id === 1) {
                 $('#div-tenaga-medis').removeClass('d-none');
             } else {
                 $('#div-tenaga-kesehatan').removeClass('d-none');
             }
             $('#ketegori-profesi').html(item.profesi_kategori_desc);
+            $('#profesi').html(item.profesi_desc);
             $('#nomor-str').html(item.str_no);
-            if (item.str_stat == 1) {
-                $('#status-str').html('Seumur Hidup');
-                $('#label-str').html('Periode Awal STR');
-                $('#periode-str').html(item.str_date_start);
+
+            // Populate STR status and period
+            if (item.str_stat == "1") {
+                $('#status-str').html('Status: Seumur Hidup');
+                $('#periode-str').html(`Periode Awal: ${item.str_date_start || '-'}`);
             } else {
-                $('#status-str').html('Belum Seumur Hidup');
-                $('#label-str').html('Masa Berakhir STR');
-                $('#periode-str').html(item.str_date_end);
+                $('#status-str').html('Status: Belum Seumur Hidup');
+                $('#periode-str').html(`Masa Berlaku: ${item.str_date_end || '-'}`);
             }
-            $('#plan').html(item.ins_nama);
+
+            // Plan information
+            $('#plan').html(item.plan_desc);
+            $('#premi-tahunan').html(item.premi);
+            $('#biaya-polis').html(item.biaya_polis);
+            $('#biaya-materai').html(item.biaya_materai);
+            $('#total-tagihan').html(item.total_premi);
             $('#jaminan-pertanggungan-pembayaran').html(item.sum_insured);
-            $('#total-tagihan').html(item.premi);
+
             $('#div-e-sertifikat').html(`
-                <a href="/" target="blank_" class="btn btn-primary" id="btn-download-polis">
+                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary" id="btn-download-polis">
                     E-Sertifikat
                 </a>
             `);
+
+            // Handle SIP display - bisa lebih dari satu
+            $('#list-sip-container').empty(); // Clear existing content
+
+            if (response.sip && response.sip.length > 0) {
+                $.each(response.sip, function(index, sipItem) {
+                    $('#list-sip-container').append(`
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <p class="mb-0 h5">${sipItem.sip_no || '-'}</p>
+                            <button type="button" class="btn btn-sm btn-primary view-sip-btn" data-sip-index="${index}">
+                                Lihat SIP
+                            </button>
+                        </div>
+                    `);
+                });
+
+                // Store SIP data globally for modal access
+                window.currentSIPData = response.sip;
+                window.sipDocuments = sipDocuments; // Store document mapping
+            } else {
+                $('#list-sip-container').append(`
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="mb-0">Tidak ada data SIP</p>
+                    </div>
+                `);
+            }
         });
 
+        // Handle documents
         $.each(response['document'], function(j, item) {
-            $.each(response['document'], function(j, item) {
-                if (item.file_type == 1) {
-                    $('#file_ktp').attr('href', item.link)
-                    $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span> ')
-                } else if (item.file_type == 2) {
-                    $('#file_str').attr('href', item.link)
-                    $('#file_str').html('<i class="ti ti-file"></i> <span class=""> STR</span> ')
-                }
-            })
+            if (item.file_type == 1) {
+                $('#file_ktp').attr('href', item.link)
+                $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span> ')
+            } else if (item.file_type == 2) {
+                // STR Document
+                $('#file_str').attr('href', item.link)
+                $('#downloadSTR').attr('href', item.link)
+                // Set image source for STR modal
+                $('#strImage').attr('src', item.link)
+            }
+            // SIP documents handled dynamically above
         });
+
+        // Populate modal data for STR
+        if (response.data && response.data.length > 0) {
+            const data = response.data[0];
+            $('#modalNomorSTR').empty().append(data.str_no || '-')
+            $('#modalStatusSTR').empty().append(data.str_stat == "1" ? 'Seumur Hidup' : 'Belum Seumur Hidup')
+            $('#modalPenerbitSTR').empty().append(data.str_penerbit || '-')
+
+            // Kondisi: jika str_stat == 1 maka tampilkan str_date_start, selain itu str_date_end
+            if (data.str_stat == "1") {
+                $('#modalPeriodeAwalSTR').empty().append(data.str_date_start || '-')
+                // Sembunyikan periode akhir untuk status seumur hidup
+                $('#modalPeriodeAkhirSTR').closest('.mb-3').hide();
+            } else {
+                $('#modalPeriodeAwalSTR').empty().append(data.str_date_start || '-')
+                $('#modalPeriodeAkhirSTR').empty().append(data.str_date_end || '-')
+                // Tampilkan periode akhir untuk status tidak seumur hidup
+                $('#modalPeriodeAkhirSTR').closest('.mb-3').show();
+            }
+        }
+
+        // Event listener untuk tombol Lihat SIP
+        $(document).off('click', '.view-sip-btn').on('click', '.view-sip-btn', function() {
+            const sipIndex = $(this).data('sip-index');
+            const sipData = window.currentSIPData[sipIndex];
+
+            // Populate modal SIP dengan data yang sesuai
+            populateSIPModal(sipData);
+        });
+
+        // Function untuk populate data ke modal SIP
+        function populateSIPModal(sipData) {
+            $('#detailNomorSIP').empty().append(sipData.sip_no || '-');
+            $('#detailPeriodeAwalSIP').empty().append(sipData.sip_date_start || '-');
+            $('#detailPeriodeAkhirSIP').empty().append(sipData.sip_date_end || '-');
+            $('#detailDaerahPenerbitSIP').empty().append(sipData.sip_penerbit || '-');
+            $('#detailTempatPraktik').empty().append(sipData.tempat_praktik || '-');
+
+            // Set image for SIP
+            const sipDocumentLink = window.sipDocuments[sipData.id];
+            if (sipDocumentLink) {
+                $('#sipImage').attr('src', sipDocumentLink);
+                $('#downloadSIP').attr('href', sipDocumentLink);
+            } else {
+                $('#sipImage').attr('src', '');
+                $('#downloadSIP').attr('href', '#');
+            }
+
+            // Hide nama penerbit section since it's not in the API response
+            $('#div-nama-penerbit').hide();
+
+            // Show modal
+            $('#sipModal').modal('show');
+        }
 
         populateTempatPraktikDetails(response)
         managePolisAlert(response)

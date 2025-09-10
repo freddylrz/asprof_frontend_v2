@@ -65,11 +65,14 @@ async function getDataDetail() {
     }).done(async function(responses) {
         var response = await decryptData(responses.data)
 
+        console.log(response);
+
         var statusId;
         $.each(response['policy'], function(j, item) {
             $('#periode-polis').html(item.polis_start_date + ' s.d. ' + item.polis_end_date);
             statusId = item.polis_exp; // Adjusted to match response structure
-            $('#nomor-polis').html(item.polis_no + ` <span class="badge bg-light-${item.polis_exp == 1 ? 'success' : ( item.polis_exp == 2 ? 'danger' : 'primary' ) }">${item.polis_exp_desc}</span>`);
+            $('#nomor-polis').html(item.polis_no);
+            //  + ` <span class="badge bg-light-${item.polis_exp == 1 ? 'success' : ( item.polis_exp == 2 ? 'danger' : 'primary' ) }">${item.polis_exp_desc}</span>`;
             $('#asuransi').html(item.ins_nama);
             $('#expire-count').html(`(${item.expireCount})`);
             $('#jaminan-pertanggungan').html(item.sum_insured);
@@ -99,7 +102,7 @@ async function getDataDetail() {
             }
             $('#ketegori-profesi').html(item.profesi_kategori_desc);
             $('#nomor-str').html(item.str_no);
-            if (item.str_stat === "Seumur hidup") {
+            if (item.str_stat == 1) {
                 $('#status-str').html('Seumur Hidup');
                 $('#label-str').html('Periode Awal STR');
                 $('#periode-str').html(item.str_date_start);
@@ -131,35 +134,7 @@ async function getDataDetail() {
         });
 
         populateTempatPraktikDetails(response)
-
-        $.each(response['info'], function(j, item) {
-            // Determine the alert text and class based on the status and expire count
-            if (item.request_status_id == 6) {
-                if (item.expireCount == 0) {
-                    // Hide the alert when expireCount is 0
-                    $('#div-polis-alert').hide();
-                } else {
-                    // Show alert when expireCount is 1 or 2
-                    $('#div-polis-alert').show();
-
-                    let alertClass = '';
-                    let alertText = '';
-
-                    if (item.expireCount == 1) {
-                        alertClass = 'alert-warning';
-                        alertText = "Polis anda akan segera berakhir";
-                    } else if (item.expireCount == 2) {
-                        alertClass = 'alert-danger';
-                        alertText = "Polis anda telah berakhir";
-                    }
-
-                    $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
-                    $('#polis-alert').text(alertText);
-                }
-            } else {
-                $('#div-polis-alert').hide();
-            }
-        });
+        managePolisAlert(response)
 
         Swal.close()
     }).fail(function(response) {
@@ -188,6 +163,60 @@ async function getDataDetail() {
             });
         }
     });
+}
+
+// Template alert (tanpa container col-12)
+var polisAlertInnerTemplate = `
+    <div class="alert alert-danger d-flex align-items-center" style="display: flex" role="alert" id="div-polis-alert">
+        <i class="ti ti-info-circle mx-2 my-auto" style="font-size: 1.5rem; font-weight: 900; flex-shrink: 0; color: #050505"></i>
+        <span id="polis-alert" class="text-wrap h4 my-auto" style="flex: 1;"></span>
+        <div class="ms-auto">
+            <a href="/renewal" class="btn btn-primary">
+                <i class="ti ti-edit"></i> <span class="d-none d-lg-inline-block my-1">Renewal</span>
+            </a>
+        </div>
+    </div>
+`;
+
+// Fungsi untuk mengelola alert polis
+function managePolisAlert(response) {
+    // Hapus alert yang sudah ada
+    $('#div-polis-alert').remove();
+
+    // Cek apakah ada data info
+    if (!response['info'] || response['info'].length === 0) {
+        return;
+    }
+
+    // Proses item terakhir
+    var item = response['info'][response['info'].length - 1];
+
+    // Hanya proses jika request_status_id = 6
+    if (item.request_status_id == 6) {
+        // Jika expireCount = 0, tidak perlu menampilkan alert
+        if (item.expireCount == 0) {
+            return;
+        }
+
+        // Tentukan class dan text berdasarkan expireCount
+        let alertClass = 'alert-danger';
+        let alertText = '';
+
+        if (item.expireCount == 1) {
+            alertClass = 'alert-warning';
+            alertText = "Polis anda akan segera berakhir";
+        } else if (item.expireCount == 2) {
+            alertClass = 'alert-danger';
+            alertText = "Polis anda telah berakhir";
+        }
+
+        // Append alert baru ke container (gunakan parent .col-12)
+        $('.col-12:has(#div-polis-alert)').html(polisAlertInnerTemplate);
+
+        // Update class dan text
+        $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
+        $('#polis-alert').text(alertText);
+    }
 }
 
 // Function to dynamically populate tempatPraktikDetails from response

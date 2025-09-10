@@ -274,9 +274,10 @@
                                     <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/">Beranda</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('asuransi-profesi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/">Asuransi Profesi</a>
+                                    <a class="nav-link {{ Request::is('asuransi-profesi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/asuransi-profesi">Asuransi Profesi</a>
                                 </li>
-                                    <a class="nav-link {{ Request::is('pialang-asuransi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/tentang-kami">Pialang Asuransi</a>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::is('pialang-asuransi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/pialang-asuransi">Pialang Asuransi</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is('asuransi-pendukung') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/asuransi-pendukung">Asuransi Pendukung</a>

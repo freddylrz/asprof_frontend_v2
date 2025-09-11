@@ -270,12 +270,12 @@
                                 </button>
                             </div>
                             <div class="row g-2 mt-2">
-                                <div class="col-auto">
-                                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill" style="border: 1px solid #000" id="status-str"></span>
-                                </div>
-                                <div class="col-auto">
-                                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill" style="border: 1px solid #000" id="periode-str"></span>
-                                </div>
+                            <div class="col-auto">
+                                <span class="badge bg-light text-dark px-3 py-2 rounded-pill" style="border: 1px solid #000; font-size: 0.9rem;" id="status-str"></span>
+                            </div>
+                            <div class="col-auto">
+                                <span class="badge bg-light text-dark px-3 py-2 rounded-pill" style="border: 1px solid #000; font-size: 0.9rem;" id="periode-str"></span>
+                            </div>
                             </div>
                         </div>
                     </div>

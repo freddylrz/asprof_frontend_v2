@@ -42,7 +42,7 @@
       </div>
       <!-- [ Pre-loader ] End -->
       <div class="auth-main">
-         <div class="auth-wrapper v3">
+         <div class="auth-wrapper v3" style="background-color: #f1f1f1;">
             <div class="auth-form">
                <div class="auth-header row">
                   <div class="col my-1">

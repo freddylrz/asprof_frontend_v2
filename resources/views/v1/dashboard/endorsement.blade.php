@@ -1,7 +1,7 @@
 @extends('v1.layouts.dashboard')
 
 @section('content')
-<div class="row" id="div-endorsement">
+{{-- <div class="row" id="div-endorsement">
     <div class="col-12">
         <div class="text-center mb-5">
             <p class="h1">Endorsement</p>
@@ -126,8 +126,8 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row" id="div-endorsement-form" style="display: none">
+</div> --}}
+<div class="row" id="div-endorsement-form">
    <div class="col-12">
       <div class="text-center mb-5">
          <p class="h1">Endorsement</p>
@@ -463,27 +463,6 @@
                            <div class="d-grid">
                               <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="modal"
                                  data-bs-target="#sipModal"><i class="ti ti-building-hospital me-1"></i>Surat Izin Praktik</button>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="row my-2">
-                        <div class="col-lg-12">
-                           <div class="text-center">
-                              <p class="h4">Asuransi dan Plan</p>
-                           </div>
-                           <div class="row my-2">
-                              <div class="col-lg-12">
-                                 <label class="h5 required">Pilih Asuransi</label>
-                                 <div class="row my-2" id="daftar-asuransi">
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row my-2" id="div-biaya-kepesertaan" style="display: none">
-                              <div class="col-lg-12">
-                                 <label class="h5 required">Pilih Plan</label>
-                                 <div class="row my-2" id="biaya-kepesertaan">
-                                 </div>
-                              </div>
                            </div>
                         </div>
                      </div>

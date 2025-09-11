@@ -289,7 +289,8 @@
                             <div class="row gap-3 mt-auto w-100">
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <a class="btn btn-lg btn-success" href="/login"><i class="ti ti-login"></i> Login</a>
+                                        <a class="btn btn-lg btn-success" href="/login" id="loginButtonMobile"><i class="ti ti-login"></i> Login</a>
+                                        <a class="btn btn-lg btn-info" href="/dashboard" id="dashboardButtonMobile" style="display: none;"><i class="ti ti-dashboard"></i> Dashboard</a>
                                     </div>
                                 </div>
                             </div>
@@ -364,7 +365,8 @@
                         </ul>
                         <ul class="navbar-nav flex-row ms-auto gap-1 align-items-center">
                             <li class="nav-item">
-                                <a class="btn btn-success" style="font-weight: bold;" href="/login"><i class="ti ti-login"></i> Login</a>
+                                <a class="btn btn-success" style="font-weight: bold;" href="/login" id="loginButton"><i class="ti ti-login"></i> Login</a>
+                                <a class="btn btn-info" style="font-weight: bold; display: none;" href="/dashboard" id="dashboardButton"><i class="ti ti-dashboard"></i> Dashboard</a>
                             </li>
                         </ul>
                     </div>
@@ -969,8 +971,8 @@
             document.cookie = name + "=" + value + "; expires=" + date.toUTCString() + "; path=/";
         }
 
-        // Helper function to get cookies
         function getCookie(name) {
+            // Fungsi ini sudah ada, kita gunakan kembali
             const nameEQ = name + "=";
             const ca = document.cookie.split(';');
             for (let i = 0; i < ca.length; i++) {
@@ -980,6 +982,33 @@
             }
             return null;
         }
+
+        function updateLoginButton() {
+            const fiatCookie = getCookie('fiat');
+            // Tombol Desktop
+            const loginBtn = $('#loginButton');
+            const dashboardBtn = $('#dashboardButton');
+            // Tombol Mobile
+            const loginBtnMobile = $('#loginButtonMobile');
+            const dashboardBtnMobile = $('#dashboardButtonMobile');
+
+            if (fiatCookie) {
+                // Jika cookie 'fiat' ada
+                loginBtn.hide();       // Sembunyikan tombol Login Desktop
+                dashboardBtn.show();   // Tampilkan tombol Dashboard Desktop
+                loginBtnMobile.hide(); // Sembunyikan tombol Login Mobile
+                dashboardBtnMobile.show(); // Tampilkan tombol Dashboard Mobile
+            } else {
+                // Jika cookie 'fiat' tidak ada
+                dashboardBtn.hide();   // Sembunyikan tombol Dashboard Desktop
+                loginBtn.show();       // Tampilkan tombol Login Desktop
+                dashboardBtnMobile.hide(); // Sembunyikan tombol Dashboard Mobile
+                loginBtnMobile.show(); // Tampilkan tombol Login Mobile
+            }
+        }
+
+        // Jalankan pengecekan saat halaman dimuat
+        updateLoginButton();
 
         $(document).ready(function() {
             // Check if the splash screen cookie exists

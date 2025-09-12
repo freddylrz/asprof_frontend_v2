@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 @section('content')
     <div class="container">
-        <div class="col-12 col-xl-6 offset-xl-3 col-lg-8 offset-lg-2 col-md-12 col-sm-12">
+        <div class="col-12 col-xl-4 offset-xl-4 col-lg-8 offset-lg-2 col-md-12 col-sm-12">
             <div class="card bg-light my-5"
                 style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
                 <div class="card-body">
@@ -23,31 +23,31 @@
                         <!-- Tab for login with email and STR -->
                         <div class="tab-pane show active" id="auth-1" role="tabpanel" aria-labelledby="auth-tab-1">
                             <div class="text-center mb-4">
-                                <p class="h4">Login dengan email dan STR anda</p>
+                                <h4>Masuk ke Akun Anda</h4>
+                                <p>Silakan login menggunakan email terdaftar dan nomor STR.</p>
                             </div>
                             <div class="row my-2">
                                 <div class="col-lg-12">
                                     <!-- Login form -->
                                     <form id="loginForm" role="form" method="POST" enctype="multipart/form-data">
                                         {{ csrf_field() }}
-                                        <div class="row">
-                                            <div class="col-md-6">
 
                                                 <div class="form-group mb-3">
-                                                    <label class="form-label required">Email</label>
-                                                    <input type="email" class="form-control" name="email" id="email"
+                                                    <div class="input-group">
+                                                        <input type="email" class="form-control" name="email" id="email"
                                                         placeholder="Masukan alamat email">
+                                                        <span class="input-group-text"><i class="ti ti-mail f-20"></i></span>
+                                                    </div>
+                                                    
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
 
                                                 <div class="form-group mb-3">
-                                                    <label class="form-label required">Nomor STR</label>
+                                                    <div class="input-group">
                                                     <input type="text" class="form-control enambelas" name="str_no"
                                                         id="strNo" placeholder="Masukan nomor STR">
+                                                        <span class="input-group-text"><i class="ti ti-notes f-20"></i></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
                                         <div class="d-grid mt-4">
                                             <button type="submit" class="btn btn-xl btn-primary rounded-0"
                                                 id="loginButton"><i class="ti ti-login"></i> Masuk </button>
@@ -86,8 +86,8 @@
                             </div>
 
                             <div class="p-3 px-lg-2 text-center">
-                                <h4 class="text-dark">Jika anda belum memiliki asuransi tanggung gugat profesi silahkan </h4>
-                                <a href="/pendaftaran" class="btn btn-success btn-xl rounded-0 my-2"><i class="ti ti-edit"></i> Daftar Sekarang</a>
+                                <h4 class="text-dark">Belum memiliki asuransi tanggung gugat profesi?</h4>
+                                <a href="/pendaftaran" class="btn btn-light-success border border-success btn-xl w-100 rounded-0 my-2"><i class="ti ti-edit"></i> Daftar Sekarang</a>
                             </div>
                         </div>
 

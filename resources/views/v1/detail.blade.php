@@ -303,6 +303,12 @@
                     </div>
                     <div class="col-md-12">
                         <div class="d-flex justify-content-between align-items-center mb-1">
+                            <p class="text-muted mb-0 p-1">Jaminan Pertanggungan</p>
+                            <div class="h5 mb-0 p-1" id="jaminan-pertanggungan"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
                             <p class="text-muted mb-0 p-1">Premi Tahunan</p>
                             <div class="h5 mb-0 p-1" id="premi-tahunan"></div>
                         </div>
@@ -325,12 +331,7 @@
                             <div class="h5 mb-0 p-1" id="total-tagihan-detail"></div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <p class="text-muted mb-0 p-1">Jaminan Pertanggungan</p>
-                            <div class="h5 mb-0 p-1" id="jaminan-pertanggungan"></div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
          </div>

@@ -11,7 +11,7 @@
                      src="{{ asset('assets/images/landing/beranda.png') }}"
                      alt="img"
                      class="animated-image"
-                     style="max-width: 650px"
+                     style="max-width: 550px"
                      />
                </div>
                <!-- Right Column for Text -->
@@ -174,26 +174,22 @@
       </div>
    </div>
 </div>
-<div class="navigation-buttons text-center" style="position: fixed; bottom: 20px; width: 100%;">
-   <button id="prev-btn" class="btn btn-primary rounded-circle me-2 p-3">
-   <i class="ti ti-arrow-big-left" style="font-size: 28px"></i>
+
+<!-- Tombol Navigasi Bawah Tengah -->
+<div class="navigation-buttons text-center" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; gap: 20px;">
+   <button id="prev-btn" class="btn btn-primary rounded-circle p-3 animate__animated animate__bounce">
+      <i class="ti ti-arrow-big-top" style="font-size: 28px"></i>
    </button>
-   <button id="next-btn" class="btn btn-primary rounded-circle p-3">
-   <i class="ti ti-arrow-big-right" style="font-size: 28px"></i>
+   <button id="next-btn" class="btn btn-primary rounded-circle p-3 animate__animated animate__bounce">
+      <i class="ti ti-arrow-big-down" style="font-size: 28px"></i>
    </button>
 </div>
 @endsection
+
 @push('levelPluginHeader')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-<style>
-   .page-section {
-   min-height: 100vh; /* supaya memenuhi layar penuh */
-   display: flex;
-   align-items: center; /* center vertikal */
-   justify-content: center; /* center horizontal */
-   }
-</style>
 @endpush
+
 @push('levelPluginsJs')
 @vite(['resources/js/v1/pi/index.js'])
 @endpush

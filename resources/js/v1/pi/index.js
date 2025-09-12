@@ -70,6 +70,17 @@ $(document).ready(function () {
         }
     });
 
+    // Animasi bounce berulang pada tombol navigasi
+    function animateButtons() {
+        $('#prev-btn, #next-btn').addClass('animate__bounce');
+        setTimeout(() => {
+            $('#prev-btn, #next-btn').removeClass('animate__bounce');
+        }, 1000);
+    }
+
+    // Jalankan animasi setiap 3 detik
+    setInterval(animateButtons, 3000);
+
     // Inisialisasi tombol navigasi
     updateNavigation();
 });

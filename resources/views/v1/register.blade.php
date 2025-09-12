@@ -432,7 +432,7 @@
                      </div>
                      <div class="row my-2">
                         <div class="col-lg-12">
-                           <label class="h5 required">Pilih Asuransi</label>
+                           <label class="h5 required">Pilih Perusahaan Asuransi</label>
                            <div class="row my-2" id="daftar-asuransi">
                            </div>
                         </div>
@@ -443,7 +443,7 @@
                            <div class="row my-2" id="biaya-kepesertaan">
                            </div>
                            <p>
-                               <i class="text-muted f-12">Premi belum termasuk biaya polis dan materai</i>
+                               <i class="text-dark f-12"><b>Premi belum termasuk biaya polis dan materai</b></i>
                            </p>
                         </div>
                      </div>

@@ -533,11 +533,19 @@ function getDataDetail(reqId) {
             $('#plan-pembayaran').html(item.plan_desc)
             $('#biaya-polis').html(item.biaya_polis)
             $('#biaya-materai').html(item.biaya_materai)
+            $('#biaya-polis-detail').html(item.biaya_polis)
+            $('#biaya-materai-detail').html(item.biaya_materai)
             $('#premi-tahunan-pembayaran').html(item.premi)
             $('#total-tagihan').html(item.total_premi)
+            $('#total-tagihan-detail').html(item.total_premi)
+            if ([2, 6, 7].includes(statusId)) {
+                $('.divBiaya').show()
+            }else{
+                $('.divBiaya').hide()
+            }
             $('#div-asuransi').html(`
                 <div class="form-group">
-                    <label class="form-label">Asuransi pilihan:</label>
+                    <label class="text-muted">Perusahaan Asuransi Pilihan:</label>
                     <img class="img-fluid hei-150 d-block mx-auto" src="${item.ins_logo}" alt="Card image" style="object-fit: contain;">
                     <p class="h5 text-center">Asuransi ${item.ins_nama}</p>
                 </div>

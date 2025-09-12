@@ -1,4 +1,4 @@
-@extends('v1.layouts.landing')
+~@extends('v1.layouts.landing')
 
 @section('content')
 <section class="bg-white overflow-hidden">

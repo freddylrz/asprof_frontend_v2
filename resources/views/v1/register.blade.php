@@ -432,7 +432,7 @@
                      </div>
                      <div class="row my-2">
                         <div class="col-lg-12">
-                           <label class="h5 required">Pilih Asuransi</label>
+                           <label class="h5 required">Pilih Perusahaan Asuransi</label>
                            <div class="row my-2" id="daftar-asuransi">
                            </div>
                         </div>

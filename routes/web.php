@@ -91,6 +91,12 @@ Route::middleware([CheckPiat::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('v1.dashboard.index');
     });
+    Route::get('/peserta', function () {
+        return view('v1.dashboard.info-peserta');
+    });
+    Route::get('/info-polis', function () {
+        return view('v1.dashboard.info-polis');
+    });
     Route::get('/chat', function () {
         return view('v1.dashboard.chat');
     });
@@ -102,6 +108,9 @@ Route::middleware([CheckPiat::class])->group(function () {
     });
     Route::get('/endorsement', function () {
         return view('v1.dashboard.endorsement');
+    });
+    Route::get('/info-faq', function () {
+        return view('v1.dashboard.faq');
     });
 
     Route::group(['prefix' => 'klaim', 'as' => 'klaim.'], function () {

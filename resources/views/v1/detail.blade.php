@@ -1,5 +1,15 @@
 @extends('v1.layouts.app')
 @section('content')
+<style>
+   .h5,.text-muted{
+      font-size: 1.2rem
+   }
+   @media (max-width: 1400px) {
+      .h5,.text-muted{
+         font-size: 1rem
+      }
+   }
+</style>
 <div class="container" id="container-detail">
    <div class="col-12">
       <div class="text-center mb-5">
@@ -16,7 +26,7 @@
          </div>
       </div>
    </div>
-   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12 col-12">
+   <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-12 col-12">
       <div class="alert alert-warning" role="alert" style="display: flex; align-items: middle" id="div-revision-alert">
          <i class="ti ti-info-circle mx-2 my-auto" style="font-size: 1.5rem; font-weight: 900; flex-shrink: 0; color: #050505"></i>
          <span id="revision-alert" class="text-wrap h4 my-auto" style="flex: 1;"></span>
@@ -111,7 +121,7 @@
          </div>
       </div>
    </div>
-   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
+   <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-12">
         <!-- Informasi Data Profesi -->
         <div class="card shadow-sm border rounded-4 mb-4">
             <div class="card-body p-4">
@@ -271,7 +281,7 @@
             </div>
         </div>
    </div>
-   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
+   <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-12">
       <!-- Informasi Plan -->
       <div class="card shadow-sm border rounded-4 mb-4">
          <div class="card-body p-4">
@@ -293,40 +303,41 @@
                     </div>
                     <div class="col-md-12">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <p class="text-muted mb-0 p-1">Premi Tahunan</p>
-                            <div class="h5 mb-0 p-1" id="premi-tahunan"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <p class="text-muted mb-0 p-1">Biaya Polis</p>
-                            <div class="h5 mb-0 p-1" id="biaya-polis"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <p class="text-muted mb-0 p-1">Biaya Materai</p>
-                            <div class="h5 mb-0 p-1" id="biaya-materai"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <p class="text-muted mb-0 p-1">Total Premi</p>
-                            <div class="h5 mb-0 p-1" id="total-tagihan"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
                             <p class="text-muted mb-0 p-1">Jaminan Pertanggungan</p>
                             <div class="h5 mb-0 p-1" id="jaminan-pertanggungan"></div>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <p class="text-muted mb-0 p-1">Premi Tahunan</p>
+                            <div class="h5 mb-0 p-1" id="premi-tahunan"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 divBiaya">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <p class="text-muted mb-0 p-1">Biaya Polis</p>
+                            <div class="h5 mb-0 p-1" id="biaya-polis-detail"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 divBiaya">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <p class="text-muted mb-0 p-1">Biaya Materai</p>
+                            <div class="h5 mb-0 p-1" id="biaya-materai-detail"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 divBiaya">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <p class="text-muted mb-0 p-1">Total Premi</p>
+                            <div class="h5 mb-0 p-1" id="total-tagihan-detail"></div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
          </div>
       </div>
    </div>
-   <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12">
+   <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-12">
       <div class="card shadow-sm border rounded-4 mb-4">
          <div class="card-body d-flex justify-content-between">
             <div>

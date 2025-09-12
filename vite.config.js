@@ -12,6 +12,7 @@ const inputFiles = [
     'resources/js/v1/pi/login.js',
     'resources/js/v1/pi/logout.js',
     'resources/js/v1/pi/dashboard.js',
+    'resources/js/v1/pi/kepesertaan.js',
     'resources/js/v1/pi/chat.js',
     'resources/js/v1/pi/chat-sse.js',
     'resources/js/v1/pi/renewal.js',

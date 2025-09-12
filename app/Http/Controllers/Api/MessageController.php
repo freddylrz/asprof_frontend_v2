@@ -43,67 +43,48 @@ class MessageController extends Controller
     }
 
     public function timer(Request $r)
-    {
-        try 
-        {   
-            // Contoh endTime diberikan sebagai string
-            $endTime = date('Y-m-d H:i:s', strtotime($r->get('expire_date')));
-            $endTime = Carbon::parse($endTime); // Konversi ke Carbon
+{
+    try {
+        $endTime = Carbon::parse($r->get('expire_date'));
 
-            // return $endTime;
-            
-            return response()->stream(function () use ($endTime) {
-                while (Carbon::now()->lessThanOrEqualTo($endTime)) {
-                    // Hitung sisa waktu dalam detik
-                    $remainingSeconds = $endTime->diffInSeconds(Carbon::now());
+        return response()->stream(function () use ($endTime) {
+            while (Carbon::now()->lessThanOrEqualTo($endTime)) {
+                $remainingSeconds = Carbon::now()->diffInSeconds($endTime, false);
 
-                    $remainingSeconds = $remainingSeconds * -1;
+                $hours   = str_pad(floor($remainingSeconds / 3600), 2, "0", STR_PAD_LEFT);
+                $minutes = str_pad(floor(($remainingSeconds % 3600) / 60), 2, "0", STR_PAD_LEFT);
+                $seconds = str_pad($remainingSeconds % 60, 2, "0", STR_PAD_LEFT);
 
-                    // Format ke HH:MM:SS
-                    $hours = str_pad(floor($remainingSeconds / 3600), 2, "0", STR_PAD_LEFT);
-                    $minutes = str_pad(floor(($remainingSeconds % 3600) / 60), 2, "0", STR_PAD_LEFT);
-                    $seconds = str_pad($remainingSeconds % 60, 2, "0", STR_PAD_LEFT);
-
-                    // Kirim data ke klien
-                    echo json_encode([
-                        'timer' => "$hours:$minutes:$seconds",
-                        'is_finished' => false,
-                    ]) . "\n";
-
-                    \Log::info(json_encode([
-                        'timer' => "$hours:$minutes:$seconds",
-                        'is_finished' => false,
-                    ]));
-
-                    ob_flush();
-                    flush();
-
-                    sleep(1);
-                }
-
-                // Kirim akhir countdown
                 echo json_encode([
-                    'timer' => "00:00:00",
-                    'is_finished' => true,
+                    'timer'       => "$hours:$minutes:$seconds",
+                    'is_finished' => false,
                 ]) . "\n";
 
                 ob_flush();
                 flush();
-            }, 200, [
-                'Content-Type' => 'application/json',
-                'Cache-Control' => 'no-cache',
-                'Connection' => 'keep-alive',
-            ]);
-        }
-        catch (Exception $e) 
-        {   
-            \Log::error($e);
-          
-            return [
-                'status' => 500
-            ];
-        }
+                sleep(1);
+            }
+
+            // Countdown selesai
+            echo json_encode([
+                'timer'       => "00:00:00",
+                'is_finished' => true,
+            ]) . "\n";
+
+            ob_flush();
+            flush();
+
+            exit; // ini penting biar Laravel gak nambahin HTML
+        }, 200, [
+            'Content-Type'  => 'application/json',
+            'Cache-Control' => 'no-cache',
+            'Connection'    => 'keep-alive',
+        ]);
+    } catch (Exception $e) {
+        \Log::error($e);
+        return response()->json(['status' => 500], 500);
     }
+}
 
     public function paymentStatus(Request $r)
     {

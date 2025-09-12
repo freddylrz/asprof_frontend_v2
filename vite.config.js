@@ -5,6 +5,7 @@ const inputFiles = [
     'resources/css/app.css',
     'resources/js/app.js',
     'resources/js/v1/pi/register.js',
+    'resources/js/v1/pi/index.js',
     'resources/js/v1/pi/detail.js',
     'resources/js/v1/pi/detail-sse.js',
     'resources/js/v1/pi/update.js',
@@ -21,6 +22,7 @@ const inputFiles = [
     'resources/js/v1/pi/count-messages-sse.js',
     'resources/js/v1/pi/klaim/detail.js',
     'resources/js/v1/pi/klaim/input.js',
+
 
     'resources/js/v1/admin/login.js',
     'resources/js/v1/admin/list.js',

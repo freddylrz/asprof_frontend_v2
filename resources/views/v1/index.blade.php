@@ -1,208 +1,195 @@
 @extends('v1.layouts.landing')
-@section('content')
-<section class="bg-white overflow-hidden" style="background-image: url({{ asset('assets/images/landing/img-headerbg.jpg') }})">
-    <div class="container title mb-0">
-      <div class="row align-items-center">
-        <div class="col-12 m-b-30 wow fadeInLeft" data-wow-delay="0.2s">
-          <h2 class="text-center text-uppercase">Momen Penting
-            <span class="text-primary">Dalam Berasuransi</span></h2>
-        </div>
-
-        <!-- Card Start -->
-        <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
-          <div class="card custom-card border border-dark bg-light-primary">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 d-flex justify-content-center align-items-center custom-icon">
-                  <i class="ti ti-device-analytics f-66"></i>
-                </div>
-                <div class="flex-grow-1 mx-2">
-                  <h4 class="mb-1 text-center">Melakukan Analisa atas obyek pertanggungan & kemungkinan Risiko yang akan di hadapi.</h4>
-                </div>
-              </div>
+@section('content-fullpage')
+<div id="pureFullPage" class="pure-fullpage px-3 px-sm-4 px-md-5">
+   <div class="page-section page">
+      <div class="overflow-hidden">
+         <div class="container-fluid h-100">
+            <div class="row justify-content-center align-items-center h-100">
+               <!-- Left Column for Image -->
+               <div class="col-12 col-md-6 text-center m-t-20">
+                  <img
+                     src="{{ asset('assets/images/landing/beranda.png') }}"
+                     alt="img"
+                     class="animated-image"
+                     style="max-width: 550px"
+                     />
+               </div>
+               <!-- Right Column for Text -->
+               <div class="col-12 col-md-6 d-flex align-items-center m-t-20">
+                  <div>
+                     <h1 class="h1 my-4 fw-bold">
+                        Apakah Anda sudah membaca dan paham isi
+                        <span class="text-primary">polis asuransi</span> yang Anda beli?
+                     </h1>
+                     <h2 class="h2 my-4">
+                        Jika tidak, mungkin produk asuransi yang Anda beli
+                        <span class="text-danger fw-bold">tidak seperti yang Anda inginkan.</span>
+                     </h2>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
-        <!-- Card End -->
-
-        <!-- Repeat similar structure for other cards -->
-        <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
-          <div class="card custom-card border border-dark bg-light-primary">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 d-flex justify-content-center align-items-center custom-icon">
-                  <i class="ti ti-dashboard f-66"></i>
-                </div>
-                <div class="flex-grow-1 mx-2">
-                  <h4 class="mb-1 text-center">Memilih jaminan asuransi yang sesuai dan kondisi jaminan yang optimal.</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
-          <div class="card custom-card border border-dark bg-light-primary">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 d-flex justify-content-center align-items-center custom-icon">
-                  <i class="ti ti-trending-down f-66"></i>
-                </div>
-                <div class="flex-grow-1 mx-2">
-                  <h4 class="mb-1 text-center">Mengalami Kerugian/Klaim atau dituntut oleh pihak ke 3.</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-6 mt-20 wow fadeInLeft" data-wow-delay="0.2s">
-          <div class="card custom-card border border-dark bg-light-primary">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 d-flex justify-content-center align-items-center custom-icon">
-                  <i class="ti ti-calculator f-66"></i>
-                </div>
-                <div class="flex-grow-1 mx-2">
-                  <h4 class="mb-1 text-center">Menghitung nilai kerugian. (apakah sesuai dengan syarat & kondisi polis?)</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Card End -->
-
+         </div>
       </div>
-    </div>
-  </section>
-
-  <style>
-    /* Card hover effect */
-    .custom-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .custom-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Icon animation on hover */
-    .custom-icon {
-      width: 130px;
-      height: 130px;
-      transition: transform 0.3s ease, color 0.3s ease;
-    }
-
-    .custom-card:hover .custom-icon {
-      transform: rotate(15deg);
-      color: #007bff;
-    }
-
-    /* Light primary background */
-    .bg-light-primary {
-      background-color: #f8f9fa; /* Adjust this to a lighter shade of your primary color */
-    }
-
-    /* Base styles for tapered divider */
-    .tapered-divider {
-        border: none;
-        height: 5px;
-        margin: 20px auto;
-        position: relative;
-        width: 100%;
-    }
-
-    .tapered-divider::after {
-        content: '';
-        position: absolute;
-        top: 50%; /* Center vertically */
-        left: 50%; /* Center horizontally */
-        transform: translate(-50%, -50%);
-        width: 15px; /* Diameter of the dot */
-        height: 15px; /* Diameter of the dot */
-        border-radius: 50%; /* Makes it a circle */
-        border: 3px solid #000;
-        background: #fff; /* Optional: Adjust the dot color for contrast */
-    }
-
-    /* Red divider */
-    .tapered-divider-red {
-        background: #ff0000;
-    }
-
-    /* Blue divider */
-    .tapered-divider-blue {
-        background: #0000ff;
-    }
-  </style>
-
-    <section class="bg-white overflow-hidden" style="background-image: url({{ asset('assets/images/landing/img-headerbg.png') }})">
-        <div class="container title mb-0">
-            <div class="row align-items-start">
-                <div class="col-12 col-xl-6 wow fadeInUp" data-wow-delay="0.2s"><div class="header-container">
-                    <h3 class="text-uppercase text-center py-4" style="border: 2px solid #000; border-radius: 15px">
-                        PERILAKU TERTANGGUNG
-                    </h3>
-                </div>
-                    <hr class="tapered-divider tapered-divider-blue">
-                    <div class="card">
-                        <div class="card-body">
-                            <ul class="pl-0" style="font-size: 1.3rem; font-weight:400">
-                                <li>
-                                    Awam dan sibuk dengan aktifitas utama.<br>
-                                    <small class="text-danger">Dapat polis, dilirik sebentar, taruh lemari atau jadi bantal</small>
-                                </li>
-                                <li>
-                                    Tidak teliti – tidak tertarik – tidak berminat.<br>
-                                    <small class="text-danger">Malas membaca/sulit memahami isi polis. (Tulisan kecil, berbahasa hukum, berpotensi mis-interprestasi). Terima polis, bayar premi, simpan dilaci.</small>
-                                </li>
-                                <li>
-                                    Membeli Asuransi   :  Pertimbangan premi murah.<br>
-                                    <small class="text-danger">Tanpa memahami mengapa bisa murah ?</small>
-                                </li>
-                                <li>
-                                    Membeli asuransi karena terpaksa/terikat, bukan kesadaran.<br>
-                                    <small class="text-danger">Karena keterikatan (kontrak, leasing, bank), ditawarin saudara, teman, dll</small>
-                                </li>
-                            </ul>
+   </div>
+   <div class="page-section page">
+      <div class="overflow-hidden">
+         <div class="container-fluid h-100">
+            <div class="row justify-content-center align-items-center h-100">
+               <div class="col-12 m-b-30">
+                  <h2 class="text-center text-uppercase">Momen Penting
+                     <span class="text-primary">Dalam Berasuransi</span>
+                  </h2>
+               </div>
+               <!-- Card Start -->
+               <div class="col-12 col-md-6 mt-20">
+                  <div class="card custom-card border border-dark bg-light-primary">
+                     <div class="card-body">
+                        <div class="d-flex align-items-center">
+                           <div class="flex-shrink-0 d-flex justify-content-center align-items-center custom-icon">
+                              <i class="ti ti-device-analytics f-66"></i>
+                           </div>
+                           <div class="flex-grow-1 mx-2">
+                              <h4 class="mb-1 text-center">Melakukan Analisa atas obyek pertanggungan & kemungkinan Risiko yang akan di hadapi.</h4>
+                           </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-12 col-xl-6 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="header-container">
-                        <h3 class="text-uppercase text-center py-4" style="border: 2px solid #000; border-radius: 15px">
-                            PERILAKU Penanggung
-                        </h3>
-                    </div>
-                    <hr class="tapered-divider tapered-divider-red">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start">
-                                <ul class="pl-0" style="font-size: 1.3rem; font-weight:400">
-                                        <li>
-                                            Menawarkan polis standar.<br>
-                                            <small class="text-danger">(Apakah sesuai dengan risiko yang ada, luas jaminan berpotensi dispute karena under/over covered, dll)</small>
-                                        </li>
-                                        <li>
-                                            Menjual paket produk yang ada.<br>
-                                            <small class="text-danger">(Tidak/Belum Customise sesuai risiko yang ada).</small>
-                                        </li>
-                                        <li>
-                                            Premi relatif standard.<br>
-                                            <small class="text-danger">(Kurang optimal, terjadi Over/Under Charge premium)</small>
-                                        </li>
-                                        <li>
-                                            Proses klaim yang kurang optimal.<br>
-                                            <small class="text-danger">(Permintaan dokumen yang berbelit/rigid, tatacara pelaporan klaim)</small>
-                                        </li>
-                                    </ul>
-                            </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Card End -->
+               <!-- Repeat similar structure for other cards -->
+               <div class="col-12 col-md-6 mt-20">
+                  <div class="card custom-card border border-dark bg-light-primary">
+                     <div class="card-body">
+                        <div class="d-flex align-items-center">
+                           <div class="flex-shrink-0 d-flex justify-content-center align-items-center custom-icon">
+                              <i class="ti ti-dashboard f-66"></i>
+                           </div>
+                           <div class="flex-grow-1 mx-2">
+                              <h4 class="mb-1 text-center">Memilih jaminan asuransi yang sesuai dan kondisi jaminan yang optimal.</h4>
+                           </div>
                         </div>
-                    </div>
-                </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-12 col-md-6 mt-20">
+                  <div class="card custom-card border border-dark bg-light-primary">
+                     <div class="card-body">
+                        <div class="d-flex align-items-center">
+                           <div class="flex-shrink-0 d-flex justify-content-center align-items-center custom-icon">
+                              <i class="ti ti-trending-down f-66"></i>
+                           </div>
+                           <div class="flex-grow-1 mx-2">
+                              <h4 class="mb-1 text-center">Mengalami Kerugian/Klaim atau dituntut oleh pihak ke 3.</h4>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-12 col-md-6 mt-20">
+                  <div class="card custom-card border border-dark bg-light-primary">
+                     <div class="card-body">
+                        <div class="d-flex align-items-center">
+                           <div class="flex-shrink-0 d-flex justify-content-center align-items-center custom-icon">
+                              <i class="ti ti-calculator f-66"></i>
+                           </div>
+                           <div class="flex-grow-1 mx-2">
+                              <h4 class="mb-1 text-center">Menghitung nilai kerugian. (apakah sesuai dengan syarat & kondisi polis?)</h4>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </section>
-    <!-- [ dashboard apps ] End -->
+         </div>
+      </div>
+   </div>
+   <div class="page-section page">
+      <div class="overflow-hidden">
+         <div class="container-fluid h-100">
+            <div class="row justify-content-center align-items-center h-100">
+               <div class="col-12 col-xl-6">
+                  <div class="header-container-fluid">
+                     <h3 class="text-uppercase text-center py-4" style="border: 2px solid #000; border-radius: 15px">
+                        PERILAKU TERTANGGUNG
+                     </h3>
+                  </div>
+                  <hr class="tapered-divider tapered-divider-blue">
+                  <div class="card">
+                     <div class="card-body">
+                        <ul class="pl-0" style="font-size: 1.3rem; font-weight:400">
+                           <li>
+                              Awam dan sibuk dengan aktifitas utama.<br>
+                              <small class="text-danger">Dapat polis, dilirik sebentar, taruh lemari atau jadi bantal</small>
+                           </li>
+                           <li>
+                              Tidak teliti – tidak tertarik – tidak berminat.<br>
+                              <small class="text-danger">Malas membaca/sulit memahami isi polis. (Tulisan kecil, berbahasa hukum, berpotensi mis-interprestasi). Terima polis, bayar premi, simpan dilaci.</small>
+                           </li>
+                           <li>
+                              Membeli Asuransi   :  Pertimbangan premi murah.<br>
+                              <small class="text-danger">Tanpa memahami mengapa bisa murah ?</small>
+                           </li>
+                           <li>
+                              Membeli asuransi karena terpaksa/terikat, bukan kesadaran.<br>
+                              <small class="text-danger">Karena keterikatan (kontrak, leasing, bank), ditawarin saudara, teman, dll</small>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-12 col-xl-6">
+                  <div class="header-container-fluid">
+                     <h3 class="text-uppercase text-center py-4" style="border: 2px solid #000; border-radius: 15px">
+                        PERILAKU Penanggung
+                     </h3>
+                  </div>
+                  <hr class="tapered-divider tapered-divider-red">
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="d-flex flex-wrap justify-content-between align-items-start">
+                           <ul class="pl-0" style="font-size: 1.3rem; font-weight:400">
+                              <li>
+                                 Menawarkan polis standar.<br>
+                                 <small class="text-danger">(Apakah sesuai dengan risiko yang ada, luas jaminan berpotensi dispute karena under/over covered, dll)</small>
+                              </li>
+                              <li>
+                                 Menjual paket produk yang ada.<br>
+                                 <small class="text-danger">(Tidak/Belum Customise sesuai risiko yang ada).</small>
+                              </li>
+                              <li>
+                                 Premi relatif standard.<br>
+                                 <small class="text-danger">(Kurang optimal, terjadi Over/Under Charge premium)</small>
+                              </li>
+                              <li>
+                                 Proses klaim yang kurang optimal.<br>
+                                 <small class="text-danger">(Permintaan dokumen yang berbelit/rigid, tatacara pelaporan klaim)</small>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Tombol Navigasi Bawah Tengah -->
+<div class="navigation-buttons text-center" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; gap: 20px;">
+   <button id="prev-btn" class="btn btn-primary rounded-circle p-3 animate__animated animate__bounce">
+      <i class="ti ti-arrow-big-top" style="font-size: 28px"></i>
+   </button>
+   <button id="next-btn" class="btn btn-primary rounded-circle p-3 animate__animated animate__bounce">
+      <i class="ti ti-arrow-big-down" style="font-size: 28px"></i>
+   </button>
+</div>
 @endsection
+
+@push('levelPluginHeader')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+@endpush
+
+@push('levelPluginsJs')
+@vite(['resources/js/v1/pi/index.js'])
+@endpush

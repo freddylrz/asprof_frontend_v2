@@ -1,7 +1,7 @@
 @extends('v1.layouts.dashboard')
 @section('content')
 <div class="row">
-   <h4>Selamat Datang Bpk Rezi</h4>
+   <h4>Selamat Datang <span id="userLogin"> </span></h4>
    <!-- Header -->
    {{-- <div class="col-12 text-center mb-3">
       <p class="h1">Data Kepesertaan</p>

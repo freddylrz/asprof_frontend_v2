@@ -66,7 +66,7 @@
                   </li>
                   <li class="pc-item pc-hasmenu">
                      <a href="#!" class="pc-link" style="font-size: 18px !important;">
-                     <i class="ti ti-list"></i>
+                     <i class="ti ti-user-check"></i>
                      <span class="pc-mtext">Data Kepesertaan</span>
                      <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                      </a>
@@ -77,7 +77,7 @@
                   </li>
                   <li class="pc-item pc-hasmenu">
                      <a href="#!" class="pc-link" style="font-size: 18px !important;">
-                     <i class="ti ti-list"></i>
+                     <i class="ti ti-file-invoice"></i>
                      <span class="pc-mtext">Akseptasi</span>
                      <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                      </a>
@@ -112,8 +112,8 @@
                      <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                      </a>
                      <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="/klaim/input" style="font-size: 16px">Laporan Klaim</a></li>
                         <li class="pc-item"><a class="pc-link" href="/klaim/data" style="font-size: 16px">Daftar Klaim</a></li>
+                        <li class="pc-item"><a class="pc-link" href="/klaim/input" style="font-size: 16px">Laporan Klaim</a></li>
                      </ul>
                   </li>
                   {{-- <li class="pc-item">
@@ -131,7 +131,7 @@
                   </li>
                   
                   <li class="pc-item">
-                     <a href="/faq" class="pc-link" style="font-size: 18px !important;">
+                     <a href="/faq" class="pc-link" target="_blank" style="font-size: 18px !important;">
                      <i class="ti ti-info-circle"></i>
                      <span class="pc-mtext">FAQ</span>
                      </a>
@@ -249,7 +249,7 @@
 
          // Retrieve and parse user_info
          const userInfoCookie = getCookie('user_info');
-         let userInfo = null;
+         var userInfo = null;
 
          if (userInfoCookie) {
              userInfo = JSON.parse(userInfoCookie);

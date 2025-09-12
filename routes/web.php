@@ -109,6 +109,9 @@ Route::middleware([CheckPiat::class])->group(function () {
     Route::get('/endorsement', function () {
         return view('v1.dashboard.endorsement');
     });
+    Route::get('/info-faq', function () {
+        return view('v1.dashboard.faq');
+    });
 
     Route::group(['prefix' => 'klaim', 'as' => 'klaim.'], function () {
         Route::get('/detail/{klaimId}', function () {

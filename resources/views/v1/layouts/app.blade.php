@@ -42,7 +42,7 @@
       </div>
       <!-- [ Pre-loader ] End -->
       <div class="auth-main">
-         <div class="auth-wrapper v3" style="background-color: #f1f1f1;">
+         <div class="auth-wrapper v3">
             <div class="auth-form">
                <div class="auth-header row">
                   <div class="col my-1">
@@ -70,14 +70,7 @@
                   </div>
                </div>
             </div>
-            @if (Request::is('login'))
-            <div class="auth-sidecontent">
-               <div class="p-1 px-lg-5 text-center">
-                <h2 class="text-light">Jika anda belum memiliki asuransi profesi silahkan </h2>
-                <a href="/pendaftaran" class="btn btn-light my-2">Daftar Sekarang</a>
-               </div>
-            </div>
-            @endif
+            
          </div>
       </div>
       <!-- [ Main Content ] end -->

@@ -13,6 +13,7 @@ $(document).ready(function () {
     }
 
     getDataDetail()
+    getListPolis()
 
     // Event listener for "View Detail" button
     $('#list-sip').on('click', '.view-detail', function() {
@@ -35,6 +36,53 @@ $(document).ready(function () {
 
         $('#viewDetailModal').modal('show');
     });
+});
+var table
+function getListPolis(){
+    const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
+
+    $.ajax({
+        url: `${apiUrl}/api/client/history`,
+        method: "GET",
+        timeout: 0,
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+    }).done(async function(responses) {
+
+        // var response = await decryptData(responses['data'])
+        table = $('#policy-history-table').DataTable({
+            responsive: true,
+            "processing": false,
+            "pageLength": 25,
+            "autoWidth": false,
+            "order": [],
+            "scrollX": true,
+            "bDestroy": true,
+            "searching": true,
+            data: responses.list || [],
+            columns: [
+                { data: 'id' },
+                { data: 'insurance' },
+                { data: 'polis_no' },
+                { data: 'polis_start_date' },
+                { data: 'polis_end_date' },
+                { data: 'plan_desc' },
+                { data: 'sum_insured' },
+                { data: 'premi' },
+                { data: 'polis_stat' }
+            ],
+            language: {
+                emptyTable: "Tidak ada data riwayat polis."
+            }
+        });
+    });
+}
+
+$('#collapseOne').on('shown.bs.collapse', function () {
+    setTimeout(function () {
+        table.columns.adjust().draw();
+    }, 200); // kasih jeda 200ms
 });
 
 // Function to get the value of a specific cookie by name
@@ -132,8 +180,20 @@ async function getDataDetail() {
             $('#jaminan-pertanggungan-pembayaran').html(item.sum_insured);
 
             $('#div-e-sertifikat').html(`
-                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary" id="btn-download-polis">
-                    E-Sertifikat
+                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
+                    Unduh E-Sertifikat
+                </a>
+            `);
+
+            $('#div-e-polis').html(`
+                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
+                    Unduh Master Polis
+                </a>
+            `);
+
+            $('#div-e-nota').html(`
+                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
+                    Unduh Nota
                 </a>
             `);
 

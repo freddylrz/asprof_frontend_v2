@@ -1366,7 +1366,7 @@ async function getDataDashboard() {
             if (item.polis_exp == 1 || item.polis_exp == null) {
                 $('#div-polis-alert').show();
                     let alertClass = 'alert-success';
-                    let alertText = "Perpanjangan polis belum dapat dilakukan saat ini karena polis Anda masih dalam masa aktif. Untuk memastikan kelancaran proses perpanjangan, pengajuan dapat dilakukan paling cepat H-7 sebelum tanggal kedaluwarsa polis.";
+                    let alertText = "Perpanjangan polis belum dapat dilakukan saat ini karena polis Anda masih dalam masa aktif. Untuk memastikan kelancaran proses perpanjangan, pengajuan dapat dilakukan paling cepat H-30 sebelum tanggal kedaluwarsa polis.";
                 $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
                 $('#polis-alert').text(alertText);
                 $('#div-renewal-form').hide();

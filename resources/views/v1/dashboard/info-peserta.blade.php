@@ -1,9 +1,8 @@
 @extends('v1.layouts.dashboard')
 @section('content')
 <div class="row">
-   <h4>Selamat Datang Bpk Rezi</h4>
    <!-- Header -->
-   {{-- <div class="col-12 text-center mb-3">
+   <div class="col-12 text-center mb-5">
       <p class="h1">Data Kepesertaan</p>
       <p class="h1" id="nomor-register"></p>
    </div>
@@ -11,141 +10,11 @@
    <div class="polis-alert-container col-12">
       <!-- Alert akan di-append disini -->
    </div>
-   <!-- Card Informasi Polis -->
-   <div class="col-12">
-      <div class="card shadow-sm border rounded-4 my-3">
-         <div class="card-body px-0">
-            <div class="row">
-               <!-- Kolom Kiri -->
-               <div class="col-12 col-lg-6">
-                  <ul class="list-group list-group-flush">
-                     <li class="list-group-item">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
-                           <div class="d-flex align-items-center">
-                              <div class="flex-shrink-0">
-                                 <div class="avtar avtar-s bg-light-secondary">
-                                    <i class="ti ti-certificate f-32"></i>
-                                 </div>
-                              </div>
-                              <div class="flex-grow-1 ms-3">
-                                 <div class="row g-1">
-                                    <div class="col-12">
-                                       <p class="text-muted mb-1">Nomor Polis</p>
-                                       <h5 class="mb-0" id="nomor-polis"></h5>
-                                    </div>
-                                    <div class="col-6 col-md-4 d-flex align-items-center justify-content-end" id="status-polis"></div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li class="list-group-item">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
-                           <div class="d-flex align-items-center">
-                              <div class="flex-shrink-0">
-                                 <div class="avtar avtar-s bg-light-secondary">
-                                    <i class="ti ti-building-skyscraper f-32"></i>
-                                 </div>
-                              </div>
-                              <div class="flex-grow-1 ms-3">
-                                 <div class="row g-1">
-                                    <div class="col-12">
-                                       <p class="text-muted mb-1">Asuransi</p>
-                                       <h5 class="mb-0" id="asuransi"></h5>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li class="list-group-item">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
-                           <div class="d-flex align-items-center">
-                              <div class="flex-shrink-0">
-                                 <div class="avtar avtar-s bg-light-secondary">
-                                    <i class="ti ti-calendar-time f-32"></i>
-                                 </div>
-                              </div>
-                              <div class="flex-grow-1 ms-3">
-                                 <div class="row g-1">
-                                    <div class="col-12">
-                                       <p class="text-muted mb-1">Periode Polis</p>
-                                       <h5 class="mb-0" id="periode-polis"></h5>
-                                       <i class="text-muted mb-1" id="expire-count"></i>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </div>
-               <!-- Kolom Kanan -->
-               <div class="col-12 col-lg-6">
-                  <ul class="list-group list-group-flush">
-                     <li class="list-group-item">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
-                           <div class="d-flex align-items-center">
-                              <div class="flex-shrink-0">
-                                 <div class="avtar avtar-s bg-light-secondary">
-                                    <i class="ti ti-shield-check f-32"></i>
-                                 </div>
-                              </div>
-                              <div class="flex-grow-1 ms-3">
-                                 <div class="row g-1">
-                                    <div class="col-12">
-                                       <p class="text-muted mb-1">Jaminan Pertanggungan</p>
-                                       <h5 class="mb-0" id="jaminan-pertanggungan"></h5>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li class="list-group-item">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
-                           <div class="d-flex align-items-center">
-                              <div class="flex-shrink-0">
-                                 <div class="avtar avtar-s bg-light-secondary">
-                                    <i class="ti ti-cash f-32"></i>
-                                 </div>
-                              </div>
-                              <div class="flex-grow-1 ms-3">
-                                 <div class="row g-1">
-                                    <div class="col-12">
-                                       <p class="text-muted mb-1">Nilai Premi</p>
-                                       <h5 class="mb-0" id="nilai-premi"></h5>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li class="list-group-item">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
-                           <div class="d-flex align-items-center">
-                              <div class="flex-shrink-0">
-                                 <div class="avtar avtar-s bg-light-secondary">
-                                    <i class="ti ti-download f-32"></i>
-                                 </div>
-                              </div>
-                              <div class="flex-grow-1 ms-3">
-                                 <div class="row g-1">
-                                    <div class="col-12">
-                                       <p class="text-muted mb-1">Unduh E Sertifikat</p>
-                                       <div class="mb-0" id="div-e-sertifikat"></div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+<style>
+   .text-muted, .h5{
+      font-size: 1.2rem;
+   }
+</style>
    <!-- Informasi Data Pribadi -->
    <div class="col-12">
       <!-- Informasi Data Pribadi -->
@@ -247,13 +116,13 @@
                     <div class="col-md-6">
                         <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
                             <p class="text-muted">Kategori</p>
-                            <p class="mb-0 h5" id="ketegori-profesi"></p>
+                            <p class="mb-0 h5" id="profesi"></p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
                             <p class="text-muted">Profesi</p>
-                            <p class="mb-0 h5" id="profesi"></p>
+                            <p class="mb-0 h5" id="ketegori-profesi"></p>
                         </div>
                     </div>
                 </div>
@@ -393,7 +262,7 @@
                 </div>
             </div>
         </div>
-   </div> --}}
+   </div>
 </div>
 @endsection
 @push('levelPluginsJs')

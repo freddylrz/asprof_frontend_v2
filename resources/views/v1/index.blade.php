@@ -3,8 +3,8 @@
 <div id="pureFullPage" class="pure-fullpage px-3 px-sm-4 px-md-5">
    <div class="page-section page">
       <div class="overflow-hidden">
-         <div class="container-fluid">
-            <div class="row justify-content-center align-items-center" style="margin-top: 80px; min-height: 60vh;">
+         <div class="container-fluid h-100">
+            <div class="row justify-content-center align-items-center h-100">
                <!-- Left Column for Image -->
                <div class="col-12 col-md-6 text-center m-t-20">
                   <img
@@ -33,8 +33,8 @@
    </div>
    <div class="page-section page">
       <div class="overflow-hidden">
-         <div class="container-fluid">
-            <div class="row justify-content-center align-items-center">
+         <div class="container-fluid h-100">
+            <div class="row justify-content-center align-items-center h-100">
                <div class="col-12 m-b-30">
                   <h2 class="text-center text-uppercase">Momen Penting
                      <span class="text-primary">Dalam Berasuransi</span>
@@ -105,8 +105,8 @@
    </div>
    <div class="page-section page">
       <div class="overflow-hidden">
-         <div class="container-fluid">
-            <div class="row justify-content-center align-items-center">
+         <div class="container-fluid h-100">
+            <div class="row justify-content-center align-items-center h-100">
                <div class="col-12 col-xl-6">
                   <div class="header-container-fluid">
                      <h3 class="text-uppercase text-center py-4" style="border: 2px solid #000; border-radius: 15px">
@@ -175,12 +175,24 @@
    </div>
 </div>
 <div class="navigation-buttons text-center" style="position: fixed; bottom: 20px; width: 100%;">
-   <button id="prev-btn" class="btn btn-primary mr-2">Previous</button>
-   <button id="next-btn" class="btn btn-primary">Next</button>
+   <button id="prev-btn" class="btn btn-primary rounded-circle me-2 p-3">
+   <i class="ti ti-arrow-big-left" style="font-size: 28px"></i>
+   </button>
+   <button id="next-btn" class="btn btn-primary rounded-circle p-3">
+   <i class="ti ti-arrow-big-right" style="font-size: 28px"></i>
+   </button>
 </div>
 @endsection
 @push('levelPluginHeader')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<style>
+   .page-section {
+   min-height: 100vh; /* supaya memenuhi layar penuh */
+   display: flex;
+   align-items: center; /* center vertikal */
+   justify-content: center; /* center horizontal */
+   }
+</style>
 @endpush
 @push('levelPluginsJs')
 @vite(['resources/js/v1/pi/index.js'])

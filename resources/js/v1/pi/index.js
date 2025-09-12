@@ -2,6 +2,7 @@ $(document).ready(function () {
     let currentPage = 0;
     const pages = $('.page-section');
     const totalPages = pages.length;
+    let isAnimating = false; // Flag untuk mencegah multiple click
 
     // Sembunyikan semua halaman, lalu tampilkan yang pertama
     pages.hide().eq(currentPage).show();
@@ -32,7 +33,10 @@ $(document).ready(function () {
 
     // Pindah ke halaman tertentu dengan animasi acak
     function goToPage(index) {
-        if (index < 0 || index >= totalPages) return;
+        if (index < 0 || index >= totalPages || isAnimating) return;
+
+        isAnimating = true; // Mulai animasi
+        $('#prev-btn, #next-btn').prop('disabled', true); // Nonaktifkan tombol
 
         const randomAnim = animations[Math.floor(Math.random() * animations.length)];
 
@@ -44,6 +48,8 @@ $(document).ready(function () {
         // Animasi masuk halaman baru
         pages.eq(index).show().addClass('animate__animated animate__' + randomAnim.in).one('animationend', function () {
             $(this).removeClass('animate__animated animate__' + randomAnim.in);
+            isAnimating = false; // Selesai animasi
+            $('#prev-btn, #next-btn').prop('disabled', false); // Aktifkan tombol
         });
 
         currentPage = index;
@@ -52,14 +58,14 @@ $(document).ready(function () {
 
     // Event handler tombol Next
     $(document).on('click', '#next-btn', function () {
-        if (currentPage < totalPages - 1) {
+        if (currentPage < totalPages - 1 && !isAnimating) {
             goToPage(currentPage + 1);
         }
     });
 
     // Event handler tombol Previous
     $(document).on('click', '#prev-btn', function () {
-        if (currentPage > 0) {
+        if (currentPage > 0 && !isAnimating) {
             goToPage(currentPage - 1);
         }
     });

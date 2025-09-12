@@ -1,4 +1,4 @@
-@extends('v1.layouts.landing')
+~@extends('v1.layouts.landing')
 
 @section('content-fullpage')
 <div id="pureFullPage" class="pure-fullpage px-3 px-sm-4 px-md-5">

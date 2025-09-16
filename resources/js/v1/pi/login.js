@@ -188,11 +188,13 @@ function sendOtpCode() {
             });
         } else {
             showAlert('warning', response.message);
+                switchTab('#auth-3');
         }
     }).fail(function (error) {
         setLoading(chooseMethodButton, false);
         const message = error.responseJSON?.message || 'An unexpected error occurred';
         showAlert('error', message);
+                switchTab('#auth-3');
     });
 }
 

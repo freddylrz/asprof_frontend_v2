@@ -28,6 +28,8 @@
       <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
       <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
       <link rel="stylesheet" href="{{ asset('assets/css/landing.css') }}" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui-theme-default.css" />
       @stack('levelPluginHeader')
       @if (Request::is('/'))
       <style>
@@ -271,7 +273,7 @@
                                     <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/">Beranda</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('asuransi-profesi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/asuransi-profesi">Asuransi Profesi</a>
+                                    <a class="nav-link {{ Request::is('asuransi-profesi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/asuransi-profesi">Asuransi Tanggung Gugat Profesi</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is('pialang-asuransi') ? 'active' : '' }}" style="font-size: 1.2rem; font-weight:400;" href="/pialang-asuransi">Pialang Asuransi</a>
@@ -348,7 +350,7 @@
                                 <a class="menu-btn py-1 px-4 {{ Request::is('/') ? 'active' : '' }}" href="/">Beranda</a>
                             </li>
                             <li class="nav-item">
-                                <a class="menu-btn py-1 px-4 {{ Request::is('asuransi-profesi') ? 'active' : '' }}" href="/asuransi-profesi">Asuransi Profesi</a>
+                                <a class="menu-btn py-1 px-4 {{ Request::is('asuransi-profesi') ? 'active' : '' }}" href="/asuransi-profesi">Asuransi Tanggung Gugat Profesi</a>
                             </li>
                             <li class="nav-item">
                                 <a class="menu-btn py-1 px-4 {{ Request::is('pialang-asuransi') ? 'active' : '' }}" href="/pialang-asuransi">Pialang Asuransi</a>
@@ -558,14 +560,14 @@
 </div>
 
 <!-- Desktop Chat Button -->
-<button class="btn btn-primary d-non d-md-block" id="toggle-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+{{-- <button class="btn btn-primary d-non d-md-block" id="toggle-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
     <i class="ti ti-message-circle" id="toggle-chat-icon" style="font-size: 28px"></i>
 </button>
 
 <!-- Mobile Chat Button -->
 <button class="btn btn-primary d-block d-md-none" id="mobile-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
     <i class="ti ti-message-circle" style="font-size: 28px"></i>
-</button>
+</button> --}}
 
 <!-- Tombol FAQ -->
 <a href="/faq" class="btn btn-info" id="btn-faq" style="position: fixed; bottom: 20px; left: 20px; z-index: 1000;">
@@ -573,7 +575,7 @@
 </a>
 
 <!-- Offcanvas for Mobile -->
-<div class="offcanvas offcanvas-bottom offcanvas-fullscreen" id="mobileChat" tabindex="-1">
+{{-- <div class="offcanvas offcanvas-bottom offcanvas-fullscreen" id="mobileChat" tabindex="-1">
     <div class="offcanvas-header bg-primary text-white">
         <h5 class="text-white" id="mobileChatTitle">Chat</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
@@ -601,7 +603,7 @@
 
         </div>
     </div>
-</div>
+</div> --}}
 
       <!-- [ Main Content ] end -->
       <!-- Jquery -->
@@ -617,7 +619,8 @@
       <!-- [Page Specific JS] start -->
       <script src="{{ asset('assets/js/plugins/wow.min.js') }}"></script>
       <script src="{{ asset('assets/js/plugins/Jarallax.js') }}"></script>
-      <script>
+      <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="155d25dd-e83f-49ef-92db-b1399189fb1c";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+<script>
 
          // Start [ Menu hide/show on scroll ]
          let ost = 0;
@@ -687,6 +690,18 @@
         updateLoginButton();
 
         $(document).ready(function() {
+                window.$crisp = [];
+    window.CRISP_WEBSITE_ID = "155d25dd-e83f-49ef-92db-b1399189fb1c";
+    (function () {
+        d = document;
+        s = d.createElement("script");
+        s.src = "https://client.crisp.chat/l.js";
+        s.async = 1;
+        d.getElementsByTagName("head")[0].appendChild(s);
+    })();
+
+    // Auto-open chat widget saat halaman load
+    window.$crisp.push(["do", "chat:open"]);
             // Check if the splash screen cookie exists
             if (!getCookie('splashscreen_seen')) {
                 $('#splashscreen').show();
@@ -701,6 +716,7 @@
                 // Set a cookie to remember that the splash screen was seen
                 setCookie('splashscreen_seen', 'true', 24); // 24 hours
             });
+        
             // Unified function to handle department selection
             function selectDepartment(department) {
                 if (department === 'Marketing') {

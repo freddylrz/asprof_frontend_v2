@@ -523,8 +523,8 @@ function getDataDetail(reqId) {
             }
 
             // Profesi
-            $('#ketegori-profesi').html(item.profesi_kategori_desc)
-            $('#profesi').html(item.profesi_desc)
+            $('#ketegori-profesi').html(item.profesi_desc)
+            $('#profesi').html(item.profesi_kategori_desc)
 
             // Plan
             $('#plan').html(item.plan_desc)
@@ -540,8 +540,10 @@ function getDataDetail(reqId) {
             $('#total-tagihan-detail').html(item.total_premi)
             if ([2, 6, 7].includes(statusId)) {
                 $('.divBiaya').show()
+                $('.divBiayaAlert').hide()
             }else{
                 $('.divBiaya').hide()
+                $('.divBiayaAlert').show()
             }
             $('#div-asuransi').html(`
                 <div class="form-group">

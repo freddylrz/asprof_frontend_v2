@@ -313,6 +313,11 @@
                             <div class="h5 mb-0 p-1" id="premi-tahunan"></div>
                         </div>
                     </div>
+                    <div class="col-md-12 divBiayaAlert">
+                        <div class="d-flex justify-content-end align-items-center mb-1">
+                            <p class="text-muted mb-0 p-1">Premi belum termasuk biaya polis dan materai</p>
+                        </div>
+                    </div>
                     <div class="col-md-12 divBiaya">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <p class="text-muted mb-0 p-1">Biaya Polis</p>
@@ -331,7 +336,7 @@
                             <div class="h5 mb-0 p-1" id="total-tagihan-detail"></div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
          </div>

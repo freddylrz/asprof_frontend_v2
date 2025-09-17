@@ -83,7 +83,7 @@ function getDataDetail() {
 
             // Default semua status jadi 'Belum Mulai'
             statuses.push(
-                { id: '#status-poin-satu', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
                 { id: '#status-poin-dua', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
                 { id: '#status-poin-tiga', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
                 { id: '#status-poin-empat', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
@@ -93,48 +93,98 @@ function getDataDetail() {
 
             const poinStatus = [];
 
-            if (statusId > 0 && statusId <= 3) {
-                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
-                poinStatus.push({ id: '#poin-satu', class: 'js-proses' });
-            }
-            if (statusId > 4 && statusId <= 6) {
+            if (statusId > 0 && statusId <= 5) {
+                let text = 'Cek Dokumen'
+                if(statusId == 3){
+                    text = 'Pemenuhan Dokumen'
+                }else if(statusId == 5){
+                    text = 'Proses Analisa'
+                }
                 statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
-                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-warning border border-warning', text: text };
                 poinStatus.push({ id: '#poin-satu', class: 'js-active' });
                 poinStatus.push({ id: '#poin-dua', class: 'js-proses' });
             }
 
-            if (statusId >= 7 && statusId <= 11) {
-                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
-                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
-                poinStatus.push(
-                    { id: '#poin-satu', class: 'js-active' },
-                    { id: '#poin-dua', class: 'js-proses' },
+            if (statusId == 6) {
+                statuses.length = 0; // reset dulu biar gak ikut default
+
+                statuses.push(
+                    { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
+                    { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' },
+                    { id: '#status-poin-enam', class: 'bg-light-success border border-success', text: 'Pengaduan Selesai' }
                 );
-            }
-            if (statusId == 12) {
-                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
-                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
-                statuses[2] = { id: '#status-poin-empat', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
 
                 poinStatus.push(
                     { id: '#poin-satu', class: 'js-active' },
                     { id: '#poin-dua', class: 'js-active' },
+                    { id: '#poin-enam', class: 'js-active' },
+                );
+                $('#poin-tiga, #poin-empat, #poin-lima').hide()
+            }
+            if (statusId >= 7 && statusId <= 9) {
+                let text = 'Dalam Proses'
+                if(statusId == 7){
+                    text = 'Laporan Awal Klaim'
+                }
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[2] = { id: '#status-poin-tiga', class: 'bg-light-warning border border-warning', text: text };
+                poinStatus.push(
+                    { id: '#poin-satu', class: 'js-active' },
+                    { id: '#poin-dua', class: 'js-active' },
+                    { id: '#poin-tiga', class: 'js-proses' },
+                );
+            }
+            if (statusId == 10) {
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[2] = { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[3] = { id: '#status-poin-empat', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
+
+                poinStatus.push(
+                    { id: '#poin-satu', class: 'js-active' },
+                    { id: '#poin-dua', class: 'js-active' },
+                    { id: '#poin-tiga', class: 'js-active' },
                     { id: '#poin-empat', class: 'js-proses' },
 
                 );
             }
-            if (statusId == 13) {
+            if (statusId == 11) {
                 statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
                 statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
-                statuses[2] = { id: '#status-poin-empat', class: 'bg-light-success border border-success', text: 'Selesai' };
-                statuses[3] = { id: '#status-poin-lima', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[2] = { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[3] = { id: '#status-poin-empat', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[4] = { id: '#status-poin-lima', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
 
                 poinStatus.push(
                     { id: '#poin-satu', class: 'js-active' },
                     { id: '#poin-dua', class: 'js-active' },
+                    { id: '#poin-tiga', class: 'js-active' },
+                    { id: '#poin-empat', class: 'js-active' },
+                    { id: '#poin-lima', class: 'js-proses' },
+
+                );
+            }
+            if (statusId == 12 || statusId == 13) {
+                let text = 'Proses Bayar'
+                if(statusId == 13){
+                    text = 'Klaim Dibayar'
+                }
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[2] = { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[3] = { id: '#status-poin-empat', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[4] = { id: '#status-poin-lima', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[5] = { id: '#status-poin-enam', class: 'bg-light-warning border border-warning', text: text };
+
+                poinStatus.push(
+                    { id: '#poin-satu', class: 'js-active' },
+                    { id: '#poin-dua', class: 'js-active' },
+                    { id: '#poin-tiga', class: 'js-active' },
                     { id: '#poin-empat', class: 'js-active' },
                     { id: '#poin-lima', class: 'js-active' },
+                    { id: '#poin-enam', class: 'js-proses' },
 
                 );
             }

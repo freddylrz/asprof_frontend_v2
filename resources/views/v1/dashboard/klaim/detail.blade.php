@@ -244,9 +244,21 @@
                         <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
                             <h3 style="text-align: center"> Informasi Polis </h3>
                             <hr>
-                            <div class="form-group">
-                                <h4>No Sertifikat </h4>
-                                <p id="polis-no">-</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <h4>Nama Peserta</h4>
+                                        <p id="nama">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <h4>No Sertifikat </h4>
+                                        <p id="polis-no">-</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -261,10 +273,6 @@
                                         <p id="sum-insured">-</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <h4>Nama Peserta</h4>
-                                <p id="nama">-</p>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">

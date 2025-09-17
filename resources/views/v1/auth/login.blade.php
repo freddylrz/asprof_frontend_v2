@@ -24,7 +24,7 @@
                         <div class="tab-pane show active" id="auth-1" role="tabpanel" aria-labelledby="auth-tab-1">
                             <div class="text-center mb-4">
                                 <h4>Masuk ke Akun Anda</h4>
-                                <p>Silakan login menggunakan email terdaftar dan nomor STR.</p>
+                                <p>Harap login menggunakan email terdaftar dan nomor STR.</p>
                             </div>
                             <div class="row my-2">
                                 <div class="col-lg-12">

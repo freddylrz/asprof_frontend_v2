@@ -90,6 +90,12 @@
                               </div>
                               <div class="col-12">
                                  <div class="form-group">
+                                    <label class="form-label">No. HP</label>
+                                    <input type="tel" class="form-control" placeholder="No. HP" />
+                                 </div>
+                              </div>
+                              <div class="col-12">
+                                 <div class="form-group">
                                     <label class="form-label">Pesan anda</label>
                                     <textarea rows="3" class="form-control" placeholder="Pesan" ></textarea>
                                  </div>

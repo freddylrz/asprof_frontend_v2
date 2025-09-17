@@ -23,9 +23,13 @@
                   <h3 class="mb-3"><strong>Informasi Polis</strong></h3>
                   <hr style="border-top: 2px solid #000000;">
                   <div class="row g-3">
-                     <div class="col-12">
+                     <div class="col-6">
                         <label class="form-label">No. Sertifikat</label>
                         <input type="text" class="form-control bg-light" id="no-sertifikat" disabled>
+                     </div>
+                     <div class="col-6">
+                        <label class="form-label">Asuransi</label>
+                        <input type="text" class="form-control bg-light" id="asuransi" disabled>
                      </div>
                      <div class="col-6">
                         <label class="form-label">Periode Polis</label>
@@ -149,16 +153,9 @@
                </div>
             </div>
 
-            <!-- Catatan -->
-            <div class="row mt-4">
-               <div class="col-12">
-                  <div class="alert alert-light p-2">
-                     <p><em>Catatan: tanda ( <span class="required">*</span>) wajib diisi</em></p>
-                  </div>
-               </div>
-            </div>
          </div>
-         <div class="card-footer d-flex justify-content-end">
+         <div class="card-footer d-flex justify-content-between">
+                <p><em>Catatan: tanda ( <span class="required">*</span>) wajib diisi</em></p>
             <button type="submit" class="btn btn-primary me-2"><i class="ti ti-mail-forward me-1"></i> Submit</button>
          </div>
       </div>

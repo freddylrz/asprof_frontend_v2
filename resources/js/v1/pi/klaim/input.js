@@ -281,6 +281,7 @@ async function populateDashboardData() {
 
         // Informasi Polis
         $('#no-sertifikat').val(policyData.polis_no);
+        $('#asuransi').val(policyData.ins_nama);
         $('#periode-polis').val(`${policyData.polis_start_date} s/d ${policyData.polis_end_date}`);
         $('#jaminan-pertanggungan').val(policyData.sum_insured || 'Asuransi Kesehatan Profesional');
         $('#nama-peserta').val(userData.nama);
@@ -448,10 +449,10 @@ async function fetchAndDisplayDocuments(sipId) {
     $dokumenContainer.empty();
 
     const requiredFileTypes = [
-        { type: 1, label: 'Dokumen Polis' },
+        { type: 1, label: 'Sertifikat' },
         { type: 2, label: 'KTP' },
-        { type: 3, label: 'Dokumen STR' },
-        { type: 4, label: 'Dokumen SIP' }
+        { type: 3, label: 'STR' },
+        { type: 4, label: 'SIP' }
     ];
 
     const $row = $('<div class="row g-3"></div>');

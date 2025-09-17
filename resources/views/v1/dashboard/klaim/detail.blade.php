@@ -18,6 +18,7 @@
             transition-delay: 0s;
             position: relative;
             padding-bottom: 30px;
+            /* Add some padding to the bottom for space */
             padding-top: 40px;
             color: #d9534f;
             text-indent: -9999px;
@@ -33,7 +34,9 @@
         @media (max-width: 1000px) {
             .multisteps-form__progress-btn {
                 font-size: 0.9rem;
+                /*padding-top: 30%;*/
                 padding-bottom: 25px;
+                /* Add some padding to the bottom for space */
             }
 
             .badge-bottom {
@@ -48,7 +51,9 @@
         @media (max-width: 500px) {
             .multisteps-form__progress-btn {
                 font-size: 0.6rem;
+                /*padding-top: 30%;*/
                 padding-bottom: 25px;
+                /* Add some padding to the bottom for space */
             }
 
             .badge-bottom {
@@ -60,10 +65,13 @@
             }
         }
 
+
         @media (max-width: 410px) {
             .multisteps-form__progress-btn {
                 font-size: 0.5rem;
+                /*padding-top: 30%;*/
                 padding-bottom: 25px;
+                /* Add some padding to the bottom for space */
             }
 
             .badge-bottom {
@@ -83,8 +91,11 @@
             width: 24px;
             height: 24px;
             content: '';
+            -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
+            transition: all 0.15s linear 0s, -webkit-transform 0.15s cubic-bezier(0.05, 1.09, 0.16, 1.4) 0s;
             transition: all 0.15s linear 0s, transform 0.15s cubic-bezier(0.05, 1.09, 0.16, 1.4) 0s;
+            transition: all 0.15s linear 0s, transform 0.15s cubic-bezier(0.05, 1.09, 0.16, 1.4) 0s, -webkit-transform 0.15s cubic-bezier(0.05, 1.09, 0.16, 1.4) 0s;
             border: 2px solid currentColor;
             border-radius: 50%;
             background-color: #d9534f;
@@ -121,11 +132,13 @@
         }
 
         .multisteps-form__progress-btn.js-active:before {
+            -webkit-transform: translateX(-50%) scale(1.2);
             transform: translateX(-50%) scale(1.2);
             background-color: currentColor;
         }
 
         .multisteps-form__progress-btn.js-proses:before {
+            -webkit-transform: translateX(-50%) scale(1.2);
             transform: translateX(-50%) scale(1.2);
             background-color: currentColor;
         }
@@ -163,6 +176,7 @@
         }
 
         .container img {
+            /*margin: 100px;*/
             transition: transform 0.25s ease;
             cursor: zoom-in;
         }
@@ -194,7 +208,7 @@
         }
     </style>
     <div class="pct-body">
-        <div class="mb-5" id="div-back" style="display: none">
+        <div class="mb-5" id="divBack" style="display: none">
             <button class="btn btn-secondary btn-sm fa-pull-left" onclick="window.history.back();"><i
                     class="fa fa-arrow-alt-circle-left"></i> Back</button>
         </div>

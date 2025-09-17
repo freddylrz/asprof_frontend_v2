@@ -491,8 +491,7 @@ async function fetchAndDisplayDocuments(sipId) {
 async function submitKlaim() {
     try {
         // Validasi SIP
-        const noSip = $('#no-sip').val();
-        if (!noSip) {
+        if (!selectedSIPData) {
             await Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
@@ -585,14 +584,24 @@ async function submitKlaim() {
             return;
         }
 
-        // Validasi tanggal pengaduan vs kejadian
+        // Parsing dan validasi tanggal
         const tanggalPengaduan = $('#tanggal-pengaduan').val();
+
         function parseDate(str) {
             const [d, m, y] = str.split('-').map(Number);
             return new Date(y, m - 1, d);
         }
+
+        function formatDateYmd(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
         const pengaduanDate = parseDate(tanggalPengaduan);
         const kejadianDate = parseDate(tanggalKejadian);
+
         if (pengaduanDate < kejadianDate) {
             await Swal.fire({
                 icon: 'warning',
@@ -666,50 +675,71 @@ async function submitKlaim() {
             processDocumentUpload(4, 'Dokumen SIP')
         ]);
 
+        // Buat payload dengan tanggal format Y-m-d dan SIP ID dari selectedSIPData
         const payload = {
-            sip_id: noSip,
-            report_date: tanggalPengaduan,
-            incident_date: tanggalKejadian,
+            sipId: selectedSIPData.id, // Gunakan ID dari selectedSIPData, bukan sip_no
+            report_date: formatDateYmd(pengaduanDate),
+            incident_date: formatDateYmd(kejadianDate),
             incident_location: lokasiKejadian,
-            claim_type: jenisTuntutan,
+            cause_of_action: jenisTuntutan,
             incident_description: kronologisKejadian,
             patient_name: namaPasien,
             patient_age: usia,
             patient_gender: jenisKelamin,
-            alternative_contact_name: $('#kontak-nama').val(),
-            alternative_contact_phone: $('#kontak-no-hp').val(),
+            pic_name: $('#kontak-nama').val(),
+            pic_no: $('#kontak-no-hp').val(),
             upload: uploadPromises.filter(Boolean)
         };
 
-        const response = await fetch(`${apiUrl}/api/client/klaim/register`, {
+        console.log('Payload sebelum enkripsi:', payload);
+
+        // Encrypt payload
+        // const payloadString = JSON.stringify(payload);
+        // const encryptedPayload = await encryptData(payloadString);
+
+        showGlobalLoading('Mengirim data klaim...');
+
+        // Gunakan AJAX dengan method POST
+        $.ajax({
+            url: `${apiUrl}/api/client/klaim/register`,
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            data: JSON.stringify(payload),
+            success: async function(result) {
+                hideGlobalLoading();
+                if (result.status === 200) {
+                    const decryptedData = await decryptData(result.data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: result.message || 'Klaim berhasil dikirim',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.href = `/klaim/detail/${decryptedData.klaimId}`;
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: result.message || 'Terjadi kesalahan saat mengirim klaim',
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                hideGlobalLoading();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat mengirim data: ' + (xhr.responseJSON?.message || error),
+                });
+            }
         });
 
-        const result = await response.json();
-
-        if (response.ok && result.status === 200) {
-            const decryptedData = await decryptData(result.data);
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: result.message || 'Klaim berhasil dikirim',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                window.location.href = `/klaim/detail/${decryptedData.klaimId}`;
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal',
-                text: result.message || 'Terjadi kesalahan saat mengirim klaim',
-            });
-        }
     } catch (error) {
+        hideGlobalLoading();
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -717,6 +747,7 @@ async function submitKlaim() {
         });
     }
 }
+
 
 async function processDocumentUpload(type, label) {
     const inputFile = $(`input[name="dokumen_upload_${type}"]`)[0];

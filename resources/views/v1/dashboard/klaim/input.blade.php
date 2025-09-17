@@ -100,8 +100,8 @@
                         <label class="form-label">Jenis Kelamin <span class="required">*</span></label>
                         <select class="form-select" id="jenis-kelamin">
                            <option value="">Pilih</option>
-                           <option value="L">Laki-laki</option>
-                           <option value="P">Perempuan</option>
+                           <option value="1">Laki-laki</option>
+                           <option value="2">Perempuan</option>
                         </select>
                      </div>
                   </div>

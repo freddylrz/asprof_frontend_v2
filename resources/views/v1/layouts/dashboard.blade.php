@@ -112,8 +112,8 @@
                      <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                      </a>
                      <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="/klaim/data" style="font-size: 16px">Daftar Klaim</a></li>
-                        <li class="pc-item"><a class="pc-link" href="/klaim/input" style="font-size: 16px">Laporan Klaim</a></li>
+                         <li class="pc-item"><a class="pc-link" href="/klaim/input" style="font-size: 16px">Pengajuan Klaim</a></li>
+                         <li class="pc-item"><a class="pc-link" href="/klaim/data" style="font-size: 16px">Laporan Klaim</a></li>
                      </ul>
                   </li>
                   {{-- <li class="pc-item">
@@ -129,7 +129,7 @@
                      <span class="pc-badge bg-danger d-none">0</span>
                      </a>
                   </li>
-                  
+
                   <li class="pc-item">
                      <a href="/faq" class="pc-link" target="_blank" style="font-size: 18px !important;">
                      <i class="ti ti-info-circle"></i>

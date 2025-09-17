@@ -1,274 +1,387 @@
-import { decryptData, encryptData } from "../../encrypt.js";
+import {
+    decryptData,
+    encryptData,
+} from "../../encrypt.js";
 
-// Ambil token dari cookie dengan aman
+let searchParams = new URLSearchParams(window.location.search);
+let pathSegments = window.location.pathname.split('/').filter(segment => segment);
+let id = pathSegments[pathSegments.length - 1]; // Ambil segment terakhir
 const cookie = document.cookie.split('; ').find(row => row.startsWith('piat='));
 const token = cookie ? cookie.split('=')[1] : null;
-const klaimId = window.location.pathname.split('/').pop();
 
-$(document).ready(function () {
-  if (!klaimId) {
-    alert('Klaim ID not found in URL');
-    return;
-  }
+let detail, url, doc;
 
-  $.ajax({
-    url: `${apiUrl}/api/client/klaim/detail`,
-    method: 'GET',
-    data: { klaimId },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    success: async function (res) {
-      if (res.status === 200 && res.data) {
-        let decrypted;
-        try {
-          decrypted = await decryptData(res.data);
-        } catch (e) {
-          console.error('Decryption failed', e);
-          alert('Failed to decrypt data');
-          return;
-        }
+$(document).ready(async function () {
+    url = 'client'; // default ke admin, sesuaikan jika perlu
 
-        if (decrypted) {
-          console.log(decrypted);
-
-          const klaim = decrypted.klaim;
-          const documents = decrypted.document || [];
-          const logs = decrypted.log || [];
-
-          // Isi detail klaim
-          $.each(klaim, function(index, item) {
-            $('#nomor-klaim').text(item.klaim_no || '-');
-            $('#nama-peserta').text(item.nama || '-');
-            $('#nomor-polis-peserta').text(item.polis_no || '-');
-            $('#tanggal-lapor').text(formatDateIndo(item.report_date) || '-');
-            $('#tanggal-kejadian').text(formatDateIndo(item.incident_date) || '-');
-            $('#keterangan-kejadian').text(item.incident_description || '-');
-            $('#klaim-status-desc').text(item.klaim_status_desc || '-');
-
-            const $status = $('#klaim-status-desc');
-            $status.removeClass('bg-primary bg-warning bg-success text-white text-dark rounded px-2 py-1');
-
-            if ([1, 2, 7].includes(item.klaim_status_id)) {
-              $status.addClass('bg-primary text-white rounded px-2 py-1');
-            } else if ([3, 4, 5, 8, 9, 11, 12].includes(item.klaim_status_id)) {
-              $status.addClass('bg-warning text-white rounded px-2 py-1');
-            } else if ([6, 10, 13].includes(item.klaim_status_id)) {
-              $status.addClass('bg-success text-white rounded px-2 py-1');
-            }
-
-            $('#nama-pic').text(item.pic_name || '-');
-            $('#nomor-telpon-pic').text(item.pic_no || '-');
-            $('#nomor-sip').text(item.sip_no || '-');
-            $('#tempat-praktik').text(item.tempat_praktik || '-');
-            $('#tanggal-awal-sip').text(formatDateIndo(item.sip_date_start) || '-');
-            $('#tanggal-akhir-sip').text(formatDateIndo(item.sip_date_end) || '-');
-
-            // Jika klaim_status_id == 3, tampilkan kolom upload dan tombol submit
-            if (item.klaim_status_id === 3) {
-              if ($('#tab thead tr th.upload-file').length === 0) {
-                $('#tab thead tr').append('<th class="upload-file" style="text-transform: uppercase; text-align: center;">Unggah File</th>');
-              }
-              $('#btn-submit-doc').removeClass('d-none');
-            } else {
-              $('#btn-submit-doc').addClass('d-none');
-              $('#tab thead tr th.upload-file').remove();
-            }
-          });
-
-          // Isi tabel dokumen
-          const $tbody = $('#tabFileBody');
-          $tbody.empty();
-          if (documents.length > 0) {
-            documents.forEach((doc, index) => {
-              const fileUrl = `${apiUrl}/${doc.file_path}`;
-              let uploadFileColumn = '';
-
-              if (klaim[0].klaim_status_id === 3) {
-                uploadFileColumn = `<td class="text-center">
-                  <input type="file"
-                         class="form-control form-control-sm upload-input"
-                         data-doc-id="${parseInt(doc.id)}"
-                         data-file-type="${parseInt(doc.file_type)}"
-                         data-file-name="${doc.file_name}"
-                         data-file-path="${doc.file_path}" />
-                </td>`;
-              }
-
-              const row = `
-                <tr>
-                  <td class="text-center">${index + 1}</td>
-                  <td>${doc.document_name}</td>
-                  <td><a href="${fileUrl}" target="_blank">${doc.file_name}</a></td>
-                  ${uploadFileColumn}
-                </tr>
-              `;
-              $tbody.append(row);
-            });
-          } else {
-            let colspan = 3;
-            if (klaim[0].klaim_status_id === 3) {
-              colspan = 4;
-            }
-            $tbody.append(`<tr><td colspan="${colspan}" class="text-center">No documents found</td></tr>`);
-          }
-
-          // Isi log modal
-          const $logList = $('.task-list');
-          $logList.empty();
-
-          if (logs.length > 0) {
-            const latestLog = logs.reduce((prev, current) => {
-              return new Date(prev.created_at) > new Date(current.created_at) ? prev : current;
-            });
-
-            logs.forEach(log => {
-              const iconClass = (log.created_at === latestLog.created_at) ? 'bg-primary ti-clock' : 'bg-success ti-check';
-
-              const logItem = `
-                <li>
-                  <i class="ti ${iconClass} f-w-600 task-icon"></i>
-                  <p class="m-b-5">${formatDateIndo(log.created_at)}</p>
-                  <h5 class="text-muted">${log.status_description}</h5>
-                  <i class=" m-b-5">${log.description || ''}</i>
-                </li>
-              `;
-              $logList.append(logItem);
-            });
-          } else {
-            $logList.append('<li>No log data available</li>');
-          }
-
-        } else {
-          alert(decrypted.message || 'Failed to get klaim data');
-        }
-      } else {
-        alert(res.message || 'Failed to get klaim detail');
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error('API call failed:', error);
-      alert('Failed to fetch klaim detail');
-    },
-  });
-
-  // Handler tombol submit dokumen dengan full base64 and integer file_id
-  $('#btn-submit-doc').on('click', function () {
-    const $btn = $(this);
-    const uploadInputs = $('.upload-input');
-    if (uploadInputs.length === 0) {
-      alert('Tidak ada file untuk diupload.');
-      return;
-    }
-
-    const uploads = [];
-    const readFilePromises = [];
-
-    // Disable button and show loading
-    $btn.prop('disabled', true);
-    Swal.fire({
-      title: 'Sedang mengupload dokumen...',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-
-    uploadInputs.each(function () {
-      const fileInput = this;
-      const file = fileInput.files[0];
-      const file_id = parseInt($(fileInput).data('doc-id'));
-      const file_type = parseInt($(fileInput).data('file-type'));
-      const file_name = file ? file.name : $(fileInput).data('file-name') || 'unknown';
-      const file_path = $(fileInput).data('file-path') || '';
-
-      const uploadObj = {
-        file_id: file_id,
-        file_type: file_type,
-        file_name: file_name,
-        file_path: file_path,
-        // file_base64 will be added if file is uploaded
-      };
-
-      if (file) {
-        const promise = new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            // Send full base64 string as is (including data prefix)
-            uploadObj.file_base64 = e.target.result;
-            uploads.push(uploadObj);
-            resolve();
-          };
-          reader.onerror = function () {
-            uploads.push(uploadObj);
-            resolve();
-          };
-          reader.readAsDataURL(file);
-        });
-        readFilePromises.push(promise);
-      } else {
-        uploads.push(uploadObj);
-      }
-    });
-
-    Promise.all(readFilePromises).then(() => {
-      $.ajax({
-        url: `${apiUrl}/api/client/klaim/upload-document`,
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        contentType: 'application/json',
-        data: JSON.stringify({
-          klaimId: klaimId,
-          upload: uploads
-        }),
-        success: function (res) {
-          Swal.close();
-          $btn.prop('disabled', false);
-          if (res.status === 200) {
-            Swal.fire('Sukses', 'Dokumen berhasil diupload', 'success').then(() => {
-              location.reload();
-            });
-          } else {
-            Swal.fire('Gagal', res.message || 'Upload dokumen gagal', 'error');
-          }
-        },
-        error: function (xhr, status, error) {
-          Swal.close();
-          $btn.prop('disabled', false);
-          console.error('Upload dokumen gagal:', error);
-          Swal.fire('Gagal', 'Terjadi kesalahan saat upload dokumen', 'error');
-        }
-      });
-    });
-  });
+    getDataDetail();
 });
 
-function formatDateIndo(dateStr) {
-  if (!dateStr) return '-';
+function getDataDetail() {
+    Swal.fire({
+        icon: "info",
+        text: "Loading...",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
 
-  const hasTime = /\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?/.test(dateStr);
+    $.ajax({
+        url: `${apiUrl}/api/${url}/klaim/detail`,
+        method: "GET",
+        timeout: 0,
+        headers: {
+            "Authorization": "Bearer " + token
+        },
+        data: {
+            klaimId: id
+        },
+    }).done(async function (responses) {
+        let response = await decryptData(responses['data']);
+        console.log(response);
+        detail = response;
 
-  const date = new Date(dateStr);
-  if (isNaN(date)) return '-';
+        let klaim = response.klaim[0];
+        let statusId = klaim.klaim_status_id;
 
-  const months = [
-    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-  ];
-  const d = date.getDate();
-  const m = months[date.getMonth()];
-  const y = date.getFullYear();
+        $('#accept-date').html(klaim.accept_date || '-');
+        $('#register-no').html(klaim.klaim_no);
+        $('#sum-insured').html(klaim.sum_insured);
+        $('#nama').html(klaim.nama);
+        $('#no-hp').html(klaim.no_hp);
+        $('#email').html(klaim.email);
+        $('#polis-no').html(`${klaim.polis_no} <i>(${klaim.insurance})</i>`);
+        $('#sip-no').html(klaim.sip_no);
+        $('#str-no').html(klaim.str_no);
+        $('#profesi').html(klaim.profesi);
+        $('#kategori').html(klaim.kategori);
+        $('#sip-periode').html(`${klaim.sip_date_start} <b>s/d</b> ${klaim.sip_date_end}`);
+        $('#periode-polis').html(`${klaim.polis_start_date} <b>s/d</b> ${klaim.polis_end_date}`);
+        $('#tempat-praktik').html(klaim.tempat_praktik);
+        $('#report-date').html(klaim.report_date);
+        $('#cause-of-action').html(klaim.cause_of_action);
+        $('#incident-location').html(klaim.incident_location);
+        $('#incident-date').html(klaim.incident_date);
+        $('#pic-name').html(klaim.pic_name);
+        $('#pic-no').html(klaim.pic_no);
+        $('#patient-name').html(klaim.patient_name);
+        $('#patient-age').html(`${klaim.patient_age} tahun`);
+        $('#patient-gender').html(klaim.patient_gender == "1" ? 'Laki - Laki' : 'Perempuan');
+        $('#incident-description').html(klaim.incident_description);
 
-  const hh = date.getHours();
-  const mm = date.getMinutes();
+        if (klaim.str_stat == "1") {
+            $('#str-stat').html('Status : Seumur Hidup');
+            $('#label-str').html('Periode Awal STR : ' + klaim.str_period);
+        } else {
+            $('#str-stat').html('Status : Belum Seumur Hidup');
+            $('#label-str').html('Masa Berakhir STR : ' + klaim.str_period);
+        }
 
-  if (!hasTime || (hh === 0 && mm === 0)) {
-    return `${d} ${m} ${y}`;
-  } else {
-    const hhStr = String(hh).padStart(2, '0');
-    const mmStr = String(mm).padStart(2, '0');
-    return `${d} ${m} ${y} ${hhStr}:${mmStr}`;
-  }
+        $('#div-btn').empty();
+
+        const getStatusesByStatusId = (statusId) => {
+            const statuses = [];
+
+            statuses.push(
+                { id: '#status-poin-satu', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                { id: '#status-poin-dua', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                { id: '#status-poin-tiga', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                { id: '#status-poin-empat', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                { id: '#status-poin-lima', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                { id: '#status-poin-enam', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' }
+            );
+
+            const poinStatus = [];
+
+            if (statusId >= 1 && statusId <= 3) {
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
+                poinStatus.push({ id: '#poin-satu', class: 'js-proses' });
+            }
+            if (statusId >= 4 && statusId <= 6) {
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
+                poinStatus.push({ id: '#poin-satu', class: 'js-active' });
+                poinStatus.push({ id: '#poin-dua', class: 'js-proses' });
+            }
+            if (statusId >= 7 && statusId <= 8) {
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[2] = { id: '#status-poin-tiga', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
+                poinStatus.push({ id: '#poin-satu', class: 'js-active' });
+                poinStatus.push({ id: '#poin-dua', class: 'js-active' });
+                poinStatus.push({ id: '#poin-tiga', class: 'js-proses' });
+            }
+            if (statusId == 9 || statusId == 10) {
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[2] = { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[3] = { id: '#status-poin-empat', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
+                poinStatus.push({ id: '#poin-satu', class: 'js-active' });
+                poinStatus.push({ id: '#poin-dua', class: 'js-active' });
+                poinStatus.push({ id: '#poin-tiga', class: 'js-active' });
+                poinStatus.push({ id: '#poin-empat', class: 'js-proses' });
+            }
+            if (statusId == 11) {
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[2] = { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[3] = { id: '#status-poin-empat', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[4] = { id: '#status-poin-lima', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' };
+                poinStatus.push({ id: '#poin-satu', class: 'js-active' });
+                poinStatus.push({ id: '#poin-dua', class: 'js-active' });
+                poinStatus.push({ id: '#poin-tiga', class: 'js-active' });
+                poinStatus.push({ id: '#poin-empat', class: 'js-active' });
+                poinStatus.push({ id: '#poin-lima', class: 'js-proses' });
+            }
+            if (statusId == 13) {
+                statuses[0] = { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[1] = { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[2] = { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[3] = { id: '#status-poin-empat', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[4] = { id: '#status-poin-lima', class: 'bg-light-success border border-success', text: 'Selesai' };
+                statuses[5] = { id: '#status-poin-enam', class: 'bg-light-success border border-success', text: 'Selesai' };
+                poinStatus.push({ id: '#poin-satu', class: 'js-active' });
+                poinStatus.push({ id: '#poin-dua', class: 'js-active' });
+                poinStatus.push({ id: '#poin-tiga', class: 'js-active' });
+                poinStatus.push({ id: '#poin-empat', class: 'js-active' });
+                poinStatus.push({ id: '#poin-lima', class: 'js-active' });
+                poinStatus.push({ id: '#poin-enam', class: 'js-active' });
+            }
+
+            return [...statuses, ...poinStatus];
+        };
+
+        const statuses = getStatusesByStatusId(statusId);
+
+        statuses.forEach(status => {
+            $(status.id).removeClass().addClass(status.class).text(status.text);
+            if (status.id.startsWith('#poin-')) {
+                $(status.id).removeClass('js-active js-proses').addClass(status.class);
+            }
+        });
+
+        $('#list-log').empty();
+        $.each(response.log, function (j, item) {
+            $('#list-log').append(`
+                <li>
+                    <i class="feather icon-check f-w-600 task-icon bg-success"></i>
+                    <p class="m-b-5">${item.created_at}</p>
+                    <h5 class="text-muted">${item.status_description}</h5>
+                    <h6 style="color: darkgrey">${item.description}</h6>
+                </li>
+            `);
+        });
+
+        $('#table-doc').empty();
+
+        if (!response.document || response.document.length === 0) {
+            $('#table-doc').append(`
+                <tr>
+                    <td colspan="3" style="text-align:center; font-style: italic;">Belum ada Dokumen</td>
+                </tr>
+            `);
+        } else {
+            $.each(response.document, function (j, item) {
+                $('#table-doc').append(`
+                    <tr>
+                        <td>${j + 1}</td>
+                        <td>${item.document_name}</td>
+                        <td><a href="/${item.file_path}" target="_blank">${item.file_name}</a></td>
+                    </tr>
+                `);
+            });
+        }
+
+        Swal.close();
+    }).fail(function () {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal memuat data',
+            showConfirmButton: true
+        });
+    });
+}
+
+$(document).on('click', '.btnVal, #btn-rev', function () {
+    const stat = $(this).data('stat');
+    validasi(stat, $(this).text());
+});
+
+$(document).on('click', '#btn-val-med, #btn-close', function () {
+    const stat = $(this).data('stat');
+    validasiMedicolegal(stat);
+});
+
+function validasiMedicolegal(stat) {
+    let html = `
+        <div class="form-group">
+            <label for="desc" style="display:block; text-align:left; margin-bottom: 5px;">Keterangan</label>
+            <textarea name="desc" id="desc" class="form-control" placeholder="Tulis keterangan di sini..."></textarea>
+        </div>
+    `;
+
+    doc = detail.document || [];
+    $.each(doc, function (j, item) {
+        html += `
+            <div class="form-group">
+                <label for="upload-file-${j}" style="display:block; text-align:left; margin-bottom: 5px;">Unggah ${item.document_name}</label>
+                <input type="file" name="upload-file" data-type="${item.file_type}" class="form-control upload-file" accept="*/*">
+            </div>
+        `;
+    });
+
+    Swal.fire({
+        title: "Apakah anda yakin?",
+        html: html,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: "Oke",
+        preConfirm: async () => {
+            const popup = Swal.getPopup();
+            const fileInputs = popup.querySelectorAll('.upload-file');
+            const textInput = popup.querySelector('#desc');
+            const descValue = textInput ? textInput.value.trim() : '';
+
+            if (!descValue) {
+                Swal.showValidationMessage("Keterangan wajib diisi");
+                return false;
+            }
+
+            let allFiles = [];
+            let hasRequiredFile = false;
+
+            for (const input of fileInputs) {
+                const files = input.files;
+                const dataType = input.dataset.type;
+
+                if (!files.length) {
+                    if (dataType == '6') {
+                        Swal.showValidationMessage("File hasil investigasi wajib diunggah");
+                        return false;
+                    } else if (dataType != '10') {
+                        Swal.showValidationMessage("File wajib diunggah");
+                        return false;
+                    }
+                    continue;
+                }
+
+                if (dataType == '6') {
+                    hasRequiredFile = true;
+                }
+
+                for (const file of files) {
+                    const base64 = await convertFileToBase64(file);
+                    allFiles.push({
+                        file_base64: base64,
+                        file_type: parseInt(dataType)
+                    });
+                }
+            }
+
+            if (stat == 10 && !hasRequiredFile) {
+                Swal.showValidationMessage("File hasil investigasi wajib diunggah");
+                return false;
+            }
+
+            return {
+                files: allFiles,
+                desc: descValue
+            };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const { files, desc } = result.value;
+            sendValidation(stat, desc, files);
+        }
+    });
+}
+
+function validasi(stat, title) {
+    Swal.fire({
+        title: title,
+        html: `
+            <div class="form-group">
+                <label for="desc" style="display:block; text-align:left; margin-bottom: 5px;">Keterangan</label>
+                <textarea name="desc" id="desc" class="form-control" placeholder="Tulis keterangan di sini..."></textarea>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: "Oke",
+        focusConfirm: false,
+        preConfirm: () => {
+            const textarea = Swal.getPopup().querySelector('#desc');
+            return textarea.value;
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            sendValidation(stat, result.value);
+        }
+    });
+}
+
+async function sendValidation(stat, desc = '', uploadData = []) {
+    Swal.fire({
+        icon: 'info',
+        text: "Loading!",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
+
+    if (!desc) desc = '-';
+
+    let data = JSON.stringify({
+        klaimId: id,
+        statusId: stat,
+        description: desc,
+        upload: uploadData
+    });
+
+    $.ajax({
+        url: `${apiUrl}/api/${url}/klaim/update-status`,
+        method: "POST",
+        timeout: 0,
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        data: data,
+        success: function (response) {
+            Swal.fire({
+                icon: 'success',
+                text: "Berhasil!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            setTimeout(function () {
+                location.reload();
+            }, 1600);
+        },
+        error: function (xhr) {
+            try {
+                let err = JSON.parse(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: err.message || 'Terjadi kesalahan',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            } catch (e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi kesalahan tak terduga',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        }
+    });
+}
+
+function convertFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+    });
 }

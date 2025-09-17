@@ -1,167 +1,471 @@
 @extends('v1.layouts.dashboard')
 @section('content')
-<div class="row">
-   <div class="col-12">
-      <div class="text-center mb-3">
-         <p class="h1">Detail Klaim</p>
-         <h1 id="nomor-klaim"></h1>
-      </div>
-   </div>
-   <div class="col-12">
-      <div class="card my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-         <div class="card-body">
-            <div class="row">
-               <div class="col-12 col-lg-6">
-                  <ul class="list-group list-group-flush">
-                     <li class="list-group-item d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                           <div class="avtar avtar-s bg-light-secondary">
-                              <i class="ti ti-user-check f-32"></i>
-                           </div>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                           <p class="text-muted mb-1">Nama</p>
-                           <h5 class="mb-0" id="nama-peserta"></h5>
-                        </div>
-                     </li>
-                  </ul>
-               </div>
-               <div class="col-12 col-lg-6">
-                  <ul class="list-group list-group-flush">
-                     <li class="list-group-item d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                           <div class="avtar avtar-s bg-light-secondary">
-                              <i class="ti ti-list-numbers f-32"></i>
-                           </div>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                           <p class="text-muted mb-1">Nomor Polis</p>
-                           <h5 class="mb-0" id="nomor-polis-peserta"></h5>
-                        </div>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-lg-6">
-                   <div class="form-group">
-                      <label class="form-label">Nomor SIP</label>
-                      <h5 id="nomor-sip"></h5>
-                   </div>
-                </div>
-                <div class="col-lg-6">
-                   <div class="form-group">
-                      <label class="form-label">Tempat Praktik</label>
-                      <h5 id="tempat-praktik"></h5>
-                   </div>
-                </div>
-                <div class="col-lg-6">
-                   <div class="form-group">
-                      <label class="form-label">Tanggal Awal SIP</label>
-                      <h5 id="tanggal-awal-sip"></h5>
-                   </div>
-                </div>
-                <div class="col-lg-6">
-                   <div class="form-group">
-                      <label class="form-label">Tanggal Akhir SIP</label>
-                      <h5 id="tanggal-akhir-sip"></h5>
-                   </div>
-                </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Tanggal Lapor</label>
-                     <h5 id="tanggal-lapor"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Tanggal Kejadian</label>
-                     <h5 id="tanggal-kejadian"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Nama PIC</label>
-                     <h5 id="nama-pic"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Nomor Telpon PIC</label>
-                     <h5 id="nomor-telpon-pic"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Keterangan Kejadian</label>
-                     <h5 id="keterangan-kejadian"></h5>
-                  </div>
-               </div>
-               <div class="col-lg-6">
-                  <div class="form-group">
-                     <label class="form-label">Status</label>
-                     <h5 id="klaim-status-desc"></h5>
-                  </div>
-               </div>
-            </div>
-            <hr>
-            <div class="row">
-               <div class="col-12">
-                  <h4 class="mb-3">Dokumen</h4>
-                  <div class="table-responsive">
-                     <table id="tab" class="table table-bordered table-striped table-hover nowrap display" style="width: 100%">
-                        <thead class="bg-gray-400">
-                           <tr>
-                              <th style="text-transform: uppercase; text-align: center;">No.</th>
-                              <th style="text-transform: uppercase; text-align: center;">Nama Dokumen</th>
-                              <th style="text-transform: uppercase; text-align: center;" id="tabHeadFile">File</th>
-                              <!-- Kolom Upload File akan ditambahkan secara dinamis via JS jika klaim_status_id == 3 -->
-                           </tr>
-                        </thead>
-                        <tbody id="tabFileBody">
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <div class="col-12">
-      <div class="card my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
-         <div class="card-footer d-flex justify-content-between align-items-center">
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-               <i class="ti ti-list-check me-2"></i>Log Status
-            </button>
-            <button type="button" id="btn-submit-doc" class="btn btn-primary d-none">
-               <i class="ti ti-upload me-2"></i>Submit Dokumen
-            </button>
-         </div>
-      </div>
-   </div>
-   <div id="exampleModalLong" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLogStatus" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLogStatus">Log Status</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <style>
+        p {
+            font-size: 17px;
+        }
+
+        .multisteps-form__progress {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+        }
+
+        .multisteps-form__progress-btn {
+            transition-property: all;
+            transition-duration: 0.15s;
+            transition-timing-function: linear;
+            transition-delay: 0s;
+            position: relative;
+            padding-bottom: 30px;
+            /* Add some padding to the bottom for space */
+            padding-top: 40px;
+            color: #d9534f;
+            text-indent: -9999px;
+            border: none;
+            background-color: transparent;
+            outline: none !important;
+            cursor: default;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-indent: 0;
+        }
+
+        @media (max-width: 1000px) {
+            .multisteps-form__progress-btn {
+                font-size: 0.9rem;
+                /*padding-top: 30%;*/
+                padding-bottom: 25px;
+                /* Add some padding to the bottom for space */
+            }
+
+            .badge-bottom {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 10px !important;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .multisteps-form__progress-btn {
+                font-size: 0.6rem;
+                /*padding-top: 30%;*/
+                padding-bottom: 25px;
+                /* Add some padding to the bottom for space */
+            }
+
+            .badge-bottom {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 10px !important;
+            }
+        }
+
+
+        @media (max-width: 410px) {
+            .multisteps-form__progress-btn {
+                font-size: 0.5rem;
+                /*padding-top: 30%;*/
+                padding-bottom: 25px;
+                /* Add some padding to the bottom for space */
+            }
+
+            .badge-bottom {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 10px !important;
+            }
+        }
+
+        .multisteps-form__progress-btn:before {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            display: block;
+            width: 24px;
+            height: 24px;
+            content: '';
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            transition: all 0.15s linear 0s, -webkit-transform 0.15s cubic-bezier(0.05, 1.09, 0.16, 1.4) 0s;
+            transition: all 0.15s linear 0s, transform 0.15s cubic-bezier(0.05, 1.09, 0.16, 1.4) 0s;
+            transition: all 0.15s linear 0s, transform 0.15s cubic-bezier(0.05, 1.09, 0.16, 1.4) 0s, -webkit-transform 0.15s cubic-bezier(0.05, 1.09, 0.16, 1.4) 0s;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            background-color: #d9534f;
+            box-sizing: border-box;
+            z-index: 3;
+        }
+
+        .multisteps-form__progress-btn:after {
+            position: absolute;
+            top: 11px;
+            left: calc(-50% - 25px / 2);
+            transition-property: all;
+            transition-duration: 0.15s;
+            transition-timing-function: linear;
+            transition-delay: 0s;
+            display: block;
+            width: 100%;
+            height: 3px;
+            content: '';
+            background-color: currentColor;
+            z-index: 1;
+        }
+
+        .multisteps-form__progress-btn:first-child:after {
+            display: none;
+        }
+
+        .multisteps-form__progress-btn.js-active {
+            color: #499249;
+        }
+
+        .multisteps-form__progress-btn.js-proses {
+            color: #ff9100;
+        }
+
+        .multisteps-form__progress-btn.js-active:before {
+            -webkit-transform: translateX(-50%) scale(1.2);
+            transform: translateX(-50%) scale(1.2);
+            background-color: currentColor;
+        }
+
+        .multisteps-form__progress-btn.js-proses:before {
+            -webkit-transform: translateX(-50%) scale(1.2);
+            transform: translateX(-50%) scale(1.2);
+            background-color: currentColor;
+        }
+
+        .multisteps-form__form {
+            position: relative;
+        }
+
+        .multisteps-form__panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .multisteps-form__panel.js-active {
+            height: auto;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .badge-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+
+        input[type=checkbox] {
+            display: none;
+        }
+
+        .container img {
+            /*margin: 100px;*/
+            transition: transform 0.25s ease;
+            cursor: zoom-in;
+        }
+
+        input[type=checkbox]:checked~label>img {
+            transform: scale(2);
+            cursor: zoom-out;
+        }
+
+        .notifier {
+            border-left: #06c1c1 10px solid !important;
+            min-height: 80px !important;
+            color: black;
+            top: 80px;
+            z-index: 9999999 !important;
+        }
+
+        .notifier-img>.img {
+            height: 65px !important;
+            width: 70px !important;
+        }
+
+        table>thead>tr>th {
+            text-align: center;
+        }
+
+        .swal2-title {
+            padding: unset !important;
+        }
+    </style>
+    <div class="pct-body">
+        <div class="mb-5" id="divBack" style="display: none">
+            <button class="btn btn-secondary btn-sm fa-pull-left" onclick="window.history.back();"><i
+                    class="fa fa-arrow-alt-circle-left"></i> Back</button>
         </div>
-        <div class="modal-body task-card" style="border-top: 2px solid #2ca87f">
-            <ul class="list-unstyled task-list">
-              </ul>
+        <div class="mb-5" style="text-align: center">
+            <h1 class="text-center">NO KLAIM</h1>
+            <h2 class="text-center" id="register_no"></h2>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <div class="mb-5" style="text-align: center">
+            <div class="multisteps-form__progress">
+                <div class="multisteps-form__progress-btn" id="poin-satu">Diajukan <span
+                        class="badge d-inline-block badge-bottom" id="status-poin-satu"></span></div>
+                <div class="multisteps-form__progress-btn" id="poin-dua">Verifikasi <span
+                        class="badge d-inline-block badge-bottom" id="status-poin-dua"></span></div>
+                <div class="multisteps-form__progress-btn" id="poin-tiga">Investigasi <span
+                        class="badge d-inline-block badge-bottom" id="status-poin-tiga"></span></div>
+                <div class="multisteps-form__progress-btn" id="poin-empat">Mediasi <span
+                        class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
+                <div class="multisteps-form__progress-btn" id="poin-lima">Keputusan <span
+                        class="badge d-inline-block badge-bottom" id="status-poin-lima"></span></div>
+                <div class="multisteps-form__progress-btn" id="poin-enam">Selesai <span
+                        class="badge d-inline-block badge-bottom" id="status-poin-enam"></span></div>
+            </div>
         </div>
-      </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h6 class="text-muted" style="text-align: right"><i>Tanggal Diterima : <span id="accept_date"></span></i>
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
+                            <h3 style="text-align: center"> Informasi Polis </h3>
+                            <hr>
+                            <div class="form-group">
+                                <h4>No Sertifikat </h4>
+                                <p id="polis_no">-</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Periode Polis </h4>
+                                        <p id="periode_polis">-</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Jaminan Pertanggungan </h4>
+                                        <p id="sum_insured">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h4>Nama Peserta</h4>
+                                <p id="nama">-</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>No. HP </h4>
+                                        <p id="no_hp">-</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <h4>Profesi </h4>
+                                        <p style="margin-bottom : 2px !important" id="profesi">-</p>
+                                        <label for="">(<i id="kategori"></i>)</label>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Email </h4>
+                                        <p id="email">-</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <h4>No. STR </h4>
+                                        <p id="str_no">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>No. SIP </h4>
+                                        <p style="margin-bottom : 2px !important" id="sip_no">-</p>
+                                        <label><i>(<span id="sip_periode"></span>)</i></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Tempat Praktek </h4>
+                                        <p id="tempat_praktik">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
+
+                            <h3 style="text-align: center">Informasi Data Pasien </h3>
+                            <hr>
+                            <div class="form-group">
+                                <h4>Nama Pasien </h4>
+                                <p id="patient_name">-</p>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Usia </h4>
+                                        <p id="patient_age">-</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Jenis Kelamin </h4>
+                                        <p id="patient_gender">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
+                            <h3 style="text-align: center">Informasi Awal Klaim </h3>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Tanggal Pengaduan</h4>
+                                        <p id="report_date">-</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Tanggal Kejadian</h4>
+                                        <p id="incident_date">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Lokasi Kejadian</h4>
+                                        <p id="incident_location">-</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Jenis Tuntutan</h4>
+                                        <p id="cause_of_action">-</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <h4>Detail Pengaduan</h4>
+                                <p id="incident_description">-</p>
+                            </div>
+                        </div>
+                        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
+                            <h3 style="text-align: center"> Informasi Kontak Alternatif </h3>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Nama</h4>
+                                        <p id="pic_name"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>No. HP</h4>
+                                        <p id="pic_no"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 style="text-align: center">Daftar Dokumen</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama Dokumen</th>
+                                            <th>Dokumen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableDoc">
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <button class="btn btn-light-success border border-success btn-sm"
+                        style="display: inline-block; padding-block: 5px" data-bs-toggle="modal"
+                        data-bs-target="#modal-log" id="btn_log">
+                        <i class="fas fa-list"></i> Log Status
+                    </button>
+
+                    <div id="divBtn" class="d-flex gap-2">
+                        <!-- tombol lain masuk sini -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-  </div>
-</div>
+
+    <div class="modal fade" id="modal-log">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLiveLabel">Log Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body task-card">
+                    <ul class="list-unstyled task-list" id="list-log">
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-right" data-bs-dismiss="modal">Tutup
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    @push('levelPluginsJsHeader')
+        <!-- SweetAlert2 -->
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/dataTables.bootstrap5.min.css') }}">
+    @endpush
+
+    @push('levelPluginsJs')
+        <script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
+        <script type="module" src="{{ asset('assets/js/plugins/notifier.js') }}"></script>
+
+        @vite(['resources/js/admin/klaim/detail.js'])
+
+        <script type="text/javascript"></script>
+    @endpush
 @endsection
-@push('levelPluginsJs')
-<!-- Sweet Alert -->
-<script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-{{-- custom js --}}
-@vite(['resources/js/v1/pi/klaim/detail.js'])
-@endpush

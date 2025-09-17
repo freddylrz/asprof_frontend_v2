@@ -18,7 +18,10 @@
                               </div>
                               <div class="flex-grow-1 ms-3">
                                  <h5 class="mb-0">
-                                    Gedung Graha Pratama Lt. 3<br> Jl. Letjen M.T. Haryono No.KAV 15 , Tebet Bar., Kec. Tebet, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12770
+                                    Gedung Graha Pratama, Lantai 3<br>
+                                    Jl. Letjen M.T. Haryono Kav. 15, Tebet Barat,
+                                    Kecamatan Tebet, Kota Jakarta Selatan,
+                                    DKI Jakarta 12810
                                  </h5>
                               </div>
                            </div>
@@ -50,7 +53,9 @@
                               </div>
                               <div class="flex-grow-1 ms-3">
                                  <h5 class="mb-0">
-                                    Gedung Graha Pena Lt. 5 unit 518<br> Jl. A. Yani No.88, Ketintang, Kec. Gayungan, Surabaya, Jawa Timur 60231
+                                    Gedung Graha Pena, Lantai 5 Unit 518<br>
+                                    Jl. A. Yani No. 88, Ketintang, Kecamatan Gayungan,
+                                    Surabaya, Jawa Timur 60231
                                  </h5>
                               </div>
                            </div>
@@ -61,7 +66,7 @@
                                  </div>
                               </div>
                               <div class="flex-grow-1 ms-3">
-                                 <h5 class="mb-0"><a href="tel:03185583459" class=" link-primary"> 031-85583459</a></h5>
+                                 <h5 class="mb-0"><a href="tel:03133601233" class=" link-primary"> 031-33601233</a></h5>
                               </div>
                            </div>
                            <div class="d-flex align-items-center justify-content-between mt-4">

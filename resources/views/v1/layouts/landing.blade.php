@@ -239,7 +239,7 @@
       @endif
       <div id="main-content">
          <!-- [ Header ] start -->
-         <header id="home" style="background-image: url({{ asset('assets/images/landing/img-headerbg.png') }}">
+         <header id="home" style="background-image: url({{ asset('assets/images/landing/img-headerbg.jpg') }}">
             <!-- [ Nav ] start -->
             <nav class="navbar navbar-light default" style="background: #fff">
                <div class="container-fluid m-b-10">

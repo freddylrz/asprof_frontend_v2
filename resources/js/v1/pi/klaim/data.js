@@ -30,7 +30,6 @@ async function fetchKlaimList() {
     if (result.status === 200) {
         const decrypted = await decryptData(result.data);
         console.log(decrypted);
-
         return decrypted.list || [];
     } else {
         throw new Error(result.message || 'Gagal mendapatkan data klaim dari server.');
@@ -46,70 +45,63 @@ function initializeDataTable(klaimList) {
         data: klaimList,
         responsive: true,
         ordering: true,
-        order: [[4, 'desc']], // urutkan berdasarkan Tanggal Lapor desc
+        order: [[6, 'desc']], // urutkan berdasarkan Tanggal Pengaduan (kolom ke-7, index 6) desc
         columns: [
             { data: 'klaim_no', defaultContent: '-' },
             { data: 'ins_name', defaultContent: '-', className: 'text-wrap' },
-            { data: 'tempat_praktik', defaultContent: '-' },
+            { data: 'polis_no', defaultContent: '-' },
             { data: 'nama', defaultContent: '-' },
+            { data: 'tempat_praktik', defaultContent: '-' },
+            {
+                data: 'incident_date',
+                className: 'text-nowrap'
+            },
             {
                 data: 'report_date',
-                render: data => formatDateIndo(data),
                 className: 'text-nowrap'
             },
             {
-                data: 'accept_date',
-                render: data => data ? formatDateIndo(data) : '-',
-                className: 'text-nowrap'
-            },
-            { data: 'klaim_status_desc', defaultContent: '-', className: 'text-wrap' },
-            {
-                data: 'klaimId',
+                data: null, // render custom dari row
                 orderable: false,
                 className: 'text-center',
-                render: data => `
-                    <button class="btn btn-primary btn-icon btn-sm btn-detail" data-id="${data}">
-                        <i class="ti ti-eye"></i>
-                    </button>
-                `
+                render: (data, type, row) => {
+                    let btnClass = 'btn-secondary';
+                    // Warna berdasarkan klaim_status_id
+                    switch (row.klaim_status_id) {
+                        case 1: // Pengaduan masuk
+                            btnClass = 'btn-warning';
+                            break;
+                        case 2: // Diproses
+                            btnClass = 'btn-info';
+                            break;
+                        case 3: // Disetujui
+                        case 4: // Selesai
+                            btnClass = 'btn-success';
+                            break;
+                        case 5: // Ditolak
+                            btnClass = 'btn-danger';
+                            break;
+                        default:
+                            btnClass = 'btn-secondary';
+                    }
+
+                    return `
+                        <button class="btn btn-sm ${btnClass} btn-status"
+                                style="min-width: 120px; white-space: nowrap;"
+                                data-id="${row.klaimId}">
+                            ${row.klaim_status_desc || '-'}
+                        </button>
+                    `;
+                }
             }
         ]
     });
 
-    // Pasang event handler tombol detail
-    $('#table-klaim tbody').off('click', '.btn-detail').on('click', '.btn-detail', function() {
+    // Pasang event handler tombol status
+    $('#table-klaim tbody').off('click', '.btn-status').on('click', '.btn-status', function() {
         const klaimId = $(this).data('id');
         if (klaimId) {
             window.location.href = `/klaim/detail/${klaimId}`;
         }
     });
-}
-
-function formatDateIndo(dateStr) {
-    if (!dateStr) return '-';
-
-    // Cek apakah dateStr mengandung jam dan menit (format "YYYY-MM-DD HH:mm:ss" atau "YYYY-MM-DDTHH:mm:ss")
-    const hasTime = /\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?/.test(dateStr);
-
-    const date = new Date(dateStr);
-    if (isNaN(date)) return '-';
-
-    const months = [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
-    const d = date.getDate();
-    const m = months[date.getMonth()];
-    const y = date.getFullYear();
-
-    const hh = date.getHours();
-    const mm = date.getMinutes();
-
-    if (!hasTime || (hh === 0 && mm === 0)) {
-        return `${d} ${m} ${y}`;
-    } else {
-        const hhStr = String(hh).padStart(2, '0');
-        const mmStr = String(mm).padStart(2, '0');
-        return `${d} ${m} ${y} ${hhStr}:${mmStr}`;
-    }
 }

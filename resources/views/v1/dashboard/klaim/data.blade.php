@@ -5,22 +5,22 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header">
-              <h3>Daftar Klaim</h3>
+              <h3>Laporan Klaim</h3>
             </div>
             <div class="card-body">
               <div class="table-responsive dt-responsive">
                 <table id="table-klaim" class="table table-striped table-bordered nowrap">
                     <thead>
-                      <tr>
-                        <th>No Klaim</th>
-                        <th>Nama Asuransi</th>
-                        <th>Tempat Praktik</th>
-                        <th>Nama PIC</th>
-                        <th>Tanggal Lapor</th>
-                        <th>Tanggal Diterima</th>
-                        <th>Status</th>
-                        <th>Detail</th>
-                      </tr>
+                        <tr>
+                            <th>No Klaim</th>
+                            <th>Asuransi</th>
+                            <th>No Polis</th>
+                            <th>Peserta</th>
+                            <th>Tempat Praktik</th>
+                            <th>Tanggal Kejadian</th>
+                            <th>Tanggal Pengaduan</th>
+                            <th>Status</th>
+                        </tr>
                     </thead>
                   </table>
               </div>

@@ -60,17 +60,16 @@ function getListPolis(){
             "scrollX": true,
             "bDestroy": true,
             "searching": true,
-            data: responses.list || [],
+            data: responses.data || [],
             columns: [
-                { data: 'id' },
                 { data: 'insurance' },
                 { data: 'polis_no' },
-                { data: 'polis_start_date' },
-                { data: 'polis_end_date' },
-                { data: 'plan_desc' },
-                { data: 'sum_insured' },
-                { data: 'premi' },
-                { data: 'polis_stat' }
+                { data: 'polis_start_date', className : 'text-center'  },
+                { data: 'polis_end_date', className : 'text-center'  },
+                { data: 'plan_desc', className : 'text-center'  },
+                { data: 'sum_insured', className : 'text-end' },
+                { data: 'premi', className : 'text-end' },
+                { data: 'polis_stat', className : 'text-center' }
             ],
             language: {
                 emptyTable: "Tidak ada data riwayat polis."
@@ -194,6 +193,11 @@ async function getDataDetail() {
             $('#div-e-nota').html(`
                 <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
                     Unduh Nota
+                </a>
+            `);
+            $('#div-e-kwitansi').html(`
+                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
+                    Unduh Kwitansi
                 </a>
             `);
 

@@ -4,6 +4,13 @@
         .text-muted {
             font-size: 1.2rem;
         }
+        .div-item{
+            background-color: #e6edfb !important;
+        }
+
+        #thead-row > th{
+            text-align: center !important;
+        }
     </style>
     <div class="row">
         <!-- Header -->
@@ -23,10 +30,10 @@
                         <div class="col-12 col-lg-6">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
-                                    <div class="bg-light p-3 rounded-3">
+                                    <div class="div-item p-3 rounded-3">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
-                                                <div class="avtar avtar-s bg-light-secondary">
+                                                <div class="avtar avtar-s">
                                                     <i class="ti ti-certificate f-32"></i>
                                                 </div>
                                             </div>
@@ -44,10 +51,10 @@
                                     </div>
                                 </li>
                                 <li class="list-group-item">
-                                    <div class="bg-light p-3 rounded-3">
+                                    <div class="div-item p-3 rounded-3">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
-                                                <div class="avtar avtar-s bg-light-secondary">
+                                                <div class="avtar avtar-s div-item-secondary">
                                                     <i class="ti ti-building-skyscraper f-32"></i>
                                                 </div>
                                             </div>
@@ -63,10 +70,10 @@
                                     </div>
                                 </li>
                                 <li class="list-group-item">
-                                    <div class="bg-light p-3 rounded-3">
+                                    <div class="div-item p-3 rounded-3">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
-                                                <div class="avtar avtar-s bg-light-secondary">
+                                                <div class="avtar avtar-s div-item-secondary">
                                                     <i class="ti ti-calendar-time f-32"></i>
                                                 </div>
                                             </div>
@@ -88,10 +95,10 @@
                         <div class="col-12 col-lg-6">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
-                                    <div class="bg-light p-3 rounded-3">
+                                    <div class="div-item p-3 rounded-3">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
-                                                <div class="avtar avtar-s bg-light-secondary">
+                                                <div class="avtar avtar-s div-item-secondary">
                                                     <i class="ti ti-shield-check f-32"></i>
                                                 </div>
                                             </div>
@@ -107,10 +114,10 @@
                                     </div>
                                 </li>
                                 <li class="list-group-item">
-                                    <div class="bg-light p-3 rounded-3">
+                                    <div class="div-item p-3 rounded-3">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
-                                                <div class="avtar avtar-s bg-light-secondary">
+                                                <div class="avtar avtar-s div-item-secondary">
                                                     <i class="ti ti-cash f-32"></i>
                                                 </div>
                                             </div>
@@ -126,10 +133,10 @@
                                     </div>
                                 </li>
                                 <li class="list-group-item">
-                                    <div class="bg-light p-3 rounded-3">
+                                    <div class="div-item p-3 rounded-3">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
-                                                <div class="avtar avtar-s bg-light-secondary">
+                                                <div class="avtar avtar-s div-item-secondary">
                                                     <i class="ti ti-download f-32"></i>
                                                 </div>
                                             </div>
@@ -144,6 +151,9 @@
                                                     </div>
                                                     <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-6">
                                                         <div class="mb-0" id="div-e-nota"></div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-6">
+                                                        <div class="mb-0" id="div-e-kwitansi"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -170,7 +180,7 @@
                         <table id="policy-history-table" class="table table-striped table-bordered nowrap"
                             style="width:100%">
                             <thead>
-                                <tr>
+                                <tr id="thead-row">
                                     <th>Asuransi</th>
                                     <th>No. Polis</th>
                                     <th>Tanggal Mulai</th>

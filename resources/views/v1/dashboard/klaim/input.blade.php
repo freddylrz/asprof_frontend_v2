@@ -10,7 +10,7 @@
 <div class="row">
    <div class="col-12">
       <div class="text-center mb-3">
-         <p class="h1">Form Pengajuan Awal Klaim</p>
+         <p class="h1">Form Pengajuan Awal Klaim<br> <b id="klaim-profesi"></b></p>
       </div>
    </div>
 
@@ -18,11 +18,18 @@
       <div class="card my-3" style="box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.175) !important; border: 2px solid #dddddd;">
          <div class="card-body">
             <div class="row">
-               <!-- Informasi Polis -->
-               <div class="col-lg-6">
+
+               <!-- Bagian Kiri: Informasi Polis & Dokumen & Kontak Alternatif Peserta -->
+               <div class="col-lg-6" style="border-right: 2px solid #dddddd;">
+
+                  <!-- Informasi Polis -->
                   <h3 class="mb-3"><strong>Informasi Polis</strong></h3>
                   <hr style="border-top: 2px solid #000000;">
                   <div class="row g-3">
+                     <div class="col-12">
+                        <label class="form-label">Nama Peserta</label>
+                        <input type="text" class="form-control bg-light" id="nama-peserta" disabled>
+                     </div>
                      <div class="col-6">
                         <label class="form-label">No. Sertifikat</label>
                         <input type="text" class="form-control bg-light" id="no-sertifikat" disabled>
@@ -38,10 +45,6 @@
                      <div class="col-6">
                         <label class="form-label">Jaminan Pertanggungan</label>
                         <input type="text" class="form-control bg-light" id="jaminan-pertanggungan" disabled>
-                     </div>
-                     <div class="col-12">
-                        <label class="form-label">Nama Peserta</label>
-                        <input type="text" class="form-control bg-light" id="nama-peserta" disabled>
                      </div>
                      <div class="col-6">
                         <label class="form-label">No. HP</label>
@@ -74,42 +77,67 @@
                      </div>
                   </div>
 
+                  <!-- Kontak Alternatif Peserta -->
+                  <h3 class="mt-4 mb-3"><strong>Informasi Kontak Alternatif Peserta</strong></h3>
+                  <hr style="border-top: 2px solid #000000;">
+                  <div class="row g-3">
+                     <div class="col-6">
+                        <label class="form-label">Nama Kontak</label>
+                        <input type="text" class="form-control" id="peserta-kontak-nama" placeholder="Nama kontak alternatif">
+                     </div>
+                     <div class="col-6">
+                        <label class="form-label">Nomor HP</label>
+                        <input type="text" class="form-control mobilenumber" id="peserta-kontak-no-hp" placeholder="Nomor HP kontak">
+                     </div>
+                     <div class="col-12">
+                        <p class="text-muted small">Kontak alternatif adalah pihak yang dapat dihubungi jika peserta tidak dapat dihubungi.</p>
+                     </div>
+                  </div>
+
                   <!-- Dokumen -->
                   <h3 class="mt-4 mb-3">Dokumen</h3>
                   <hr style="border-top: 2px solid #000000;">
                   <div class="row g-3" id="dokumen-container">
                      <div class="col-12">
-                        <p><i>Silahkan pilih SIP terlebih dahulu</i></p>
+                        <p class="text-muted"><i>Silahkan pilih SIP terlebih dahulu</i></p>
                      </div>
                   </div>
-               </div>
 
-               <!-- Informasi Data Pasien & Klaim -->
+               </div> <!-- End col-lg-6 kiri -->
+
+               <!-- Bagian Kanan: Informasi Pasien & Klaim & Kontak Alternatif Pasien -->
                <div class="col-lg-6">
+
+                  <!-- Informasi Data Pasien -->
                   <h3 class="mb-3"><strong>Informasi Data Pasien</strong></h3>
                   <hr style="border-top: 2px solid #000000;">
                   <div class="row g-3">
-                     <div class="col-12">
+                     <div class="col-6">
                         <label class="form-label">Nama Pasien <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="nama-pasien">
+                        <input type="text" class="form-control" id="nama-pasien" placeholder="Masukkan nama pasien">
                      </div>
                      <div class="col-6">
                         <label class="form-label">Usia <span class="required">*</span></label>
                         <div class="input-group">
-                           <input type="number" class="form-control" id="usia">
+                           <input type="number" class="form-control" id="usia-pasien" min="0" max="150" placeholder="Usia">
                            <span class="input-group-text">Tahun</span>
                         </div>
                      </div>
                      <div class="col-6">
                         <label class="form-label">Jenis Kelamin <span class="required">*</span></label>
-                        <select class="form-select" id="jenis-kelamin">
-                           <option value="">Pilih</option>
+                        <select class="form-select" id="jenis-kelamin-pasien">
+                           <option value="">Pilih Jenis Kelamin</option>
                            <option value="1">Laki-laki</option>
                            <option value="2">Perempuan</option>
                         </select>
                      </div>
+                     <div class="col-6">
+                        <label class="form-label">Nomor HP</label>
+                        <input type="text" class="form-control mobilenumber" id="no-hp-pasien" placeholder="Nomor HP pasien">
+                     </div>
                   </div>
 
+                  <!-- Informasi Awal Klaim -->
                   <h3 class="mt-4 mb-3"><strong>Informasi Awal Klaim</strong></h3>
                   <hr style="border-top: 2px solid #000000;">
                   <div class="row g-3">
@@ -119,50 +147,60 @@
                      </div>
                      <div class="col-6">
                         <label class="form-label">Tanggal Kejadian <span class="required">*</span></label>
-                        <input type="text" class="form-control datepicker-bs5" id="tanggal-kejadian">
+                        <input type="text" class="form-control datepicker-bs5" id="tanggal-kejadian" placeholder="Pilih tanggal kejadian">
                      </div>
                      <div class="col-6">
                         <label class="form-label">Lokasi Kejadian <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="lokasi-kejadian">
+                        <input type="text" class="form-control" id="lokasi-kejadian" placeholder="Lokasi kejadian">
                      </div>
                      <div class="col-6">
                         <label class="form-label">Jenis Tuntutan <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="jenis-tuntutan">
+                        <input type="text" class="form-control" id="jenis-tuntutan" placeholder="Jenis tuntutan hukum">
                      </div>
                      <div class="col-12">
                         <label class="form-label">Kronologis Kejadian <span class="required">*</span></label>
-                        <textarea class="form-control" id="kronologis-kejadian" rows="4"></textarea>
+                        <textarea class="form-control" id="kronologis-kejadian" rows="4" placeholder="Jelaskan kronologis kejadian secara lengkap"></textarea>
                      </div>
                   </div>
 
-                  <h3 class="mt-4 mb-3"><strong>Informasi Kontak Alternatif</strong></h3>
+                  <!-- Kontak Wali Pasien -->
+                  <h3 class="mt-4 mb-3"><strong>Informasi Wali Pasien</strong></h3>
                   <hr style="border-top: 2px solid #000000;">
                   <div class="row g-3">
+                     <div class="col-12">
+                        <label class="form-label">Nama Kontak</label>
+                        <input type="text" class="form-control" id="pasien-wali-nama" placeholder="Nama kontak wali pasien">
+                     </div>
                      <div class="col-6">
-                        <label class="form-label">Nama</label>
-                        <input type="text" class="form-control" id="kontak-nama">
+                        <label class="form-label">Hubungan dengan Pasien</label>
+                        <input type="text" class="form-control" id="pasien-wali-hubungan" placeholder="Misal: Istri, Anak, Saudara">
                      </div>
                      <div class="col-6">
                         <label class="form-label">Nomor HP</label>
-                        <input type="text" class="form-control mobilenumber" id="kontak-no-hp">
+                        <input type="text" class="form-control mobilenumber" id="pasien-wali-no-hp" placeholder="Nomor HP kontak">
                      </div>
                      <div class="col-12">
-                        <p class="text-muted">Kontak alternatif adalah pihak yang dapat dihubungi jika peserta tidak dapat dihubungi.</p>
+                        <p class="text-muted small">Kontak wali adalah pihak yang dapat dihubungi jika pasien tidak dapat dihubungi.</p>
                      </div>
                   </div>
-               </div>
-            </div>
 
-         </div>
-         <div class="card-footer d-flex justify-content-between">
-                <p><em>Catatan: tanda ( <span class="required">*</span>) wajib diisi</em></p>
-            <button type="submit" class="btn btn-primary me-2"><i class="ti ti-mail-forward me-1"></i> Submit</button>
-         </div>
-      </div>
-   </div>
-</div>
+               </div> <!-- End col-lg-6 kanan -->
 
-<!-- Modal SIP -->
+            </div> <!-- End row utama dalam card-body -->
+         </div> <!-- End card-body -->
+
+         <div class="card-footer d-flex justify-content-between align-items-center">
+            <p class="mb-0"><em>Catatan: tanda ( <span class="required">*</span> ) wajib diisi</em></p>
+            <button type="submit" class="btn btn-primary me-2">
+               <i class="ti ti-mail-forward me-1"></i> Submit
+            </button>
+         </div>
+
+      </div> <!-- End card -->
+   </div> <!-- End col-12 -->
+</div> <!-- End row utama -->
+
+<!-- Modal Pilih SIP -->
 <div class="modal fade" id="sipModal" tabindex="-1" aria-labelledby="sipModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -176,7 +214,7 @@
                   <div class="spinner-border text-primary" role="status">
                      <span class="visually-hidden">Loading...</span>
                   </div>
-                  <div>Memuat daftar SIP...</div>
+                  <div class="mt-2">Memuat daftar SIP...</div>
                </div>
             </div>
          </div>
@@ -186,11 +224,12 @@
       </div>
    </div>
 </div>
+
 @endsection
 
 @push('levelPluginsJs')
-<script src="{{ asset('assets/js/plugins/jquery.inputmask.bundle.min.js')}}"></script>
+<script src="{{ asset('assets/js/plugins/jquery.inputmask.bundle.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/datepicker-full.min.js')}}"></script>
+<script src="{{ asset('assets/js/plugins/datepicker-full.min.js') }}"></script>
 @vite(['resources/js/v1/pi/klaim/input.js'])
 @endpush

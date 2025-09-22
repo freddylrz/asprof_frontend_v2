@@ -287,7 +287,7 @@ async function populateDashboardData() {
         $('#nama-peserta').val(userData.nama);
         $('#no-hp').val(userData.no_hp);
         $('#email').val(userData.email);
-        $('#profesi').val(userData.profesi_desc);
+        $('#profesi').val(userData.profesi_kategori_desc);
         $('#no-str').val(userData.str_no);
 
         // Dokumen (auto-fill jika tersedia)

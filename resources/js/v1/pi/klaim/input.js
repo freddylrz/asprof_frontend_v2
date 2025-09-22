@@ -23,7 +23,7 @@ function hideGlobalLoading() {
     Swal.close();
 }
 
-$(document).ready(async function() {
+$(document).ready(async function () {
     showGlobalLoading('Memuat data');
 
     const today = new Date();
@@ -67,7 +67,8 @@ $(document).ready(async function() {
         placeholder: ""
     });
 
-    $('button[type="submit"]').on('click', function(e) {
+    // 👇 Gunakan event submit dari form, bukan tombol
+    $('#form-pengajuan-klaim').on('submit', function (e) {
         e.preventDefault();
         submitKlaim();
     });
@@ -312,19 +313,8 @@ async function populateDashboardData() {
             docMap[doc.file_type] = doc;
         });
 
-        // Auto-load dokumen dari server jika ada
-        if (docMap[1]) {
-            $('#dokumen-sertifikat').attr('data-file-url', `${apiUrl}/${docMap[1].link}`);
-        }
-        if (docMap[2]) {
-            $('#dokumen-ktp').attr('data-file-url', `${apiUrl}/${docMap[2].link}`);
-        }
-        if (docMap[3]) {
-            $('#dokumen-str').attr('data-file-url', `${apiUrl}/${docMap[3].link}`);
-        }
-        if (docMap[4]) {
-            $('#dokumen-sip').attr('data-file-url', `${apiUrl}/${docMap[4].link}`);
-        }
+        // Simpan untuk referensi di validasi upload
+        documentsList = documents;
     } catch (error) {
         console.error('Error populating dashboard ', error);
         Swal.fire({
@@ -352,21 +342,21 @@ function loadSIPList() {
             'Authorization': `Bearer ${token}`
         }
     })
-    .then(response => response.json())
-    .then(async (result) => {
-        if (result.status === 200) {
-            const decrypted = await decryptData(result.data);
-            const sipDatas = decrypted.datas || [];
-            renderSIPList(sipDatas);
-        } else {
+        .then(response => response.json())
+        .then(async (result) => {
+            if (result.status === 200) {
+                const decrypted = await decryptData(result.data);
+                const sipDatas = decrypted.datas || [];
+                renderSIPList(sipDatas);
+            } else {
+                $container.empty();
+                $container.append('<div class="text-danger text-center py-3">Gagal memuat data SIP</div>');
+            }
+        })
+        .catch(error => {
             $container.empty();
-            $container.append('<div class="text-danger text-center py-3">Gagal memuat data SIP</div>');
-        }
-    })
-    .catch(error => {
-        $container.empty();
-        $container.append('<div class="text-danger text-center py-3">Terjadi kesalahan saat memuat data SIP</div>');
-    });
+            $container.append('<div class="text-danger text-center py-3">Terjadi kesalahan saat memuat data SIP</div>');
+        });
 }
 
 function renderSIPList(sipDatas) {
@@ -405,19 +395,19 @@ function renderSIPList(sipDatas) {
 
         // Tambahkan efek hover
         $item.hover(
-            function() {
+            function () {
                 $(this).addClass('bg-light');
                 $(this).css('transform', 'translateY(-2px)');
                 $(this).css('box-shadow', '0 4px 8px rgba(0,0,0,0.15)');
             },
-            function() {
+            function () {
                 $(this).removeClass('bg-light');
                 $(this).css('transform', 'translateY(0)');
                 $(this).css('box-shadow', 'none');
             }
         );
 
-        $item.find('input[type="radio"]').on('change', function() {
+        $item.find('input[type="radio"]').on('change', function () {
             if ($(this).is(':checked')) {
                 $('#no-sip').val(sip.sip_no);
                 $('#tempat-praktik').val(sip.tempat_praktik);
@@ -459,7 +449,7 @@ async function fetchAndDisplayDocuments(sipId) {
 
     const decrypted = await decryptData(result.data);
     documentsList = decrypted.datas || [];
-    console.log(documentsList);
+    console.log('Dokumen yang tersedia:', documentsList);
 
     $dokumenContainer.empty();
 
@@ -492,7 +482,7 @@ async function fetchAndDisplayDocuments(sipId) {
             $col.append($card);
         } else {
             if (optional) {
-                // Untuk dokumen opsional (Master Polis), tampilkan "#" jika tidak ada
+                // Untuk dokumen opsional (Master Polis), tampilkan "-" jika tidak ada
                 const $card = $(`
                     <div class="border rounded p-3 h-100 d-flex flex-column justify-content-center bg-light">
                         <strong class="mb-2">${label}</strong>
@@ -505,7 +495,7 @@ async function fetchAndDisplayDocuments(sipId) {
                 const $uploadGroup = $(`
                     <div class="border rounded p-3 h-100 d-flex flex-column">
                         <label class="form-label mb-2">${label} <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" name="dokumen_upload_${type}" />
+                        <input type="file" class="form-control" name="dokumen_upload_${type}" data-type="${type}" />
                     </div>
                 `);
                 $col.append($uploadGroup);
@@ -531,7 +521,7 @@ async function submitKlaim() {
         }
 
         // Validasi Nama Pasien
-        const namaPasien = $('#nama-pasien').val().trim();
+        const namaPasien = $('#nama-pasien').val()?.trim();
         if (!namaPasien) {
             await Swal.fire({
                 icon: 'warning',
@@ -543,7 +533,7 @@ async function submitKlaim() {
         }
 
         // Validasi Usia
-        const usia = $('#usia-pasien').val().trim();
+        const usia = $('#usia-pasien').val()?.trim();
         if (!usia) {
             await Swal.fire({
                 icon: 'warning',
@@ -567,7 +557,7 @@ async function submitKlaim() {
         }
 
         // Validasi Tanggal Kejadian
-        const tanggalKejadian = $('#tanggal-kejadian').val().trim();
+        const tanggalKejadian = $('#tanggal-kejadian').val()?.trim();
         if (!tanggalKejadian) {
             await Swal.fire({
                 icon: 'warning',
@@ -579,7 +569,7 @@ async function submitKlaim() {
         }
 
         // Validasi Lokasi Kejadian
-        const lokasiKejadian = $('#lokasi-kejadian').val().trim();
+        const lokasiKejadian = $('#lokasi-kejadian').val()?.trim();
         if (!lokasiKejadian) {
             await Swal.fire({
                 icon: 'warning',
@@ -591,7 +581,7 @@ async function submitKlaim() {
         }
 
         // Validasi Jenis Tuntutan
-        const jenisTuntutan = $('#jenis-tuntutan').val().trim();
+        const jenisTuntutan = $('#jenis-tuntutan').val()?.trim();
         if (!jenisTuntutan) {
             await Swal.fire({
                 icon: 'warning',
@@ -603,7 +593,7 @@ async function submitKlaim() {
         }
 
         // Validasi Kronologis Kejadian
-        const kronologisKejadian = $('#kronologis-kejadian').val().trim();
+        const kronologisKejadian = $('#kronologis-kejadian').val()?.trim();
         if (!kronologisKejadian) {
             await Swal.fire({
                 icon: 'warning',
@@ -616,7 +606,6 @@ async function submitKlaim() {
 
         // Parsing dan validasi tanggal
         const tanggalPengaduan = $('#tanggal-pengaduan').val();
-
         const pengaduanDate = parseDate(tanggalPengaduan);
         const kejadianDate = parseDate(tanggalKejadian);
 
@@ -629,71 +618,51 @@ async function submitKlaim() {
             return;
         }
 
-        // Validasi dokumen wajib - Dokumen Polis
-        const docPolisExists = documentsList.some(doc => doc.file_type === 1);
-        if (!docPolisExists) {
-            const inputFilePolis = $(`input[name="dokumen_upload_1"]`)[0];
-            if (!inputFilePolis || inputFilePolis.files.length === 0) {
-                await Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'File upload untuk "Dokumen Polis" wajib diisi.'
-                });
-                return;
-            }
-        }
-
-        // Validasi dokumen wajib - KTP
-        const docKTPExists = documentsList.some(doc => doc.file_type === 2);
-        if (!docKTPExists) {
-            const inputFileKTP = $(`input[name="dokumen_upload_2"]`)[0];
-            if (!inputFileKTP || inputFileKTP.files.length === 0) {
-                await Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'File upload untuk "KTP" wajib diisi.'
-                });
-                return;
-            }
-        }
-
-        // Validasi dokumen wajib - Dokumen STR
-        const docSTRExists = documentsList.some(doc => doc.file_type === 3);
-        if (!docSTRExists) {
-            const inputFileSTR = $(`input[name="dokumen_upload_3"]`)[0];
-            if (!inputFileSTR || inputFileSTR.files.length === 0) {
-                await Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'File upload untuk "Dokumen STR" wajib diisi.'
-                });
-                return;
-            }
-        }
-
-        // Validasi dokumen wajib - Dokumen SIP
-        const docSIPExists = documentsList.some(doc => doc.file_type === 4);
-        if (!docSIPExists) {
-            const inputFileSIP = $(`input[name="dokumen_upload_4"]`)[0];
-            if (!inputFileSIP || inputFileSIP.files.length === 0) {
-                await Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'File upload untuk "Dokumen SIP" wajib diisi.'
-                });
-                return;
+        // ✅ Validasi dokumen wajib (type 1-4) hanya jika belum ada di server
+        const requiredTypes = [1, 2, 3, 4];
+        for (let type of requiredTypes) {
+            const docExists = documentsList.some(doc => doc.file_type === type);
+            if (!docExists) {
+                const inputFile = $(`input[name="dokumen_upload_${type}"]`)[0];
+                if (!inputFile || !inputFile.files || inputFile.files.length === 0) {
+                    const labelMap = { 1: 'Sertifikat', 2: 'KTP', 3: 'STR', 4: 'SIP' };
+                    await Swal.fire({
+                        icon: 'warning',
+                        title: 'Peringatan',
+                        text: `File upload untuk "${labelMap[type]}" wajib diisi.`
+                    });
+                    return;
+                }
             }
         }
 
         // Proses upload dokumen
-        const uploadPromises = await Promise.all([
-            processDocumentUpload(1, 'Dokumen Polis'),
-            processDocumentUpload(2, 'KTP'),
-            processDocumentUpload(3, 'Dokumen STR'),
-            processDocumentUpload(4, 'Dokumen SIP')
-        ]);
+        const uploadPromises = [];
+        for (let type of [1, 2, 3, 4]) {
+            const docExists = documentsList.some(doc => doc.file_type === type);
+            if (!docExists) {
+                const inputFile = $(`input[name="dokumen_upload_${type}"]`)[0];
+                if (inputFile && inputFile.files.length > 0) {
+                    const base64 = await fileToBase64(inputFile.files[0]);
+                    uploadPromises.push({
+                        file_type: type,
+                        file_name: inputFile.files[0].name,
+                        file_base64: base64
+                    });
+                }
+            } else {
+                // Dokumen sudah ada di server, kirim metadata saja
+                const doc = documentsList.find(d => d.file_type === type);
+                uploadPromises.push({
+                    file_type: type,
+                    file_name: doc.file_name,
+                    file_path: doc.file_path,
+                    file_base64: ''
+                });
+            }
+        }
 
-        // Buat payload dengan tanggal format Y-m-d dan SIP ID dari selectedSIPData
+        // Buat payload
         const payload = {
             sipId: selectedSIPData.id,
             report_date: formatDateYmd(pengaduanDate),
@@ -704,18 +673,17 @@ async function submitKlaim() {
             patient_name: namaPasien,
             patient_age: usia,
             patient_gender: jenisKelamin,
-            // 👇 Ambil dari kontak ALTERNATIF PASIEN (bukan peserta)
-            pic_name: $('#pasien-kontak-nama').val()?.trim() || null,
-            pic_relationship: $('#pasien-kontak-hubungan').val()?.trim() || null, // tambahan jika API menerima
-            pic_no: $('#pasien-kontak-no-hp').val()?.trim() || null,
-            upload: uploadPromises.filter(Boolean)
+            // 👇 Ambil dari kontak WALI PASIEN (sesuai form)
+            pic_name: $('#pasien-wali-nama').val()?.trim() || null,
+            pic_relationship: $('#pasien-wali-hubungan').val()?.trim() || null,
+            pic_no: $('#pasien-wali-no-hp').val()?.trim() || null,
+            upload: uploadPromises
         };
 
-        console.log('Payload sebelum dikirim:', payload);
+        console.log('Payload yang akan dikirim:', payload);
 
         showGlobalLoading('Mengirim data klaim...');
 
-        // Gunakan AJAX dengan method POST
         $.ajax({
             url: `${apiUrl}/api/client/klaim/register`,
             method: 'POST',
@@ -724,7 +692,7 @@ async function submitKlaim() {
                 'Content-Type': 'application/json'
             },
             data: JSON.stringify(payload),
-            success: async function(result) {
+            success: async function (result) {
                 hideGlobalLoading();
                 if (result.status === 200) {
                     const decryptedData = await decryptData(result.data);
@@ -744,7 +712,7 @@ async function submitKlaim() {
                     });
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 hideGlobalLoading();
                 Swal.fire({
                     icon: 'error',
@@ -764,33 +732,10 @@ async function submitKlaim() {
     }
 }
 
-async function processDocumentUpload(type, label) {
-    const inputFile = $(`input[name="dokumen_upload_${type}"]`)[0];
-    if (inputFile && inputFile.files.length > 0) {
-        const base64 = await fileToBase64(inputFile.files[0]);
-        return {
-            file_type: type,
-            file_name: inputFile.files[0].name,
-            file_base64: base64
-        };
-    } else {
-        const doc = documentsList.find(d => d.file_type === type);
-        if (doc) {
-            return {
-                file_type: type,
-                file_name: doc.file_name,
-                file_path: doc.file_path,
-                file_base64: ''
-            };
-        }
-        return null;
-    }
-}
-
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
+        reader.onload = () => resolve(reader.result.split(',')[1]); // Hanya base64 tanpa prefix
         reader.onerror = error => reject(error);
         reader.readAsDataURL(file);
     });

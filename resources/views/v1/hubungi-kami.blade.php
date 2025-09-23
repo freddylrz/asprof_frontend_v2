@@ -1,9 +1,12 @@
 @extends('v1.layouts.landing')
 
 @section('content-fullpage')
-            <div class="container">
-               <div class="row justify-content-center" style="margin-top: 80px">
-                  <div class="text-center my-5">
+<div id="pureFullPage" class="pure-fullpage px-3 px-sm-4 px-md-5">
+    <div class="page-section page">
+        <div class="overflow-hidden">
+            <div class="container-fluid h-100">
+                <div class="row justify-content-center align-items-center h-100">
+                  <div class="text-center mb-2">
                      <h1 class="text-center">PT. TUGU INSURANCE BROKERS</h1>
                   </div>
                   <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 my-2">
@@ -111,4 +114,7 @@
                   </div>
                </div>
             </div>
+        </div>
+    </div>
+</div>
 @endsection

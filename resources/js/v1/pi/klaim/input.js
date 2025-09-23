@@ -410,7 +410,8 @@ function renderSIPList(sipDatas) {
         $item.find('input[type="radio"]').on('change', function () {
             if ($(this).is(':checked')) {
                 $('#no-sip').val(sip.sip_no);
-                $('#tempat-praktik').val(`${sip.tempat_praktik}\n(${sip.location})`);
+                $('#tempat-praktik').val(`${sip.tempat_praktik}`);
+                $('#lokasi').val(`${sip.location}`);
                 $('#lokasi-kejadian').val(`${sip.tempat_praktik}`);
                 selectedSIPData = sip;
                 $('#sipModal').modal('hide');

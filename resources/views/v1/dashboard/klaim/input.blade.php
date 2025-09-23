@@ -64,6 +64,8 @@
                            <label for="no-str" class="form-label">No. STR</label>
                            <input type="text" class="form-control bg-light" id="no-str" name="no_str" disabled>
                         </div>
+                     </div>
+                     <div class="row g-3 mt-2">
                         <div class="col-6">
                            <label for="no-sip" class="form-label">No. SIP <span class="required">*</span></label>
                            <div class="input-group">
@@ -73,9 +75,15 @@
                               </button>
                            </div>
                         </div>
+                     </div>
+                     <div class="row g-3 mt-2">
                         <div class="col-6">
                            <label for="tempat-praktik" class="form-label">Tempat Praktik</label>
-                           <textarea class="form-control" id="tempat-praktik" name="tempat_praktik" disabled rows="2"></textarea>
+                           <textarea class="form-control" id="tempat-praktik" name="tempat_praktik" disabled rows="1"></textarea>
+                        </div>
+                        <div class="col-6">
+                           <label for="lokasi" class="form-label">Lokasi</label>
+                           <textarea class="form-control" id="lokasi" name="lokasi" disabled rows="1"></textarea>
                         </div>
                      </div>
 

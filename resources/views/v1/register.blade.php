@@ -368,14 +368,14 @@
                            <div class="form-group">
                               <label class="form-label required">Nomor Handphone</label>
                               <input type="text" class="form-control mobilenumber" name="no_hp" id="nomor-handphone" placeholder="Masukan nomor handphone">
-                              <small class="form-text text-muted">Nomor HP wajib aktif dan benar, karena kode OTP verifikasi hanya akan dikirimkan ke nomor tersebut.</small>
+                              <small class="form-text text-muted">Pastikan nomor HP yang Anda isi benar dan dapat dihubungi, karena kode OTP verifikasi hanya akan dikirim ke nomor tersebut.</small>
                            </div>
                         </div>
                         <div class="col-lg-6">
                            <div class="form-group">
                               <label class="form-label required">Email</label>
                               <input type="email" class="form-control" name="email" id="email" placeholder="Masukan alamat email">
-                              <small class="form-text text-muted">Harap isi alamat email yang valid, karena akan digunakan untuk pengiriman informasi pendaftaran dan korespondensi resmi.</small>
+                              <small class="form-text text-muted">Mohon isi alamat email yang aktif dan benar, karena akan digunakan untuk pengiriman informasi pendaftaran serta korespondensi resmi.</small>
                            </div>
                         </div>
                         <div class="col-lg-6">
@@ -411,7 +411,7 @@
                                        <div class="form-group">
                                           <label class="form-label">Nomor Handphone</label>
                                           <input type="text" class="form-control mobilenumber" id="nomor-kontak-darurat" placeholder="Masukan nomor kontak darurat">
-                                          <small class="form-text text-muted">Nomor HP wajib aktif dan benar, karena kode OTP verifikasi hanya akan dikirimkan ke nomor tersebut.</small>
+                                          <small class="form-text text-muted">Pastikan nomor HP yang Anda isi benar dan dapat dihubungi, karena kode OTP verifikasi hanya akan dikirim ke nomor tersebut.</small>
                                        </div>
                                     </div>
                                  </div>

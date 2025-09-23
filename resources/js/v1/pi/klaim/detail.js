@@ -43,7 +43,13 @@ function getDataDetail() {
         let klaim = response.klaim[0];
         let statusId = klaim.klaim_status_id;
 
-        $('#accept-date').html(klaim.accept_date || '-');
+        // Handle accept_date dengan informasi lebih informatif
+        if (klaim.accept_date && klaim.accept_date !== 'null' && klaim.accept_date !== '0000-00-00 00:00:00') {
+            $('#accept-date').html(klaim.accept_date);
+        } else {
+            $('#accept-date').html('<span class="text-warning">Belum diproses</span>');
+        }
+
         $('#register-no').html(klaim.klaim_no);
         $('#sum-insured').html(klaim.sum_insured);
         $('#nama').html(klaim.nama);
@@ -66,7 +72,11 @@ function getDataDetail() {
         $('#patient-name').html(klaim.patient_name);
         $('#patient-age').html(`${klaim.patient_age} tahun`);
         $('#patient-gender').html(klaim.patient_gender == "1" ? 'Laki - Laki' : 'Perempuan');
+        $('#patient-phone').html(klaim.patient_hp);
+        $('#patient-email').html(klaim.patient_email);
         $('#incident-description').html(klaim.incident_description);
+        $('#wali-nama').html(klaim.patient_representative_name);
+        $('#wali-no').html(klaim.patient_representative_hp);
 
         if (klaim.str_stat == "1") {
             $('#str-stat').html('Status : Seumur Hidup');
@@ -197,6 +207,21 @@ function getDataDetail() {
         statuses.forEach(status => {
             $(status.id).addClass(status.class).text(status.text);
         });
+
+        // Scroll to the active process point (warning status)
+        setTimeout(() => {
+            const $activeProcessPoint = $('.multisteps-form__progress-btn.js-proses');
+            if ($activeProcessPoint.length > 0) {
+                const container = $('.timeline-container');
+                const pointOffset = $activeProcessPoint.offset().left;
+                const containerOffset = container.offset().left;
+                const scrollPosition = pointOffset - containerOffset - (container.width() / 2) + ($activeProcessPoint.width() / 2);
+
+                container.animate({
+                    scrollLeft: scrollPosition
+                }, 500);
+            }
+        }, 100);
 
         $('#list-log').empty();
         $.each(response.log, function (j, item) {

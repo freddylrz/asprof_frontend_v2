@@ -410,8 +410,8 @@ function renderSIPList(sipDatas) {
         $item.find('input[type="radio"]').on('change', function () {
             if ($(this).is(':checked')) {
                 $('#no-sip').val(sip.sip_no);
-                $('#tempat-praktik').val(sip.tempat_praktik);
-                $('#lokasi-kejadian').val(sip.tempat_praktik); // Auto isi lokasi kejadian
+                $('#tempat-praktik').val(`${sip.tempat_praktik} (${sip.location})`);
+                $('#lokasi-kejadian').val(`${sip.tempat_praktik}`);
                 selectedSIPData = sip;
                 $('#sipModal').modal('hide');
                 fetchAndDisplayDocuments(sip.id);
@@ -510,115 +510,74 @@ async function fetchAndDisplayDocuments(sipId) {
 
 async function submitKlaim() {
     try {
-        // Validasi SIP
         if (!selectedSIPData) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Pilih SIP terlebih dahulu'
-            });
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Pilih SIP terlebih dahulu' });
             return;
         }
 
-        // Validasi Nama Pasien
         const namaPasien = $('#nama-pasien').val()?.trim();
         if (!namaPasien) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Nama Pasien wajib diisi'
-            });
-            $('#nama-pasien').focus();
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Nama Pasien wajib diisi' });
             return;
         }
 
-        // Validasi Usia
         const usia = $('#usia-pasien').val()?.trim();
         if (!usia) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Usia wajib diisi'
-            });
-            $('#usia-pasien').focus();
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Usia wajib diisi' });
             return;
         }
 
-        // Validasi Jenis Kelamin
         const jenisKelamin = $('#jenis-kelamin-pasien').val();
         if (!jenisKelamin) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Jenis Kelamin wajib dipilih'
-            });
-            $('#jenis-kelamin-pasien').focus();
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Jenis Kelamin wajib dipilih' });
             return;
         }
 
-        // Validasi Tanggal Kejadian
+        const patientHp = $('#no-hp-pasien').val()?.trim();
+        if (!patientHp) {
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Nomor HP Pasien wajib diisi' });
+            return;
+        }
+
+        const patientEmail = $('#email-pasien').val()?.trim();
+        if (!patientEmail) {
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Email Pasien wajib diisi' });
+            return;
+        }
+
         const tanggalKejadian = $('#tanggal-kejadian').val()?.trim();
         if (!tanggalKejadian) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Tanggal Kejadian wajib diisi'
-            });
-            $('#tanggal-kejadian').focus();
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Tanggal Kejadian wajib diisi' });
             return;
         }
 
-        // Validasi Lokasi Kejadian
         const lokasiKejadian = $('#lokasi-kejadian').val()?.trim();
         if (!lokasiKejadian) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Lokasi Kejadian wajib diisi'
-            });
-            $('#lokasi-kejadian').focus();
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Lokasi Kejadian wajib diisi' });
             return;
         }
 
-        // Validasi Jenis Tuntutan
         const jenisTuntutan = $('#jenis-tuntutan').val()?.trim();
         if (!jenisTuntutan) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Jenis Tuntutan wajib diisi'
-            });
-            $('#jenis-tuntutan').focus();
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Jenis Tuntutan wajib diisi' });
             return;
         }
 
-        // Validasi Kronologis Kejadian
         const kronologisKejadian = $('#kronologis-kejadian').val()?.trim();
         if (!kronologisKejadian) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Kronologis Kejadian wajib diisi'
-            });
-            $('#kronologis-kejadian').focus();
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Kronologis Kejadian wajib diisi' });
             return;
         }
 
-        // Parsing dan validasi tanggal
         const tanggalPengaduan = $('#tanggal-pengaduan').val();
         const pengaduanDate = parseDate(tanggalPengaduan);
         const kejadianDate = parseDate(tanggalKejadian);
 
         if (pengaduanDate < kejadianDate) {
-            await Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan',
-                text: 'Tanggal Pengaduan tidak boleh kurang dari Tanggal Kejadian'
-            });
+            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Tanggal Pengaduan tidak boleh kurang dari Tanggal Kejadian' });
             return;
         }
 
-        // ✅ Validasi dokumen wajib (type 1-4) hanya jika belum ada di server
         const requiredTypes = [1, 2, 3, 4];
         for (let type of requiredTypes) {
             const docExists = documentsList.some(doc => doc.file_type === type);
@@ -626,17 +585,12 @@ async function submitKlaim() {
                 const inputFile = $(`input[name="dokumen_upload_${type}"]`)[0];
                 if (!inputFile || !inputFile.files || inputFile.files.length === 0) {
                     const labelMap = { 1: 'Sertifikat', 2: 'KTP', 3: 'STR', 4: 'SIP' };
-                    await Swal.fire({
-                        icon: 'warning',
-                        title: 'Peringatan',
-                        text: `File upload untuk "${labelMap[type]}" wajib diisi.`
-                    });
+                    await Swal.fire({ icon: 'warning', title: 'Peringatan', text: `File upload untuk "${labelMap[type]}" wajib diisi.` });
                     return;
                 }
             }
         }
 
-        // Proses upload dokumen
         const uploadPromises = [];
         for (let type of [1, 2, 3, 4]) {
             const docExists = documentsList.some(doc => doc.file_type === type);
@@ -651,7 +605,6 @@ async function submitKlaim() {
                     });
                 }
             } else {
-                // Dokumen sudah ada di server, kirim metadata saja
                 const doc = documentsList.find(d => d.file_type === type);
                 uploadPromises.push({
                     file_type: type,
@@ -662,7 +615,6 @@ async function submitKlaim() {
             }
         }
 
-        // Buat payload
         const payload = {
             sipId: selectedSIPData.id,
             report_date: formatDateYmd(pengaduanDate),
@@ -673,14 +625,15 @@ async function submitKlaim() {
             patient_name: namaPasien,
             patient_age: usia,
             patient_gender: jenisKelamin,
-            // 👇 Ambil dari kontak WALI PASIEN (sesuai form)
-            pic_name: $('#pasien-wali-nama').val()?.trim() || null,
-            pic_relationship: $('#pasien-wali-hubungan').val()?.trim() || null,
-            pic_no: $('#pasien-wali-no-hp').val()?.trim() || null,
+            patient_hp: patientHp,
+            patient_email: patientEmail,
+            patient_representative_name: $('#pasien-wali-nama').val()?.trim() || null,
+            patient_representative_hp: $('#pasien-wali-no-hp').val()?.trim() || null,
+            patient_representative_relation: $('#pasien-wali-hubungan').val()?.trim() || null,
+            pic_name: $('#peserta-kontak-nama').val()?.trim() || null,
+            pic_no: $('#peserta-kontak-no-hp').val()?.trim() || null,
             upload: uploadPromises
         };
-
-        console.log('Payload yang akan dikirim:', payload);
 
         showGlobalLoading('Mengirim data klaim...');
 

@@ -368,6 +368,7 @@
                            <div class="form-group">
                               <label class="form-label required">Nomor Handphone</label>
                               <input type="text" class="form-control mobilenumber" name="no_hp" id="nomor-handphone" placeholder="Masukan nomor handphone">
+                              <small class="form-text text-muted">Nomor HP wajib aktif dan benar, karena kode OTP verifikasi hanya akan dikirimkan ke nomor tersebut.</small>
                            </div>
                         </div>
                         <div class="col-lg-6">

@@ -64,18 +64,26 @@
                            <label for="no-str" class="form-label">No. STR</label>
                            <input type="text" class="form-control bg-light" id="no-str" name="no_str" disabled>
                         </div>
+                     </div>
+                     <div class="row g-3 mt-2">
                         <div class="col-6">
                            <label for="no-sip" class="form-label">No. SIP <span class="required">*</span></label>
                            <div class="input-group">
-                              <input type="text" class="form-control" id="no-sip" name="no_sip" placeholder="Pilih SIP" readonly required>
+                              <input type="text" class="form-control" id="no-sip" name="no_sip" placeholder="Pilih SIP" readonly>
                               <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#sipModal">
                                  <i class="ti ti-search"></i>
                               </button>
                            </div>
                         </div>
+                     </div>
+                     <div class="row g-3 mt-2">
                         <div class="col-6">
                            <label for="tempat-praktik" class="form-label">Tempat Praktik</label>
-                           <input type="text" class="form-control bg-light" id="tempat-praktik" name="tempat_praktik" disabled>
+                           <textarea class="form-control" id="tempat-praktik" name="tempat_praktik" disabled rows="1"></textarea>
+                        </div>
+                        <div class="col-6">
+                           <label for="lokasi" class="form-label">Lokasi</label>
+                           <textarea class="form-control" id="lokasi" name="lokasi" disabled rows="1"></textarea>
                         </div>
                      </div>
 
@@ -84,7 +92,7 @@
                      <hr style="border-top: 2px solid #000000;">
                      <div class="row g-3">
                         <div class="col-6">
-                           <label for="peserta-kontak-nama" class="form-label">Nama Kontak</label>
+                           <label for="peserta-kontak-nama" class="form-label">Nama Kontak Alternatif</label>
                            <input type="text" class="form-control" id="peserta-kontak-nama" name="peserta_kontak_nama" placeholder="Nama kontak alternatif">
                         </div>
                         <div class="col-6">
@@ -116,29 +124,29 @@
                      <div class="row g-3">
                         <div class="col-12">
                            <label for="nama-pasien" class="form-label">Nama Pasien <span class="required">*</span></label>
-                           <input type="text" class="form-control" id="nama-pasien" name="nama_pasien" placeholder="Masukkan nama pasien" required>
+                           <input type="text" class="form-control" id="nama-pasien" name="nama_pasien" placeholder="Masukkan nama pasien">
                         </div>
                         <div class="col-6">
                            <label for="usia-pasien" class="form-label">Usia <span class="required">*</span></label>
                            <div class="input-group">
-                              <input type="number" class="form-control" id="usia-pasien" name="usia_pasien" min="0" max="150" placeholder="Usia" required>
+                              <input type="number" class="form-control" id="usia-pasien" name="usia_pasien" min="0" max="150" placeholder="Usia">
                               <span class="input-group-text">Tahun</span>
                            </div>
                         </div>
                         <div class="col-6">
                            <label for="jenis-kelamin-pasien" class="form-label">Jenis Kelamin <span class="required">*</span></label>
-                           <select class="form-select" id="jenis-kelamin-pasien" name="jenis_kelamin_pasien" required>
+                           <select class="form-select" id="jenis-kelamin-pasien" name="jenis_kelamin_pasien">
                               <option value="">Pilih Jenis Kelamin</option>
                               <option value="1">Laki-laki</option>
                               <option value="2">Perempuan</option>
                            </select>
                         </div>
                         <div class="col-6">
-                           <label for="email-pasien" class="form-label">Email</label>
+                           <label for="email-pasien" class="form-label">Email<span class="required">*</span></label>
                            <input type="email" class="form-control" id="email-pasien" name="email_pasien" placeholder="Email pasien">
                         </div>
                         <div class="col-6">
-                           <label for="no-hp-pasien" class="form-label">Nomor HP</label>
+                           <label for="no-hp-pasien" class="form-label">Nomor HP<span class="required">*</span></label>
                            <input type="text" class="form-control mobilenumber" id="no-hp-pasien" name="no_hp_pasien" placeholder="Nomor HP pasien">
                         </div>
                      </div>
@@ -149,23 +157,23 @@
                      <div class="row g-3">
                         <div class="col-6">
                            <label for="tanggal-pengaduan" class="form-label">Tanggal Pengaduan <span class="required">*</span></label>
-                           <input type="text" class="form-control datepicker-bs5" id="tanggal-pengaduan" name="tanggal_pengaduan" disabled required>
+                           <input type="text" class="form-control datepicker-bs5" id="tanggal-pengaduan" name="tanggal_pengaduan" disabled >
                         </div>
                         <div class="col-6">
                            <label for="tanggal-kejadian" class="form-label">Tanggal Kejadian <span class="required">*</span></label>
-                           <input type="text" class="form-control datepicker-bs5" id="tanggal-kejadian" name="tanggal_kejadian" placeholder="Pilih tanggal kejadian" required>
+                           <input type="text" class="form-control datepicker-bs5" id="tanggal-kejadian" name="tanggal_kejadian" placeholder="Pilih tanggal kejadian" >
                         </div>
                         <div class="col-6">
                            <label for="lokasi-kejadian" class="form-label">Lokasi Kejadian <span class="required">*</span></label>
-                           <input type="text" class="form-control" id="lokasi-kejadian" name="lokasi_kejadian" placeholder="Lokasi kejadian" required>
+                           <input type="text" class="form-control" id="lokasi-kejadian" name="lokasi_kejadian" placeholder="Lokasi kejadian" >
                         </div>
                         <div class="col-6">
-                           <label for="jenis-tuntutan" class="form-label">Jenis Tuntutan <span class="required">*</span></label>
-                           <input type="text" class="form-control" id="jenis-tuntutan" name="jenis_tuntutan" placeholder="Jenis tuntutan hukum" required>
+                           <label for="jenis-tuntutan" class="form-label">Jenis Tuntutan / Gugatan<span class="required">*</span></label>
+                           <input type="text" class="form-control" id="jenis-tuntutan" name="jenis_tuntutan" placeholder="Jenis tuntutan hukum" >
                         </div>
                         <div class="col-12">
                            <label for="kronologis-kejadian" class="form-label">Kronologis Kejadian <span class="required">*</span></label>
-                           <textarea class="form-control" id="kronologis-kejadian" name="kronologis_kejadian" rows="4" placeholder="Jelaskan kronologis kejadian secara lengkap" required></textarea>
+                           <textarea class="form-control" id="kronologis-kejadian" name="kronologis_kejadian" rows="4" placeholder="Jelaskan kronologis kejadian secara lengkap" ></textarea>
                         </div>
                      </div>
 
@@ -174,7 +182,7 @@
                      <hr style="border-top: 2px solid #000000;">
                      <div class="row g-3">
                         <div class="col-12">
-                           <label for="pasien-wali-nama" class="form-label">Nama Kontak</label>
+                           <label for="pasien-wali-nama" class="form-label">Nama Wali Pasien</label>
                            <input type="text" class="form-control" id="pasien-wali-nama" name="pasien_wali_nama" placeholder="Nama kontak wali pasien">
                         </div>
                         <div class="col-6">

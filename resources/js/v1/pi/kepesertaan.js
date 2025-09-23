@@ -191,26 +191,26 @@ async function getDataDetail() {
 
             $('#div-e-sertifikat').html(`
                 <a href="${polisFilePath}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
-                    Unduh E-Sertifikat
+                    <i class="ti ti-download me-2"></i> E-Sertifikat
                 </a>
             `);
 
             $('#div-e-polis').html(`
                 <a href="${polisFilePath}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
-                    Unduh Master Polis
+                    <i class="ti ti-download me-2"></i> Master Polis
                 </a>
             `);
 
             // Ganti Nota & Kwitansi jadi tombol trigger fungsi
             $('#div-e-nota').html(`
                 <button type="button" class="btn btn-primary w-100" id="btn-download-nota">
-                    <i class="ti ti-download me-2"></i>Unduh Nota
+                    <i class="ti ti-download me-2"></i> Nota
                 </button>
             `);
 
             $('#div-e-kwitansi').html(`
                 <button type="button" class="btn btn-primary w-100" id="btn-download-kwitansi">
-                    <i class="ti ti-download me-2"></i>Unduh Kwitansi
+                    <i class="ti ti-download me-2"></i> Kwitansi
                 </button>
             `);
 
@@ -472,25 +472,23 @@ function downloadNota() {
         success: function(blob, status, xhr) {
             Swal.close();
 
-            // ✅ Ekstrak dan sanitasi filename
             let filename = "nota.pdf";
+
+            // Ambil Content-Disposition
             const disposition = xhr.getResponseHeader('Content-Disposition');
             if (disposition && disposition.indexOf('filename=') !== -1) {
+                // Gunakan regex untuk ekstrak filename (termasuk versi dengan kutipan)
                 const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                 const matches = filenameRegex.exec(disposition);
-                if (matches != null && matches[1]) {
+                if (matches && matches[1]) {
                     filename = matches[1].replace(/['"]/g, '');
-                    // Ganti karakter ilegal dengan underscore
-                    filename = filename.replace(/[\/\\:*?"<>|]/g, '_');
-                    // Ganti spasi dengan underscore
-                    filename = filename.replace(/\s+/g, '_');
-                    // Pastikan ekstensi .pdf tetap ada
-                    if (!filename.endsWith('.pdf')) {
-                        filename += '.pdf';
-                    }
                 }
             }
 
+            // Sanitasi nama file
+            filename = sanitizeFilename(filename);
+
+            // Buat URL blob dan unduh
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -545,21 +543,18 @@ function downloadKwitansi() {
         success: function(blob, status, xhr) {
             Swal.close();
 
-            // ✅ Ekstrak dan sanitasi filename
             let filename = "kwitansi.pdf";
+
             const disposition = xhr.getResponseHeader('Content-Disposition');
             if (disposition && disposition.indexOf('filename=') !== -1) {
                 const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                 const matches = filenameRegex.exec(disposition);
-                if (matches != null && matches[1]) {
+                if (matches && matches[1]) {
                     filename = matches[1].replace(/['"]/g, '');
-                    filename = filename.replace(/[\/\\:*?"<>|]/g, '_');
-                    filename = filename.replace(/\s+/g, '_');
-                    if (!filename.endsWith('.pdf')) {
-                        filename += '.pdf';
-                    }
                 }
             }
+
+            filename = sanitizeFilename(filename);
 
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -576,4 +571,26 @@ function downloadKwitansi() {
             console.error("Download Kwitansi Error:", error);
         }
     });
+}
+
+// ✅ Fungsi sanitasi nama file (digunakan oleh kedua fungsi)
+function sanitizeFilename(filename) {
+    // Ganti karakter ilegal dengan underscore
+    const invalidChars = /[\/\\:*?"<>|]/g;
+    filename = filename.replace(invalidChars, '_');
+
+    // Ganti spasi dengan underscore
+    filename = filename.replace(/\s+/g, '_');
+
+    // Pastikan ekstensi .pdf ada
+    if (!filename.endsWith('.pdf')) {
+        filename += '.pdf';
+    }
+
+    // Batasi panjang nama file (opsional, tapi aman)
+    if (filename.length > 255) {
+        filename = filename.substring(0, 255);
+    }
+
+    return filename;
 }

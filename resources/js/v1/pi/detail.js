@@ -603,7 +603,7 @@ function getDataDetail(reqId) {
                         {
                             id: '#status-poin-empat',
                             class: 'bg-light-danger border border-danger',
-                            text: 'Belum Mulai'
+                            text: 'Belum Terbit'
                         },
                         {
                             id: '#status-poin-lima',
@@ -720,7 +720,7 @@ function getDataDetail(reqId) {
                         {
                             id: '#status-poin-empat',
                             class: 'bg-light-success border border-success',
-                            text: 'Selesai'
+                            text: 'Terbit'
                         },
                         {
                             id: '#status-poin-lima',

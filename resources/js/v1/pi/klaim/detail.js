@@ -245,11 +245,12 @@ function getDataDetail() {
             `);
         } else {
             $.each(response.document, function (j, item) {
+                const fileUrl = `${apiUrl}/${item.file_path}`;
                 $('#table-doc').append(`
                     <tr>
                         <td>${j + 1}</td>
                         <td>${item.document_name}</td>
-                        <td><a href="/${item.file_path}" target="_blank">${item.file_name}</a></td>
+                        <td><a href="${fileUrl}" target="_blank">${item.file_name}</a></td>
                     </tr>
                 `);
             });

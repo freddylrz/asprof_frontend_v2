@@ -232,56 +232,68 @@
                         </h4>
                      </div>
 
-                     <div class="col-md-12 app_dotsContainer mt-20">
+                     <div class="col-md-12 mt-3">
                         <style>
-                           .app-link {
+                           .app-link-compact {
                               border: 2px solid #aecaff;
                               background-color: white !important;
-                              padding-block: 10px;
-                              min-height: 80px;
+                              padding: 8px 12px; /* Reduced padding */
                               display: flex;
-                              align-items: center;
+                              align-items: flex-start; /* Align items to top */
                               cursor: default;
                               transition: box-shadow 0.3s ease;
+                              margin-bottom: 10px; /* Add some space between items */
                            }
-                           .app-link:hover {
+                           .app-link-compact:hover {
                               background-color: white !important;
                               box-shadow: #93B4FF 2px 5px 0px 0px;
                            }
-                           .app-link h5 {
+                           .app-link-compact i {
+                              /* Adjust icon size if needed */
+                              font-size: clamp(1.2rem, 3vw, 1.5rem);
+                              margin-right: 10px;
+                              flex-shrink: 0; /* Prevent icon from shrinking */
+                              margin-top: 2px; /* Align icon with text top */
+                           }
+                           .app-link-compact h5 {
                               margin: 0;
-                              font-size: clamp(0.85rem, 2vw, 1.1rem);
+                              font-size: clamp(0.8rem, 2vw, 1rem); /* Smaller font size */
                               font-weight: 500;
+                              line-height: 1.4; /* Improve readability */
                            }
                         </style>
 
-                        <div class="app-link">
-                           <i class="ti ti-caret-right f-28 me-3"></i>
-                           <h5 class="text-black">Memberikan perlindungan dan jaminan apabila ada tuntutan/gugatan dari pasien atau pihak ketiga lainnya yang mengalami kerugian, sebagai akibat dari tugas profesi yang dilakukan.</h5>
-                        </div>
-                        <div class="app-link">
-                           <i class="ti ti-caret-right f-28 me-3"></i>
-                           <h5 class="text-black">Menjaga kondisi finansial apabila terjadi tuntutan/gugatan.</h5>
-                        </div>
-                        <div class="app-link">
-                           <i class="ti ti-caret-right f-28 me-3"></i>
-                           <h5 class="text-black">Meningkatkan kesadaran hukum, etika profesi, dan good practice profesi.</h5>
-                        </div>
-                        <div class="app-link">
-                           <i class="ti ti-caret-right f-28 me-3"></i>
-                           <h5 class="text-black">Menjaga reputasi nama baik tenaga medis dan tenaga kesehatan.</h5>
-                        </div>
-                        <div class="app-link">
-                           <i class="ti ti-caret-right f-28 me-3"></i>
-                           <h5 class="text-black">Sebagai salah satu bentuk tanggung jawab moral dan material atas profesi yang dilakukanya.</h5>
-                        </div>
-                        <div class="app-link">
-                           <i class="ti ti-caret-right f-28 me-3"></i>
-                           <h5 class="text-black">Memperoleh ketenangan dan kenyamanan dalam bekerja dan menjalankan profesinya.</h5>
-                        </div>
-                        <div class="app-link">
-                           <i class="ti ti-caret-right f-28 me-3"></i>
-                           <h5 class="text-black">Mendapatkan perlindungan hukum sepanjang melaksanakan tugas sesuai dengan standar pelayanan profesi, etika profesi, standar prosedur operasional serta kebutuhan pasien, sesuai dengan UU No. 17 Tahun 2023 tentang Kesehatan.</h5>
+                        <div class="card">
+                            <div class="card-body p-3"> {{-- Add padding to card body --}}
+                                <div class="app-link-compact">
+                                    <i class="ti ti-caret-right"></i>
+                                    <h5 class="text-black">Memberikan perlindungan dan jaminan apabila ada tuntutan/gugatan dari pasien atau pihak ketiga lainnya yang mengalami kerugian, sebagai akibat dari tugas profesi yang dilakukan.</h5>
+                                </div>
+                                <div class="app-link-compact">
+                                    <i class="ti ti-caret-right"></i>
+                                    <h5 class="text-black">Menjaga kondisi finansial apabila terjadi tuntutan/gugatan.</h5>
+                                </div>
+                                <div class="app-link-compact">
+                                    <i class="ti ti-caret-right"></i>
+                                    <h5 class="text-black">Meningkatkan kesadaran hukum, etika profesi, dan good practice profesi.</h5>
+                                </div>
+                                <div class="app-link-compact">
+                                    <i class="ti ti-caret-right"></i>
+                                    <h5 class="text-black">Menjaga reputasi nama baik tenaga medis dan tenaga kesehatan.</h5>
+                                </div>
+                                <div class="app-link-compact">
+                                    <i class="ti ti-caret-right"></i>
+                                    <h5 class="text-black">Sebagai salah satu bentuk tanggung jawab moral dan material atas profesi yang dilakukanya.</h5>
+                                </div>
+                                <div class="app-link-compact">
+                                    <i class="ti ti-caret-right"></i>
+                                    <h5 class="text-black">Memperoleh ketenangan dan kenyamanan dalam bekerja dan menjalankan profesinya.</h5>
+                                </div>
+                                <div class="app-link-compact">
+                                    <i class="ti ti-caret-right"></i>
+                                    <h5 class="text-black">Mendapatkan perlindungan hukum sepanjang melaksanakan tugas sesuai dengan standar pelayanan profesi, etika profesi, standar prosedur operasional serta kebutuhan pasien, sesuai dengan UU No. 17 Tahun 2023 tentang Kesehatan.</h5>
+                                </div>
+                            </div>
                         </div>
                      </div>
                   </div>
@@ -307,102 +319,165 @@
                      </div>
 
                      <style>
-                        .txt {
-                           border: 2px solid #aecaff;
-                           height: 120px;
-                           text-align: center;
-                           background-color: #edf2ff !important;
+                        /* Updated compact style for this section */
+                        .kelebihan-card {
+                           border: 1px solid #aecaff; /* Thinner border */
+                           background-color: white !important;
+                           transition: box-shadow 0.3s ease;
+                           margin-bottom: 8px; /* Reduced space between items */
+                           padding: 8px 10px; /* Reduced padding */
+                           display: flex;
+                           align-items: center; /* Vertical align items in the center */
+                        }
+                        .kelebihan-card:hover {
+                           box-shadow: #93B4FF 1px 3px 0px 0px; /* Smaller shadow */
+                        }
+                        .kelebihan-card .avtar {
+                           width: 32px; /* Smaller icon container */
+                           height: 32px;
                            display: flex;
                            align-items: center;
                            justify-content: center;
-                           transition: background-color 0.3s ease, box-shadow 0.3s ease;
-                        }
-                        .txt:hover {
                            background-color: #edf2ff !important;
-                           box-shadow: #93B4FF 0 4px 8px;
+                           border-radius: 6px; /* Slightly rounded */
+                           flex-shrink: 0; /* Prevent shrinking */
+                           margin-right: 10px; /* Reduced space between icon and text */
                         }
-                        .text-desc {
-                           color: black !important;
-                           font-size: clamp(0.85rem, 2vw, 1rem) !important;
-                           margin: 0;
+                        .kelebihan-card i {
+                           font-size: clamp(0.9rem, 2.2vw, 1.2rem); /* Adjusted icon size */
+                           color: #4361ee; /* Color for icons */
+                        }
+                        .kelebihan-card .text-content {
+                           font-size: clamp(0.75rem, 1.8vw, 0.9rem); /* Adjusted font size */
                            font-weight: 500;
+                           margin: 0;
+                           line-height: 1.3; /* Adjusted line height */
+                           color: black !important;
+                           display: flex;
+                           align-items: center; /* Helps with vertical alignment */
+                           min-height: 32px; /* Match icon height for better alignment */
                         }
-                        .premi {
-                           border: #fbb461 3px dashed !important;
+                        .premi-compact {
+                           border: #fbb461 1px dashed !important; /* Thinner border */
                            background-color: #FDF3E7 !important;
-                           padding: 20px;
+                           padding: 12px; /* Reduced padding */
                            transition: box-shadow 0.3s ease;
+                           margin-top: 8px; /* Reduced space above the premi box */
                         }
-                        .premi:hover {
-                           box-shadow: #fbb461 2px 5px 5px 0px;
+                        .premi-compact:hover {
+                           box-shadow: #fbb461 1px 3px 3px 0px; /* Smaller shadow */
+                        }
+                        .premi-compact .text-desc-premi {
+                           font-size: clamp(0.7rem, 1.6vw, 0.85rem) !important; /* Smaller font for premi text */
+                           margin: 0 0 5px 0; /* Adjusted margin */
+                           font-weight: 500;
+                           color: black !important;
+                        }
+                        .premi-compact ul {
+                           margin: 0 0 0 1rem !important; /* Adjusted list margin */
+                           padding-left: 1rem; /* Ensure proper list padding */
+                           font-size: clamp(0.7rem, 1.6vw, 0.85rem) !important; /* Smaller font for list items */
+                        }
+                        .premi-compact li {
+                            margin-bottom: 3px; /* Reduced space between list items */
                         }
                      </style>
 
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc"><b>Free</b> konsultasi dan diskusi.</p>
-                        </div>
-                     </div>
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc"><b>Free</b> Sosialisasi & Edukasi untuk FASYANKES (Pelatihan <b>“Handling Complaint”</b> khusus untuk Fasyankes)<span class="text-danger">*</span>.</p>
-                        </div>
-                     </div>
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc">Pendampingan oleh team medikolegal pada saat terindikasi akan ada gugatan maupun gugatan yang sudah masuk/diterima.</p>
-                        </div>
-                     </div>
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc">Memiliki team Medikolegal & Mediator yang sudah berpengalaman dan bersertifikasi.</p>
-                        </div>
-                     </div>
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc">Mengutamakan penyelesaian klaim/gugatan secara <b>NON LITIGASI</b>.</p>
-                        </div>
-                     </div>
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc">Proses pendaftaran peserta dan cara pembayaran yang mudah dan praktis.</p>
-                        </div>
-                     </div>
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc">Menggunakan sistem IT terkini dengan sistem keamanan berlapis sehingga semua data tersimpan aman dan terpercaya.</p>
-                        </div>
-                     </div>
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc">Didukung oleh perusahaan asuransi terpercaya.</p>
-                        </div>
-                     </div>
-                     <div class="col-md-4 mb-4">
-                        <div class="txt">
-                           <p class="text-desc">Sesuai dengan amanat UU No. 17 Tahun 2023 tentang Kesehatan.</p>
-                        </div>
-                     </div>
+                     <div class="col-md-12">
+                        <div class="card">
+                           <div class="card-body p-2"> {{-- Reduced padding on card body --}}
+                              <div class="row">
+                                 <!-- Left Column (4 items) -->
+                                 <div class="col-md-6 pe-1"> {{-- Reduced right padding --}}
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-message"></i>
+                                       </div>
+                                       <p class="text-content"><b>Free</b>&nbsp;konsultasi dan diskusi.</p>
+                                    </div>
 
-                     <div class="col-md-12 mt-4">
-                        <div class="premi">
-                           <div class="row align-items-center">
-                              <div class="col-md-2 text-center">
-                                 <i class="ti ti-info-circle" style="font-size: 70px; color: seagreen;"></i>
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-school"></i>
+                                       </div>
+                                       <p class="text-content"><b>Free</b>&nbsp;Sosialisasi & Edukasi untuk FASYANKES (Pelatihan&nbsp;<b>“Handling Complaint”</b>&nbsp;khusus untuk Fasyankes)<span class="text-danger">*</span>.</p>
+                                    </div>
+
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-users"></i>
+                                       </div>
+                                       <p class="text-content">Pendampingan oleh team medikolegal pada saat terindikasi akan ada gugatan maupun gugatan yang sudah masuk/diterima.</p>
+                                    </div>
+
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-medical-cross"></i>
+                                       </div>
+                                       <p class="text-content">Memiliki team Medikolegal & Mediator yang sudah berpengalaman dan bersertifikasi.</p>
+                                    </div>
+                                 </div>
+
+                                 <!-- Right Column (5 items) -->
+                                 <div class="col-md-6 ps-1"> {{-- Reduced left padding --}}
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-hand-stop"></i>
+                                       </div>
+                                       <p class="text-content">Mengutamakan penyelesaian klaim/gugatan secara&nbsp;<b>NON LITIGASI</b>.</p>
+                                    </div>
+
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-wallet"></i>
+                                       </div>
+                                       <p class="text-content">Proses pendaftaran peserta dan cara pembayaran yang mudah dan praktis.</p>
+                                    </div>
+
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-server"></i>
+                                       </div>
+                                       <p class="text-content">Menggunakan sistem IT terkini dengan sistem keamanan berlapis sehingga semua data tersimpan aman dan terpercaya.</p>
+                                    </div>
+
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-building-bank"></i>
+                                       </div>
+                                       <p class="text-content">Didukung oleh perusahaan asuransi terpercaya.</p>
+                                    </div>
+
+                                    <div class="kelebihan-card">
+                                       <div class="avtar">
+                                          <i class="ti ti-book"></i>
+                                       </div>
+                                       <p class="text-content">Sesuai dengan amanat UU No. 17 Tahun 2023 tentang Kesehatan.</p>
+                                    </div>
+                                 </div>
                               </div>
-                              <div class="col-md-10">
-                                 <p class="text-desc mb-0">Besarnya premi asuransi berdasarkan limit liability/nilai pertanggungan yang disetujui, tidak membedakan kategori risiko pekerjaan, sebagai berikut:</p>
-                                 <ul style="list-style: circle; margin-left: 1.5rem; font-size: clamp(0.85rem, 2vw, 1rem);">
-                                    <li><b>Named</b>: mulai dari Rp. 900 ribuan dengan limit liability Rp. 500 juta/tahun dan berlaku kelipatannya.</li>
-                                    <li><b>Nakes</b>: mulai dari Rp. 450 ribuan dengan limit liability Rp. 250 juta/tahun dan berlaku kelipatannya.</li>
-                                 </ul>
+
+                              <!-- Premi Info Box -->
+                              <div class="premi-compact">
+                                 <div class="row align-items-start"> {{-- Changed to align-items-start for better control --}}
+                                    <div class="col-auto text-center pe-0">
+                                       <i class="ti ti-info-circle" style="font-size: clamp(1.5rem, 4vw, 2rem); color: seagreen;"></i>
+                                    </div>
+                                    <div class="col ps-2"> {{-- Added left padding --}}
+                                       <p class="text-desc-premi mb-1">Besarnya premi asuransi berdasarkan limit liability/nilai pertanggungan yang disetujui, tidak membedakan kategori risiko pekerjaan, sebagai berikut:</p>
+                                       <ul style="list-style: circle;">
+                                          <li class="mb-1"><b>Named</b>: mulai dari Rp. 900 ribuan dengan limit liability Rp. 500 juta/tahun dan berlaku kelipatannya.</li>
+                                          <li class="mb-0"><b>Nakes</b>: mulai dari Rp. 450 ribuan dengan limit liability Rp. 250 juta/tahun dan berlaku kelipatannya.</li>
+                                       </ul>
+                                    </div>
+                                 </div>
                               </div>
                            </div>
                         </div>
                      </div>
 
-                     <div class="col-12 mt-3">
-                        <p style="font-size: clamp(0.8rem, 1.8vw, 0.95rem); font-weight: 400; text-align: justify;">
+                     <div class="col-12 mt-2"> {{-- Reduced top margin --}}
+                        <p style="font-size: clamp(0.65rem, 1.5vw, 0.8rem); font-weight: 400; text-align: justify; margin-bottom: 0;">
                            <span class="text-danger">*</span> <a href="/syarat-ketentuan">Syarat dan Ketentuan Berlaku</a>
                         </p>
                      </div>

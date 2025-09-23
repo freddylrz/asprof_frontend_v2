@@ -6,19 +6,25 @@
             font-size: 17px;
         }
 
+        .timeline-container {
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
         .multisteps-form__progress {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+            display: flex;
+            min-width: 600px; /* Minimum width to ensure proper spacing */
+            width: 100%;
         }
 
         .multisteps-form__progress-btn {
+            flex: 1;
             transition-property: all;
             transition-duration: 0.15s;
             transition-timing-function: linear;
             transition-delay: 0s;
             position: relative;
             padding-bottom: 30px;
-            /* Add some padding to the bottom for space */
             padding-top: 40px;
             color: #d9534f;
             text-indent: -9999px;
@@ -29,14 +35,14 @@
             font-size: 1.3rem;
             font-weight: 600;
             text-indent: 0;
+            min-width: 120px; /* Minimum width for each step */
         }
 
         @media (max-width: 1000px) {
             .multisteps-form__progress-btn {
                 font-size: 0.9rem;
-                /*padding-top: 30%;*/
                 padding-bottom: 25px;
-                /* Add some padding to the bottom for space */
+                min-width: 100px;
             }
 
             .badge-bottom {
@@ -51,9 +57,8 @@
         @media (max-width: 500px) {
             .multisteps-form__progress-btn {
                 font-size: 0.6rem;
-                /*padding-top: 30%;*/
                 padding-bottom: 25px;
-                /* Add some padding to the bottom for space */
+                min-width: 80px;
             }
 
             .badge-bottom {
@@ -65,13 +70,11 @@
             }
         }
 
-
         @media (max-width: 410px) {
             .multisteps-form__progress-btn {
                 font-size: 0.5rem;
-                /*padding-top: 30%;*/
                 padding-bottom: 25px;
-                /* Add some padding to the bottom for space */
+                min-width: 70px;
             }
 
             .badge-bottom {
@@ -175,13 +178,12 @@
             display: none;
         }
 
-        .container img {
-            /*margin: 100px;*/
+        .zoom-container img {
             transition: transform 0.25s ease;
             cursor: zoom-in;
         }
 
-        input[type=checkbox]:checked~label>img {
+        input[type=checkbox]:checked ~ label > img {
             transform: scale(2);
             cursor: zoom-out;
         }
@@ -194,12 +196,12 @@
             z-index: 9999999 !important;
         }
 
-        .notifier-img>.img {
+        .notifier-img > .img {
             height: 65px !important;
             width: 70px !important;
         }
 
-        table>thead>tr>th {
+        table > thead > tr > th {
             text-align: center;
         }
 
@@ -207,189 +209,235 @@
             padding: unset !important;
         }
     </style>
+
     <div class="pct-body">
-        <div class="mb-5" id="divBack" style="display: none">
-            <button class="btn btn-secondary btn-sm fa-pull-left" onclick="window.history.back();"><i
-                    class="fa fa-arrow-alt-circle-left"></i> Back</button>
-        </div>
-        <div class="mb-5" style="text-align: center">
+        <div class="mb-5 text-center">
             <h1 class="text-center">NO KLAIM</h1>
-            <h2 class="text-center" id="register-no"></h2>
+            <h2 class="text-center" id="register-no">-</h2>
         </div>
-        <div class="mb-5" style="text-align: center">
-            <div class="multisteps-form__progress">
-                <div class="multisteps-form__progress-btn" id="poin-satu">Diajukan <span
-                        class="badge d-inline-block badge-bottom" id="status-poin-satu"></span></div>
-                <div class="multisteps-form__progress-btn" id="poin-dua">Verifikasi <span
-                        class="badge d-inline-block badge-bottom" id="status-poin-dua"></span></div>
-                <div class="multisteps-form__progress-btn" id="poin-tiga">Investigasi <span
-                        class="badge d-inline-block badge-bottom" id="status-poin-tiga"></span></div>
-                <div class="multisteps-form__progress-btn" id="poin-empat">Mediasi <span
-                        class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
-                <div class="multisteps-form__progress-btn" id="poin-lima">Keputusan <span
-                        class="badge d-inline-block badge-bottom" id="status-poin-lima"></span></div>
-                <div class="multisteps-form__progress-btn" id="poin-enam">Selesai <span
-                        class="badge d-inline-block badge-bottom" id="status-poin-enam"></span></div>
+
+        <div class="mb-5 text-center">
+            <div class="timeline-container">
+                <div class="multisteps-form__progress">
+                    <div class="multisteps-form__progress-btn" id="poin-satu">
+                        Diajukan
+                        <span class="badge d-inline-block badge-bottom" id="status-poin-satu"></span>
+                    </div>
+                    <div class="multisteps-form__progress-btn" id="poin-dua">
+                        Verifikasi
+                        <span class="badge d-inline-block badge-bottom" id="status-poin-dua"></span>
+                    </div>
+                    <div class="multisteps-form__progress-btn" id="poin-tiga">
+                        Investigasi
+                        <span class="badge d-inline-block badge-bottom" id="status-poin-tiga"></span>
+                    </div>
+                    <div class="multisteps-form__progress-btn" id="poin-empat">
+                        Mediasi
+                        <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span>
+                    </div>
+                    <div class="multisteps-form__progress-btn" id="poin-lima">
+                        Keputusan
+                        <span class="badge d-inline-block badge-bottom" id="status-poin-lima"></span>
+                    </div>
+                    <div class="multisteps-form__progress-btn" id="poin-enam">
+                        Selesai
+                        <span class="badge d-inline-block badge-bottom" id="status-poin-enam"></span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h6 class="text-muted" style="text-align: right"><i>Tanggal Diterima : <span id="accept-date"></span></i>
-                </h6>
+                <h5 class="text-muted text-end">
+                    <i>Tanggal Diterima : <span id="accept-date">-</span></i>
+                </h5>
             </div>
             <div class="card-body">
-                <div class="row">
+                <div class="row g-4">
                     <div class="col-md-6">
                         <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
-                            <h3 style="text-align: center"> Informasi Polis </h3>
+                            <h3 class="text-center">Informasi Polis</h3>
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <h4>Nama Peserta</h4>
-                                        <p id="nama">-</p>
+                                        <p id="nama" class="mb-0">-</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group">
-                                        <h4>No Sertifikat </h4>
-                                        <p id="polis-no">-</p>
+                                    <div class="mb-3">
+                                        <h4>No Sertifikat</h4>
+                                        <p id="polis-no" class="mb-0">-</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Periode Polis </h4>
-                                        <p id="periode-polis">-</p>
+                                    <div class="mb-3">
+                                        <h4>Periode Polis</h4>
+                                        <p id="periode-polis" class="mb-0">-</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Jaminan Pertanggungan </h4>
-                                        <p id="sum-insured">-</p>
+                                    <div class="mb-3">
+                                        <h4>Jaminan Pertanggungan</h4>
+                                        <p id="sum-insured" class="mb-0">-</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>No. HP </h4>
-                                        <p id="no-hp">-</p>
+                                    <div class="mb-3">
+                                        <h4>No. HP</h4>
+                                        <p id="no-hp" class="mb-0">-</p>
                                     </div>
-                                    <div class="form-group">
-                                        <h4>Profesi </h4>
-                                        <p style="margin-bottom : 2px !important" id="profesi">-</p>
-                                        <label for="">(<i id="kategori"></i>)</label>
+                                    <div class="mb-3">
+                                        <h4>Profesi</h4>
+                                        <p id="profesi" class="mb-1">-</p>
+                                        <label for="">(<i id="kategori">-</i>)</label>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Email</h4>
+                                        <p id="email" class="mb-0">-</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h4>No. STR</h4>
+                                        <p id="str-no" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>No. SIP</h4>
+                                        <p id="sip-no" class="mb-1">-</p>
+                                        <label><i>(<span id="sip-periode">-</span>)</i></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Tempat Praktek</h4>
+                                        <p id="tempat-praktik" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Email </h4>
-                                        <p id="email">-</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <h4>No. STR </h4>
-                                        <p id="str-no">-</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
+                            <h3 class="text-center">Informasi Kontak Alternatif Peserta</h3>
+                            <hr>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>No. SIP </h4>
-                                        <p style="margin-bottom : 2px !important" id="sip-no">-</p>
-                                        <label><i>(<span id="sip-periode"></span>)</i></label>
+                                    <div class="mb-3">
+                                        <h4>Nama</h4>
+                                        <p id="pic-name" class="mb-0">-</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Tempat Praktek </h4>
-                                        <p id="tempat-praktik">-</p>
+                                    <div class="mb-3">
+                                        <h4>Nomor HP</h4>
+                                        <p id="pic-no" class="mb-0">-</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
-
-                            <h3 style="text-align: center">Informasi Data Pasien </h3>
+                            <h3 class="text-center">Informasi Data Pasien</h3>
                             <hr>
-                            <div class="form-group">
-                                <h4>Nama Pasien </h4>
-                                <p id="patient-name">-</p>
+                            <div class="mb-3">
+                                <h4>Nama Pasien</h4>
+                                <p id="patient-name" class="mb-0">-</p>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Usia </h4>
-                                        <p id="patient-age">-</p>
+                                    <div class="mb-3">
+                                        <h4>Usia</h4>
+                                        <p id="patient-age" class="mb-0">-</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Jenis Kelamin </h4>
-                                        <p id="patient-gender">-</p>
+                                    <div class="mb-3">
+                                        <h4>Jenis Kelamin</h4>
+                                        <p id="patient-gender" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Email</h4>
+                                        <p id="patient-email" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Nomor HP</h4>
+                                        <p id="patient-phone" class="mb-0">-</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
-                            <h3 style="text-align: center">Informasi Awal Klaim </h3>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Tanggal Pengaduan</h4>
-                                        <p id="report-date">-</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Tanggal Kejadian</h4>
-                                        <p id="incident-date">-</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Lokasi Kejadian</h4>
-                                        <p id="incident-location">-</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Jenis Tuntutan</h4>
-                                        <p id="cause-of-action">-</p>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="form-group">
-                                <h4>Detail Pengaduan</h4>
-                                <p id="incident-description">-</p>
-                            </div>
-                        </div>
                         <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
-                            <h3 style="text-align: center"> Informasi Kontak Alternatif </h3>
+                            <h3 class="text-center">Informasi Awal Klaim</h3>
                             <hr>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>Nama</h4>
-                                        <p id="pic-name"></p>
+                                    <div class="mb-3">
+                                        <h4>Tanggal Pengaduan</h4>
+                                        <p id="report-date" class="mb-0">-</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h4>No. HP</h4>
-                                        <p id="pic-no"></p>
+                                    <div class="mb-3">
+                                        <h4>Tanggal Kejadian</h4>
+                                        <p id="incident-date" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Lokasi Kejadian</h4>
+                                        <p id="incident-location" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Jenis Tuntutan</h4>
+                                        <p id="cause-of-action" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <h4>Detail Pengaduan</h4>
+                                <p id="incident-description" class="mb-0">-</p>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom:20px">
+                            <h3 class="text-center">Informasi Wali Pasien</h3>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Nama</h4>
+                                        <p id="wali-nama" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Nomor HP</h4>
+                                        <p id="wali-no" class="mb-0">-</p>
                                     </div>
                                 </div>
                             </div>
@@ -403,18 +451,18 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 style="text-align: center">Daftar Dokumen</h3>
+                        <h3 class="text-center">Daftar Dokumen</h3>
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Dokumen</th>
-                                        <th>Dokumen</th>
-                                    </tr>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Dokumen</th>
+                                    <th>Dokumen</th>
+                                </tr>
                                 </thead>
                                 <tbody id="table-doc">
-
+                                <!-- Dynamic content -->
                                 </tbody>
                             </table>
                         </div>
@@ -424,8 +472,9 @@
             <div class="card-footer">
                 <div class="d-flex justify-content-between align-items-center">
                     <button class="btn btn-light-success border border-success btn-sm"
-                        style="display: inline-block; padding-block: 5px" data-bs-toggle="modal"
-                        data-bs-target="#modal-log" id="btn-log">
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-log"
+                            id="btn-log">
                         <i class="fas fa-list"></i> Log Status
                     </button>
 
@@ -437,28 +486,26 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-log">
+    <div class="modal fade" id="modal-log" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLiveLabel">Log Status</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Log Status</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body task-card">
                     <ul class="list-unstyled task-list" id="list-log">
-
+                        <!-- Dynamic content -->
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-right" data-bs-dismiss="modal">Tutup
-                    </button>
+                    <button type="button" class="btn btn-danger pull-right" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
     </div>
 
     @push('levelPluginsJsHeader')
-        <!-- SweetAlert2 -->
         <link rel="stylesheet" href="{{ asset('assets/css/plugins/dataTables.bootstrap5.min.css') }}">
     @endpush
 

@@ -1,7 +1,8 @@
-import { decryptData, encryptData } from "../encrypt.js";
+import { decryptData } from "../encrypt.js";
 
 const tempatPraktikDetails = {}; // Initialize tempatPraktikDetails object
-var registerId;
+var requestId;
+var table;
 
 $(document).ready(function () {
     const expiresIn = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -12,10 +13,10 @@ $(document).ready(function () {
         document.cookie = `piat=${piat}; expires=${expirationTime}; path=/; SameSite=Lax`;
     }
 
-    getDataDetail()
-    getListPolis()
+    getDataDetail();
+    getListPolis();
 
-    // Event listener for "View Detail" button
+    // Event listener for "View Detail" button (SIP)
     $('#list-sip').on('click', '.view-detail', function() {
         const id = $(this).data('id');
         const detail = tempatPraktikDetails[id];
@@ -25,10 +26,10 @@ $(document).ready(function () {
         $('#detailPeriodeAkhirSIP').text(detail.periodeAkhirSIP);
         $('#detailDaerahPenerbitSIP').text(detail.daerahPenerbitSIP);
         if(detail.daerahPenerbitSIP_id === "0"){
-            $('#div-nama-penerbit').show()
+            $('#div-nama-penerbit').show();
             $('#namaPenerbitSIP').text(detail.namaPenerbitSIP);
         } else {
-            $('#div-nama-penerbit').hide()
+            $('#div-nama-penerbit').hide();
             $('#namaPenerbitSIP').text(detail.namaPenerbitSIP);
         }
         $('#detailTempatPraktik').text(detail.tempat);
@@ -36,8 +37,17 @@ $(document).ready(function () {
 
         $('#viewDetailModal').modal('show');
     });
+
+    // Event listener untuk tombol Nota & Kwitansi (ditambahkan setelah tombol dirender)
+    $(document).on('click', '#btn-download-nota', function() {
+        downloadNota();
+    });
+
+    $(document).on('click', '#btn-download-kwitansi', function() {
+        downloadKwitansi();
+    });
 });
-var table
+
 function getListPolis(){
     const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
 
@@ -49,8 +59,6 @@ function getListPolis(){
             "Authorization": `Bearer ${token}`
         },
     }).done(async function(responses) {
-
-        // var response = await decryptData(responses['data'])
         table = $('#policy-history-table').DataTable({
             responsive: true,
             "processing": false,
@@ -110,7 +118,7 @@ async function getDataDetail() {
             "Authorization": `Bearer ${token}`
         },
     }).done(async function(responses) {
-        var response = await decryptData(responses.data)
+        var response = await decryptData(responses.data);
 
         console.log(response);
 
@@ -126,7 +134,7 @@ async function getDataDetail() {
 
         $.each(response['policy'], function(j, item) {
             $('#periode-polis').html(item.polis_start_date + ' s.d. ' + item.polis_end_date);
-            statusId = item.polis_exp; // Adjusted to match response structure
+            statusId = item.polis_exp;
             $('#nomor-polis').html(item.polis_no);
             $('#asuransi').html(item.ins_nama);
             $('#expire-count').html(`(${item.expireCount})`);
@@ -135,7 +143,7 @@ async function getDataDetail() {
         });
 
         $.each(response['data'], function(j, item) {
-            registerId = item.register_no;
+            requestId = item.id;
             $('#nomor-register').html(item.register_no);
             $('#nama').html(item.nama);
             $('#nik').html(item.nik);
@@ -178,27 +186,32 @@ async function getDataDetail() {
             $('#total-tagihan').html(item.total_premi);
             $('#jaminan-pertanggungan-pembayaran').html(item.sum_insured);
 
+            // E-Sertifikat & Master Polis tetap pakai file_path dari policyPath
+            const polisFilePath = response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '#';
+
             $('#div-e-sertifikat').html(`
-                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
+                <a href="${polisFilePath}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
                     Unduh E-Sertifikat
                 </a>
             `);
 
             $('#div-e-polis').html(`
-                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
+                <a href="${polisFilePath}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
                     Unduh Master Polis
                 </a>
             `);
 
+            // Ganti Nota & Kwitansi jadi tombol trigger fungsi
             $('#div-e-nota').html(`
-                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
-                    Unduh Nota
-                </a>
+                <button type="button" class="btn btn-primary w-100" id="btn-download-nota">
+                    <i class="ti ti-download me-2"></i>Unduh Nota
+                </button>
             `);
+
             $('#div-e-kwitansi').html(`
-                <a href="${response.policyPath && response.policyPath.length > 0 ? response.policyPath[0].file_path : '/'}" target="_blank" class="btn btn-primary w-100" id="btn-download-polis">
-                    Unduh Kwitansi
-                </a>
+                <button type="button" class="btn btn-primary w-100" id="btn-download-kwitansi">
+                    <i class="ti ti-download me-2"></i>Unduh Kwitansi
+                </button>
             `);
 
             // Handle SIP display - bisa lebih dari satu
@@ -297,11 +310,12 @@ async function getDataDetail() {
             $('#sipModal').modal('show');
         }
 
-        populateTempatPraktikDetails(response)
-        managePolisAlert(response)
+        populateTempatPraktikDetails(response);
+        managePolisAlert(response);
 
-        Swal.close()
+        Swal.close();
     }).fail(function(response) {
+        Swal.close();
         if (response.status === 404) {
             Swal.fire({
                 title: 'Error!',
@@ -375,7 +389,7 @@ function managePolisAlert(response) {
         }
 
         // Append alert baru ke container (gunakan parent .col-12)
-        $('.col-12:has(#div-polis-alert)').html(polisAlertInnerTemplate);
+        $('.polis-alert-container').html(polisAlertInnerTemplate);
 
         // Update class dan text
         $('#div-polis-alert').removeClass('alert-danger alert-warning').addClass(alertClass);
@@ -419,4 +433,147 @@ function renderList() {
             counter++;
         }
     }
+}
+
+function downloadNota() {
+    const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
+    if (!token) {
+        Swal.fire('Error', 'Token tidak ditemukan. Silakan login ulang.', 'error');
+        return;
+    }
+
+    if (!requestId) {
+        Swal.fire('Error', 'Request ID tidak tersedia.', 'error');
+        return;
+    }
+
+    Swal.fire({
+        title: 'Mengunduh Nota...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    $.ajax({
+        url: `${apiUrl}/api/client/document/nota`,
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        data: {
+            type: 2,
+            reqId: requestId
+        },
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function(blob, status, xhr) {
+            Swal.close();
+
+            // ✅ Ekstrak dan sanitasi filename
+            let filename = "nota.pdf";
+            const disposition = xhr.getResponseHeader('Content-Disposition');
+            if (disposition && disposition.indexOf('filename=') !== -1) {
+                const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                const matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1]) {
+                    filename = matches[1].replace(/['"]/g, '');
+                    // Ganti karakter ilegal dengan underscore
+                    filename = filename.replace(/[\/\\:*?"<>|]/g, '_');
+                    // Ganti spasi dengan underscore
+                    filename = filename.replace(/\s+/g, '_');
+                    // Pastikan ekstensi .pdf tetap ada
+                    if (!filename.endsWith('.pdf')) {
+                        filename += '.pdf';
+                    }
+                }
+            }
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        },
+        error: function(xhr, status, error) {
+            Swal.close();
+            Swal.fire('Gagal', 'Gagal mengunduh nota. Silakan coba lagi.', 'error');
+            console.error("Download Nota Error:", error);
+        }
+    });
+}
+
+function downloadKwitansi() {
+    const token = document.cookie.split('; ').find(row => row.startsWith('piat=')).split('=')[1];
+    if (!token) {
+        Swal.fire('Error', 'Token tidak ditemukan. Silakan login ulang.', 'error');
+        return;
+    }
+
+    if (!requestId) {
+        Swal.fire('Error', 'Request ID tidak tersedia.', 'error');
+        return;
+    }
+
+    Swal.fire({
+        title: 'Mengunduh Kwitansi...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    $.ajax({
+        url: `${apiUrl}/api/client/document/kwitansi`,
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        data: {
+            type: 2,
+            reqId: requestId
+        },
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function(blob, status, xhr) {
+            Swal.close();
+
+            // ✅ Ekstrak dan sanitasi filename
+            let filename = "kwitansi.pdf";
+            const disposition = xhr.getResponseHeader('Content-Disposition');
+            if (disposition && disposition.indexOf('filename=') !== -1) {
+                const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                const matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1]) {
+                    filename = matches[1].replace(/['"]/g, '');
+                    filename = filename.replace(/[\/\\:*?"<>|]/g, '_');
+                    filename = filename.replace(/\s+/g, '_');
+                    if (!filename.endsWith('.pdf')) {
+                        filename += '.pdf';
+                    }
+                }
+            }
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        },
+        error: function(xhr, status, error) {
+            Swal.close();
+            Swal.fire('Gagal', 'Gagal mengunduh kwitansi. Silakan coba lagi.', 'error');
+            console.error("Download Kwitansi Error:", error);
+        }
+    });
 }

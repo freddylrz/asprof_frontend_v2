@@ -11,7 +11,7 @@
                <div class="col-12">
                   <div class="container">
                      <div class="row">
-                        <div class="col-12 m-t-50 m-b-25 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="col-12 m-b-25 wow fadeInLeft" data-wow-delay="0.2s">
                            <h2 class="text-center text-uppercase"
                                style="font-size: clamp(1.15rem, 3vw, 1.7rem);">
                               apa yang dimaksud dengan pialang asuransi?
@@ -23,7 +23,7 @@
                            </p>
                         </div>
 
-                        <div class="col-12 m-t-50 m-b-25 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="col-12 m-b-25 wow fadeInLeft" data-wow-delay="0.2s">
                            <h2 class="text-center text-uppercase"
                                style="font-size: clamp(1.15rem, 3vw, 1.7rem);">
                               mengapa pialang asuransi diperlukan?
@@ -32,7 +32,7 @@
 
                         <div class="col-12">
                            <div class="row">
-                              <div class="col-12 col-lg-6 mb-4">
+                              <div class="col-12 col-lg-6">
                                  <div class="card custom-card bg-light-primary" style="border: 2px solid #000; transition: transform 0.3s ease, box-shadow 0.3s ease;">
                                     <div class="card-body p-3">
                                        <p class="text-center m-b-0" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">
@@ -41,7 +41,7 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-12 col-lg-6 mb-4">
+                              <div class="col-12 col-lg-6">
                                  <div class="card custom-card bg-light-primary" style="border: 2px solid #000; transition: transform 0.3s ease, box-shadow 0.3s ease;">
                                     <div class="card-body p-3">
                                        <p class="text-center m-b-0" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">
@@ -50,7 +50,7 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-12 col-lg-6 mb-4">
+                              <div class="col-12 col-lg-6">
                                  <div class="card custom-card bg-light-primary" style="border: 2px solid #000; transition: transform 0.3s ease, box-shadow 0.3s ease;">
                                     <div class="card-body p-3">
                                        <p class="text-center m-b-0" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">
@@ -59,7 +59,7 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-12 col-lg-6 mb-4">
+                              <div class="col-12 col-lg-6">
                                  <div class="card custom-card bg-light-primary" style="border: 2px solid #000; transition: transform 0.3s ease, box-shadow 0.3s ease;">
                                     <div class="card-body p-3">
                                        <p class="text-center m-b-0" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">
@@ -68,7 +68,7 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-12 col-lg-6 mb-4">
+                              <div class="col-12 col-lg-6">
                                  <div class="card custom-card bg-light-primary" style="border: 2px solid #000; transition: transform 0.3s ease, box-shadow 0.3s ease;">
                                     <div class="card-body p-3">
                                        <p class="text-center m-b-0" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">
@@ -77,7 +77,7 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-12 col-lg-6 mb-4">
+                              <div class="col-12 col-lg-6">
                                  <div class="card custom-card bg-light-primary" style="border: 2px solid #000; transition: transform 0.3s ease, box-shadow 0.3s ease;">
                                     <div class="card-body p-3">
                                        <p class="text-center m-b-0" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">
@@ -274,23 +274,14 @@
                                                allowfullscreen></iframe>
                                     </div>
                                     <div class="col-12 col-md-6">
-                                       <h4 class="m-b-30" style="text-align: justify; line-height: 1.8; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
-                                          PT. Tugu Insurance Brokers atau dikenal dengan Tugu-Bro, merupakan Perusahaan Pialang Asuransi yang didirikan sejak tahun 1976 dan menjadi salah satu pelopor berdirinya industri Pialang Asuransi di Indonesia.
-                                       </h4>
-                                       <h4 class="m-b-30" style="text-align: justify; line-height: 1.8; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
-                                          Tugu-Bro terdaftar dan diawasi oleh Otoritas Jasa Keuangan. Dengan pengalaman lebih dari 48 tahun, Tugu-Bro selalu berinovasi menghadirkan program-program asuransi yang tepat dengan mengedepankan Profesionalitas, Intelektualitas dan Kepuasan Pelanggan yang didukung teknologi Informasi modern, serta tenaga profesional yang bersertifikasi.
-                                       </h4>
-                                       <h4 class="m-b-30" style="text-align: justify; line-height: 1.8; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
-                                          Tugu-Bro menggunakan aplikasi digital yang memudahkan nasabah dalam melakukan proses berasuransi, dimana saja dan kapan saja.
-                                       </h4>
-                                    </div>
-                                    <div class="col-12 mt-4">
-                                       <h4 class="m-b-30" style="text-align: justify; line-height: 1.8; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
-                                          Tugu-Bro memiliki tim Medikolegal dan Mediator berpengalaman serta bersertifikasi, yang akan menjadi sahabat diskusi anda selama berasuransi, kapanpun, mulai dari pemilihan dan penutupan asuransi sampai pendampingan proses klaim, termasuk memberikan layanan Konsultasi, Negosiasi, Mediasi, Konsiliasi, sampai Penilaian atau pendapat para Ahli dibidangnya.
-                                       </h4>
-                                       <h4 class="m-b-30" style="text-align: justify; line-height: 1.8; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
-                                          Kabar baiknya, semua layanan yang kami berikan Free of charge! Kecuali biaya Premi yang harus anda bayarkan.
-                                       </h4>
+                                       <h4 class="m-b-30" style="text-align: justify; line-height: 1.3; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
+                                            PT. Tugu Insurance Brokers (Tugu-Bro) berdiri sejak 1976 dan menjadi pelopor industri Pialang Asuransi di Indonesia. Terdaftar dan diawasi OJK, Tugu-Bro berpengalaman lebih dari 48 tahun menghadirkan program asuransi yang tepat dengan mengutamakan profesionalitas, intelektualitas, dan kepuasan pelanggan.                                       </h4>
+                                       <h4 class="m-b-30" style="text-align: justify; line-height: 1.3; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
+                                            Didukung teknologi digital dan tenaga profesional bersertifikat, Tugu-Bro memudahkan nasabah berasuransi kapan saja dan di mana saja. Kami juga memiliki tim Medikolegal dan Mediator berpengalaman untuk mendampingi Anda, mulai dari pemilihan produk, penutupan polis, hingga proses klaim, termasuk layanan konsultasi, negosiasi, mediasi, konsiliasi, dan pendapat ahli.
+                                        </h4>
+                                       <h4 style="text-align: justify; line-height: 1.3; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
+                                            Semua layanan kami Free of charge!, kecuali biaya premi yang wajib dibayarkan.
+                                        </h4>
                                     </div>
                                  </div>
                               </div>

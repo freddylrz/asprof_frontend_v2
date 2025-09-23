@@ -456,10 +456,10 @@ async function fetchAndDisplayDocuments(sipId) {
     // Daftar dokumen: 1-4 wajib upload jika belum ada, 5 (Master Polis) hanya ditampilkan
     const requiredFileTypes = [
         { type: 1, label: 'Sertifikat' },
+        { type: 5, label: 'Master Polis', optional: true }, // ✅ Tambahkan Master Polis sebagai opsional
         { type: 2, label: 'KTP' },
         { type: 3, label: 'STR' },
         { type: 4, label: 'SIP' },
-        { type: 5, label: 'Master Polis', optional: true } // ✅ Tambahkan Master Polis sebagai opsional
     ];
 
     const $row = $('<div class="row g-3"></div>');

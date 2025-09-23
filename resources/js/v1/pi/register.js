@@ -59,7 +59,7 @@ $(document).ready(function() {
         {
             id: '#status-poin-empat',
             class: 'bg-light-danger',
-            text: 'Belum Mulai'
+            text: 'Belum Terbit'
         },
         {
             id: '#status-poin-lima',

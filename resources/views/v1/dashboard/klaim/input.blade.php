@@ -74,7 +74,7 @@
                            </div>
                         </div>
                         <div class="col-6">
-                           <label for="tempat-praktik" class="form-label">Tempat Praktik <span class="required">*</span></label>
+                           <label for="tempat-praktik" class="form-label">Tempat Praktik</label>
                            <textarea class="form-control" id="tempat-praktik" name="tempat_praktik" disabled rows="2"></textarea>
                         </div>
                      </div>
@@ -84,7 +84,7 @@
                      <hr style="border-top: 2px solid #000000;">
                      <div class="row g-3">
                         <div class="col-6">
-                           <label for="peserta-kontak-nama" class="form-label">Nama Kontak</label>
+                           <label for="peserta-kontak-nama" class="form-label">Nama Kontak Alternatif</label>
                            <input type="text" class="form-control" id="peserta-kontak-nama" name="peserta_kontak_nama" placeholder="Nama kontak alternatif">
                         </div>
                         <div class="col-6">
@@ -160,7 +160,7 @@
                            <input type="text" class="form-control" id="lokasi-kejadian" name="lokasi_kejadian" placeholder="Lokasi kejadian" >
                         </div>
                         <div class="col-6">
-                           <label for="jenis-tuntutan" class="form-label">Jenis Tuntutan <span class="required">*</span></label>
+                           <label for="jenis-tuntutan" class="form-label">Jenis Tuntutan / Gugatan<span class="required">*</span></label>
                            <input type="text" class="form-control" id="jenis-tuntutan" name="jenis_tuntutan" placeholder="Jenis tuntutan hukum" >
                         </div>
                         <div class="col-12">
@@ -174,7 +174,7 @@
                      <hr style="border-top: 2px solid #000000;">
                      <div class="row g-3">
                         <div class="col-12">
-                           <label for="pasien-wali-nama" class="form-label">Nama Kontak</label>
+                           <label for="pasien-wali-nama" class="form-label">Nama Wali Pasien</label>
                            <input type="text" class="form-control" id="pasien-wali-nama" name="pasien_wali_nama" placeholder="Nama kontak wali pasien">
                         </div>
                         <div class="col-6">

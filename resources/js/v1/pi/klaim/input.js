@@ -410,7 +410,7 @@ function renderSIPList(sipDatas) {
         $item.find('input[type="radio"]').on('change', function () {
             if ($(this).is(':checked')) {
                 $('#no-sip').val(sip.sip_no);
-                $('#tempat-praktik').val(`${sip.tempat_praktik} (${sip.location})`);
+                $('#tempat-praktik').val(`${sip.tempat_praktik}\n(${sip.location})`);
                 $('#lokasi-kejadian').val(`${sip.tempat_praktik}`);
                 selectedSIPData = sip;
                 $('#sipModal').modal('hide');
@@ -457,9 +457,9 @@ async function fetchAndDisplayDocuments(sipId) {
     const requiredFileTypes = [
         { type: 1, label: 'Sertifikat' },
         { type: 5, label: 'Master Polis', optional: true }, // ✅ Tambahkan Master Polis sebagai opsional
-        { type: 2, label: 'KTP' },
         { type: 3, label: 'STR' },
         { type: 4, label: 'SIP' },
+        { type: 2, label: 'KTP' },
     ];
 
     const $row = $('<div class="row g-3"></div>');

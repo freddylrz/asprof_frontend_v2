@@ -14,7 +14,7 @@
     </style>
     <div class="row">
         <!-- Header -->
-        
+
 
         <!-- Container untuk alert polis -->
         <div class="polis-alert-container col-12">
@@ -210,6 +210,6 @@
         <!-- Sweet Alert -->
         <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
         {{-- custom js --}}
-        @vite(['resources/js/v1/pi/kepesertaan.js', 'resources/js/v1/pi/count-message.js'])
+        @vite(['resources/js/v1/pi/kepesertaan.js'])
     @endpush
 @endsection

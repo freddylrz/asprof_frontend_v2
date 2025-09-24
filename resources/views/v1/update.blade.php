@@ -20,7 +20,7 @@
             <div class="multisteps-form__progress-btn" id="poin-dua">Proses<br>Persetujuan <span class="badge d-inline-block badge-bottom" id="status-poin-dua"></span></div>
             <div class="multisteps-form__progress-btn" id="poin-lima">Proses<br>Konfirmasi <span class="badge d-inline-block badge-bottom" id="status-poin-lima"></span></div>
             <div class="multisteps-form__progress-btn" id="poin-tiga">Proses<br>Pembayaran <span class="badge d-inline-block badge-bottom" id="status-poin-tiga"></span></div>
-            <div class="multisteps-form__progress-btn" id="poin-empat">Proses<br>Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
+            <div class="multisteps-form__progress-btn" id="poin-empat">Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
          </div>
       </div>
       <div class="alert alert-warning h4" role="alert" style="display: flex; align-items: middle" id="div-revision-alert">

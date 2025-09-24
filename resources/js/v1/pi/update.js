@@ -19,6 +19,11 @@ function getColClass(count) {
     return 'col-md-4'; // untuk 3 card
 }
 
+function getPeriodeColClass(count) {
+    if (count === 3) return 'col-12'; // Jika ada 3 SIP, kolom periode full lebar
+    return 'col-md-6'; // Jika 1 atau 2 SIP, kolom periode setengah lebar
+}
+
 function change_tab(tab_name) {
     var $someTabTriggerEl = $('a[href="' + tab_name + '"]');
     $('#auth-active-slide').html($someTabTriggerEl.data('slide-index'));
@@ -209,32 +214,34 @@ $(document).ready(function () {
     });
 });
 
-// Fungsi utama: render semua card SIP
 function renderAllSIPCards() {
     const container = $('#sip-cards-container');
     container.empty();
-
     const colClass = getColClass(allSIPData.length);
+    const periodeColClass = getPeriodeColClass(allSIPData.length); // Ambil class kolom periode
 
     allSIPData.forEach(sipData => {
+        const loppingIndex = allSIPData.indexOf(sipData) + 1;
         const cardId = sipData.id;
         const namaPenerbitRowStyle = sipData.namaPenerbitSIP ? '' : 'style="display: none;"';
         const cardHtml = `
             <div class="${colClass} mb-4">
                 <div class="card border border-danger sip-card" id="sip-card-${cardId}" data-id="${cardId}">
                     <div class="card-header bg-danger">
-                        <h4 class="text-white mb-0"><i class="ti ti-building-hospital me-1"></i>Surat Izin Praktik</h4>
+                        <h4 class="text-white mb-0"><i class="ti ti-building-hospital me-1"></i>Surat Izin Praktik ${allSIPData.length > 1 ? loppingIndex : ''}</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label required">Nomor SIP</label>
-                                    <input type="text" class="form-control sip-nomor"
-                                           name="sip[${cardId}][nomorSIP]" value="${sipData.nomorSIP || ''}">
+                                    <!-- Ganti input menjadi textarea -->
+                                    <textarea class="form-control sip-nomor" rows="3"
+                                           name="sip[${cardId}][nomorSIP]" placeholder="Masukkan nomor SIP...">${sipData.nomorSIP || ''}</textarea>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <!-- Gunakan class kolom periode dinamis -->
+                            <div class="${periodeColClass}">
                                 <div class="mb-3">
                                     <label class="form-label required">Periode Awal SIP</label>
                                     <div class="input-group date mb-3">
@@ -246,7 +253,8 @@ function renderAllSIPCards() {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                             <!-- Gunakan class kolom periode dinamis -->
+                            <div class="${periodeColClass}">
                                 <div class="mb-3">
                                     <label class="form-label required">Periode Akhir SIP</label>
                                     <div class="input-group date mb-3">
@@ -306,12 +314,10 @@ function renderAllSIPCards() {
             </div>
         `;
         container.append(cardHtml);
-
         // Inisialisasi datepicker & choices
         const newCard = $(`#sip-card-${cardId}`);
         const daerahSelect = newCard.find(`#daerah-penerbit-sip-${cardId}`)[0];
         const today = new Date();
-
         const periodeAwalInput = newCard.find('.periode-awal.datepicker-bs5-sip')[0];
         const periodeAkhirInput = newCard.find('.periode-akhir.datepicker-bs5-sip')[0];
 
@@ -331,7 +337,6 @@ function renderAllSIPCards() {
             });
             if (sipData.periodeAkhirSIP) periodeAkhirInput.value = sipData.periodeAkhirSIP;
         }
-
         if (daerahSelect) {
             const choicesInstance = new Choices(daerahSelect, {
                 itemSelectText: '',
@@ -343,7 +348,6 @@ function renderAllSIPCards() {
             loadCityDataForSelect(choicesInstance, sipData.daerahPenerbitSIP_id);
         }
     });
-
     updateTambahButtonVisibility();
 }
 
@@ -442,7 +446,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
+                                text: 'Belum Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -477,7 +481,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
+                                text: 'Belum Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -559,7 +563,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-success border border-success',
-                                text: 'Selesai'
+                                text: 'Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -607,7 +611,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
+                                text: 'Belum Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -646,7 +650,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
+                                text: 'Belum Terbit'
                             },
                             {
                                 id: '#status-poin-lima',

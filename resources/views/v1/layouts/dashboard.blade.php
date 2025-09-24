@@ -122,13 +122,13 @@
                      <span class="pc-mtext">Riwayat Polis</span>
                      </a>
                   </li> --}}
-                  <li class="pc-item">
+                  {{-- <li class="pc-item">
                      <a href="/chat" class="pc-link" style="font-size: 18px !important;">
                      <i class="ti ti-messages"></i>
                      <span class="pc-mtext">Chat</span>
                      <span class="pc-badge bg-danger d-none">0</span>
                      </a>
-                  </li>
+                  </li> --}}
 
                   <li class="pc-item">
                      <a href="/faq" class="pc-link" target="_blank" style="font-size: 18px !important;">
@@ -238,6 +238,29 @@
       <script>
         const apiUrl = '{{ config('setup.base_url') }}';
         const domain = '{{ config('setup.domain') }}';
+        window.$crisp = [];
+        window.CRISP_WEBSITE_ID = "155d25dd-e83f-49ef-92db-b1399189fb1c";
+        (function() {
+            d = document;
+            s = d.createElement("script");
+            s.src = "https://client.crisp.chat/l.js";
+            s.async = 1;
+            d.getElementsByTagName("head")[0].appendChild(s);
+        })();
+
+        // Jalankan setelah Crisp siap
+        window.$crisp.push(["on", "session:loaded", function () {
+            // Tutup dulu agar nggak auto-restore
+            // window.$crisp.push(["do", "chat:close"]);
+            // Ambil tanggal hari ini (format YYYY-MM-DD)
+            let today = new Date().toISOString().split("T")[0];
+            let lastOpened = localStorage.getItem("crispAutoOpenedDate");
+
+            if (lastOpened !== today) {
+                window.$crisp.push(["do", "chat:open"]); // auto-open
+                localStorage.setItem("crispAutoOpenedDate", today); // simpan tanggal
+            }
+        }]);
 
          // Function to get a cookie by name
          function getCookie(name) {

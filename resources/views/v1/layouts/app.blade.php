@@ -70,7 +70,7 @@
                   </div>
                </div>
             </div>
-            
+
          </div>
       </div>
       <!-- [ Main Content ] end -->
@@ -188,51 +188,11 @@
     </div>
 </div>
 
-<!-- Desktop Chat Button -->
-<button class="btn btn-primary d-non d-md-block" id="toggle-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-    <i class="ti ti-message-circle" id="toggle-chat-icon" style="font-size: 28px"></i>
-</button>
-
-<!-- Mobile Chat Button -->
-<button class="btn btn-primary d-block d-md-none" id="mobile-chat-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-    <i class="ti ti-message-circle" style="font-size: 28px"></i>
-</button>
-
 <!-- Tombol FAQ -->
 <a href="/faq" class="btn btn-info" id="btn-faq" style="position: fixed; bottom: 20px; left: 20px; z-index: 1000;">
     <i style="font-size: 20px">FAQ</i>
 </a>
 
-<!-- Offcanvas for Mobile -->
-<div class="offcanvas offcanvas-bottom offcanvas-fullscreen" id="mobileChat" tabindex="-1">
-    <div class="offcanvas-header bg-primary text-white">
-        <h5 class="text-white" id="mobileChatTitle">Chat</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div id="mobile-department-selection">
-            <p class="text-muted">Silakan pilih departemen:</p>
-            <button class="btn btn-sm btn-light-dark w-100 mb-2 department-btn" data-department="Marketing" role="button">
-                <i class="fas fa-user me-1"></i> Marketing
-            </button>
-            <button class="btn btn-sm btn-light-dark w-100 department-btn" data-department="Medikolegal" role="button">
-                <i class="fas fa-user-md me-1"></i> Medikolegal
-            </button>
-        </div>
-        <div id="mobile-chat-messages" style="height: 75%; overflow-y: auto; border: 1px solid #ddd; padding: 10px; display: none;">
-            <p class="text-muted">No messages yet...</p>
-        </div>
-        <div class="mt-2" id="mobile-chat-input-section" style="display: none;">
-            <div class="chat-input-container">
-                <textarea class="form-control chat-input" id="chat-input" placeholder="Type your message here..."></textarea>
-                <button class="btn btn-primary send-btn" id="send-message">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
       {{-- <a href="#" class="btn btn-success btn-lg" target="_blank"style="position: fixed; bottom: 20px; right: 20px; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
       <i class="fab fa-whatsapp" style="font-size: 28px;"></i>
@@ -253,6 +213,30 @@
 
       <script>
         $(document).ready(function () {
+            window.$crisp = [];
+            window.CRISP_WEBSITE_ID = "155d25dd-e83f-49ef-92db-b1399189fb1c";
+            (function() {
+                d = document;
+                s = d.createElement("script");
+                s.src = "https://client.crisp.chat/l.js";
+                s.async = 1;
+                d.getElementsByTagName("head")[0].appendChild(s);
+            })();
+
+            // Jalankan setelah Crisp siap
+            window.$crisp.push(["on", "session:loaded", function () {
+                // Tutup dulu agar nggak auto-restore
+                // window.$crisp.push(["do", "chat:close"]);
+                // Ambil tanggal hari ini (format YYYY-MM-DD)
+                let today = new Date().toISOString().split("T")[0];
+                let lastOpened = localStorage.getItem("crispAutoOpenedDate");
+
+                if (lastOpened !== today) {
+                    window.$crisp.push(["do", "chat:open"]); // auto-open
+                    localStorage.setItem("crispAutoOpenedDate", today); // simpan tanggal
+                }
+            }]);
+
             // Unified function to handle department selection
             function selectDepartment(department) {
                 if (department === 'Marketing') {

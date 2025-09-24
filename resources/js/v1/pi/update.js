@@ -258,7 +258,7 @@ function renderAllSIPCards() {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12">
+                            <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label required">Daerah Penerbit SIP</label>
                                     <select class="form-select daerah-penerbit-select"
@@ -284,8 +284,13 @@ function renderAllSIPCards() {
                             </div>
                             <div class="col-12 text-center">
                                 <p><strong>Foto Surat Izin Praktik</strong></p>
-                                <img src="${sipData.unggahSIPPreview || (sipData.unggahSIP ? (typeof sipData.unggahSIP === 'string' ? sipData.unggahSIP : URL.createObjectURL(sipData.unggahSIP)) : '/assets/images/no-image.png')}"
+                                ${sipData.unggahSIP || sipData.unggahSIPPreview ? `
+                                <img src="${sipData.unggahSIPPreview || (sipData.unggahSIP ? (typeof sipData.unggahSIP === 'string' ? sipData.unggahSIP : URL.createObjectURL(sipData.unggahSIP)) : '/assets/images/no-image.jpg')}"
                                      alt="Foto SIP" class="img-fluid sip-image" style="max-height: 200px;">
+                                ` : `
+                                <p class="text-muted">Tidak ada foto/gambar</p>
+                                `}
+                                <label class="form-label mt-2">Upload Foto SIP</label>
                                 <input type="file" class="form-control mt-2 unggah-sip"
                                        name="sip[${cardId}][unggahSIP]" accept=".jpg, .jpeg, .png">
                                 <input type="hidden" name="sip[${cardId}][existingImage]" value="${sipData.unggahSIP || ''}">
@@ -1174,7 +1179,7 @@ async function handleupdateData(reqId) {
         url: `${apiUrl}/api/client/request/update-confirmation`,
         method: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ data: encryptedData }), // Bungkus dalam objek dengan key 'data'
+        data: JSON.stringify({  encryptedData }), // Bungkus dalam objek dengan key 'data'
     })
     .done(async function (apiResponse) { // apiResponse adalah objek JSON yang diterima dari server
         // console.log("Raw API Response:", apiResponse); // Untuk debugging

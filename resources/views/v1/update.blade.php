@@ -1,4 +1,4 @@
-@extends('v1.layouts..app')
+@extends('v1.layouts.app') {{-- Perbaikan typo: v1.layouts..app -> v1.layouts.app --}}
 @push('levelPluginsJsh')
 <style>
    .required:after {
@@ -20,7 +20,7 @@
             <div class="multisteps-form__progress-btn" id="poin-dua">Proses<br>Persetujuan <span class="badge d-inline-block badge-bottom" id="status-poin-dua"></span></div>
             <div class="multisteps-form__progress-btn" id="poin-lima">Proses<br>Konfirmasi <span class="badge d-inline-block badge-bottom" id="status-poin-lima"></span></div>
             <div class="multisteps-form__progress-btn" id="poin-tiga">Proses<br>Pembayaran <span class="badge d-inline-block badge-bottom" id="status-poin-tiga"></span></div>
-            <div class="multisteps-form__progress-btn" id="poin-empat">Proses<br>Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
+            <div class="multisteps-form__progress-btn" id="poin-empat">Polis <span class="badge d-inline-block badge-bottom" id="status-poin-empat"></span></div>
          </div>
       </div>
       <div class="alert alert-warning h4" role="alert" style="display: flex; align-items: middle" id="div-revision-alert">
@@ -121,13 +121,14 @@
                            </div>
                         </div>
                         <div class="col-12 mt-4">
-                                 <div class="sip-cards-container" id="sip-cards-container">
-                                    <!-- SIP cards will be dynamically added here -->
-                                 </div>
-                                 <div class="text-center mt-3">
-                                    <button type="button" class="btn btn-primary d-inline-flex" id="btn-tambah-sip">
-                                    <i class="ti ti-plus me-1"></i>Tambah SIP
-                                    </button>
+                           <!-- Perubahan: Hapus class sip-cards-container dari .row -->
+                           <div class="row" id="sip-cards-container">
+                              <!-- SIP cards will be dynamically added here -->
+                           </div>
+                           <div class="text-center mt-3">
+                              <button type="button" class="btn btn-primary d-inline-flex" id="btn-tambah-sip">
+                              <i class="ti ti-plus me-1"></i>Tambah SIP
+                              </button>
                            </div>
                         </div>
                      </div>

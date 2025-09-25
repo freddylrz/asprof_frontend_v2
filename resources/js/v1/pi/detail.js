@@ -1,10 +1,7 @@
 import { decryptData, encryptData } from "../encrypt.js";
 import Echo from 'laravel-echo';
-
 import Pusher from 'pusher-js';
-
 window.Pusher = Pusher;
-
 window.Echo = new Echo({
     broadcaster: 'reverb',
     key: import.meta.env.VITE_REVERB_APP_KEY,
@@ -14,11 +11,9 @@ window.Echo = new Echo({
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') == 'https',
     enabledTransports: ['ws', 'wss'],
 });
-
 const tempatPraktikDetails = {}; // Initialize tempatPraktikDetails object
 var registerId;
 let paymentStatusInterval; // Variable to store the interval ID
-
 $(document).ready(function() {
     // Get reqId from the global variable
     var reqId = window.reqId;
@@ -28,25 +23,19 @@ $(document).ready(function() {
     const url = new URL(urlString);
     // Get the value of the status_tib parameter
     const statusTib = url.searchParams.get('status_tib');
-
     var paymentModal = $('#paymentModal');
-
     // Initialize the modal with static backdrop and keyboard false
     var modal = new bootstrap.Modal(paymentModal.get(0), {
         backdrop: 'static',
         keyboard: false
     });
-
     // Set up the channel with the request-specific ID
     const requestStatusChannel = window.Echo.channel(`requestStatus-channel.${reqId}`);
-
     // Listen for the 'request.status' event
     requestStatusChannel.listen('.request.status', function(data) {
-
         // Parse statusId and reqId from the data object
         const statusId = data.statusId;
         const reqId = data.reqId;
-
         // Add actions based on statusId
         if (statusId === "2") {
             // Reload the page for statusId 2
@@ -56,7 +45,6 @@ $(document).ready(function() {
             window.location.href = `/edit/${reqId}`;
         }
     });
-
     // Function for "Revisi Data" button
     $('#update-confirm').on('click', function () {
         Swal.fire({
@@ -75,7 +63,6 @@ $(document).ready(function() {
             }
         });
     });
-
     // Function for "Konfirmasi" button
     $('#confirm-now').on('click', function () {
         Swal.fire({
@@ -94,7 +81,6 @@ $(document).ready(function() {
             }
         });
     });
-
     // Add event listener for the close button
     $('#closePaymentModal').on('click', function() {
         Swal.fire({
@@ -114,7 +100,6 @@ $(document).ready(function() {
             }
         });
     });
-
     // Function to handle konfirmasi-pembayaran button click
     $('#konfirmasi-pembayaran').on('click', function() {
         var selectedPaymentMethod = $('input[name="pembayaran"]:checked').data('group');
@@ -123,14 +108,12 @@ $(document).ready(function() {
         const bayarButton = $(this);
         bayarButton.data('original-text', bayarButton.html());
         setLoading(bayarButton, true);
-
         if (!selectedPaymentMethod) {
             Swal.fire({
                 text: 'Silakan pilih metode pembayaran sebelum melanjutkan.',
                 icon: 'warning',
                 showConfirmButton: true
             });
-
             setLoading(bayarButton, false);
         } else {
             if (selectedPaymentMethod != 3) {
@@ -141,7 +124,6 @@ $(document).ready(function() {
                         switchTab(`#payment-${selectedPaymentMethod}`);
                         // Hide all payment outputs before showing the selected one
                         hideAllPaymentOutputs();
-
                         // Handle different payment method outputs
                         switch (selectedPaymentId) {
                             case 1: // Permata Virtual Account
@@ -209,9 +191,7 @@ $(document).ready(function() {
                                 console.log('Unknown payment method');
                         }
                     })
-
                     setLoading(bayarButton, false);
-
                     listenToPaymentStatus(reqId);
                 });
             } else {
@@ -222,7 +202,6 @@ $(document).ready(function() {
             }
         }
     });
-
     // Function to handle ccdcForm submit
     $('#ccdcForm').on('submit', function(e) {
         e.preventDefault();
@@ -238,16 +217,13 @@ $(document).ready(function() {
             })
         });
     });
-
     // Function to handle cek-status-bayar button click
     $('#cek-status-bayar').on('click', function() {
         const cekStatusButton = $(this);
         cekStatusButton.data('original-text', cekStatusButton.html());
         setLoading(cekStatusButton, true);
-
         getPaymentStatus(reqId)
     });
-
     // Function to handle back to main tab button click
     $('.back-to-main').on('click', function() {
         $('#footer-main').show();
@@ -255,56 +231,46 @@ $(document).ready(function() {
         hideAllPaymentOutputs(); // Hide all payment outputs
         switchTab('#main');
     });
-
     // Attach the copy functionality to the copy button
     $(".copyVirtualAccount").on('click', function() {
         var hiddenInput = $(this).closest('.media').find('input[type="text"]');
         copyToClipboard(hiddenInput[0]);
     });
-
     $(".enambelas").inputmask({
         mask: "9999 9999 9999 9999",
         placeholder: ""
     });
-
     $(".tiga").inputmask({
         mask: "999",
         placeholder: ""
     });
-
     $(".dua").inputmask({
         mask: "99",
         placeholder: ""
     });
-
     // Check if statusTib is not null or undefined
     if (statusTib === 1) {
         handleDeletePayment(reqId);
     }
-
     // Check if reqId is not null or undefined
     if (reqId !== null && reqId !== undefined) {
         getDataDetail(reqId)
     } else {
         window.location.href = '/pendaftaran';
     }
-
     $('#btn_nota').on('click', function() {
         invoice(reqId)
     })
-
     // Handle paid-now button click
     $('#paid-now').on('click', function() {
         // handlePayment(reqId)
         getPaymentStatus(reqId)
         getPaymentMethod()
     })
-
     // Event listener for "View Detail" button
     $('#list-sip').on('click', '.view-detail', function() {
         const id = $(this).data('id');
         const detail = tempatPraktikDetails[id];
-
         $('#detailNomorSIP').text(detail.nomorSIP);
         $('#detailPeriodeAwalSIP').text(detail.periodeAwalSIP);
         $('#detailPeriodeAkhirSIP').text(detail.periodeAkhirSIP);
@@ -318,16 +284,12 @@ $(document).ready(function() {
         }
         $('#detailTempatPraktik').text(detail.tempat);
         $('#file_sip').attr('href', detail.unggahSIP ? detail.unggahSIP : '#'); // Set the SIP link
-
         $('#viewDetailModal').modal('show');
     });
-
 });
-
 function countdownSuccessPayment() {
     var countdownElement = $('#countdown-success-payment');
     var countdownValue = parseInt(countdownElement.text());
-
     function updateCountdown() {
         if (countdownValue > 0) {
             countdownValue--;
@@ -337,10 +299,8 @@ function countdownSuccessPayment() {
             location.reload();
         }
     }
-
     updateCountdown();
 }
-
 // Function to toggle loading state on a button
 function setLoading(button, isLoading) {
     if (isLoading) {
@@ -351,7 +311,6 @@ function setLoading(button, isLoading) {
         button.prop('disabled', false);
     }
 }
-
 // Function to copy the value from the hidden input to the clipboard
 function copyToClipboard(element) {
     element.select();
@@ -364,10 +323,8 @@ function copyToClipboard(element) {
         timer: 1000,
     });
 }
-
 function makeCountdown(expiryTime, countdownElementId) {
     const countdownElement = document.getElementById(countdownElementId);
-
     // Make the streaming request using Fetch API
     fetch(`/api/timer?expire_date=${expiryTime}`, {
         method: "GET",
@@ -379,31 +336,25 @@ function makeCountdown(expiryTime, countdownElementId) {
             if (!response.body) {
                 throw new Error("ReadableStream not supported");
             }
-
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let data = '';
-
             // Function to process each chunk of the stream
             function processChunk({ done, value }) {
                 if (done) {
                     console.log("Streaming selesai.");
                     return;
                 }
-
                 data += decoder.decode(value, { stream: true });
-                const chunks = data.split('\n'); // Split the stream by newline
-
+                const chunks = data.split(''); // Split the stream by newline
                 // Process each chunk
                 data = chunks.pop(); // Retain the last incomplete chunk for the next iteration
                 chunks.forEach(chunk => {
                     if (chunk.trim()) {
                         try {
                             const jsonData = JSON.parse(chunk);
-
                             // Update the countdown
                             countdownElement.textContent = jsonData.timer;
-
                             // Check if the countdown has finished
                             if (jsonData.is_finished) {
                                 console.log("Waktu pembayaran telah habis.");
@@ -421,7 +372,6 @@ function makeCountdown(expiryTime, countdownElementId) {
                                     $('#footer-main').show();
                                     clearCountdowns();
                                 });
-
                                 reader.cancel(); // Stop reading further chunks
                             }
                         } catch (error) {
@@ -429,25 +379,20 @@ function makeCountdown(expiryTime, countdownElementId) {
                         }
                     }
                 });
-
                 // Continue reading the next chunk
                 return reader.read().then(processChunk);
             }
-
             // Start reading the stream
             return reader.read().then(processChunk);
         })
         .catch(error => console.error('Error during streaming:', error));
 }
-
 function listenToPaymentStatus(roomId) {
     // Set up the channel for the specified room ID
     const paymentStatusChannel = window.Echo.channel(`paymentStatus-channel.${roomId}`);
-
     // Listen for the 'payment.status' event
     paymentStatusChannel.listen('.payment.status', function (data) {
         console.log(data.data);
-
         // Check if `data` equals 1, and perform specific actions
         if (data.data) {
             // Call custom functions
@@ -457,7 +402,6 @@ function listenToPaymentStatus(roomId) {
         }
     });
 }
-
 // Function to hide all payment output elements
 function hideAllPaymentOutputs() {
     $('#va-output').hide();
@@ -467,7 +411,6 @@ function hideAllPaymentOutputs() {
     $('#shopeepay-output').hide();
     $('#cc-dc-form').hide();
 }
-
 // Function to switch tabs
 function switchTab(tabId) {
     const tabTrigger = $(`a[href="${tabId}"]`);
@@ -475,7 +418,6 @@ function switchTab(tabId) {
     const tab = new bootstrap.Tab(tabTrigger[0]);
     tab.show();
 }
-
 function getDataDetail(reqId) {
     Swal.fire({
         icon: "info",
@@ -483,7 +425,6 @@ function getDataDetail(reqId) {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-
     $.ajax({
         "url": `${apiUrl}/api/client/request/detail?reqId=${reqId}`,
         "method": "GET",
@@ -491,17 +432,14 @@ function getDataDetail(reqId) {
     }).done(async function(responses) {
         var response = await decryptData(responses.data)
         console.log(response);
-
         var statusId;
         var sipDocuments = {}; // Untuk menyimpan dokumen SIP berdasarkan tempat_praktik_id
-
         // Map dokumen SIP berdasarkan tempat_praktik_id
         $.each(response['document'], function(j, doc) {
             if (doc.file_type == 3) { // SIP document
                 sipDocuments[doc.tempat_praktik_id] = doc.link;
             }
         });
-
         $.each(response['data'], function(j, item) {
             registerId = item.register_no;
             statusId = item.status_id;
@@ -521,11 +459,9 @@ function getDataDetail(reqId) {
                 $('#kontak-darurat').html(item.kontak_darurat ? item.kontak_darurat : '-')
                 $('#nomor-darurat').html(item.nomor_darurat ? item.nomor_darurat : '-')
             }
-
             // Profesi
             $('#ketegori-profesi').html(item.profesi_desc)
             $('#profesi').html(item.profesi_kategori_desc)
-
             // Plan
             $('#plan').html(item.plan_desc)
             $('#premi-tahunan').html(item.premi)
@@ -552,21 +488,26 @@ function getDataDetail(reqId) {
                     <p class="h5 text-center">Asuransi ${item.ins_nama}</p>
                 </div>
             `)
-
             $('#list-sip-container').empty(); // Clear existing content
-
             if (response.praktik && response.praktik.length > 0) {
                 $.each(response.praktik, function(index, sipItem) {
                     $('#list-sip-container').append(`
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <p class="mb-0 h5">No. SIP : ${sipItem.sip_no || '-'}</p>
-                            <button type="button" class="btn btn-sm btn-primary view-sip-btn" data-sip-index="${index}">
-                                Lihat SIP
-                            </button>
+                        <div class="d-flex flex-column mb-2">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <div class="flex-grow-1 me-2">
+                                    <p class="mb-0 h5" style="line-height: 1.4; word-break: break-word;">
+                                        No. SIP : ${sipItem.sip_no || '-'}
+                                    </p>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-primary view-sip-btn"
+                                        data-sip-index="${index}"
+                                        style="min-width: 85px; flex-shrink: 0;">
+                                    Lihat SIP
+                                </button>
+                            </div>
                         </div>
                     `);
                 });
-
                 // Store SIP data globally for modal access
                 window.currentSIPData = response.praktik;
                 window.sipDocuments = sipDocuments; // Store document mapping
@@ -580,7 +521,6 @@ function getDataDetail(reqId) {
                 `);
             }
         })
-
         const getStatusesByStatusId = (statusId) => {
             switch (statusId) {
                 case 1:
@@ -833,13 +773,10 @@ function getDataDetail(reqId) {
                     ];
             }
         };
-
         const statuses = getStatusesByStatusId(statusId);
-
         statuses.forEach(status => {
             $(status.id).addClass(status.class).text(status.text);
         });
-
         // Initial button settings based on status_id
         if (statusId === 5) {
             $('#btn_info').show();
@@ -848,36 +785,34 @@ function getDataDetail(reqId) {
             $('#btn_info').hide();
             $('#btn_nota').hide();
         }
-
         if (statusId === 3) {
             $('#revision-alert').html(`Catatan: ${response.revision}`)
             $('#btn_edit').show();
             $('#div-revision-alert').show();
-        } else if (statusId === 8) {
+        } else if (statusId === 7) {
             $('#revision-alert').html(`Silahkan lanjutkan merevisi data Anda!`)
             $('#btn_edit').show();
+            $('#div-revision-alert').show();
+        } else if (statusId === 8) {
+            $('#revision-alert').html(`Data sedang dalam proses oleh tim Tugubro.`)
+            $('#btn_edit').hide();
             $('#div-revision-alert').show();
         } else {
             $('#btn_edit').hide();
             $('#div-revision-alert').hide();
         }
-
         if (statusId === 2) {
             // Call getPaymentStatus immediately
             getPaymentStatus(reqId);
-
             listenToPaymentStatus(reqId);
             $('#payment-footer').removeClass('d-none');
             $('#container-detail').css('margin-bottom', '10rem');
         }
-
         if (statusId === 7) {
             $('#confirm-footer').removeClass('d-none');
             $('#container-detail').css('margin-bottom', '10rem');
         }
-
         populateTempatPraktikDetails(response)
-
         $('#list-log').html('')
         $.each(response['log'], function(j, item) {
             $('#list-log').append(`
@@ -889,7 +824,6 @@ function getDataDetail(reqId) {
                     </li>
                     `)
         })
-
         // Handle documents
         $.each(response['document'], function(j, item) {
             if (item.file_type == 1) {
@@ -904,17 +838,13 @@ function getDataDetail(reqId) {
             }
             // SIP documents handled dynamically in the SIP section
         })
-
         if (response.data && response.data.length > 0) {
             const dataStr = response.data[0];
-
             // Isi nomor STR
             $('#nomor-str').empty().append(` No. STR : ${dataStr.str_no || '-'}`);
-
             // Isi status STR dengan badge yang sesuai
             const statusText = dataStr.str_stat == "1" ? 'Seumur Hidup' : 'Belum Seumur Hidup';
             $('#status-str').empty().append(`Status: ${statusText}`);
-
             // Isi periode STR berdasarkan kondisi
             let periodeText = '';
             if (dataStr.str_stat == "1") {
@@ -923,12 +853,10 @@ function getDataDetail(reqId) {
                 periodeText = `Periode Akhir: ${dataStr.str_date_end || '-'}`;
             }
             $('#periode-str').empty().append(periodeText);
-
             // Populate modal data for STR
             $('#modalNomorSTR').empty().append(dataStr.str_no || '-')
             $('#modalStatusSTR').empty().append(statusText)
             $('#modalPenerbitSTR').empty().append(dataStr.str_penerbit || '-')
-
             // Kondisi: jika str_stat == 1 maka tampilkan str_date_start, selain itu str_date_end
             if (dataStr.str_stat == "1") {
                 $('#modalPeriodeAwalSTR').empty().append(dataStr.str_date_start || '-')
@@ -941,16 +869,13 @@ function getDataDetail(reqId) {
                 $('#modalPeriodeAkhirSTR').closest('.mb-3').show();
             }
         }
-
         // Event listener untuk tombol Lihat SIP (diletakkan di luar loop untuk menghindari multiple binding)
         $(document).off('click', '.view-sip-btn').on('click', '.view-sip-btn', function() {
             const sipIndex = $(this).data('sip-index');
             const sipData = window.currentSIPData[sipIndex];
-
             // Populate modal SIP dengan data yang sesuai
             populateSIPModal(sipData, sipIndex);
         });
-
         // Function untuk populate data ke modal SIP
         function populateSIPModal(sipData, sipIndex) {
             $('#detailNomorSIP').empty().append(sipData.sip_no || '-');
@@ -958,7 +883,6 @@ function getDataDetail(reqId) {
             $('#detailPeriodeAkhirSIP').empty().append(sipData.sip_date_end || '-');
             $('#detailDaerahPenerbitSIP').empty().append(sipData.sip_penerbit || '-');
             $('#detailTempatPraktik').empty().append(sipData.tempat_praktik || '-');
-
             // Set image for SIP
             const sipDocumentLink = window.sipDocuments[sipData.id];
             if (sipDocumentLink) {
@@ -968,14 +892,11 @@ function getDataDetail(reqId) {
                 $('#sipImage').attr('src', '');
                 $('#downloadSIP').attr('href', '#');
             }
-
             // Hide nama penerbit section since it's not in the API response
             $('#div-nama-penerbit').hide();
-
             // Show modal
             $('#sipModal').modal('show');
         }
-
         $.each(response['paid'], function(j, item) {
             $('#divPay').html(
                 ` <div class="row">
@@ -1007,9 +928,7 @@ function getDataDetail(reqId) {
             `
             )
         })
-
         Swal.close();
-
         if (statusId === 6) {
             Swal.fire({
                 title: 'Pendaftaran Berhasil!',
@@ -1039,10 +958,8 @@ function getDataDetail(reqId) {
                 message: 'An unexpected error occurred'
             };
         }
-
         // Ensure data.message exists
         const message = data.message || 'An unexpected error occurred';
-
         Swal.fire({
             icon: 'error',
             text: message,
@@ -1055,14 +972,12 @@ function getDataDetail(reqId) {
         });
     });
 }
-
 // Function to dynamically populate tempatPraktikDetails from response
 function populateTempatPraktikDetails(response) {
     response.praktik.forEach((item) => {
         const id = item.id; // Use the item id as the key
         const sipDocument = response.document.find(doc => doc.tempat_praktik_id === id && doc.file_type === 3);
         const sipURL = sipDocument ? sipDocument.link : '';
-
         tempatPraktikDetails[id] = {
             nomorSIP: item.sip_no,
             periodeAwalSIP: item.sip_date_start,
@@ -1075,7 +990,6 @@ function populateTempatPraktikDetails(response) {
     });
     renderList();
 }
-
 // Function to render table based on tempatPraktikDetails
 function renderTable() {
     const $tbody = $('#tbody-daerah-praktik');
@@ -1101,7 +1015,6 @@ function renderTable() {
         }
     }
 }
-
 // Function to render list based on tempatPraktikDetails
 function renderList() {
     const listSIP = $('#list-sip');
@@ -1121,7 +1034,6 @@ function renderList() {
         }
     }
 }
-
 function polis(reqId) {
     Swal.fire({
         icon: 'info',
@@ -1129,26 +1041,21 @@ function polis(reqId) {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
     var url = `${apiUrl}/api/generate/polis?reqId=${reqId}`;
-
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,
         redirect: 'follow',
         mimeType: "multipart/form-data",
     };
-
     fetch(url, requestOptions)
         .then(response => {
             var contentDisposition = response.headers.get('Content-Disposition');
             if (contentDisposition) {
                 var filename = contentDisposition.split('filename=')[1];
                 filename = filename.replace(/["']/g, "");
-
                 response.blob().then(blob => {
                     var url = window.URL.createObjectURL(blob);
                     var a = document.createElement('a');
@@ -1158,7 +1065,6 @@ function polis(reqId) {
                     a.click();
                     a.remove(); // afterwards we remove the element again
                 });
-
                 Swal.fire({
                     icon: 'success',
                     text: "Download berhasil!",
@@ -1167,7 +1073,6 @@ function polis(reqId) {
             } else {
                 var filename = `polis-${registerId}.pdf`;
                 filename = filename.replace(/["']/g, "");
-
                 response.blob().then(blob => {
                     var url = window.URL.createObjectURL(blob);
                     var a = document.createElement('a');
@@ -1177,7 +1082,6 @@ function polis(reqId) {
                     a.click();
                     a.remove(); // afterwards we remove the element again
                 });
-
                 Swal.fire({
                     icon: 'success',
                     text: "Download berhasil!",
@@ -1193,7 +1097,6 @@ function polis(reqId) {
             });
         });
 }
-
 function invoice(reqId) {
     Swal.fire({
         icon: 'info',
@@ -1201,26 +1104,21 @@ function invoice(reqId) {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
     var url = `${apiUrl}/api/generate/invoice?reqId=${reqId}&type=1`;
-
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,
         redirect: 'follow',
         mimeType: "multipart/form-data",
     };
-
     fetch(url, requestOptions)
         .then(response => {
             var contentDisposition = response.headers.get('Content-Disposition');
             if (contentDisposition) {
                 var filename = contentDisposition.split('filename=')[1];
                 filename = filename.replace(/["']/g, "");
-
                 response.blob().then(blob => {
                     var url = window.URL.createObjectURL(blob);
                     var a = document.createElement('a');
@@ -1230,7 +1128,6 @@ function invoice(reqId) {
                     a.click();
                     a.remove(); // afterwards we remove the element again
                 });
-
                 Swal.fire({
                     icon: 'success',
                     text: "Download berhasil!",
@@ -1239,7 +1136,6 @@ function invoice(reqId) {
             } else {
                 var filename = `Invoice-${registerId}.pdf`;
                 filename = filename.replace(/["']/g, "");
-
                 response.blob().then(blob => {
                     var url = window.URL.createObjectURL(blob);
                     var a = document.createElement('a');
@@ -1249,7 +1145,6 @@ function invoice(reqId) {
                     a.click();
                     a.remove(); // afterwards we remove the element again
                 });
-
                 Swal.fire({
                     icon: 'success',
                     text: "Download berhasil!",
@@ -1265,7 +1160,6 @@ function invoice(reqId) {
             });
         });
 }
-
 function handlePayment(reqId) {
     snap.show();
     ajaxGetToken(reqId, function(error, snapToken) {
@@ -1324,14 +1218,11 @@ function handlePayment(reqId) {
         }
     });
 }
-
 function ajaxGetToken(reqId, callback) {
     var snapToken;
     // Request get token to your server & save result to snapToken variable
-
     const form = new FormData();
     form.append("reqId", reqId);
-
     $.ajax({
         async: true,
         crossDomain: true,
@@ -1369,10 +1260,8 @@ function ajaxGetToken(reqId, callback) {
                 message: 'An unexpected error occurred'
             };
         }
-
         // Ensure data.message exists
         const message = data.message || 'An unexpected error occurred';
-
         Swal.fire({
             icon: 'error',
             text: message,
@@ -1380,11 +1269,9 @@ function ajaxGetToken(reqId, callback) {
         });
     });
 }
-
 function handleDeletePayment(reqId) {
     const form = new FormData();
     form.append("reqId", reqId);
-
     $.ajax({
         async: true,
         crossDomain: true,
@@ -1404,10 +1291,8 @@ function handleDeletePayment(reqId) {
                 message: 'An unexpected error occurred'
             };
         }
-
         // Ensure data.message exists
         const message = data.message || 'An unexpected error occurred';
-
         Swal.fire({
             icon: 'error',
             text: message,
@@ -1415,20 +1300,17 @@ function handleDeletePayment(reqId) {
         });
     });
 }
-
 function handleRequestPayment(reqId, selectedPaymentId) {
     let payload = {
         type: selectedPaymentId,
         reqId: reqId
     };
-
     if (selectedPaymentId === 10) { // Credit/Debit Card
         payload.card_number = $('#card-number').val();
         payload.card_exp_month = $('#expiry-month').val();
         payload.card_exp_year = $('#expiry-year').val();
         payload.card_cvv = $('#cvv-number').val();
     }
-
     return $.ajax({
         async: true,
         crossDomain: true,
@@ -1450,10 +1332,8 @@ function handleRequestPayment(reqId, selectedPaymentId) {
                 message: 'An unexpected error occurred'
             };
         }
-
         // Ensure data.message exists
         const message = data.message || 'An unexpected error occurred';
-
         Swal.fire({
             icon: 'error',
             text: message,
@@ -1461,7 +1341,6 @@ function handleRequestPayment(reqId, selectedPaymentId) {
         });
     });
 }
-
 function getPaymentMethod() {
     Swal.fire({
         icon: "info",
@@ -1469,7 +1348,6 @@ function getPaymentMethod() {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-
     $.ajax({
         url: `${apiUrl}/api/client/request/payment-method`,
         method: "GET",
@@ -1477,7 +1355,6 @@ function getPaymentMethod() {
     }).done(async function(response) {
         // Clear the #payment-list element
         $('#payment-list').empty();
-
         // Group payment methods by payment_group
         const groupedPayments = {};
         response.data.forEach(item => {
@@ -1486,14 +1363,12 @@ function getPaymentMethod() {
             }
             groupedPayments[item.payment_group].push(item);
         });
-
         // Define payment group titles
         const paymentGroupTitles = {
             1: "Bank Transfer",
             2: "E Wallet",
             3: "Kartu Kredit/Debit"
         };
-
         // Function to append payment methods to the specified container
         function appendPaymentMethods(container, items) {
             items.forEach((item) => {
@@ -1517,11 +1392,9 @@ function getPaymentMethod() {
                 `);
             });
         }
-
         // Append grouped payment methods to the #payment-list
         Object.keys(groupedPayments).forEach(group => {
             const items = groupedPayments[group];
-
             // Create a div element for the payment group
             // add border border-dark p-3 mb-3 for add border
             const paymentGroupContainer = $(`
@@ -1530,17 +1403,13 @@ function getPaymentMethod() {
                     <div class="row"></div>
                 </div>
             `);
-
             // Append payment methods to the group's row container
             appendPaymentMethods(paymentGroupContainer.find('.row'), items);
-
             // Append the group container to the payment list
             $('#payment-list').append(paymentGroupContainer);
         });
-
         // Initialize tooltips
         $('[data-bs-toggle="tooltip"]').tooltip();
-
         Swal.close();
     }).fail(function(error) {
         let data;
@@ -1551,7 +1420,6 @@ function getPaymentMethod() {
                 message: 'An unexpected error occurred'
             };
         }
-
         Swal.fire({
             icon: 'error',
             text: data.message || 'An unexpected error occurred',
@@ -1564,7 +1432,6 @@ function getPaymentMethod() {
         });
     });
 }
-
 function getPaymentStatus(reqId) {
     $.ajax({
         url: `${apiUrl}/api/client/request/payment-status?reqId=${reqId}`,
@@ -1580,7 +1447,6 @@ function getPaymentStatus(reqId) {
             $.each(response['info'], function(j, paymentInfo) {
                 switchTab(`#payment-${paymentInfo.payment_group}`);
                 hideAllPaymentOutputs();
-
                 // Handle different payment method outputs
                 switch (paymentInfo.payment_type_id) {
                     case 1: // Permata Virtual Account
@@ -1662,10 +1528,8 @@ function getPaymentStatus(reqId) {
             $('#footer-payment').hide();
             $('#footer-main').hide();
             switchTab('#payment-4');
-
             setInterval(countdownSuccessPayment, 1000);
         }
-
         // Ensure loading is stopped in case of an error
         setLoading($('#cek-status-bayar'), false);
     }).fail(function(error) {
@@ -1677,27 +1541,22 @@ function getPaymentStatus(reqId) {
                 message: 'An unexpected error occurred'
             };
         }
-
         // Stop the interval if there's an error
         clearInterval(paymentStatusInterval);
-
         Swal.fire({
             icon: 'error',
             text: data.message || 'An unexpected error occurred',
             showConfirmButton: true,
             allowOutsideClick: false,
         })
-
         // Ensure loading is stopped in case of an error
         setLoading($('#cek-status-bayar'), false);
     });
 }
-
 function clearCountdowns() {
     $('#countdown-payment-bt').text('');
     $('#countdown-payment-ew').text('');
 }
-
 async function sendStatusUpdate(reqId, statusId) {
     // Validate input
     if (typeof reqId !== 'string' || !reqId.trim()) {
@@ -1708,12 +1567,10 @@ async function sendStatusUpdate(reqId, statusId) {
         console.error('Invalid statusId:', statusId);
         throw new Error('statusId must be a valid number (e.g., 2 or 8).');
     }
-
     let payload = {
         reqId: reqId,
         statusId: statusId
     };
-
     const formDataString = JSON.stringify(payload);
     let encryptedData;
     try {
@@ -1727,10 +1584,8 @@ async function sendStatusUpdate(reqId, statusId) {
         );
         throw encryptionError;
     }
-
     const form = new FormData();
     form.append("data", encryptedData);
-
     $.ajax({
         url: `${apiUrl}/api/client/request/update-status`,
         method: "POST",
@@ -1743,7 +1598,6 @@ async function sendStatusUpdate(reqId, statusId) {
                 : statusId === 8
                 ? 'Request marked for editing. Redirecting now.'
                 : 'The request has been updated successfully.';
-
             Swal.fire(
                 'Success!',
                 successMessage,
@@ -1765,7 +1619,6 @@ async function sendStatusUpdate(reqId, statusId) {
         }
     });
 }
-
 // Separate function to handle actions based on statusId
 function handlePostSuccessActions(statusId, reqId) {
     if (statusId === 2) {

@@ -1,49 +1,55 @@
 import { decryptData, encryptData } from "../encrypt.js";
-const planDetails = {}; // Initialize planDetails object
-var tempatPraktikDetails = {}; // Initialize tempatPraktikDetails object
+
+const planDetails = {};
+var tempatPraktikDetails = {};
 var id;
 var selectedPlan;
 var kategoriProfesiId;
 var profesiId;
 var daerahPenerbitId;
 var insuranceId;
-// SIP Counter for dynamic card IDs
-let sipCounter = 0;
-let existingSipCounter = 1000; // Start from a high number to avoid conflicts with existing IDs
+
+// Simpan semua SIP (existing + new) dalam satu array
+let allSIPData = [];
+
+// Fungsi bantu: tentukan class kolom berdasarkan jumlah card (max 3)
+function getColClass(count) {
+    if (count === 1) return 'col-12';
+    if (count === 2) return 'col-md-6';
+    return 'col-md-4'; // untuk 3 card
+}
+
+function getPeriodeColClass(count) {
+    if (count === 3) return 'col-12'; // Jika ada 3 SIP, kolom periode full lebar
+    return 'col-md-6'; // Jika 1 atau 2 SIP, kolom periode setengah lebar
+}
+
 function change_tab(tab_name) {
     var $someTabTriggerEl = $('a[href="' + tab_name + '"]');
     $('#auth-active-slide').html($someTabTriggerEl.data('slide-index'));
     var actTab = new bootstrap.Tab($someTabTriggerEl[0]);
     actTab.show();
 }
-$(document).ready(function() {
-    $('.change-tab-btn').on('click', function() {
-        // Get the dynamic tab name from the data-tab attribute
+
+$(document).ready(function () {
+    $('.change-tab-btn').on('click', function () {
         var tabName = $(this).data('tab');
         change_tab(tabName);
     });
+
     var expSTRCheckbox = $("#status-str");
     var periodeAkhirSTRContainer = $("#periode-akhir-str-container");
-    var periodeAwalSTRContainer = $("#periode-awal-str-container"); // Corrected ID
-    var profesiSelect = $('#profesi'); // Changed from radio buttons to select
+    var periodeAwalSTRContainer = $("#periode-awal-str-container");
+    var profesiSelect = $('#profesi');
     var kategoriProfesi = $('#kategori-profesi');
-    $(".nomorstr").inputmask({
-        mask: "AA99999999999999",
-        placeholder: ""
-    });
-    $(".enambelas").inputmask({
-        mask: "9999999999999999",
-        placeholder: ""
-    });
-    $(".mobilenumber").inputmask({
-        mask: "9999-9999-999999",
-        placeholder: ""
-    });
-    // Get reqId from the global variable
-    var reqId = window.reqId;
-    // Get today's date
+
+    $(".nomorstr").inputmask({ mask: "AA99999999999999", placeholder: "" });
+    $(".enambelas").inputmask({ mask: "9999999999999999", placeholder: "" });
+    $(".mobilenumber").inputmask({ mask: "9999-9999-999999", placeholder: "" });
+
+    const reqId = window.reqId;
     const today = new Date();
-    // Disable dates after today for 'tanggal-lahir', 'periode-awal-str'
+
     new Datepicker(document.querySelector('#tanggal-lahir'), {
         buttonClass: 'btn',
         format: 'dd-mm-yyyy',
@@ -54,17 +60,16 @@ $(document).ready(function() {
         format: 'dd-mm-yyyy',
         maxDate: today
     });
-    // Disable dates before today for 'periode-akhir-str'
     new Datepicker(document.querySelector('#periode-akhir-str'), {
         buttonClass: 'btn',
         format: 'dd-mm-yyyy',
         minDate: today
     });
-    // Call the function with the reqId
+
     executeFunctions(reqId);
-    // Set initial Profesi value and trigger change
     profesiSelect.val('1').trigger('change');
-    profesiSelect.on("change", function() {
+
+    profesiSelect.on("change", function () {
         $('input[name="asuransi"]').prop('checked', false);
         $('#div-biaya-kepesertaan').hide();
         const selectedProfesiId = $(this).val();
@@ -72,24 +77,34 @@ $(document).ready(function() {
             getDataProfesi(selectedProfesiId);
         }
     });
-    kategoriProfesi.on("change", function() {
+
+    kategoriProfesi.on("change", function () {
         $('input[name="asuransi"]').prop('checked', false);
         $('#div-biaya-kepesertaan').hide();
     });
-    expSTRCheckbox.on("change", function() {
+
+    expSTRCheckbox.on("change", function () {
         if ($(this).is(":checked")) {
             periodeAkhirSTRContainer.hide();
-            periodeAwalSTRContainer.show(); // Show Periode Awal STR
+            periodeAwalSTRContainer.show();
         } else {
             periodeAkhirSTRContainer.show();
-            periodeAwalSTRContainer.hide(); // Hide Periode Awal STR
+            periodeAwalSTRContainer.hide();
         }
     });
-    // SIP Card Management
+
+    // Tambah SIP -> simpan ke allSIPData, lalu render ulang
     $('#btn-tambah-sip').on('click', function () {
-        // Create a new SIP card with empty data
+        if (allSIPData.length >= 3) {
+            Swal.fire({
+                icon: 'warning',
+                text: 'Maksimal 3 SIP.',
+                showConfirmButton: true,
+            });
+            return;
+        }
         const newSIPData = {
-            id: 'new_' + Date.now(), // Unique ID for new cards
+            id: 'new_' + Date.now(),
             nomorSIP: '',
             periodeAwalSIP: '',
             periodeAkhirSIP: '',
@@ -100,10 +115,11 @@ $(document).ready(function() {
             unggahSIP: null,
             unggahSIPPreview: null
         };
-        appendSIPCard(newSIPData);
+        allSIPData.push(newSIPData);
+        renderAllSIPCards();
     });
 
-    // Event delegation for SIP card actions (Delete only, no Edit)
+    // Hapus SIP -> hapus dari allSIPData & tandai deleted jika existing
     $('#sip-cards-container').on('click', '.btn-hapus-sip', function () {
         const cardId = $(this).closest('.sip-card').data('id');
         Swal.fire({
@@ -117,13 +133,11 @@ $(document).ready(function() {
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                // If it's an existing SIP (has a numeric ID from API), mark for deletion
                 if (!isNaN(cardId) && tempatPraktikDetails[cardId]) {
-                    // Mark for deletion on submit
                     tempatPraktikDetails[cardId].deleted = true;
                 }
-                $(`#sip-card-${cardId}`).remove();
-                updateTambahButtonVisibility();
+                allSIPData = allSIPData.filter(sip => sip.id !== cardId);
+                renderAllSIPCards();
                 Swal.fire({
                     icon: 'success',
                     title: 'Berhasil',
@@ -135,37 +149,35 @@ $(document).ready(function() {
         });
     });
 
-    // Handle file upload preview
-    $(document).on('change', '.unggah-sip', function() {
+    // Preview file SIP
+    $(document).on('change', '.unggah-sip', function () {
         const file = this.files[0];
         if (file) {
             const reader = new FileReader();
             const imgElement = $(this).closest('.card').find('.sip-image');
-
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 imgElement.attr('src', e.target.result);
-            }
+            };
             reader.readAsDataURL(file);
         }
     });
 
-    // Handle nama penerbit visibility
-    $(document).on('input', '.penerbit', function() {
+    // Tampilkan/hide nama penerbit
+    $(document).on('input', '.penerbit', function () {
         const card = $(this).closest('.sip-card');
         const namaPenerbitRow = card.find('.nama-penerbit-row');
         const namaPenerbitInput = card.find('.nama-penerbit');
-
         if ($(this).val().trim() !== '') {
             namaPenerbitRow.show();
             namaPenerbitInput.attr('required', 'required');
         } else {
             namaPenerbitRow.hide();
-            namaPenerbitInput.removeAttr('required');
-            namaPenerbitInput.val('');
+            namaPenerbitInput.removeAttr('required').val('');
         }
     });
 
-    $('input[type="file"]').change(function() {
+    // Validasi file
+    $('input[type="file"]').change(function () {
         let fileInput = $(this);
         let filePath = fileInput.val();
         let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
@@ -175,10 +187,12 @@ $(document).ready(function() {
                 text: "Anda hanya dapat mengunggah gambar atau foto dengan format JPG atau PNG.",
                 showConfirmButton: true,
             });
-            fileInput.val(''); // Clear the input
+            fileInput.val('');
         }
     });
-    $('#updateData').on('submit', async function(e) {
+
+    // Submit form
+    $('#updateData').on('submit', async function (e) {
         e.preventDefault();
         await Swal.fire({
             icon: 'warning',
@@ -199,237 +213,179 @@ $(document).ready(function() {
         });
     });
 });
-function setLoading(button, isLoading) {
-    if (isLoading) {
-        button.html('<i class="spinner-border spinner-border-sm"></i> Loading...');
-        button.prop('disabled', true);
-    } else {
-        button.html(button.data('original-text'));
-        button.prop('disabled', false);
-    }
-}
 
-function appendSIPCard(sipData) {
-    sipCounter++;
-    const cardId = sipData.id;
-    const namaPenerbitRowStyle = sipData.namaPenerbitSIP ? '' : 'style="display: none;"';
+function renderAllSIPCards() {
+    const container = $('#sip-cards-container');
+    container.empty();
+    const colClass = getColClass(allSIPData.length);
+    const periodeColClass = getPeriodeColClass(allSIPData.length); // Ambil class kolom periode
 
-    const cardHtml = `
-        <div class="card border border-danger sip-card" id="sip-card-${cardId}" data-id="${cardId}">
-            <div class="card-header bg-danger">
-                <h4 class="text-white mb-0"><i class="ti ti-building-hospital me-1"></i>Surat Izin Praktik</h4>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label required">Nomor SIP</label>
-                            <input type="text" class="form-control sip-nomor"
-                                   name="sip[${cardId}][nomorSIP]" value="${sipData.nomorSIP || ''}">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label required">Periode Awal SIP</label>
-                            <div class="input-group date mb-3">
-                                <input type="text" class="form-control periode-awal datepicker-bs5-sip"
-                                       name="sip[${cardId}][periodeAwalSIP]" data-date-format="dd-mm-yyyy" value="${sipData.periodeAwalSIP || ''}">
-                                <span class="input-group-text">
-                                    <i class="feather icon-calendar"></i>
-                                </span>
+    allSIPData.forEach(sipData => {
+        const loppingIndex = allSIPData.indexOf(sipData) + 1;
+        const cardId = sipData.id;
+        const namaPenerbitRowStyle = sipData.namaPenerbitSIP ? '' : 'style="display: none;"';
+        const cardHtml = `
+            <div class="${colClass} mb-4">
+                <div class="card border border-danger sip-card" id="sip-card-${cardId}" data-id="${cardId}">
+                    <div class="card-header bg-danger">
+                        <h4 class="text-white mb-0"><i class="ti ti-building-hospital me-1"></i>Surat Izin Praktik ${allSIPData.length > 1 ? loppingIndex : ''}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label required">Nomor SIP</label>
+                                    <!-- Ganti input menjadi textarea -->
+                                    <textarea class="form-control sip-nomor" rows="3"
+                                           name="sip[${cardId}][nomorSIP]" placeholder="Masukkan nomor SIP...">${sipData.nomorSIP || ''}</textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label required">Periode Akhir SIP</label>
-                            <div class="input-group date mb-3">
-                                <input type="text" class="form-control periode-akhir datepicker-bs5-sip"
-                                       name="sip[${cardId}][periodeAkhirSIP]" data-date-format="dd-mm-yyyy" value="${sipData.periodeAkhirSIP || ''}">
-                                <span class="input-group-text">
-                                    <i class="feather icon-calendar"></i>
-                                </span>
+                            <!-- Gunakan class kolom periode dinamis -->
+                            <div class="${periodeColClass}">
+                                <div class="mb-3">
+                                    <label class="form-label required">Periode Awal SIP</label>
+                                    <div class="input-group date mb-3">
+                                        <input type="text" class="form-control periode-awal datepicker-bs5-sip"
+                                               name="sip[${cardId}][periodeAwalSIP]" data-date-format="dd-mm-yyyy" value="${sipData.periodeAwalSIP || ''}">
+                                        <span class="input-group-text">
+                                            <i class="feather icon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label required">Daerah Penerbit SIP</label>
-                            <select class="form-select daerah-penerbit-select"
-                                    name="sip[${cardId}][daerahPenerbitSIP]"
-                                    id="daerah-penerbit-sip-${cardId}">
-                                <option value="">-- Pilih Kota/Kabupaten --</option>
-                            </select>
-                        </div>
-                        <div class="mb-3 nama-penerbit-row" ${namaPenerbitRowStyle}>
-                            <label class="form-label">Nama Penerbit SIP</label>
-                            <input type="text" class="form-control nama-penerbit"
-                                   name="sip[${cardId}][namaPenerbitSIP]" value="${sipData.namaPenerbitSIP || ''}">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label required">Tempat Praktik</label>
-                            <input type="text" class="form-control tempat-praktik"
-                                   name="sip[${cardId}][tempat]" value="${sipData.tempat || ''}">
+                             <!-- Gunakan class kolom periode dinamis -->
+                            <div class="${periodeColClass}">
+                                <div class="mb-3">
+                                    <label class="form-label required">Periode Akhir SIP</label>
+                                    <div class="input-group date mb-3">
+                                        <input type="text" class="form-control periode-akhir datepicker-bs5-sip"
+                                               name="sip[${cardId}][periodeAkhirSIP]" data-date-format="dd-mm-yyyy" value="${sipData.periodeAkhirSIP || ''}">
+                                        <span class="input-group-text">
+                                            <i class="feather icon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label required">Daerah Penerbit SIP</label>
+                                    <select class="form-select daerah-penerbit-select"
+                                            name="sip[${cardId}][daerahPenerbitSIP]"
+                                            id="daerah-penerbit-sip-${cardId}">
+                                        <option value="">-- Pilih Kota/Kabupaten --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="mb-3 nama-penerbit-row" ${namaPenerbitRowStyle}>
+                                    <label class="form-label">Nama Penerbit SIP</label>
+                                    <input type="text" class="form-control nama-penerbit"
+                                           name="sip[${cardId}][namaPenerbitSIP]" value="${sipData.namaPenerbitSIP || ''}">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label required">Tempat Praktik</label>
+                                    <input type="text" class="form-control tempat-praktik"
+                                           name="sip[${cardId}][tempat]" value="${sipData.tempat || ''}">
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <p><strong>Foto Surat Izin Praktik</strong></p>
+                                ${sipData.unggahSIP || sipData.unggahSIPPreview ? `
+                                <img src="${sipData.unggahSIPPreview || (sipData.unggahSIP ? (typeof sipData.unggahSIP === 'string' ? sipData.unggahSIP : URL.createObjectURL(sipData.unggahSIP)) : '/assets/images/no-image.jpg')}"
+                                     alt="Foto SIP" class="img-fluid sip-image" style="max-height: 200px;">
+                                ` : `
+                                <p class="text-muted">Tidak ada foto/gambar</p>
+                                `}
+                                <label class="form-label mt-2">Upload Foto SIP</label>
+                                <input type="file" class="form-control mt-2 unggah-sip"
+                                       name="sip[${cardId}][unggahSIP]" accept=".jpg, .jpeg, .png">
+                                <input type="hidden" name="sip[${cardId}][existingImage]" value="${sipData.unggahSIP || ''}">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 text-center">
-                        <p><strong>Foto Surat Izin Praktik</strong></p>
-                        <img src="${sipData.unggahSIPPreview || (sipData.unggahSIP ? (typeof sipData.unggahSIP === 'string' ? sipData.unggahSIP : URL.createObjectURL(sipData.unggahSIP)) : '/assets/images/no-image.png')}"
-                             alt="Foto SIP" class="img-fluid sip-image" style="max-height: 200px;">
-                        <input type="file" class="form-control mt-2 unggah-sip"
-                               name="sip[${cardId}][unggahSIP]" accept=".jpg, .jpeg, .png">
-                        <input type="hidden" name="sip[${cardId}][existingImage]" value="${sipData.unggahSIP || ''}">
+                    <div class="card-footer text-end">
+                        <button type="button" class="btn btn-danger btn-hapus-sip">
+                            <i class="ti ti-trash"></i> Hapus
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="card-footer text-end">
-                <button type="button" class="btn btn-danger btn-hapus-sip">
-                    <i class="ti ti-trash"></i> Hapus
-                </button>
-            </div>
-        </div>
-    `;
-    $('#sip-cards-container').append(cardHtml);
+        `;
+        container.append(cardHtml);
+        // Inisialisasi datepicker & choices
+        const newCard = $(`#sip-card-${cardId}`);
+        const daerahSelect = newCard.find(`#daerah-penerbit-sip-${cardId}`)[0];
+        const today = new Date();
+        const periodeAwalInput = newCard.find('.periode-awal.datepicker-bs5-sip')[0];
+        const periodeAkhirInput = newCard.find('.periode-akhir.datepicker-bs5-sip')[0];
 
-    const newCard = $(`#sip-card-${cardId}`);
-    const daerahSelect = newCard.find(`#daerah-penerbit-sip-${cardId}`)[0];
-
-    // Inisialisasi datepickers
-    const today = new Date();
-    const periodeAwalInput = newCard.find('.periode-awal.datepicker-bs5-sip')[0];
-    const periodeAkhirInput = newCard.find('.periode-akhir.datepicker-bs5-sip')[0];
-
-    if (periodeAwalInput) {
-        new Datepicker(periodeAwalInput, {
-            buttonClass: 'btn',
-            format: 'dd-mm-yyyy',
-            maxDate: today
-        });
-        if (sipData.periodeAwalSIP) {
-            periodeAwalInput.value = sipData.periodeAwalSIP;
+        if (periodeAwalInput) {
+            new Datepicker(periodeAwalInput, {
+                buttonClass: 'btn',
+                format: 'dd-mm-yyyy',
+                maxDate: today
+            });
+            if (sipData.periodeAwalSIP) periodeAwalInput.value = sipData.periodeAwalSIP;
         }
-    }
-
-    if (periodeAkhirInput) {
-        new Datepicker(periodeAkhirInput, {
-            buttonClass: 'btn',
-            format: 'dd-mm-yyyy',
-            minDate: today
-        });
-        if (sipData.periodeAkhirSIP) {
-            periodeAkhirInput.value = sipData.periodeAkhirSIP;
+        if (periodeAkhirInput) {
+            new Datepicker(periodeAkhirInput, {
+                buttonClass: 'btn',
+                format: 'dd-mm-yyyy',
+                minDate: today
+            });
+            if (sipData.periodeAkhirSIP) periodeAkhirInput.value = sipData.periodeAkhirSIP;
         }
-    }
-
-    // Inisialisasi Choices.js untuk daerah penerbit
-    if (daerahSelect) {
-        const choicesInstance = new Choices(daerahSelect, {
-            itemSelectText: '',
-            searchPlaceholderValue: 'Cari Kota/Kabupaten',
-            shouldSort: false,
-            removeItemButton: true
-        });
-
-        // Simpan instance Choices ke DOM element
-        $(daerahSelect).data('choices', choicesInstance);
-
-        // Load data kota dan isi ke select dengan auto-select berdasarkan daerahPenerbitSIP_id
-        loadCityDataForSelect(choicesInstance, sipData.daerahPenerbitSIP_id);
-    }
-
+        if (daerahSelect) {
+            const choicesInstance = new Choices(daerahSelect, {
+                itemSelectText: '',
+                searchPlaceholderValue: 'Cari Kota/Kabupaten',
+                shouldSort: false,
+                removeItemButton: true
+            });
+            $(daerahSelect).data('choices', choicesInstance);
+            loadCityDataForSelect(choicesInstance, sipData.daerahPenerbitSIP_id);
+        }
+    });
     updateTambahButtonVisibility();
 }
 
-// Fungsi untuk load data kota dan mengisi select dengan auto-selection
-function loadCityDataForSelect(choicesInstance, selectedKotaId = null) {
-    // Jika data kota sudah ada di memory, gunakan itu
-    if (window.cityData && window.cityData.length > 0) {
-        const cityOptions = window.cityData.map(item => ({
-            value: item.id,
-            label: item.name
-        }));
-        choicesInstance.setChoices(cityOptions, 'value', 'label', false);
-
-        // Set selected value jika ada kota_id
-        if (selectedKotaId) {
-            choicesInstance.setChoiceByValue(selectedKotaId.toString());
-        }
-        return;
-    }
-
-    // Jika belum ada, load dari API
-    $.ajax({
-        url: `${apiUrl}/api/client/request/get-data-kota`,
-        method: "GET",
-        timeout: 0,
-    }).done(async function(responses) {
-        var response = await decryptData(responses.data);
-
-        // Simpan data kota ke memory
-        window.cityData = response.data;
-
-        // Format untuk Choices.js
-        const cityOptions = response.data.map(item => ({
-            value: item.id,
-            label: item.name
-        }));
-
-        // Set choices
-        choicesInstance.setChoices(cityOptions, 'value', 'label', false);
-
-        // Set selected value jika ada kota_id
-        if (selectedKotaId) {
-            choicesInstance.setChoiceByValue(selectedKotaId.toString());
-        }
-    }).fail(function(error) {
-        let data;
-        try {
-            data = JSON.parse(error.responseText);
-        } catch (e) {
-            data = { message: 'Gagal memuat data kota' };
-        }
-        const message = data.message || 'Gagal memuat data kota';
-        Swal.fire({
-            icon: 'error',
-            text: message,
-            showConfirmButton: true,
-        });
-    });
-}
-
-// Function to update the visibility of the "Tambah SIP" button
 function updateTambahButtonVisibility() {
-    // Always show the button
-    $('#btn-tambah-sip').show();
+    if (allSIPData.length >= 3) {
+        $('#btn-tambah-sip').hide();
+    } else {
+        $('#btn-tambah-sip').show();
+    }
 }
+
 async function executeFunctions(reqId) {
     if (reqId !== null && reqId !== undefined) {
-        // Initial render for SIP container (empty)
-        updateTambahButtonVisibility();
         await getDataDetail(reqId);
     } else {
         window.location.href = '/pendaftaran';
     }
 }
+
 function getDataDetail(reqId) {
     return new Promise((resolve, reject) => {
-        Swal.fire({
-            icon: "info",
-            text: "loading",
-            showConfirmButton: false,
-            allowOutsideClick: false,
-        });
+        Swal.fire({ icon: "info", text: "loading", showConfirmButton: false, allowOutsideClick: false });
         $.ajax({
-            "url": `${apiUrl}/api/client/request/detail`,
-            "method": "GET",
-            "timeout": 0,
-            "data": {
-                "reqId": reqId
-            },
-        }).done(async function(responses) {
+            url: `${apiUrl}/api/client/request/detail`,
+            method: "GET",
+            timeout: 0,
+            data: { reqId: reqId }
+        }).done(async function (responses) {
             var response = await decryptData(responses.data);
             console.log(response);
 
             let shouldRedirect = false;
             var statusId;
-            $.each(response['data'], function(j, item) {
+
+            $.each(response['data'], function (j, item) {
                 if (item.status_id != 3 && item.status_id != 8) {
                     shouldRedirect = true;
-                    return false; // Break the loop
+                    return false;
                 }
                 id = item.id;
                 profesiId = item.profesi_id;
@@ -438,6 +394,7 @@ function getDataDetail(reqId) {
                 daerahPenerbitId = item.sip_penerbit;
                 statusId = item.status_id;
                 insuranceId = item.ins_id;
+
                 $('#nomor-register').html(item.register_no);
                 $('#nama').val(item.nama);
                 $('#nik').val(item.nik);
@@ -450,6 +407,7 @@ function getDataDetail(reqId) {
                 $('#alamat').val(item.alamat);
                 $('#nama-kontak-darurat').val(item.kontak_darurat);
                 $('#nomor-kontak-darurat').val(item.nomor_darurat);
+
                 if (item.str_stat == '1') {
                     $('#status-str').prop('checked', true);
                     $('#periode-awal-str').val(item.str_date_start);
@@ -462,10 +420,10 @@ function getDataDetail(reqId) {
                     $("#periode-awal-str-container").hide();
                 }
                 $('#nomor-str').val(item.str_no);
-                // sip_no, sip_date_start, sip_date_end are now handled by cards
                 $('#premi-tahunan').text(item.premi);
                 $('#jaminan-pertanggungan').text(item.sum_insured);
             });
+
             const getStatusesByStatusId = (statusId) => {
                 switch (statusId) {
                     case 1:
@@ -488,7 +446,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
+                                text: 'Belum Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -523,7 +481,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
+                                text: 'Belum Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -605,7 +563,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-success border border-success',
-                                text: 'Selesai'
+                                text: 'Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -653,7 +611,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
+                                text: 'Belum Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -692,7 +650,7 @@ function getDataDetail(reqId) {
                             {
                                 id: '#status-poin-empat',
                                 class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
+                                text: 'Belum Terbit'
                             },
                             {
                                 id: '#status-poin-lima',
@@ -718,37 +676,35 @@ function getDataDetail(reqId) {
                         ];
                 }
             };
+
             const statuses = getStatusesByStatusId(statusId);
             statuses.forEach(status => {
                 $(status.id).addClass(status.class).text(status.text);
             });
+
             $('#revision-alert').html(`Catatan: ${response.revision}`);
             if (statusId === 8) {
                 $('#div-revision-alert').hide();
             }
-            $.each(response['document'], function(j, item) {
+
+            $.each(response['document'], function (j, item) {
                 if (item.file_type == 1) {
                     $('#file_ktp').attr('href', item.link);
                     $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span>');
-                } else if (item.file_type == 2) {
-                    // Handle STR document if needed in UI
-                } else {
-                    // Handle SIP documents - these are now handled by cards
                 }
             });
-            // Set Profesi Select
+
             $('#profesi').val(profesiId).trigger('change');
-            // getDataProfesi will be called by the change event handler above
-            // Note: kategori-profesi will be set after getDataProfesi completes
-            await getBiayaKepesertaan(insuranceId); // Get the plans associated with this insurance
+            await getBiayaKepesertaan(insuranceId);
             await getDataKota();
-            // Note: daerah-penerbit-sip will be set after getDataKota completes
+
             if (shouldRedirect) {
                 window.location.href = `/detail/${reqId}`;
                 return;
             }
+
             $('#list-log').html('');
-            $.each(response['log'], function(j, item) {
+            $.each(response['log'], function (j, item) {
                 $('#list-log').append(`
                     <li key="${j+1}">
                     <i class="feather icon-check f-w-600 task-icon bg-success"></i>
@@ -758,16 +714,15 @@ function getDataDetail(reqId) {
                     </li>
                 `);
             });
-            populateTempatPraktikDetails(response); // This will populate cards
+
+            populateTempatPraktikDetails(response);
             Swal.close();
-        }).fail(function(error) {
+        }).fail(function (error) {
             let data;
             try {
                 data = JSON.parse(error.responseText);
             } catch (e) {
-                data = {
-                    message: 'An unexpected error occurred'
-                };
+                data = { message: 'An unexpected error occurred' };
             }
             const message = data.message || 'An unexpected error occurred';
             Swal.fire({
@@ -784,16 +739,18 @@ function getDataDetail(reqId) {
         resolve();
     });
 }
-// Function to dynamically populate tempatPraktikDetails from response and create cards
+
+// Perbarui populateTempatPraktikDetails
 function populateTempatPraktikDetails(response) {
-    tempatPraktikDetails = {}; // Reset
-    $('#sip-cards-container').empty(); // Clear existing cards
+    tempatPraktikDetails = {};
+    allSIPData = []; // reset
+
     response.praktik.forEach((item) => {
         const id = item.id;
         const sipDocument = response.document.find(doc => doc.tempat_praktik_id === id && doc.file_type === 3);
         const sipURL = sipDocument ? sipDocument.link : '';
-        // Store in tempatPraktikDetails for reference (e.g., editing existing)
-        tempatPraktikDetails[id] = {
+
+        const sipData = {
             id: id,
             nomorSIP: item.sip_no,
             periodeAwalSIP: item.sip_date_start,
@@ -802,14 +759,17 @@ function populateTempatPraktikDetails(response) {
             daerahPenerbitSIP: item.sip_penerbit,
             namaPenerbitSIP: item.sip_penerbit_desc,
             tempat: item.tempat_praktik,
-            unggahSIP: sipURL, // URL string for existing
-            deleted: false // Flag to track deletions
+            unggahSIP: sipURL,
+            deleted: false
         };
-        // Create card for existing SIP
-        appendSIPCard(tempatPraktikDetails[id]);
+
+        tempatPraktikDetails[id] = sipData;
+        allSIPData.push(sipData);
     });
-    updateTambahButtonVisibility();
+
+    renderAllSIPCards();
 }
+
 function getDataProfesi(profesi_id) {
     Swal.fire({
         icon: "info",
@@ -910,6 +870,7 @@ function getDataProfesi(profesi_id) {
         });
     });
 }
+
 function getBiayaKepesertaan(ins_id) {
     Swal.fire({
         icon: "info",
@@ -974,6 +935,7 @@ function getBiayaKepesertaan(ins_id) {
         });
     });
 }
+
 function getDataKota() {
     return $.ajax({
         url: `${apiUrl}/api/client/request/get-data-kota`,
@@ -999,6 +961,58 @@ function getDataKota() {
     });
 }
 
+// Fungsi lainnya tetap sama (loadCityDataForSelect, handleupdateData)
+
+function loadCityDataForSelect(choicesInstance, selectedKotaId = null) {
+    // Jika data kota sudah ada di memory, gunakan itu
+    if (window.cityData && window.cityData.length > 0) {
+        const cityOptions = window.cityData.map(item => ({
+            value: item.id,
+            label: item.name
+        }));
+        choicesInstance.setChoices(cityOptions, 'value', 'label', false);
+        // Set selected value jika ada kota_id
+        if (selectedKotaId) {
+            choicesInstance.setChoiceByValue(selectedKotaId.toString());
+        }
+        return;
+    }
+    // Jika belum ada, load dari API
+    $.ajax({
+        url: `${apiUrl}/api/client/request/get-data-kota`,
+        method: "GET",
+        timeout: 0,
+    }).done(async function(responses) {
+        var response = await decryptData(responses.data);
+        // Simpan data kota ke memory
+        window.cityData = response.data;
+        // Format untuk Choices.js
+        const cityOptions = response.data.map(item => ({
+            value: item.id,
+            label: item.name
+        }));
+        // Set choices
+        choicesInstance.setChoices(cityOptions, 'value', 'label', false);
+        // Set selected value jika ada kota_id
+        if (selectedKotaId) {
+            choicesInstance.setChoiceByValue(selectedKotaId.toString());
+        }
+    }).fail(function(error) {
+        let data;
+        try {
+            data = JSON.parse(error.responseText);
+        } catch (e) {
+            data = { message: 'Gagal memuat data kota' };
+        }
+        const message = data.message || 'Gagal memuat data kota';
+        Swal.fire({
+            icon: 'error',
+            text: message,
+            showConfirmButton: true,
+        });
+    });
+}
+
 async function handleupdateData(reqId) {
     Swal.fire({
         icon: "info",
@@ -1006,7 +1020,6 @@ async function handleupdateData(reqId) {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-
     // Validasi Tab 2
     const fieldsTab2 = [
         { id: '#nama', message: 'Mohon masukan nama anda terlebih dahulu!' },
@@ -1025,7 +1038,6 @@ async function handleupdateData(reqId) {
         { id: '#kategori-profesi', message: 'Mohon pilih kategori profesi anda terlebih dahulu!' },
         { id: '#profesi', message: 'Mohon pilih profesi anda terlebih dahulu!' },
     ];
-
     for (const field of fieldsTab2) {
         if (!$(field.id).val()) {
             await Swal.fire({ icon: "error", text: field.message });
@@ -1042,7 +1054,6 @@ async function handleupdateData(reqId) {
             return;
         }
     }
-
     let kontakDarurat = $('#nama-kontak-darurat').val();
     let nomorDarurat = $('#nomor-kontak-darurat').val();
     if ((kontakDarurat && kontakDarurat !== '-') || (nomorDarurat && nomorDarurat !== '-')) {
@@ -1059,7 +1070,6 @@ async function handleupdateData(reqId) {
             return;
         }
     }
-
     if (!$('input[name="asuransi"]:checked').val()) {
         await Swal.fire({ icon: "error", text: 'Mohon pilih asuransi terlebih dahulu!' });
         change_tab('#auth-3');
@@ -1070,7 +1080,6 @@ async function handleupdateData(reqId) {
         change_tab('#auth-3');
         return;
     }
-
     // Helper: File to Base64
     function fileToBase64(file) {
         return new Promise((resolve, reject) => {
@@ -1080,7 +1089,6 @@ async function handleupdateData(reqId) {
             reader.readAsDataURL(file);
         });
     }
-
     // Siapkan data form utama
     const formData = {
         reqId: reqId,
@@ -1107,20 +1115,17 @@ async function handleupdateData(reqId) {
         fileInputSTR: "",
         sip: []
     };
-
     // Proses file KTP & STR
     const ktpFile = $('#unggah-ktp')[0].files[0];
     const strFile = $('#unggah-str')[0].files[0];
     if (ktpFile) formData.fileInputKTP = await fileToBase64(ktpFile);
     if (strFile) formData.fileInputSTR = await fileToBase64(strFile);
-
     // Proses data SIP dari card
     $('.sip-card').each(async function () {
         const cardId = $(this).data('id');
         const isExisting = !isNaN(cardId) && tempatPraktikDetails[cardId];
         const isNew = cardId.toString().startsWith('new_');
         let sipEntry = null;
-
         if (isExisting && !tempatPraktikDetails[cardId].deleted) {
             // SIP yang ada dan tidak ditandai dihapus
             sipEntry = {
@@ -1153,7 +1158,6 @@ async function handleupdateData(reqId) {
             const file = $(this).find('.unggah-sip')[0].files[0];
             if (file) sipEntry.fileInputSIP = await fileToBase64(file);
         }
-
         if (sipEntry) {
             // Validasi: SIP baru harus unggah file
             if (sipEntry.sip_id === "0" && !sipEntry.fileInputSIP) {
@@ -1164,7 +1168,6 @@ async function handleupdateData(reqId) {
             formData.sip.push(sipEntry);
         }
     });
-
     // Tambahkan ID SIP yang dihapus
     const deletedSipIds = [];
     for (const id in tempatPraktikDetails) {
@@ -1173,26 +1176,22 @@ async function handleupdateData(reqId) {
         }
     }
     formData.deleted_sip_ids = JSON.stringify(deletedSipIds);
-
     // Enkripsi data sebelum dikirim
     const encryptedData = await encryptData(JSON.stringify(formData));
-
     // Kirim ke Backend
     $.ajax({
         url: `${apiUrl}/api/client/request/update-confirmation`,
         method: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ data: encryptedData }), // Bungkus dalam objek dengan key 'data'
+        data: JSON.stringify({  encryptedData }), // Bungkus dalam objek dengan key 'data'
     })
     .done(async function (apiResponse) { // apiResponse adalah objek JSON yang diterima dari server
         // console.log("Raw API Response:", apiResponse); // Untuk debugging
-
         if (apiResponse && apiResponse.status === 200) {
             try {
                 // Dekripsi data dari API
                 const decryptedData = await decryptData(apiResponse.data);
                 console.log("Decrypted Data:", decryptedData); // Untuk debugging
-
                 // Tampilkan sukses dan redirect
                 await Swal.fire({
                     icon: 'success',
@@ -1216,7 +1215,7 @@ async function handleupdateData(reqId) {
                         if (decryptedData.id) {
                             window.location.replace(`/detail/${decryptedData.id}`);
                         } else {
-                            console.error("Redirect ID not found in decrypted data:", decryptedData);
+                            console.error("Redirect ID not found in decrypted ", decryptedData);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal Mengalihkan',
@@ -1226,9 +1225,8 @@ async function handleupdateData(reqId) {
                         }
                     }
                 });
-
             } catch (decryptError) {
-                console.error("Error decrypting data:", decryptError);
+                console.error("Error decrypting ", decryptError);
                 Swal.fire({
                     icon: 'error',
                     title: 'Gagal Mendekripsi',
@@ -1272,4 +1270,3 @@ async function handleupdateData(reqId) {
         });
     });
 }
-

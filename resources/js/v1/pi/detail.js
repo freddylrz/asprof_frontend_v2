@@ -325,12 +325,10 @@ function copyToClipboard(element) {
 }
 function makeCountdown(expiryTime, countdownElementId) {
     const countdownElement = document.getElementById(countdownElementId);
-    // Make the streaming request using Fetch API
+
     fetch(`/api/timer?expire_date=${expiryTime}`, {
         method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
     })
         .then(response => {
             if (!response.body) {
@@ -338,54 +336,53 @@ function makeCountdown(expiryTime, countdownElementId) {
             }
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
-            let data = '';
-            // Function to process each chunk of the stream
+            let buffer = '';
+
             function processChunk({ done, value }) {
                 if (done) {
-                    console.log("Streaming selesai.");
+                    // flush sisa buffer
+                    buffer += decoder.decode();
                     return;
                 }
-                data += decoder.decode(value, { stream: true });
-                const chunks = data.split(''); // Split the stream by newline
-                // Process each chunk
-                data = chunks.pop(); // Retain the last incomplete chunk for the next iteration
-                chunks.forEach(chunk => {
-                    if (chunk.trim()) {
+
+                buffer += decoder.decode(value, { stream: true });
+                const parts = buffer.split('\n');
+                buffer = parts.pop(); // simpan sisa incomplete
+
+                parts.forEach(part => {
+                    if (part.trim()) {
                         try {
-                            const jsonData = JSON.parse(chunk);
-                            // Update the countdown
+                            const jsonData = JSON.parse(part);
                             countdownElement.textContent = jsonData.timer;
-                            // Check if the countdown has finished
+
                             if (jsonData.is_finished) {
-                                console.log("Waktu pembayaran telah habis.");
-                                // Use SweetAlert2 to show the message
                                 Swal.fire({
                                     icon: 'warning',
                                     title: 'Waktu Habis!',
                                     text: 'Waktu pembayaran telah habis. Silakan coba lagi.',
                                     confirmButtonText: 'OK'
                                 }).then(() => {
-                                    getPaymentMethod()
+                                    getPaymentMethod();
                                     switchTab('#main');
                                     hideAllPaymentOutputs();
                                     $('#footer-payment').hide();
                                     $('#footer-main').show();
                                     clearCountdowns();
                                 });
-                                reader.cancel(); // Stop reading further chunks
+                                reader.cancel();
                             }
-                        } catch (error) {
-                            console.error("Error parsing JSON chunk:", error);
+                        } catch (err) {
+                            console.error("Error parsing JSON:", err, part);
                         }
                     }
                 });
-                // Continue reading the next chunk
+
                 return reader.read().then(processChunk);
             }
-            // Start reading the stream
+
             return reader.read().then(processChunk);
         })
-        .catch(error => console.error('Error during streaming:', error));
+        .catch(err => console.error('Error during streaming:', err));
 }
 function listenToPaymentStatus(roomId) {
     // Set up the channel for the specified room ID

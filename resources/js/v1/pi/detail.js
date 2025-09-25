@@ -326,63 +326,49 @@ function copyToClipboard(element) {
 function makeCountdown(expiryTime, countdownElementId) {
     const countdownElement = document.getElementById(countdownElementId);
 
-    fetch(`/api/timer?expire_date=${expiryTime}`, {
-        method: "GET",
-        headers: { 'Content-Type': 'application/json' }
-    })
-        .then(response => {
-            if (!response.body) {
-                throw new Error("ReadableStream not supported");
-            }
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let buffer = '';
+    // Pastikan expiryTime dalam bentuk timestamp (ms)
+    const endTime = new Date(expiryTime).getTime();
 
-            function processChunk({ done, value }) {
-                if (done) {
-                    // flush sisa buffer
-                    buffer += decoder.decode();
-                    return;
-                }
+    function updateCountdown() {
+        const now = Date.now();
+        const distance = endTime - now;
 
-                buffer += decoder.decode(value, { stream: true });
-                const parts = buffer.split('\n');
-                buffer = parts.pop(); // simpan sisa incomplete
+        if (distance <= 0) {
+            countdownElement.textContent = "00:00:00";
 
-                parts.forEach(part => {
-                    if (part.trim()) {
-                        try {
-                            const jsonData = JSON.parse(part);
-                            countdownElement.textContent = jsonData.timer;
+            Swal.fire({
+                icon: 'warning',
+                title: 'Waktu Habis!',
+                text: 'Waktu pembayaran telah habis. Silakan coba lagi.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                getPaymentMethod();
+                switchTab('#main');
+                hideAllPaymentOutputs();
+                $('#footer-payment').hide();
+                $('#footer-main').show();
+                clearCountdowns();
+            });
 
-                            if (jsonData.is_finished) {
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Waktu Habis!',
-                                    text: 'Waktu pembayaran telah habis. Silakan coba lagi.',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    getPaymentMethod();
-                                    switchTab('#main');
-                                    hideAllPaymentOutputs();
-                                    $('#footer-payment').hide();
-                                    $('#footer-main').show();
-                                    clearCountdowns();
-                                });
-                                reader.cancel();
-                            }
-                        } catch (err) {
-                            console.error("Error parsing JSON:", err, part);
-                        }
-                    }
-                });
+            clearInterval(timerInterval);
+            return;
+        }
 
-                return reader.read().then(processChunk);
-            }
+        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((distance / (1000 * 60)) % 60);
+        const seconds = Math.floor((distance / 1000) % 60);
 
-            return reader.read().then(processChunk);
-        })
-        .catch(err => console.error('Error during streaming:', err));
+        countdownElement.textContent =
+            `${String(hours).padStart(2, '0')}:` +
+            `${String(minutes).padStart(2, '0')}:` +
+            `${String(seconds).padStart(2, '0')}`;
+    }
+
+    // update pertama kali langsung
+    updateCountdown();
+
+    // update tiap detik
+    const timerInterval = setInterval(updateCountdown, 1000);
 }
 function listenToPaymentStatus(roomId) {
     // Set up the channel for the specified room ID

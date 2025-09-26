@@ -100,7 +100,7 @@
                            <input type="text" class="form-control mobilenumber" id="peserta-kontak-no-hp" name="peserta_kontak_no_hp" placeholder="Nomor HP kontak">
                         </div>
                         <div class="col-12">
-                           <p class="text-muted small">Kontak alternatif adalah pihak yang dapat dihubungi jika peserta tidak dapat dihubungi.</p>
+                           <p class="text-muted small">Kontak alternatif adalah pihak yang ditunjuk sebagai perwakilan apabila peserta sedang berhalangan atau tidak dapat dihubungi.</p>
                         </div>
                      </div>
 
@@ -142,7 +142,7 @@
                            </select>
                         </div>
                         <div class="col-6">
-                           <label for="email-pasien" class="form-label">Email<span class="required">*</span></label>
+                           <label for="email-pasien" class="form-label">Email Pasien</label>
                            <input type="email" class="form-control" id="email-pasien" name="email_pasien" placeholder="Email pasien">
                         </div>
                         <div class="col-6">
@@ -194,7 +194,7 @@
                            <input type="text" class="form-control mobilenumber" id="pasien-wali-no-hp" name="pasien_wali_no_hp" placeholder="Nomor HP kontak">
                         </div>
                         <div class="col-12">
-                           <p class="text-muted small">Kontak wali adalah pihak yang dapat dihubungi jika pasien tidak dapat dihubungi.</p>
+                           <p class="text-muted small">Kontak wali adalah pihak yang berwenang dihubungi saat pasien tidak dapat dihubungi.</p>
                         </div>
                      </div>
 

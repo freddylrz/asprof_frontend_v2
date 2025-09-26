@@ -3,7 +3,7 @@
 @section('content-fullpage')
 <div id="pureFullPage" class="pure-fullpage px-3 px-sm-4 px-md-5">
 
-   <!-- Page 1: Apa itu Pialang Asuransi & Mengapa Diperlukan -->
+   <!-- Halaman 1: Apa itu Pialang Asuransi & Mengapa Diperlukan -->
    <div class="page-section page">
       <div class="overflow-hidden">
          <div class="container-fluid h-100">
@@ -104,7 +104,7 @@
       </div>
    </div>
 
-   <!-- Page 2: Keuntungan Menggunakan Pialang Asuransi -->
+   <!-- Halaman 2: Keuntungan Menggunakan Pialang Asuransi -->
    <div class="page-section page">
       <div class="overflow-hidden">
          <div class="container-fluid h-100">
@@ -154,7 +154,7 @@
                                        </div>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight: 400; color: #000">ADANYA BANTUAN TEKNIS DAN CLAIM</p>
+                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight: 400; color: #000">ADANYA BANTUAN TEKNIS DAN KLAIM</p>
                                     </div>
                                  </div>
                               </li>
@@ -166,7 +166,7 @@
                                        </div>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight: 400; color: #000">TERTANGGUNG LEBIH FOCUS PADA CORE BISNISNYA</p>
+                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight: 400; color: #000">TERTANGGUNG LEBIH FOKUS PADA BISNIS UTAMANYA</p>
                                     </div>
                                  </div>
                               </li>
@@ -195,7 +195,7 @@
                                        </div>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight: 400; color: #000">KONTROL ADMINISTRASI SATU PINTU</p>
+                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">KONTROL ADMINISTRASI SATU PINTU</p>
                                     </div>
                                  </div>
                               </li>
@@ -207,7 +207,7 @@
                                        </div>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight: 400; color: #000">FREE EDUKASI TRANSFER OF KNOWLEDGE</p>
+                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">FREE EDUKASI TRANSFER OF KNOWLEDGE</p>
                                     </div>
                                  </div>
                               </li>
@@ -219,7 +219,7 @@
                                        </div>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight: 400; color: #000">LAYANAN FREE OF CHARGE <br> (KECUALI NILAI PREMI)</p>
+                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">LAYANAN FREE OF CHARGE <br> (KECUALI NILAI PREMI)</p>
                                     </div>
                                  </div>
                               </li>
@@ -231,7 +231,7 @@
                                        </div>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight: 400; color: #000">SYARAT & KONDISI POLIS OPTIMAL SESUAI RISIKO</p>
+                                       <p class="mb-1" style="font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400; color: #000">SYARAT & KONDISI POLIS OPTIMAL SESUAI RISIKO</p>
                                     </div>
                                  </div>
                               </li>
@@ -245,7 +245,7 @@
       </div>
    </div>
 
-   <!-- Page 3: Profil TuguBro -->
+   <!-- Halaman 3: Profil TuguBro -->
    <div class="page-section page">
       <div class="overflow-hidden">
          <div class="container-fluid h-100">
@@ -267,7 +267,7 @@
                                     <div class="col-12 col-md-6 mb-4 mb-md-0">
                                        <iframe style="width: 100%; aspect-ratio: 16/9; border-radius: 12px;"
                                                src="https://www.youtube.com/embed/ScFFzpX8esY?si=_IYM7kWek2ZrSMKN"
-                                               title="TuguBro - Company Profile 2024"
+                                               title="TuguBro - Profil Perusahaan 2024"
                                                frameborder="0"
                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                                referrerpolicy="strict-origin-when-cross-origin"
@@ -275,7 +275,8 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                        <h4 class="m-b-30" style="text-align: justify; line-height: 1.3; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
-                                            PT. Tugu Insurance Brokers (Tugu-Bro) berdiri sejak 1976 dan menjadi pelopor industri Pialang Asuransi di Indonesia. Terdaftar dan diawasi OJK, Tugu-Bro berpengalaman lebih dari 48 tahun menghadirkan program asuransi yang tepat dengan mengutamakan profesionalitas, intelektualitas, dan kepuasan pelanggan.                                       </h4>
+                                            PT. Tugu Insurance Brokers (Tugu-Bro) berdiri sejak 1976 dan menjadi pelopor industri Pialang Asuransi di Indonesia. Terdaftar dan diawasi OJK, Tugu-Bro berpengalaman lebih dari 48 tahun menghadirkan program asuransi yang tepat dengan mengutamakan profesionalitas, intelektualitas, dan kepuasan pelanggan.
+                                        </h4>
                                        <h4 class="m-b-30" style="text-align: justify; line-height: 1.3; font-size: clamp(0.9rem, 2.2vw, 1.15rem); font-weight:400;">
                                             Didukung teknologi digital dan tenaga profesional bersertifikat, Tugu-Bro memudahkan nasabah berasuransi kapan saja dan di mana saja. Kami juga memiliki tim Medikolegal dan Mediator berpengalaman untuk mendampingi Anda, mulai dari pemilihan produk, penutupan polis, hingga proses klaim, termasuk layanan konsultasi, negosiasi, mediasi, konsiliasi, dan pendapat ahli.
                                         </h4>
@@ -309,7 +310,7 @@
 @endsection
 
 @push('levelPluginHeader')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="  https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css  " />
 @endpush
 
 @push('levelPluginsJs')

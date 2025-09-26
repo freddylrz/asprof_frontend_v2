@@ -325,67 +325,50 @@ function copyToClipboard(element) {
 }
 function makeCountdown(expiryTime, countdownElementId) {
     const countdownElement = document.getElementById(countdownElementId);
-    // Make the streaming request using Fetch API
-    fetch(`/api/timer?expire_date=${expiryTime}`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
+
+    // Pastikan expiryTime dalam bentuk timestamp (ms)
+    const endTime = new Date(expiryTime).getTime();
+
+    function updateCountdown() {
+        const now = Date.now();
+        const distance = endTime - now;
+
+        if (distance <= 0) {
+            countdownElement.textContent = "00:00:00";
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Waktu Habis!',
+                text: 'Waktu pembayaran telah habis. Silakan coba lagi.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                getPaymentMethod();
+                switchTab('#main');
+                hideAllPaymentOutputs();
+                $('#footer-payment').hide();
+                $('#footer-main').show();
+                clearCountdowns();
+            });
+
+            clearInterval(timerInterval);
+            return;
         }
-    })
-        .then(response => {
-            if (!response.body) {
-                throw new Error("ReadableStream not supported");
-            }
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let data = '';
-            // Function to process each chunk of the stream
-            function processChunk({ done, value }) {
-                if (done) {
-                    console.log("Streaming selesai.");
-                    return;
-                }
-                data += decoder.decode(value, { stream: true });
-                const chunks = data.split(''); // Split the stream by newline
-                // Process each chunk
-                data = chunks.pop(); // Retain the last incomplete chunk for the next iteration
-                chunks.forEach(chunk => {
-                    if (chunk.trim()) {
-                        try {
-                            const jsonData = JSON.parse(chunk);
-                            // Update the countdown
-                            countdownElement.textContent = jsonData.timer;
-                            // Check if the countdown has finished
-                            if (jsonData.is_finished) {
-                                console.log("Waktu pembayaran telah habis.");
-                                // Use SweetAlert2 to show the message
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Waktu Habis!',
-                                    text: 'Waktu pembayaran telah habis. Silakan coba lagi.',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    getPaymentMethod()
-                                    switchTab('#main');
-                                    hideAllPaymentOutputs();
-                                    $('#footer-payment').hide();
-                                    $('#footer-main').show();
-                                    clearCountdowns();
-                                });
-                                reader.cancel(); // Stop reading further chunks
-                            }
-                        } catch (error) {
-                            console.error("Error parsing JSON chunk:", error);
-                        }
-                    }
-                });
-                // Continue reading the next chunk
-                return reader.read().then(processChunk);
-            }
-            // Start reading the stream
-            return reader.read().then(processChunk);
-        })
-        .catch(error => console.error('Error during streaming:', error));
+
+        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((distance / (1000 * 60)) % 60);
+        const seconds = Math.floor((distance / 1000) % 60);
+
+        countdownElement.textContent =
+            `${String(hours).padStart(2, '0')}:` +
+            `${String(minutes).padStart(2, '0')}:` +
+            `${String(seconds).padStart(2, '0')}`;
+    }
+
+    // update pertama kali langsung
+    updateCountdown();
+
+    // update tiap detik
+    const timerInterval = setInterval(updateCountdown, 1000);
 }
 function listenToPaymentStatus(roomId) {
     // Set up the channel for the specified room ID

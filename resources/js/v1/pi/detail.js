@@ -48,13 +48,13 @@ $(document).ready(function() {
     // Function for "Revisi Data" button
     $('#update-confirm').on('click', function () {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "Do you want to revise the data?",
+            title: 'Apakah Anda yakin?',
+            text: "Apakah Anda ingin merevisi data?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, revise it!'
+            confirmButtonText: 'Ya, revisi!'
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = `/edit/${reqId}`;
@@ -64,13 +64,13 @@ $(document).ready(function() {
     // Function for "Konfirmasi" button
     $('#confirm-now').on('click', function () {
         Swal.fire({
-            title: 'Confirm Data?',
-            text: "Are you sure you want to confirm?",
+            title: 'Konfirmasi Data?',
+            text: "Apakah Anda yakin ingin mengonfirmasi?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#28a745',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, confirm it!'
+            confirmButtonText: 'Ya, konfirmasi!'
         }).then((result) => {
             if (result.isConfirmed) {
                 const id = reqId;
@@ -302,7 +302,7 @@ function countdownSuccessPayment() {
 // Function to toggle loading state on a button
 function setLoading(button, isLoading) {
     if (isLoading) {
-        button.html('<i class="spinner-border spinner-border-sm"></i> Loading...');
+        button.html('<i class="spinner-border spinner-border-sm"></i> Memuat...');
         button.prop('disabled', true);
     } else {
         button.html(button.data('original-text'));
@@ -323,17 +323,13 @@ function copyToClipboard(element) {
 }
 function makeCountdown(expiryTime, countdownElementId) {
     const countdownElement = document.getElementById(countdownElementId);
-
     // Pastikan expiryTime dalam bentuk timestamp (ms)
     const endTime = new Date(expiryTime).getTime();
-
     function updateCountdown() {
         const now = Date.now();
         const distance = endTime - now;
-
         if (distance <= 0) {
             countdownElement.textContent = "00:00:00";
-
             Swal.fire({
                 icon: 'warning',
                 title: 'Waktu Habis!',
@@ -347,24 +343,19 @@ function makeCountdown(expiryTime, countdownElementId) {
                 $('#footer-main').show();
                 clearCountdowns();
             });
-
             clearInterval(timerInterval);
             return;
         }
-
         const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((distance / (1000 * 60)) % 60);
         const seconds = Math.floor((distance / 1000) % 60);
-
         countdownElement.textContent =
             `${String(hours).padStart(2, '0')}:` +
             `${String(minutes).padStart(2, '0')}:` +
             `${String(seconds).padStart(2, '0')}`;
     }
-
     // update pertama kali langsung
     updateCountdown();
-
     // update tiap detik
     const timerInterval = setInterval(updateCountdown, 1000);
 }
@@ -402,7 +393,7 @@ function switchTab(tabId) {
 function getDataDetail(reqId) {
     Swal.fire({
         icon: "info",
-        text: "loading",
+        text: "Memuat...",
         showConfirmButton: false,
         allowOutsideClick: false,
     });
@@ -430,13 +421,11 @@ function getDataDetail(reqId) {
             $('#ttl').html(item.tempat_lahir + ', ' + item.tanggal_lahir)
             $('#email').html(item.email)
             $('#jenis-kelamin').html(item.jenis_kelamin_desc)
-
             // Isi data ke modal KTP
             $('#modalNikKTP').text(item.nik || '-');
             $('#modalNamaKTP').text(item.nama || '-');
             $('#modalTtlKTP').text(item.tempat_lahir + ', ' + item.tanggal_lahir || '-');
             $('#modalJenisKelaminKTP').text(item.jenis_kelamin_desc || '-');
-
             $('#nomor-handphone').html(item.no_hp)
             $('#npwp').html(item.npwp)
             $('#alamat').html(item.alamat)
@@ -938,11 +927,11 @@ function getDataDetail(reqId) {
         } catch (e) {
             // If parsing fails, use a default error message
             data = {
-                message: 'An unexpected error occurred'
+                message: 'Terjadi kesalahan yang tidak terduga'
             };
         }
         // Ensure data.message exists
-        const message = data.message || 'An unexpected error occurred';
+        const message = data.message || 'Terjadi kesalahan yang tidak terduga';
         Swal.fire({
             icon: 'error',
             text: message,
@@ -1020,7 +1009,7 @@ function renderList() {
 function polis(reqId) {
     Swal.fire({
         icon: 'info',
-        text: "Loading!",
+        text: "Memuat!",
         showConfirmButton: false,
         allowOutsideClick: false,
     });
@@ -1050,7 +1039,7 @@ function polis(reqId) {
                 });
                 Swal.fire({
                     icon: 'success',
-                    text: "Download berhasil!",
+                    text: "Unduhan berhasil!",
                     showConfirmButton: true,
                 });
             } else {
@@ -1067,7 +1056,7 @@ function polis(reqId) {
                 });
                 Swal.fire({
                     icon: 'success',
-                    text: "Download berhasil!",
+                    text: "Unduhan berhasil!",
                     showConfirmButton: true,
                 });
             }
@@ -1075,7 +1064,7 @@ function polis(reqId) {
         .catch(error => {
             Swal.fire({
                 icon: 'error',
-                text: `Error: ${error.message}`,
+                text: `Kesalahan: ${error.message}`,
                 showConfirmButton: true,
             });
         });
@@ -1083,7 +1072,7 @@ function polis(reqId) {
 function invoice(reqId) {
     Swal.fire({
         icon: 'info',
-        text: "Loading!",
+        text: "Memuat!",
         showConfirmButton: false,
         allowOutsideClick: false,
     });
@@ -1113,7 +1102,7 @@ function invoice(reqId) {
                 });
                 Swal.fire({
                     icon: 'success',
-                    text: "Download berhasil!",
+                    text: "Unduhan berhasil!",
                     showConfirmButton: true,
                 });
             } else {
@@ -1130,7 +1119,7 @@ function invoice(reqId) {
                 });
                 Swal.fire({
                     icon: 'success',
-                    text: "Download berhasil!",
+                    text: "Unduhan berhasil!",
                     showConfirmButton: true,
                 });
             }
@@ -1138,7 +1127,7 @@ function invoice(reqId) {
         .catch(error => {
             Swal.fire({
                 icon: 'error',
-                text: `Error: ${error.message}`,
+                text: `Kesalahan: ${error.message}`,
                 showConfirmButton: true,
             });
         });
@@ -1176,7 +1165,7 @@ function handlePayment(reqId) {
                 onPending: function(result) {
                     Swal.fire({
                         icon: 'warning',
-                        text: "menunggu pembayaran Anda!",
+                        text: "Menunggu pembayaran Anda!",
                         showConfirmButton: true,
                         allowOutsideClick: false,
                     })
@@ -1221,7 +1210,7 @@ function ajaxGetToken(reqId, callback) {
             if (snapToken) {
                 callback(null, snapToken);
             } else {
-                callback(new Error('Failed to fetch snap token'), null);
+                callback(new Error('Gagal mengambil token snap'), null);
             }
         } else {
             Swal.fire({
@@ -1240,11 +1229,11 @@ function ajaxGetToken(reqId, callback) {
         } catch (e) {
             // If parsing fails, use a default error message
             data = {
-                message: 'An unexpected error occurred'
+                message: 'Terjadi kesalahan yang tidak terduga'
             };
         }
         // Ensure data.message exists
-        const message = data.message || 'An unexpected error occurred';
+        const message = data.message || 'Terjadi kesalahan yang tidak terduga';
         Swal.fire({
             icon: 'error',
             text: message,
@@ -1271,11 +1260,11 @@ function handleDeletePayment(reqId) {
         } catch (e) {
             // If parsing fails, use a default error message
             data = {
-                message: 'An unexpected error occurred'
+                message: 'Terjadi kesalahan yang tidak terduga'
             };
         }
         // Ensure data.message exists
-        const message = data.message || 'An unexpected error occurred';
+        const message = data.message || 'Terjadi kesalahan yang tidak terduga';
         Swal.fire({
             icon: 'error',
             text: message,
@@ -1312,11 +1301,11 @@ function handleRequestPayment(reqId, selectedPaymentId) {
         } catch (e) {
             // If parsing fails, use a default error message
             data = {
-                message: 'An unexpected error occurred'
+                message: 'Terjadi kesalahan yang tidak terduga'
             };
         }
         // Ensure data.message exists
-        const message = data.message || 'An unexpected error occurred';
+        const message = data.message || 'Terjadi kesalahan yang tidak terduga';
         Swal.fire({
             icon: 'error',
             text: message,
@@ -1327,7 +1316,7 @@ function handleRequestPayment(reqId, selectedPaymentId) {
 function getPaymentMethod() {
     Swal.fire({
         icon: "info",
-        text: "loading",
+        text: "Memuat...",
         showConfirmButton: false,
         allowOutsideClick: false,
     });
@@ -1348,8 +1337,8 @@ function getPaymentMethod() {
         });
         // Define payment group titles
         const paymentGroupTitles = {
-            1: "Bank Transfer",
-            2: "E Wallet",
+            1: "Transfer Bank",
+            2: "E-Wallet",
             3: "Kartu Kredit/Debit"
         };
         // Function to append payment methods to the specified container
@@ -1400,12 +1389,12 @@ function getPaymentMethod() {
             data = JSON.parse(error.responseText);
         } catch (e) {
             data = {
-                message: 'An unexpected error occurred'
+                message: 'Terjadi kesalahan yang tidak terduga'
             };
         }
         Swal.fire({
             icon: 'error',
-            text: data.message || 'An unexpected error occurred',
+            text: data.message || 'Terjadi kesalahan yang tidak terduga',
             showConfirmButton: true,
             allowOutsideClick: false,
         }).then((result) => {
@@ -1494,7 +1483,7 @@ function getPaymentStatus(reqId) {
                         }, 2000);
                         break;
                     default:
-                        console.log('Unknown payment method');
+                        console.log('Metode pembayaran tidak dikenal');
                 }
             });
         } else if (response.status === 202) {
@@ -1521,14 +1510,14 @@ function getPaymentStatus(reqId) {
             data = JSON.parse(error.responseText);
         } catch (e) {
             data = {
-                message: 'An unexpected error occurred'
+                message: 'Terjadi kesalahan yang tidak terduga'
             };
         }
         // Stop the interval if there's an error
         clearInterval(paymentStatusInterval);
         Swal.fire({
             icon: 'error',
-            text: data.message || 'An unexpected error occurred',
+            text: data.message || 'Terjadi kesalahan yang tidak terduga',
             showConfirmButton: true,
             allowOutsideClick: false,
         })
@@ -1544,11 +1533,11 @@ async function sendStatusUpdate(reqId, statusId) {
     // Validate input
     if (typeof reqId !== 'string' || !reqId.trim()) {
         console.error('Invalid reqId:', reqId);
-        throw new Error('reqId must be a non-empty string.');
+        throw new Error('reqId harus berupa string yang tidak kosong.');
     }
     if (typeof statusId !== 'number' || ![2, 8].includes(statusId)) {
         console.error('Invalid statusId:', statusId);
-        throw new Error('statusId must be a valid number (e.g., 2 or 8).');
+        throw new Error('statusId harus berupa angka yang valid (misalnya, 2 atau 8).');
     }
     let payload = {
         reqId: reqId,
@@ -1559,10 +1548,10 @@ async function sendStatusUpdate(reqId, statusId) {
     try {
         encryptedData = await encryptData(formDataString);
     } catch (encryptionError) {
-        console.error('Encryption failed:', encryptionError);
+        console.error('Enkripsi gagal:', encryptionError);
         Swal.fire(
-            'Error!',
-            'Failed to encrypt data. Please try again.',
+            'Kesalahan!',
+            'Gagal mengenkripsi data. Silakan coba lagi.',
             'error'
         );
         throw encryptionError;
@@ -1577,20 +1566,20 @@ async function sendStatusUpdate(reqId, statusId) {
         data: form,
         success: function (response) {
             const successMessage = statusId === 2
-                ? 'Request completed and status updated successfully!'
+                ? 'Permintaan selesai dan status berhasil diperbarui!'
                 : statusId === 8
-                ? 'Request marked for editing. Redirecting now.'
-                : 'The request has been updated successfully.';
+                ? 'Permintaan ditandai untuk diedit. Mengalihkan sekarang.'
+                : 'Permintaan telah berhasil diperbarui.';
             Swal.fire(
-                'Success!',
+                'Berhasil!',
                 successMessage,
                 'success'
             ).then(() => handlePostSuccessActions(statusId, reqId));
         },
         error: function (xhr, status, error) {
             Swal.fire(
-                'Error!',
-                'Something went wrong. Please try again later.',
+                'Kesalahan!',
+                'Terjadi kesalahan. Silakan coba lagi nanti.',
                 'error'
             );
             console.error('Error Details:', {

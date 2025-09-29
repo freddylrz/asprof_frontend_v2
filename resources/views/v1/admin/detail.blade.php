@@ -426,7 +426,7 @@
                             <p id="total_premi"></p>
                         </div>
                         <div class="form-group">
-                            <h4>Jaminan Pertanggungan</h4>
+                            <h4>Nilai pertanggungan</h4>
                             <p id="sum"></p>
                         </div>
                 </div>

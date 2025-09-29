@@ -94,7 +94,7 @@
                               <div class="flex-grow-1 ms-3">
                                  <div class="row g-1">
                                     <div class="col-12">
-                                       <p class="text-muted mb-1">Jaminan Pertanggungan</p>
+                                       <p class="text-muted mb-1">Nilai pertanggungan</p>
                                        <h5 class="mb-0" id="jaminan-pertanggungan"></h5>
                                     </div>
                                  </div>

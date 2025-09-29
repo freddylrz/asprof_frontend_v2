@@ -284,7 +284,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <h4>Jaminan Pertanggungan</h4>
+                                        <h4>Nilai pertanggungan</h4>
                                         <p id="sum-insured" class="mb-0">-</p>
                                     </div>
                                 </div>

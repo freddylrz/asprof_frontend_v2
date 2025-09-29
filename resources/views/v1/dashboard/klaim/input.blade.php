@@ -45,7 +45,7 @@
                            <input type="text" class="form-control bg-light" id="periode-polis" name="periode_polis" disabled>
                         </div>
                         <div class="col-6">
-                           <label for="jaminan-pertanggungan" class="form-label">Jaminan Pertanggungan</label>
+                           <label for="jaminan-pertanggungan" class="form-label">Nilai pertanggungan</label>
                            <input type="text" class="form-control bg-light" id="jaminan-pertanggungan" name="jaminan_pertanggungan" disabled>
                         </div>
                         <div class="col-6">

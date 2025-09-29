@@ -200,7 +200,7 @@
             Back</a>
     </div>
     <div class="pct-body">
-        <div class="mb-5 mt-2" style="text-align: center">           
+        <div class="mb-5 mt-2" style="text-align: center">
              <h2 class="mb-3"><b>BATCH<br>NO. <span id="batchId"></span></b></h2>
 
             <div class="multisteps-form__progress">
@@ -225,18 +225,18 @@
                     <div class="col-md-6">
                         <table class="table table-striped table-bordered">
                         <tbody id="tableSum">
-                            
+
                         </thead>
                     </table>
                     </div>
                     <div class="col-md-6">
                         <table class="table table-striped table-bordered">
                         <tbody id="tableProfesi">
-                            
+
                         </thead>
                     </table>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -525,7 +525,7 @@
                                         <p id="total_premi"></p>
                                     </div>
                                     <div class="form-group">
-                                        <h4>Jaminan Pertanggungan</h4>
+                                        <h4>Nilai pertanggungan</h4>
                                         <p id="sum"></p>
                                     </div>
                                 </div>

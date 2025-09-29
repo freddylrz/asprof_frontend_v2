@@ -169,7 +169,7 @@
                         </div>
                         <div class="col-6">
                            <label for="jenis-tuntutan" class="form-label">Jenis Tuntutan / Gugatan<span class="required">*</span></label>
-                           <input type="text" class="form-control" id="jenis-tuntutan" name="jenis_tuntutan" placeholder="Jenis tuntutan hukum" >
+                           <input type="text" class="form-control" id="jenis-tuntutan" name="jenis_tuntutan" placeholder="Jenis tuntutan" >
                         </div>
                         <div class="col-12">
                            <label for="kronologis-kejadian" class="form-label">Kronologis Kejadian <span class="required">*</span></label>

@@ -1036,7 +1036,7 @@ function getBiayaKepesertaan(ins_id) {
                     <label class="form-check-label d-block" for="plan${item.id}">
                         <span class="h5 mb-0 d-block">${item.plan_desc}</span>
                         <p class="text-muted offer-details" style="font-size:12px">Premi Tahunan: <br><span class="h6">${item.premi}</span></p>
-                        <p class="text-muted offer-details" style="font-size:12px">Jaminan Pertanggungan: <br><span class="h6">${item.sum_insured}</span></p>
+                        <p class="text-muted offer-details" style="font-size:12px">Nilai pertanggungan: <br><span class="h6">${item.sum_insured}</span></p>
                     </label>
                     </div>
                 </div>

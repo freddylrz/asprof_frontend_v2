@@ -9,6 +9,9 @@ const expirationTime = new Date(Date.now() + expiresIn).toUTCString();
 // Variable to store selected method
 let selectedMethod = '1';
 
+// Global timer interval for resend cooldown
+let resendTimerInterval = null;
+
 $(document).ready(function () {
     // Input mask for 16 digits STR number
     $(".enambelas").inputmask({
@@ -28,7 +31,7 @@ $(document).ready(function () {
     // Automatically handle OTP verification when 6 digits are entered
     $('.otpInput').on('keyup', function() {
         if (this.value.length === 6 && !otpCalled) {
-            otpCalled = true; // Set the flag to true
+            otpCalled = true;
             handleOtpVerification();
         }
     });
@@ -41,7 +44,6 @@ $(document).ready(function () {
 
     // Handle choose OTP method
     $('#chooseMethodButton').on('click', function (e) {
-        console.log('Choose OTP method button clicked');
         e.preventDefault();
         selectedMethod = $('input[name="otp_method"]:checked').val();
         sendOtpCode();
@@ -77,7 +79,6 @@ function getCookie(name) {
     return null;
 }
 
-// Function to show alert using SweetAlert
 function showAlert(icon, text) {
     Swal.fire({
         icon: icon,
@@ -87,7 +88,6 @@ function showAlert(icon, text) {
     });
 }
 
-// Function to toggle loading state on a button
 function setLoading(button, isLoading) {
     if (isLoading) {
         button.html('<i class="spinner-border spinner-border-sm"></i> Loading...');
@@ -98,12 +98,10 @@ function setLoading(button, isLoading) {
     }
 }
 
-// Function to handle login process
 function handleLogin() {
     const email = $('#email').val().trim();
     const strNo = $('#strNo').val().trim();
 
-    // Validate email and STR number input
     if (!email) {
         showAlert('error', 'Mohon masukan alamat email anda terlebih dahulu!');
         return;
@@ -117,12 +115,10 @@ function handleLogin() {
     loginButton.data('original-text', loginButton.html());
     setLoading(loginButton, true);
 
-    // Prepare form data for login request
     const formData = new FormData();
     formData.append("email", email);
     formData.append("str", strNo);
 
-    // Send AJAX request for login
     $.ajax({
         url: `${apiUrl}/api/client/auth/login`,
         method: 'POST',
@@ -132,7 +128,6 @@ function handleLogin() {
     }).done(function (response) {
         setLoading(loginButton, false);
         if (response.status === 200) {
-            // Simpan user_id dari response
             window.userId = response.data.user_id;
             switchTab('#auth-2');
         } else {
@@ -145,7 +140,6 @@ function handleLogin() {
     });
 }
 
-// Function to send OTP code based on selected method
 function sendOtpCode() {
     const chooseMethodButton = $('#chooseMethodButton');
     chooseMethodButton.data('original-text', chooseMethodButton.html());
@@ -184,25 +178,20 @@ function sendOtpCode() {
                 }
             }).then(() => {
                 switchTab('#auth-3');
-                startResendCooldown();
             });
         } else {
             showAlert('warning', response.message);
-                switchTab('#auth-3');
         }
     }).fail(function (error) {
         setLoading(chooseMethodButton, false);
         const message = error.responseJSON?.message || 'An unexpected error occurred';
         showAlert('error', message);
-                switchTab('#auth-3');
     });
 }
 
-// Function to handle OTP verification process
 function handleOtpVerification() {
     const otp = $('.otpInput').map((_, el) => el.value).get().join('');
 
-    // Validasi OTP input
     if (otp.length < 6) {
         showAlert('error', 'Mohon masukan kode OTP dengan lengkap!');
         otpCalled = false;
@@ -213,9 +202,8 @@ function handleOtpVerification() {
     otpButton.data('original-text', otpButton.html());
     setLoading(otpButton, true);
 
-    // Siapkan form data untuk verifikasi OTP
     const formData = new FormData();
-    formData.append("user_id", window.userId); // dari response login
+    formData.append("user_id", window.userId);
     formData.append("otp", otp);
 
     $.ajax({
@@ -227,17 +215,10 @@ function handleOtpVerification() {
     }).done(function (response) {
         setLoading(otpButton, false);
         if (response.status === 200) {
-            console.log(response);
-
-            let timerInterval;
-
-            // Simpan access_token ke cookie
             document.cookie = `piat=${response.access_token}; expires=${expirationTime}; path=/; SameSite=Lax`;
-
-            // Simpan user_info ke cookie sebagai string JSON
             document.cookie = `user_info=${JSON.stringify(response.user_info)}; expires=${expirationTime}; path=/; SameSite=Lax`;
 
-            // Tampilkan sukses dan redirect ke dashboard
+            let timerInterval;
             Swal.fire({
                 icon: 'success',
                 title: response.message,
@@ -272,21 +253,18 @@ function handleOtpVerification() {
     });
 }
 
-// Function to switch tabs
 function switchTab(tabId) {
     const tabTrigger = $(`a[href="${tabId}"]`);
-    $('#auth-active-slide').html(tabTrigger.data('slide-index'));
     const tab = new bootstrap.Tab(tabTrigger[0]);
     tab.show();
 
-    // Update OTP method text when switching to auth-3 tab
     if (tabId === '#auth-3') {
-        const methodText = selectedMethod === 'email' ? 'email' : 'SMS';
+        const methodText = selectedMethod === '1' ? 'email' : 'SMS';
         $('#otpMethodText').text(`Kami telah mengirim kode OTP ke ${methodText} anda.`);
+        startResendCooldown();
     }
 }
 
-// Function to resend OTP code
 function resendOtpCode() {
     const resendButton = $('#resendCode');
     const originalText = resendButton.text();
@@ -320,24 +298,29 @@ function resendOtpCode() {
     });
 }
 
-// Function to start the resend OTP cooldown timer
 function startResendCooldown() {
     const resendButton = $('#resendCode');
     resendButton.addClass('disabled');
     resendButton.css('pointer-events', 'none');
 
+    if (resendTimerInterval) {
+        clearInterval(resendTimerInterval);
+    }
+
     const endTime = Date.now() + resendCooldown;
-    const timerInterval = setInterval(() => {
+
+    resendTimerInterval = setInterval(() => {
         const remainingTime = endTime - Date.now();
         if (remainingTime <= 0) {
-            clearInterval(timerInterval);
+            clearInterval(resendTimerInterval);
+            resendTimerInterval = null;
             resendButton.removeClass('disabled');
             resendButton.css('pointer-events', 'auto');
             resendButton.text('Kirim kembali kode');
         } else {
             const minutes = Math.floor(remainingTime / 60000);
             const seconds = Math.floor((remainingTime % 60000) / 1000);
-            resendButton.text(` Kirim kembali kode otp dalam (${minutes}:${seconds < 10 ? '0' : ''}${seconds})`);
+            resendButton.text(`Kirim ulang kode OTP dalam (${minutes}:${seconds < 10 ? '0' : ''}${seconds})`);
         }
     }, 1000);
 }

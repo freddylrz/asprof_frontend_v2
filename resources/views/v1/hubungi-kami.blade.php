@@ -87,7 +87,7 @@
                               <h2 class=" text-uppercase">hubungi kami</h2>
                               <div class="col-12">
                                  <div class="form-group">
-                                    <label class="form-label">Email id</label>
+                                    <label class="form-label">Alamat Email</label>
                                     <input type="email" class="form-control" placeholder="Email" />
                                  </div>
                               </div>

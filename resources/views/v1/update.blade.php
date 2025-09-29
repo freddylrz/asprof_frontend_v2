@@ -195,7 +195,7 @@
                         </div>
                         <div class="col-lg-6">
                            <div class="form-group">
-                              <label class="form-label required">Email</label>
+                              <label class="form-label required">Alamat Email</label>
                               <input type="email" class="form-control" name="email" id="email" placeholder="Masukan alamat email" readonly>
                            </div>
                         </div>
@@ -214,7 +214,7 @@
                         </div>
                         <div class="col-lg-6">
                            <div class="form-group">
-                              <label class="form-label required">Alamat Domisili</label>
+                              <label class="form-label required">Domisili</label>
                               <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukan alamat tempat tinggal"></textarea>
                            </div>
                         </div>

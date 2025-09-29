@@ -713,29 +713,16 @@
     <script src="{{ asset('assets/js/plugins/wow.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/Jarallax.js') }}"></script>
     <script>
-        window.$crisp = [];
-        window.CRISP_WEBSITE_ID = "155d25dd-e83f-49ef-92db-b1399189fb1c";
-        (function() {
-            d = document;
-            s = d.createElement("script");
-            s.src = "https://client.crisp.chat/l.js";
-            s.async = 1;
-            d.getElementsByTagName("head")[0].appendChild(s);
+
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/66d5662aea492f34bc0ca4ed/1i6ope6ck';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
         })();
-
-        // Jalankan setelah Crisp siap
-        window.$crisp.push(["on", "session:loaded", function () {
-            // Tutup dulu agar nggak auto-restore
-            // window.$crisp.push(["do", "chat:close"]);
-            // Ambil tanggal hari ini (format YYYY-MM-DD)
-            let today = new Date().toISOString().split("T")[0];
-            let lastOpened = localStorage.getItem("crispAutoOpenedDate");
-
-            if (lastOpened !== today) {
-                window.$crisp.push(["do", "chat:open"]); // auto-open
-                localStorage.setItem("crispAutoOpenedDate", today); // simpan tanggal
-            }
-        }]);
 
         // Start [ Menu hide/show on scroll ]
         let ost = 0;

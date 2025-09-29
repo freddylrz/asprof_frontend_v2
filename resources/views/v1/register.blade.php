@@ -367,15 +367,15 @@
                         <div class="col-lg-6">
                            <div class="form-group">
                               <label class="form-label required">Nomor Handphone</label>
-                              <input type="text" class="form-control mobilenumber" name="no_hp" id="nomor-handphone" placeholder="Masukan nomor handphone">
-                              <small class="form-text text-muted">Pastikan nomor HP yang Anda isi benar dan dapat dihubungi, karena kode OTP verifikasi hanya akan dikirim ke nomor tersebut.</small>
+                              <input type="text" class="form-control mobilenumber" name="no_hp" id="nomor-handphone" placeholder="Pastikan nomor HP yang Anda isi benar dan aktif">
+                              <small class="form-text text-muted">Nomor handphone digunakan untuk menerima OTP dan akan dihubungi saat proses klaim.</small>
                            </div>
                         </div>
                         <div class="col-lg-6">
                            <div class="form-group">
                               <label class="form-label required">Email</label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="Masukan alamat email">
-                              <small class="form-text text-muted">Mohon isi alamat email yang aktif dan benar, karena akan digunakan untuk pengiriman informasi pendaftaran serta korespondensi resmi.</small>
+                              <input type="email" class="form-control" name="email" id="email" placeholder="Pastikan email yang Anda isi benar dan aktif">
+                              <small class="form-text text-muted">Email digunakan untuk korespondensi dan notifikasi pembaruan pendaftaran.</small>
                            </div>
                         </div>
                         <div class="col-lg-6">

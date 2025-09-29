@@ -267,7 +267,7 @@
                             <div class="card-body p-3"> {{-- Add padding to card body --}}
                                 <div class="app-link-compact">
                                     <i class="ti ti-caret-right"></i>
-                                    <h5 class="text-black">Memberikan perlindungan dan jaminan apabila ada tuntutan/gugatan dari pasien atau pihak ketiga lainnya yang mengalami kerugian, sebagai akibat dari tugas profesi yang dilakukan.</h5>
+                                    <h5 class="text-black">Memberikan perlindungan dan jaminan atas tuntutan atau gugatan dari pasien maupun pihak ketiga akibat pelaksanaan tugas profesi.</h5>
                                 </div>
                                 <div class="app-link-compact">
                                     <i class="ti ti-caret-right"></i>
@@ -291,7 +291,7 @@
                                 </div>
                                 <div class="app-link-compact">
                                     <i class="ti ti-caret-right"></i>
-                                    <h5 class="text-black">Mendapatkan perlindungan hukum sepanjang melaksanakan tugas sesuai dengan standar pelayanan profesi, etika profesi, standar prosedur operasional serta kebutuhan pasien, sesuai dengan UU No. 17 Tahun 2023 tentang Kesehatan.</h5>
+                                    <h5 class="text-black">Perlindungan hukum diberikan selama melaksanakan tugas sesuai standar pelayanan, etika profesi, prosedur operasional, dan kebutuhan pasien, sebagaimana diatur dalam UU No. 17 Tahun 2023 tentang Kesehatan.</h5>
                                 </div>
                             </div>
                         </div>
@@ -407,7 +407,7 @@
                                        <div class="avtar">
                                           <i class="ti ti-users"></i>
                                        </div>
-                                       <p class="text-content">Pendampingan oleh team medikolegal pada saat terindikasi akan ada gugatan maupun gugatan yang sudah masuk/diterima.</p>
+                                       <p class="text-content">Pendampingan tim medikolegal sejak indikasi gugatan hingga gugatan yang sudah masuk/diterima. </p>
                                     </div>
 
                                     <div class="kelebihan-card">
@@ -438,7 +438,7 @@
                                        <div class="avtar">
                                           <i class="ti ti-server"></i>
                                        </div>
-                                       <p class="text-content">Menggunakan sistem IT terkini dengan sistem keamanan berlapis sehingga semua data tersimpan aman dan terpercaya.</p>
+                                       <p class="text-content">Teknologi IT terbaru dengan tingkat keamanan maksimal, menjaga integritas serta kepercayaan data Anda.</p>
                                     </div>
 
                                     <div class="kelebihan-card">
@@ -464,10 +464,10 @@
                                        <i class="ti ti-info-circle" style="font-size: clamp(1.5rem, 4vw, 2rem); color: seagreen;"></i>
                                     </div>
                                     <div class="col ps-2"> {{-- Added left padding --}}
-                                       <p class="text-desc-premi mb-1">Besarnya premi asuransi berdasarkan limit liability/nilai pertanggungan yang disetujui, tidak membedakan kategori risiko pekerjaan, sebagai berikut:</p>
+                                       <p class="text-desc-premi mb-1">Premi ditentukan berdasarkan limit liability/nilai pertanggungan yang disetujui, tanpa membedakan kategori risiko pekerjaan:</p>
                                        <ul style="list-style: circle;">
-                                          <li class="mb-1"><b>Named</b>: mulai dari Rp. 900 ribuan dengan limit liability Rp. 500 juta/tahun dan berlaku kelipatannya.</li>
-                                          <li class="mb-0"><b>Nakes</b>: mulai dari Rp. 450 ribuan dengan limit liability Rp. 250 juta/tahun dan berlaku kelipatannya.</li>
+                                          <li class="mb-1"><b>Named</b>: mulai Rp900 ribu, limit liability Rp500 juta/tahun (berlaku kelipatan).</li>
+                                          <li class="mb-0"><b>Nakes</b>: mulai dari Rp450 ribu, limit liability Rp250 juta/tahun (berlaku kelipatan).</li>
                                        </ul>
                                     </div>
                                  </div>

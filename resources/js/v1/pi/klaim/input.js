@@ -541,10 +541,6 @@ async function submitKlaim() {
         }
 
         const patientEmail = $('#email-pasien').val()?.trim();
-        if (!patientEmail) {
-            await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Email Pasien wajib diisi' });
-            return;
-        }
 
         const tanggalKejadian = $('#tanggal-kejadian').val()?.trim();
         if (!tanggalKejadian) {

@@ -44,54 +44,102 @@
             </div>
             <div class="row g-3">
                <div class="col-md-6">
-                  <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                  <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                      <p class="text-muted">Nama</p>
                      <p class="mb-0 fw-semibold h5" id="nama"></p>
                   </div>
                </div>
                <div class="col-md-6">
-                  <div class="p-3 rounded-3"    style="background-COLOR: #E6EDFB">
+                  <div class="p-3 rounded-3"    style="background-color: #E6EDFB">
                      <div class="d-flex justify-content-between align-items-start h-100">
                         <div>
                            <p class="text-muted">NIK</p>
                            <p class="mb-0 fw-semibold h5" id="nik"></p>
                         </div>
-                        <a href="#" class="btn btn-sm btn-primary align-self-end" id="file_ktp" target="_blank"></a>
-                     </div>
+                        <button type="button" class="btn btn-sm btn-primary align-self-end" data-bs-toggle="modal" data-bs-target="#ktpModal">
+                            <i class="ti ti-file"></i> <span class="d-none d-md-inline">KTP</span>
+                        </button>
+                    </div>
                   </div>
+                  <!-- Modal KTP -->
+                    <div class="modal fade" id="ktpModal" tabindex="-1" aria-labelledby="ktpModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="ktpModalLabel">Kartu Tanda Penduduk (KTP)</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <!-- Kolom Kiri: Detail -->
+                                        <div class="col-lg-6">
+                                            <div class="p-4">
+                                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
+                                                    <strong>NIK:</strong>
+                                                    <p class="h5 mb-0" id="modalNikKTP"></p>
+                                                </div>
+                                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
+                                                    <strong>Nama Sesuai KTP:</strong>
+                                                    <p class="h5 mb-0" id="modalNamaKTP"></p>
+                                                </div>
+                                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
+                                                    <strong>Tempat, Tanggal Lahir:</strong>
+                                                    <p class="h5 mb-0" id="modalTtlKTP"></p>
+                                                </div>
+                                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
+                                                    <strong>Jenis Kelamin:</strong>
+                                                    <p class="h5 mb-0" id="modalJenisKelaminKTP"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Kolom Kanan: Gambar -->
+                                        <div class="col-lg-6">
+                                            <img id="ktpImage" src="" alt="Gambar KTP" class="img-fluid rounded-3 shadow-sm" style="max-height: 70vh; object-fit: contain;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <a href="#" id="downloadKTP" class="btn btn-primary" target="_blank">
+                                        <i class="ti ti-download"></i> Download KTP
+                                    </a>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                </div>
                <div class="col-md-6">
-                  <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                  <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                      <p class="text-muted">Tempat, Tanggal Lahir</p>
                      <p class="mb-0 fw-semibold h5" id="ttl"></p>
                   </div>
                </div>
                <div class="col-md-6">
-                  <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                  <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                      <p class="text-muted">Jenis Kelamin</p>
                      <p class="mb-0 fw-semibold h5" id="jenis-kelamin"></p>
                   </div>
                </div>
                <div class="col-md-6">
-                  <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                  <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                      <p class="text-muted">No. HP</p>
                      <p class="mb-0 fw-semibold h5" id="nomor-handphone"></p>
                   </div>
                </div>
                <div class="col-md-6">
-                  <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                  <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                      <p class="text-muted">Email</p>
                      <p class="mb-0 fw-semibold h5" id="email"></p>
                   </div>
                </div>
                <div class="col-md-6">
-                  <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                  <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                      <p class="text-muted">NPWP</p>
                      <p class="mb-0 fw-semibold h5" id="npwp"></p>
                   </div>
                </div>
                <div class="col-md-6">
-                  <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                  <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                      <p class="text-muted">Alamat</p>
                      <p class="mb-0 fw-semibold h5" id="alamat"></p>
                   </div>
@@ -105,13 +153,13 @@
                </div>
                <div class="row g-3">
                   <div class="col-md-6">
-                     <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                     <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                         <p class="text-muted">Nama</p>
                         <p class="mb-0 fw-semibold h5" id="kontak-darurat"></p>
                      </div>
                   </div>
                   <div class="col-md-6">
-                     <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                     <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                         <p class="text-muted">No. HP</p>
                         <p class="mb-0 fw-semibold h5" id="nomor-darurat"></p>
                      </div>
@@ -132,13 +180,13 @@
                 <!-- Baris 1: Kategori & Profesi -->
                 <div class="row mb-4 g-3">
                     <div class="col-md-6">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                        <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                             <p class="text-muted">Kategori</p>
                             <p class="mb-0 h5" id="ketegori-profesi"></p>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                        <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                             <p class="text-muted">Profesi</p>
                             <p class="mb-0 h5" id="profesi"></p>
                         </div>
@@ -170,7 +218,7 @@
 
                     <!-- Surat Izin Praktik (SIP) -->
                     <div class="col-md-6">
-                        <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+                        <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                             <p class="text-muted">Surat Izin Praktik (SIP)</p>
                             <div id="list-sip-container">
                                 <!-- SIP items will be populated here dynamically -->
@@ -192,20 +240,20 @@
                     <div class="modal-body">
                         <div class="row">
                             <!-- Kolom Kiri: Detail -->
-                            <div class="col-lg-6 =">
-                                <div class="mb-3">
+                            <div class="col-lg-6">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Nomor STR:</strong>
                                     <p class="h5 mb-0" id="modalNomorSTR"></p>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Status:</strong>
                                     <p class="h5 mb-0" id="modalStatusSTR"></p>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Periode Awal:</strong>
                                     <p class="h5 mb-0" id="modalPeriodeAwalSTR"></p>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Periode Akhir:</strong>
                                     <p class="h5 mb-0" id="modalPeriodeAkhirSTR"></p>
                                 </div>
@@ -239,23 +287,23 @@
                         <div class="row">
                             <!-- Kolom Kiri: Detail -->
                             <div class="col-lg-6">
-                                <div class="mb-3">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Nomor SIP:</strong>
                                     <p class="h5 mb-0" id="detailNomorSIP"></p>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Periode Awal:</strong>
                                     <p class="h5 mb-0" id="detailPeriodeAwalSIP"></p>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Periode Akhir:</strong>
                                     <p class="h5 mb-0" id="detailPeriodeAkhirSIP"></p>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Penerbit:</strong>
                                     <p class="h5 mb-0" id="detailDaerahPenerbitSIP"></p>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 p-3 rounded-2" style="background-color: #E6EDFB">
                                     <strong>Tempat Praktik:</strong>
                                     <p class="h5 mb-0" id="detailTempatPraktik"></p>
                                 </div>
@@ -288,7 +336,7 @@
             <div class="text-center mb-4">
                <h3 class="mb-0 fw-bold">Informasi Plan</h3>
             </div>
-            <div class="p-3 rounded-3" style="background-COLOR: #E6EDFB">
+            <div class="p-3 rounded-3" style="background-color: #E6EDFB">
                <!-- Asuransi (dari div-asuransi) -->
                <div class="row mb-2" id="div-asuransi">
                   <!-- Dinamis dari JS -->

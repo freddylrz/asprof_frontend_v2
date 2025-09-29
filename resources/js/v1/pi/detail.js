@@ -57,9 +57,7 @@ $(document).ready(function() {
             confirmButtonText: 'Yes, revise it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                const id = reqId;
-                const statusId = 8; // Status for "Revisi Data"
-                sendStatusUpdate(id, statusId);
+                window.location.href = `/edit/${reqId}`;
             }
         });
     });
@@ -432,6 +430,13 @@ function getDataDetail(reqId) {
             $('#ttl').html(item.tempat_lahir + ', ' + item.tanggal_lahir)
             $('#email').html(item.email)
             $('#jenis-kelamin').html(item.jenis_kelamin_desc)
+
+            // Isi data ke modal KTP
+            $('#modalNikKTP').text(item.nik || '-');
+            $('#modalNamaKTP').text(item.nama || '-');
+            $('#modalTtlKTP').text(item.tempat_lahir + ', ' + item.tanggal_lahir || '-');
+            $('#modalJenisKelaminKTP').text(item.jenis_kelamin_desc || '-');
+
             $('#nomor-handphone').html(item.no_hp)
             $('#npwp').html(item.npwp)
             $('#alamat').html(item.alamat)
@@ -772,10 +777,6 @@ function getDataDetail(reqId) {
             $('#revision-alert').html(`Catatan: ${response.revision}`)
             $('#btn_edit').show();
             $('#div-revision-alert').show();
-        } else if (statusId === 7) {
-            $('#revision-alert').html(`Silahkan lanjutkan merevisi data Anda!`)
-            $('#btn_edit').show();
-            $('#div-revision-alert').show();
         } else if (statusId === 8) {
             $('#revision-alert').html(`Data sedang dalam proses oleh tim Tugubro.`)
             $('#btn_edit').hide();
@@ -810,17 +811,16 @@ function getDataDetail(reqId) {
         // Handle documents
         $.each(response['document'], function(j, item) {
             if (item.file_type == 1) {
-                $('#file_ktp').attr('href', item.link)
-                $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span> ')
+                // KTP Document
+                $('#downloadKTP').attr('href', item.link);
+                $('#ktpImage').attr('src', item.link);
             } else if (item.file_type == 2) {
                 // STR Document
-                $('#file_str').attr('href', item.link)
-                $('#downloadSTR').attr('href', item.link)
-                // Set image source for STR modal
-                $('#strImage').attr('src', item.link)
+                $('#downloadSTR').attr('href', item.link);
+                $('#strImage').attr('src', item.link);
             }
-            // SIP documents handled dynamically in the SIP section
-        })
+            // SIP handled elsewhere
+        });
         if (response.data && response.data.length > 0) {
             const dataStr = response.data[0];
             // Isi nomor STR

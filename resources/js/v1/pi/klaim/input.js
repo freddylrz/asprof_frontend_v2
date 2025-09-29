@@ -575,6 +575,43 @@ async function submitKlaim() {
             return;
         }
 
+        // Validasi Kontak Alternatif Peserta
+        const kontakNama = $('#peserta-kontak-nama').val()?.trim();
+        const kontakHp = $('#peserta-kontak-no-hp').val()?.trim();
+        const kontakFilled = kontakNama || kontakHp;
+
+        if (kontakFilled) {
+            if (!kontakNama) {
+                await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Nama Kontak Alternatif wajib diisi karena salah satu field Kontak Alternatif Peserta telah diisi.' });
+                return;
+            }
+            if (!kontakHp) {
+                await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Nomor HP Kontak Alternatif wajib diisi karena salah satu field Kontak Alternatif Peserta telah diisi.' });
+                return;
+            }
+        }
+
+        // Validasi Wali Pasien
+        const waliNama = $('#pasien-wali-nama').val()?.trim();
+        const waliHubungan = $('#pasien-wali-hubungan').val()?.trim();
+        const waliHp = $('#pasien-wali-no-hp').val()?.trim();
+        const waliFilled = waliNama || waliHubungan || waliHp;
+
+        if (waliFilled) {
+            if (!waliNama) {
+                await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Nama Wali Pasien wajib diisi karena salah satu field Wali Pasien telah diisi.' });
+                return;
+            }
+            if (!waliHubungan) {
+                await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Hubungan dengan Pasien wajib diisi karena salah satu field Wali Pasien telah diisi.' });
+                return;
+            }
+            if (!waliHp) {
+                await Swal.fire({ icon: 'warning', title: 'Peringatan', text: 'Nomor HP Wali Pasien wajib diisi karena salah satu field Wali Pasien telah diisi.' });
+                return;
+            }
+        }
+
         const requiredTypes = [1, 2, 3, 4];
         for (let type of requiredTypes) {
             const docExists = documentsList.some(doc => doc.file_type === type);
@@ -624,11 +661,11 @@ async function submitKlaim() {
             patient_gender: jenisKelamin,
             patient_hp: patientHp,
             patient_email: patientEmail,
-            patient_representative_name: $('#pasien-wali-nama').val()?.trim() || null,
-            patient_representative_hp: $('#pasien-wali-no-hp').val()?.trim() || null,
-            patient_representative_relation: $('#pasien-wali-hubungan').val()?.trim() || null,
-            pic_name: $('#peserta-kontak-nama').val()?.trim() || null,
-            pic_no: $('#peserta-kontak-no-hp').val()?.trim() || null,
+            patient_representative_name: waliFilled ? waliNama : null,
+            patient_representative_hp: waliFilled ? waliHp : null,
+            patient_representative_relation: waliFilled ? waliHubungan : null,
+            pic_name: kontakFilled ? kontakNama : null,
+            pic_no: kontakFilled ? kontakHp : null,
             upload: uploadPromises
         };
 

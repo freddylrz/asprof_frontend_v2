@@ -158,7 +158,7 @@ $(document).ready(function() {
                     $('#asuransi').text(data.insurance || '-');
                     $('#nomor-polis').text(data.polis_no || '-');
                     $('#periode-polis').text(`${formatDate(data.polis_start_date)} - ${formatDate(data.polis_end_date)}`);
-                    $('#premi').text(data.premi || '-');
+                    $('#premi').text('IDR ' + (data.premi || '-'));
                     $('#hari-info').text(`${data.sisa_hari || '-'} hari / ${data.total_hari || '-'} hari`);
 
                     // Update success view data

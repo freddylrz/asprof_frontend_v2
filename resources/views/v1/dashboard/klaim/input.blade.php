@@ -169,7 +169,7 @@
                         </div>
                         <div class="col-6">
                            <label for="jenis-tuntutan" class="form-label">Jenis Tuntutan / Gugatan<span class="required">*</span></label>
-                           <input type="text" class="form-control" id="jenis-tuntutan" name="jenis_tuntutan" placeholder="Jenis tuntutan hukum" >
+                           <input type="text" class="form-control" id="jenis-tuntutan" name="jenis_tuntutan" placeholder="Jenis tuntutan" >
                         </div>
                         <div class="col-12">
                            <label for="kronologis-kejadian" class="form-label">Kronologis Kejadian <span class="required">*</span></label>
@@ -194,7 +194,7 @@
                            <input type="text" class="form-control mobilenumber" id="pasien-wali-no-hp" name="pasien_wali_no_hp" placeholder="Nomor HP kontak">
                         </div>
                         <div class="col-12">
-                           <p class="text-muted small">Kontak wali adalah pihak yang berwenang dihubungi saat pasien tidak dapat dihubungi.</p>
+                           <p class="text-muted small">Wali pasien adalah pihak yang diberi kuasa atau ditunjuk sebagai perwakilan sah pasien.</p>
                         </div>
                      </div>
 

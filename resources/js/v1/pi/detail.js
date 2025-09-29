@@ -64,8 +64,8 @@ $(document).ready(function() {
     // Function for "Konfirmasi" button
     $('#confirm-now').on('click', function () {
         Swal.fire({
-            title: 'Konfirmasi Data?',
-            text: "Apakah Anda yakin ingin mengonfirmasi?",
+            title: 'Konfirmasi Data',
+            text: "Apakah Anda yakin dengan data ini?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#28a745',
@@ -426,9 +426,9 @@ function getDataDetail(reqId) {
             $('#modalNamaKTP').text(item.nama || '-');
             $('#modalTtlKTP').text(item.tempat_lahir + ', ' + item.tanggal_lahir || '-');
             $('#modalJenisKelaminKTP').text(item.jenis_kelamin_desc || '-');
-            $('#nomor-handphone').html(item.no_hp)
-            $('#npwp').html(item.npwp)
-            $('#alamat').html(item.alamat)
+            $('#nomor-handphone').html(item.no_hp ? item.no_hp : '-')
+            $('#npwp').html(item.npwp ? item.npwp : '-')
+            $('#alamat').html(item.alamat ? item.alamat : '-')
             if(item.kontak_darurat == null || item.kontak_darurat == "-") {
                 $('#div-kontak-darurat').hide()
             } else {

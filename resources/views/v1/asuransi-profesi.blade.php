@@ -570,7 +570,7 @@
                                              1. Telephone / Whatsapp <a href="https://wa.me/6281268691976" target="_blank">0812-6869-1976</a>
                                           </p>
                                           <p style="font-size: clamp(0.9rem, 2vw, 1.1rem);">
-                                             2. Email <a href="mailto:asprof@tib.co.id" target="_blank">asprof@tib.co.id</a>
+                                             2. Alamat Email <a href="mailto:asprof@tib.co.id" target="_blank">asprof@tib.co.id</a>
                                           </p>
                                           <p style="font-size: clamp(0.9rem, 2vw, 1.1rem);">
                                              3. Login dengan tombol <a class="btn btn-sm btn-success" href="/login"><i class="ti ti-login"></i> Masuk</a> dan laporkan melalui Dashboard peserta

@@ -375,7 +375,7 @@
                            <div class="form-group">
                               <label class="form-label required">Alamat Email</label>
                               <input type="email" class="form-control" name="email" id="email" placeholder="Pastikan email yang Anda isi benar dan aktif">
-                              <small class="form-text text-muted">Email digunakan untuk korespondensi dan notifikasi pembaruan pendaftaran.</small>
+                              <small class="form-text text-muted">Alamat Email digunakan untuk korespondensi dan notifikasi pembaruan pendaftaran.</small>
                            </div>
                         </div>
                         <div class="col-lg-6">

@@ -349,7 +349,7 @@
                                         <p id="jenis_kelamin"></p>
                                     </div>
                                     <div class="form-group">
-                                        <h4>Email</h4>
+                                        <h4>Alamat Email</h4>
                                         <p id="email"></p>
                                     </div>
                                 </div>

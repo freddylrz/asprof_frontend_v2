@@ -367,356 +367,201 @@ async function executeFunctions(reqId) {
     }
 }
 
-function getDataDetail(reqId) {
+async function getDataDetail(reqId) {
     return new Promise((resolve, reject) => {
-        Swal.fire({ icon: "info", text: "loading", showConfirmButton: false, allowOutsideClick: false });
+        Swal.fire({
+            icon: "info",
+            text: "loading",
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
+
         $.ajax({
             url: `${apiUrl}/api/client/request/detail`,
             method: "GET",
             timeout: 0,
             data: { reqId: reqId }
         }).done(async function (responses) {
-            var response = await decryptData(responses.data);
-            console.log(response);
+            try {
+                const response = await decryptData(responses.data);
+                console.log(response);
 
-            let shouldRedirect = false;
-            var statusId;
+                let shouldRedirect = false;
+                let id, profesiId, kategoriProfesiId, selectedPlan, daerahPenerbitId, statusId, insuranceId;
 
-            $.each(response['data'], function (j, item) {
-                if (item.status_id != 3 && item.status_id != 8) {
-                    shouldRedirect = true;
-                    return false;
+                // cek semua status
+                const isValid = response.data.every(item =>
+                    [3, 7, 8].includes(item.status_id)
+                );
+                shouldRedirect = !isValid;
+
+                // ambil item terakhir
+                if (response.data.length > 0) {
+                    const item = response.data[response.data.length - 1];
+
+                    id = item.id;
+                    profesiId = item.profesi_id;
+                    kategoriProfesiId = item.profesi_kategori_id;
+                    selectedPlan = item.plan_id;
+                    daerahPenerbitId = item.sip_penerbit;
+                    statusId = item.status_id;
+                    insuranceId = item.ins_id;
+
+                    // isi form
+                    $('#nomor-register').html(item.register_no);
+                    $('#nama').val(item.nama);
+                    $('#nik').val(item.nik);
+                    $('#tempat-lahir').val(item.tempat_lahir);
+                    $('#tanggal-lahir').val(item.tanggal_lahir);
+                    $('#email').val(item.email);
+                    $('#jenis-kelamin').val(item.jenis_kelamin).change();
+                    $('#nomor-handphone').val(item.no_hp);
+                    $('#npwp').val(item.npwp);
+                    $('#alamat').val(item.alamat);
+                    $('#nama-kontak-darurat').val(item.kontak_darurat);
+                    $('#nomor-kontak-darurat').val(item.nomor_darurat);
+
+                    if (item.str_stat == '1') {
+                        $('#status-str').prop('checked', true);
+                        $('#periode-awal-str').val(item.str_date_start);
+                        $("#periode-akhir-str-container").hide();
+                        $("#periode-awal-str-container").show();
+                    } else {
+                        $('#status-str').prop('checked', false);
+                        $('#periode-akhir-str').val(item.str_date_end);
+                        $("#periode-akhir-str-container").show();
+                        $("#periode-awal-str-container").hide();
+                    }
+                    $('#nomor-str').val(item.str_no);
+                    $('#premi-tahunan').text(item.premi);
+                    $('#jaminan-pertanggungan').text(item.sum_insured);
                 }
-                id = item.id;
-                profesiId = item.profesi_id;
-                kategoriProfesiId = item.profesi_kategori_id;
-                selectedPlan = item.plan_id;
-                daerahPenerbitId = item.sip_penerbit;
-                statusId = item.status_id;
-                insuranceId = item.ins_id;
 
-                $('#nomor-register').html(item.register_no);
-                $('#nama').val(item.nama);
-                $('#nik').val(item.nik);
-                $('#tempat-lahir').val(item.tempat_lahir);
-                $('#tanggal-lahir').val(item.tanggal_lahir);
-                $('#email').val(item.email);
-                $('#jenis-kelamin').val(item.jenis_kelamin).change();
-                $('#nomor-handphone').val(item.no_hp);
-                $('#npwp').val(item.npwp);
-                $('#alamat').val(item.alamat);
-                $('#nama-kontak-darurat').val(item.kontak_darurat);
-                $('#nomor-kontak-darurat').val(item.nomor_darurat);
+                // mapping status
+                const getStatusesByStatusId = (statusId) => {
+                    switch (statusId) {
+                        case 1:
+                        case 3:
+                            return [
+                                { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-dua', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
+                                { id: '#status-poin-tiga', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                                { id: '#status-poin-empat', class: 'bg-light-danger border border-danger', text: 'Belum Terbit' },
+                                { id: '#status-poin-lima', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                                { id: '#poin-satu', class: 'js-active' },
+                                { id: '#poin-dua', class: 'js-proses' },
+                            ];
+                        case 4:
+                            return [
+                                { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-dua', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
+                                { id: '#status-poin-tiga', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                                { id: '#status-poin-empat', class: 'bg-light-danger border border-danger', text: 'Belum Terbit' },
+                                { id: '#status-poin-lima', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                                { id: '#poin-satu', class: 'js-active' },
+                                { id: '#poin-dua', class: 'js-proses' },
+                            ];
+                        case 5:
+                            return [
+                                { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-empat', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
+                                { id: '#status-poin-lima', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#poin-satu', class: 'js-active' },
+                                { id: '#poin-dua', class: 'js-active' },
+                                { id: '#poin-tiga', class: 'js-active' },
+                                { id: '#poin-empat', class: 'js-proses' },
+                                { id: '#poin-lima', class: 'js-active' },
+                            ];
+                        case 6:
+                            return [
+                                { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-tiga', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-empat', class: 'bg-light-success border border-success', text: 'Terbit' },
+                                { id: '#status-poin-lima', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#poin-satu', class: 'js-active' },
+                                { id: '#poin-dua', class: 'js-active' },
+                                { id: '#poin-tiga', class: 'js-active' },
+                                { id: '#poin-empat', class: 'js-active' },
+                                { id: '#poin-lima', class: 'js-active' },
+                            ];
+                        case 7:
+                        case 8:
+                            return [
+                                { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-tiga', class: 'bg-light-danger border border-danger', text: 'Belum Mulai' },
+                                { id: '#status-poin-empat', class: 'bg-light-danger border border-danger', text: 'Belum Terbit' },
+                                { id: '#status-poin-lima', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
+                                { id: '#poin-satu', class: 'js-active' },
+                                { id: '#poin-dua', class: 'js-active' },
+                                { id: '#poin-lima', class: 'js-proses' },
+                            ];
+                        default:
+                            return [
+                                { id: '#status-poin-satu', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-dua', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#status-poin-tiga', class: 'bg-light-warning border border-warning', text: 'Dalam Proses' },
+                                { id: '#status-poin-empat', class: 'bg-light-danger border border-danger', text: 'Belum Terbit' },
+                                { id: '#status-poin-lima', class: 'bg-light-success border border-success', text: 'Selesai' },
+                                { id: '#poin-satu', class: 'js-active' },
+                                { id: '#poin-dua', class: 'js-active' },
+                                { id: '#poin-tiga', class: 'js-proses' },
+                                { id: '#poin-lima', class: 'js-active' },
+                            ];
+                    }
+                };
 
-                if (item.str_stat == '1') {
-                    $('#status-str').prop('checked', true);
-                    $('#periode-awal-str').val(item.str_date_start);
-                    $("#periode-akhir-str-container").hide();
-                    $("#periode-awal-str-container").show();
-                } else {
-                    $('#status-str').prop('checked', false);
-                    $('#periode-akhir-str').val(item.str_date_end);
-                    $("#periode-akhir-str-container").show();
-                    $("#periode-awal-str-container").hide();
+                const statuses = getStatusesByStatusId(statusId);
+                statuses.forEach(status => {
+                    $(status.id).addClass(status.class);
+                    if (status.text) $(status.id).text(status.text);
+                });
+
+                $('#revision-alert').html(`Catatan: ${response.revision}`);
+                if (statusId === 8) {
+                    $('#div-revision-alert').hide();
                 }
-                $('#nomor-str').val(item.str_no);
-                $('#premi-tahunan').text(item.premi);
-                $('#jaminan-pertanggungan').text(item.sum_insured);
-            });
 
-            const getStatusesByStatusId = (statusId) => {
-                switch (statusId) {
-                    case 1:
-                    case 3:
-                        return [{
-                                id: '#status-poin-satu',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-dua',
-                                class: 'bg-light-warning border border-warning',
-                                text: 'Dalam Proses'
-                            },
-                            {
-                                id: '#status-poin-tiga',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
-                            },
-                            {
-                                id: '#status-poin-empat',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Terbit'
-                            },
-                            {
-                                id: '#status-poin-lima',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
-                            },
-                            {
-                                id: '#poin-satu',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-dua',
-                                class: 'js-proses'
-                            },
-                        ];
-                    case 4:
-                        return [{
-                                id: '#status-poin-satu',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-dua',
-                                class: 'bg-light-warning border border-warning',
-                                text: 'Dalam Proses'
-                            },
-                            {
-                                id: '#status-poin-tiga',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
-                            },
-                            {
-                                id: '#status-poin-empat',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Terbit'
-                            },
-                            {
-                                id: '#status-poin-lima',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
-                            },
-                            {
-                                id: '#poin-satu',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-dua',
-                                class: 'js-proses'
-                            },
-                        ];
-                    case 5:
-                        return [{
-                                id: '#status-poin-satu',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-dua',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-tiga',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-empat',
-                                class: 'bg-light-warning border border-warning',
-                                text: 'Dalam Proses'
-                            },
-                            {
-                                id: '#status-poin-lima',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#poin-satu',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-dua',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-tiga',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-empat',
-                                class: 'js-proses'
-                            },
-                            {
-                                id: '#poin-lima',
-                                class: 'js-active'
-                            }
-                        ];
-                    case 6:
-                        return [{
-                                id: '#status-poin-satu',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-dua',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-tiga',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-empat',
-                                class: 'bg-light-success border border-success',
-                                text: 'Terbit'
-                            },
-                            {
-                                id: '#status-poin-lima',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#poin-satu',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-dua',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-tiga',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-empat',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-lima',
-                                class: 'js-active'
-                            }
-                        ];
-                    case 7:
-                    case 8:
-                        return [{
-                                id: '#status-poin-satu',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-dua',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-tiga',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Mulai'
-                            },
-                            {
-                                id: '#status-poin-empat',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Terbit'
-                            },
-                            {
-                                id: '#status-poin-lima',
-                                class: 'bg-light-warning border border-warning',
-                                text: 'Dalam Proses'
-                            },
-                            {
-                                id: '#poin-satu',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-dua',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-lima',
-                                class: 'js-proses'
-                            },
-                        ];
-                    default:
-                        return [{
-                                id: '#status-poin-satu',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-dua',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#status-poin-tiga',
-                                class: 'bg-light-warning border border-warning',
-                                text: 'Dalam Proses'
-                            },
-                            {
-                                id: '#status-poin-empat',
-                                class: 'bg-light-danger border border-danger',
-                                text: 'Belum Terbit'
-                            },
-                            {
-                                id: '#status-poin-lima',
-                                class: 'bg-light-success border border-success',
-                                text: 'Selesai'
-                            },
-                            {
-                                id: '#poin-satu',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-dua',
-                                class: 'js-active'
-                            },
-                            {
-                                id: '#poin-tiga',
-                                class: 'js-proses'
-                            },
-                            {
-                                id: '#poin-lima',
-                                class: 'js-active'
-                            }
-                        ];
+                // file KTP
+                response.document.forEach(item => {
+                    if (item.file_type == 1) {
+                        $('#file_ktp').attr('href', item.link);
+                        $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span>');
+                    }
+                });
+
+                $('#profesi').val(profesiId).trigger('change');
+                await getBiayaKepesertaan(insuranceId);
+                await getDataKota();
+
+                if (shouldRedirect) {
+                    window.location.href = `/detail/${reqId}`;
+                    return resolve();
                 }
-            };
 
-            const statuses = getStatusesByStatusId(statusId);
-            statuses.forEach(status => {
-                $(status.id).addClass(status.class).text(status.text);
-            });
+                // logs
+                $('#list-log').html('');
+                response.log.forEach((item, j) => {
+                    $('#list-log').append(`
+                        <li key="${j + 1}">
+                            <i class="feather icon-check f-w-600 task-icon bg-success"></i>
+                            <p class="m-b-5">${item.created_at}</p>
+                            <p class="text-muted m-b-5 h3">${item.status_desc}</p>
+                            <p class="m-b-5 h6">${item.description}</p>
+                        </li>
+                    `);
+                });
 
-            $('#revision-alert').html(`Catatan: ${response.revision}`);
-            if (statusId === 8) {
-                $('#div-revision-alert').hide();
+                populateTempatPraktikDetails(response);
+                Swal.close();
+                resolve();
+
+            } catch (err) {
+                reject(err);
             }
-
-            $.each(response['document'], function (j, item) {
-                if (item.file_type == 1) {
-                    $('#file_ktp').attr('href', item.link);
-                    $('#file_ktp').html('<i class="ti ti-file"></i> <span class="d-none d-md-inline"> KTP</span>');
-                }
-            });
-
-            $('#profesi').val(profesiId).trigger('change');
-            await getBiayaKepesertaan(insuranceId);
-            await getDataKota();
-
-            if (shouldRedirect) {
-                window.location.href = `/detail/${reqId}`;
-                return;
-            }
-
-            $('#list-log').html('');
-            $.each(response['log'], function (j, item) {
-                $('#list-log').append(`
-                    <li key="${j+1}">
-                    <i class="feather icon-check f-w-600 task-icon bg-success"></i>
-                    <p class="m-b-5">${item.created_at}</p>
-                    <p class="text-muted m-b-5 h3">${item.status_desc}</p>
-                    <p class="m-b-5 h6">${item.description}</p>
-                    </li>
-                `);
-            });
-
-            populateTempatPraktikDetails(response);
-            Swal.close();
         }).fail(function (error) {
             let data;
             try {
@@ -732,13 +577,14 @@ function getDataDetail(reqId) {
                 allowOutsideClick: false,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    return window.location.href = '/pendaftaran';
+                    window.location.href = '/pendaftaran';
                 }
             });
+            reject(error);
         });
-        resolve();
     });
 }
+
 
 // Perbarui populateTempatPraktikDetails
 function populateTempatPraktikDetails(response) {

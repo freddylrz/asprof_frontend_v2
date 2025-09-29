@@ -128,7 +128,7 @@
                </div>
                <div class="col-md-6">
                   <div class="p-3 rounded-3" style="background-color: #E6EDFB">
-                     <p class="text-muted">Email</p>
+                     <p class="text-muted">Alamat Email</p>
                      <p class="mb-0 fw-semibold h5" id="email"></p>
                   </div>
                </div>
@@ -140,7 +140,7 @@
                </div>
                <div class="col-md-6">
                   <div class="p-3 rounded-3" style="background-color: #E6EDFB">
-                     <p class="text-muted">Alamat</p>
+                     <p class="text-muted">Domisili</p>
                      <p class="mb-0 fw-semibold h5" id="alamat"></p>
                   </div>
                </div>

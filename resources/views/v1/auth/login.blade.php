@@ -38,7 +38,7 @@
                                                         placeholder="Masukan alamat email">
                                                         <span class="input-group-text"><i class="ti ti-mail f-20"></i></span>
                                                     </div>
-                                                    
+
                                                 </div>
 
                                                 <div class="form-group mb-3">
@@ -151,9 +151,9 @@
                                         <i class="ti ti-login"></i></button>
                                 </div>
                             </form>
-                            {{-- <div class="d-flex justify-content-start align-items-end mt-3">
-                            <p class="mb-0">Tidak menerima email?<a href="#" class="link-primary d-block" id="resendCode">Kirim kembali kode otp</a></p>
-                        </div> --}}
+                            <div class="d-flex justify-content-start align-items-end mt-3">
+                                <p class="mb-0"><a href="#" class="link-primary d-block" id="resendCode">Kirim ulang kode OTP dalam 60 detik</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>

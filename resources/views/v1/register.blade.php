@@ -373,9 +373,9 @@
                         </div>
                         <div class="col-lg-6">
                            <div class="form-group">
-                              <label class="form-label required">Email</label>
+                              <label class="form-label required">Alamat Email</label>
                               <input type="email" class="form-control" name="email" id="email" placeholder="Pastikan email yang Anda isi benar dan aktif">
-                              <small class="form-text text-muted">Email digunakan untuk korespondensi dan notifikasi pembaruan pendaftaran.</small>
+                              <small class="form-text text-muted">Alamat Email digunakan untuk korespondensi dan notifikasi pembaruan pendaftaran.</small>
                            </div>
                         </div>
                         <div class="col-lg-6">
@@ -411,8 +411,10 @@
                                        <div class="form-group">
                                           <label class="form-label">Nomor Handphone</label>
                                           <input type="text" class="form-control mobilenumber" id="nomor-kontak-darurat" placeholder="Masukan nomor kontak darurat">
-                                          <small class="form-text text-muted">Pastikan nomor HP yang Anda isi benar dan dapat dihubungi, karena kode OTP verifikasi hanya akan dikirim ke nomor tersebut.</small>
-                                       </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <small class="form-text text-muted">Kontak darurat merupakan pihak penghubung yang dituju apabila peserta tidak tersedia pada keadaan mendesak</small>
                                     </div>
                                  </div>
                               </div>

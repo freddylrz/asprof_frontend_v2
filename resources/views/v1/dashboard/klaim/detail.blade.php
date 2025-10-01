@@ -249,7 +249,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h5 class="text-muted text-end">
+                <h5 class="text-muted text-end" id="header-accept-date">
                     <i>Tanggal Diterima : <span id="accept-date">-</span></i>
                 </h5>
             </div>
@@ -313,7 +313,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
                                         <h4>No. SIP</h4>
                                         <p id="sip-no" class="mb-1">-</p>
@@ -322,9 +322,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <h4>Tempat Praktek</h4>
+                                        <h4>Tempat Praktik</h4>
                                         <p id="tempat-praktik" class="mb-0">-</p>
                                         <label><i>(<span id="sip-lokasi">-</span>)</i></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Lokasi</h4>
+                                        <p id="lokasi" class="mb-0">-</p>
                                     </div>
                                 </div>
                             </div>
@@ -429,9 +435,9 @@
                             <h3 class="text-center">Informasi Wali Pasien</h3>
                             <hr>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
-                                        <h4>Nama</h4>
+                                        <h4>Nama Wali Pasien</h4>
                                         <p id="wali-nama" class="mb-0">-</p>
                                     </div>
                                 </div>
@@ -441,6 +447,12 @@
                                     <div class="form-group">
                                         <h4>Hubungan Dengan Pasien</h4>
                                         <p id="patient_representative_relation">-</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h4>Hubungan dengan Pasien</h4>
+                                        <p id="wali-hubungan" class="mb-0">-</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

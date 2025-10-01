@@ -103,7 +103,7 @@
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
                                             <div class="avtar avtar-s bg-light-secondary">
-                                                <i class="ti ti-currency-dollar f-32"></i>
+                                                <i class="ti ti-wallet f-32"></i>
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">

@@ -47,15 +47,15 @@ function getDataDetail() {
         if (klaim.accept_date && klaim.accept_date !== 'null' && klaim.accept_date !== '0000-00-00 00:00:00') {
             $('#accept-date').html(klaim.accept_date);
         } else {
-            $('#accept-date').html('<span class="text-warning">Belum diproses</span>');
+            $('#header-accept-date').hide();
         }
 
-        $('#register-no').html(klaim.klaim_no);
-        $('#sum-insured').html(klaim.sum_insured);
-        $('#nama').html(klaim.nama);
-        $('#no-hp').html(klaim.no_hp);
-        $('#email').html(klaim.email);
-        $('#polis-no').html(`${klaim.polis_no} <i>(${klaim.insurance})</i>`);
+        $('#register-no').html(klaim.klaim_no || '-');
+        $('#sum-insured').html(klaim.sum_insured || '-');
+        $('#nama').html(klaim.nama || '-');
+        $('#no-hp').html(klaim.no_hp || '-');
+        $('#email').html(klaim.email || '-');
+        $('#polis-no').html(`${klaim.polis_no || '-'} <i>(${klaim.insurance || '-'})</i>`);
         $('#sip-no').html(klaim.sip_no);
         $('#sip-lokasi').html(klaim.location);
         $('#str-no').html(klaim.str_no);
@@ -64,6 +64,7 @@ function getDataDetail() {
         $('#sip-periode').html(`${klaim.sip_date_start} <b>s/d</b> ${klaim.sip_date_end}`);
         $('#periode-polis').html(`${klaim.polis_start_date} <b>s/d</b> ${klaim.polis_end_date}`);
         $('#tempat-praktik').html(klaim.tempat_praktik);
+        $('#lokasi').html(klaim.location);
         $('#report-date').html(klaim.report_date);
         $('#cause-of-action').html(klaim.cause_of_action);
         $('#incident-location').html(klaim.incident_location);

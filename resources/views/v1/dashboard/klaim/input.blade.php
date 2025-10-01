@@ -194,7 +194,7 @@
                            <input type="text" class="form-control mobilenumber" id="pasien-wali-no-hp" name="pasien_wali_no_hp" placeholder="Nomor HP kontak">
                         </div>
                         <div class="col-12">
-                           <p class="text-muted small">Kontak wali adalah pihak yang berwenang dihubungi saat pasien tidak dapat dihubungi.</p>
+                           <p class="text-muted small">Wali pasien adalah pihak yang diberi kuasa atau ditunjuk sebagai perwakilan sah pasien.</p>
                         </div>
                      </div>
 

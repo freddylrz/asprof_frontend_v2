@@ -57,6 +57,7 @@ function getDataDetail() {
         $('#email').html(klaim.email || '-');
         $('#polis-no').html(`${klaim.polis_no || '-'} <i>(${klaim.insurance || '-'})</i>`);
         $('#sip-no').html(klaim.sip_no);
+        $('#sip-lokasi').html(klaim.location);
         $('#str-no').html(klaim.str_no);
         $('#profesi').html(klaim.profesi);
         $('#kategori').html(klaim.kategori);
@@ -78,7 +79,7 @@ function getDataDetail() {
         $('#incident-description').html(klaim.incident_description);
         $('#wali-nama').html(klaim.patient_representative_name);
         $('#wali-no').html(klaim.patient_representative_hp);
-        $('#wali-hubungan').html(klaim.patient_representative_relation);
+        $('#patient_representative_relation').html(klaim.patient_representative_relation);
 
         if (klaim.str_stat == "1") {
             $('#str-stat').html('Status : Seumur Hidup');

@@ -324,6 +324,7 @@
                                     <div class="mb-3">
                                         <h4>Tempat Praktik</h4>
                                         <p id="tempat-praktik" class="mb-0">-</p>
+                                        <label><i>(<span id="sip-lokasi">-</span>)</i></label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -419,7 +420,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <h4>Jenis Tuntutan / Gugatan</h4>
+                                        <h4>Jenis Tuntutan/Ganti Rugi</h4>
                                         <p id="cause-of-action" class="mb-0">-</p>
                                     </div>
                                 </div>
@@ -438,6 +439,14 @@
                                     <div class="mb-3">
                                         <h4>Nama Wali Pasien</h4>
                                         <p id="wali-nama" class="mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4>Hubungan Dengan Pasien</h4>
+                                        <p id="patient_representative_relation">-</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
